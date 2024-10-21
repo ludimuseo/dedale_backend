@@ -1,7 +1,10 @@
 #!/usr/bin/env sh
 
+DEPLOY_ENV=${DEPLOY_ENV:-local}
 ENV=.env
-ENV_EXAMPLE=.env.example
-if [[ ! -f "$ENV" && -f "$ENV_EXAMPLE" ]]; then
-    cp "$ENV_EXAMPLE" "$ENV"
+ENV_CURRENT=${ENV}.${DEPLOY_ENV}
+ENV_EXAMPLE=${ENV}.example
+
+if [[ ! -f "$ENV_CURRENT" && -f "$ENV_EXAMPLE" ]]; then
+    cp "$ENV_EXAMPLE" "$ENV_CURRENT"
 fi
