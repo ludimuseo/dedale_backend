@@ -10,7 +10,8 @@
     "format": "prettier --check .",
     "fix": "eslint --fix . && prettier --check --write .",
     "preview": "vite preview",
-    "prepare": "husky"
+    "prepare": "husky",
+    "postinstall": "./.husky/post-install"
   },
   "dependencies": {
     "react": "^18.3.1",
