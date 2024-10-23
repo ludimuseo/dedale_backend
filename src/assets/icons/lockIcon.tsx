@@ -4,7 +4,8 @@ const LockIcon = ({ ...props }: SvgProps) => {
   return (
     <>
       <svg
-        className="fill-current"
+        // ${!!onClick ? 'cursor-pointer' : ''}
+        className={`fill-current`}
         width="22"
         height="22"
         viewBox="0 0 22 22"

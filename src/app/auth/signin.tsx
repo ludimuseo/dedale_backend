@@ -5,9 +5,9 @@ import { type FC, useState, type ChangeEvent } from 'react'
 import { type FieldValues, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { auth } from '@/firebase/firebase'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-// import { doc, getDoc } from 'firebase/firestore'
+import { auth, db } from '@/firebase/firebase'
+import { signInWithEmailAndPassword, type User, type UserCredential } from 'firebase/auth'
+import { doc, type DocumentSnapshot, getDoc } from 'firebase/firestore'
 
 const schema = z.object({
   email: z.string().email().min(1),
@@ -23,6 +23,7 @@ const SignIn: FC<HTMLFormElement> = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) })
 
+  const [showPassword, setShowPassword] = useState<boolean>(false)
   const [inputValues, setInputValues] = useState<schemaType>({
     email: '',
     password: '',
@@ -32,11 +33,16 @@ const SignIn: FC<HTMLFormElement> = () => {
   const onSignIn = (data: FieldValues) => {
     if (!data.email || !data.password) return
     signInWithEmailAndPassword(auth, email, password)
-      .then((response) => {
-        console.info('/// LOGGED IN')
+      .then(async (response: UserCredential) => {
+        const user: User = response.user
+        const docRef = doc(db, 'users', user.uid)
+        const docSnapshot = await getDoc(docRef)
+        const userInfos = docSnapshot.data()
+
+        console.info(userInfos)
       })
-      .catch((error) => {
-        console.info('/// ERROR')
+      .catch((error: unknown) => {
+        console.info('/// ERROR: ', error)
       })
   }
 
@@ -74,13 +80,13 @@ const SignIn: FC<HTMLFormElement> = () => {
           uid="signin-password"
           label="Password"
           placeholder="My Password"
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           {...register('password')}
           name="password"
           value={password}
           onChange={handleChange}>
           {{
-            icon: <LockIcon />,
+            icon: <LockIcon onClick={() => setShowPassword(!showPassword)} />,
             error: <>{errors.password && <p>{errors.password.message}</p>}</>,
           }}
         </Input>

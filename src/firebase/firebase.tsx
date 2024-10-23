@@ -4,6 +4,7 @@ import {
   initializeApp,
 } from 'firebase/app'
 import { type Auth, getAuth } from 'firebase/auth'
+import { type Firestore, getFirestore } from 'firebase/firestore'
 
 // Your web app's Firebase configuration
 const firebaseConfig: FirebaseOptions = {
@@ -22,4 +23,7 @@ const app: FirebaseApp = initializeApp(firebaseConfig)
 // Initialize Firebase Authentication and get a reference to the service
 const auth: Auth = getAuth(app)
 
-export { app, auth }
+// Firestore Dadatabase
+const db: Firestore = getFirestore(app)
+
+export { app, auth, db }
