@@ -12,6 +12,7 @@ import {
   type UserCredential,
 } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
+import { useTranslation } from 'react-i18next'
 
 const schema = z.object({
   email: z.string().email().min(1),
@@ -21,6 +22,7 @@ const schema = z.object({
 type schemaType = z.infer<typeof schema>
 
 const AuthSignIn: FC = () => {
+  const { t } = useTranslation()
   const {
     handleSubmit,
     register,
@@ -66,7 +68,7 @@ const AuthSignIn: FC = () => {
         {/* Input Email */}
         <Input
           uid="signin-email"
-          label="Email"
+          label={t('label.email')}
           placeholder="My Email"
           type="text"
           {...register('email')}
@@ -86,7 +88,7 @@ const AuthSignIn: FC = () => {
         {/* Input Password */}
         <Input
           uid="signin-password"
-          label="Password"
+          label={t('label.password')}
           placeholder="My Password"
           type={showPassword ? 'text' : 'password'}
           {...register('password')}
@@ -108,7 +110,7 @@ const AuthSignIn: FC = () => {
         </Input>
 
         {/* Button Submit */}
-        <button type="submit">SUBMIT</button>
+        <button type="submit">{t('button.signin')}</button>
       </form>
     </>
   )

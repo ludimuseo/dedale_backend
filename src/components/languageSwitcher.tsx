@@ -2,7 +2,7 @@ import { type FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const LanguageSwitcher: FC = () => {
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
 
   const supportedLngs: string[] =
     typeof i18n.options.supportedLngs == 'object'
@@ -27,7 +27,9 @@ const LanguageSwitcher: FC = () => {
             </button>
           ))}
         </div>
-        <h4>Current Language: {i18n.language}</h4>
+        <h4>
+          {t('text.current_language')}: {t(`lang.${i18n.language}`)}
+        </h4>
       </div>
     </>
   )

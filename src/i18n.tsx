@@ -4,7 +4,7 @@ import { initReactI18next } from 'react-i18next'
 import detector from 'i18next-browser-languagedetector'
 
 const options: InitOptions = {
-  fallbackLng: 'en',
+  fallbackLng: 'fr',
   debug: process.env.NODE_ENV !== 'production',
   supportedLngs: ['en', 'fr'],
   interpolation: {
