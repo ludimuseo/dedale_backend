@@ -6,4 +6,8 @@ export type InputProps = ComponentPropsWithoutRef<'input'> & {
   uid: string
   label: string
   name: string
+  children: {
+    icon?: React.ReactNode | undefined
+    error: React.ReactNode
+  }
 }

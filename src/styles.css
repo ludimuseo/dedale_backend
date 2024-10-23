@@ -18,6 +18,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+#root {
+  @apply max-w-screen-xl text-center mx-auto my-0 p-8;
+}
+
 a {
   @apply font-medium text-[#646cff] hover:text-[#535bf2];
   text-decoration: inherit;

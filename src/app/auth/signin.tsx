@@ -6,8 +6,12 @@ import { type FieldValues, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { auth, db } from '@/firebase/firebase'
-import { signInWithEmailAndPassword, type User, type UserCredential } from 'firebase/auth'
-import { doc, type DocumentSnapshot, getDoc } from 'firebase/firestore'
+import {
+  signInWithEmailAndPassword,
+  type User,
+  type UserCredential,
+} from 'firebase/auth'
+import { doc, getDoc } from 'firebase/firestore'
 
 const schema = z.object({
   email: z.string().email().min(1),
@@ -16,7 +20,7 @@ const schema = z.object({
 
 type schemaType = z.infer<typeof schema>
 
-const SignIn: FC<HTMLFormElement> = () => {
+const AuthSignIn: FC = () => {
   const {
     handleSubmit,
     register,
@@ -70,7 +74,11 @@ const SignIn: FC<HTMLFormElement> = () => {
           value={email}
           onChange={handleChange}>
           {{
-            icon: <EnvelopeIcon />,
+            icon: (
+              <>
+                <EnvelopeIcon />
+              </>
+            ),
             error: <>{errors.email && <p>{errors.email.message}</p>}</>,
           }}
         </Input>
@@ -86,7 +94,15 @@ const SignIn: FC<HTMLFormElement> = () => {
           value={password}
           onChange={handleChange}>
           {{
-            icon: <LockIcon onClick={() => setShowPassword(!showPassword)} />,
+            icon: (
+              <>
+                <LockIcon
+                  onClick={() => {
+                    setShowPassword(!showPassword)
+                  }}
+                />
+              </>
+            ),
             error: <>{errors.password && <p>{errors.password.message}</p>}</>,
           }}
         </Input>
@@ -98,4 +114,4 @@ const SignIn: FC<HTMLFormElement> = () => {
   )
 }
 
-export default SignIn
+export default AuthSignIn
