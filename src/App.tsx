@@ -1,7 +1,12 @@
 import './App.css'
+import SignIn from './app/auth/signin'
 
-function App() {
-  return 'HELLO WORLD'
+const App = () => {
+  return (
+    <>
+      <SignIn />
+    </>
+  )
 }
 
 export default App

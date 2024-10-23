@@ -7,13 +7,13 @@ import { type Auth, getAuth } from 'firebase/auth'
 
 // Your web app's Firebase configuration
 const firebaseConfig: FirebaseOptions = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MSID,
-  measurementId: process.env.FIREBASE_MEASURE_ID,
-  appId: process.env.FIREBASE_APP_ID,
+  apiKey: 'AIzaSyCPs9eDug88NcIYKf8ObOh17-lzBv20VLE',
+  authDomain: 'dedale-db58f.firebaseapp.com',
+  projectId: 'dedale-db58f',
+  storageBucket: 'dedale-db58f.appspot.com',
+  messagingSenderId: '715477120087',
+  measurementId: 'G-PTZT20830P',
+  appId: '1:715477120087:web:f8095baa5455a4c9ce5f12',
 }
 
 // Initialize Firebase

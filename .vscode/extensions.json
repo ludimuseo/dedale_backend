@@ -4,6 +4,7 @@
     "rvest.vs-code-prettier-eslint",
     "toba.vsfire",
     "bradlc.vscode-tailwindcss",
-    "ecmel.vscode-html-css"
+    "ecmel.vscode-html-css",
+    "mikestead.dotenv"
   ]
 }
