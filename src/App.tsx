@@ -11,6 +11,7 @@ import Dashboard from '@/app/dashboard'
 import User from '@/app/user'
 import UserSettings from '@/app/user/settings'
 import UserProfile from '@/app/user/profile'
+import LanguageSwitcher from './components/languageSwitcher'
 
 const protectedRoute = ({ request }: LoaderFunctionArgs): boolean => {
   // TEST ROUTE MIDDLEWARE
@@ -61,6 +62,7 @@ const App = () => {
   ])
   return (
     <>
+      <LanguageSwitcher />
       <RouterProvider router={router} />
     </>
   )
