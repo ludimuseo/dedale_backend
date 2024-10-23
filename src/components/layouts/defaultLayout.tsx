@@ -20,6 +20,7 @@ const DefaultLayout: FC = () => {
             </li>
           ))}
         </ul>
+        <Link to="/auth">Authentication</Link>
       </nav>
       <br />
       <hr />

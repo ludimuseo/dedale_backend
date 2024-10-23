@@ -18,6 +18,7 @@ const AuthLayout: FC = () => {
             </li>
           ))}
         </ul>
+        <Link to="/">Dashboard</Link>
       </nav>
       <br />
       <hr />
