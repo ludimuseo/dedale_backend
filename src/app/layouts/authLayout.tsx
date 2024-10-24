@@ -14,8 +14,8 @@ const AuthLayout: FC = () => {
       <br />
       <nav>
         <ul className="flex justify-center gap-x-2 underline">
-          {pageUrls.map((page, i) => (
-            <li key={i} className="">
+          {pageUrls.map((page, key) => (
+            <li key={key} className="">
               <Link to={page.path}>{t(`page.${page.name}`)}</Link>
             </li>
           ))}

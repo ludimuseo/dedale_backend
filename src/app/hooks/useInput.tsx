@@ -24,10 +24,10 @@ const useInput = (initialValue: initialValueType, options: optionsType) => {
     const data: string = target.value
     setValue(data)
     const result = zod.safeParse(data)
-    if (!result.success) {
-      errorsSetValue(result.error.errors.map((v) => v.message))
-    } else {
+    if (result.success) {
       errorsSetValue([])
+    } else {
+      errorsSetValue(result.error.errors.map((v) => v.message))
     }
   }
 

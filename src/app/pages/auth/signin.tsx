@@ -1,9 +1,9 @@
-import Input from '@/components/input'
+import Input from '@/app/components/input'
 import EnvelopeIcon from '@/assets/icons/EnvelopeIcon'
 import LockIcon from '@/assets/icons/lockIcon'
 import { type FC, FormEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import useInput from '@/hooks/useInput'
+import useInput from '@/app/hooks/useInput'
 
 const AuthSignIn: FC = () => {
   const { t } = useTranslation()

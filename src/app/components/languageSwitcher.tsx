@@ -17,9 +17,9 @@ const LanguageSwitcher: FC = () => {
     <>
       <div>
         <div className="flex justify-center gap-x-2">
-          {supportedLngs.map((lng, i) => (
+          {supportedLngs.map((lng, key) => (
             <button
-              key={i}
+              key={key}
               type="button"
               onClick={() => void changeLanguage(lng)}
               className="uppercase">

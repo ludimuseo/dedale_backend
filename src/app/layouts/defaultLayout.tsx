@@ -16,8 +16,8 @@ const DefaultLayout: FC = () => {
       <br />
       <nav>
         <ul className="flex justify-center gap-x-2 underline">
-          {pageUrls.map((page, i) => (
-            <li key={i}>
+          {pageUrls.map((page, key) => (
+            <li key={key}>
               <Link to={page.path}>{t(`page.${page.name}`)}</Link>
             </li>
           ))}

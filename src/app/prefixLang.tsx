@@ -6,7 +6,7 @@
 import { useEffect, type FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
-import ErrorPage from '@/app/errorPage'
+import ErrorPage from '@/app/pages/errorPage'
 
 const PrefixLang: FC = () => {
   const { i18n } = useTranslation()

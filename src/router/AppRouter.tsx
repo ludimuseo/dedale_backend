@@ -1,15 +1,15 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
-import DefaultLayout from '@/components/layouts/defaultLayout'
-import AuthLayout from '@/components/layouts/authLayout'
-import AuthSignIn from '@/app/auth/signin'
-import Dashboard from '@/app/dashboard'
-import User from '@/app/user'
-import UserSettings from '@/app/user/settings'
-import UserProfile from '@/app/user/profile'
-import LanguageSwitcher from '@/components/languageSwitcher'
-import ErrorPage from '@/app/errorPage'
+import DefaultLayout from '@/app/layouts/defaultLayout'
+import AuthLayout from '@/app/layouts/authLayout'
+import AuthSignIn from '@/app/pages/auth/signin'
+import Dashboard from '@/app/pages/dashboard'
+import User from '@/app/pages/user'
+import UserSettings from '@/app/pages/user/settings'
+import UserProfile from '@/app/pages/user/profile'
+import LanguageSwitcher from '@/app/components/languageSwitcher'
+import ErrorPage from '@/app/pages/errorPage'
 
-const App = () => {
+const AppRouter = () => {
   const router = createBrowserRouter([
     {
       id: 'root',
@@ -65,4 +65,4 @@ const App = () => {
   )
 }
 
-export default App
+export default AppRouter
