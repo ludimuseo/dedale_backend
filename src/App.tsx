@@ -1,39 +1,71 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import {
+  createBrowserRouter,
+  type LoaderFunctionArgs,
+  Navigate,
+  RouterProvider,
+} from 'react-router-dom'
+import DefaultLayout from '@/components/layouts/defaultLayout'
+import AuthLayout from '@/components/layouts/authLayout'
+import AuthSignIn from '@/app/auth/signin'
+import Dashboard from '@/app/dashboard'
+import User from '@/app/user'
+import UserSettings from '@/app/user/settings'
+import UserProfile from '@/app/user/profile'
+import LanguageSwitcher from './components/languageSwitcher'
 
-function App() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <>
-      <div>
-        <a href='https://vitejs.dev' target='_blank'>
-          <img src={viteLogo} className='logo' alt='Vite logo' />
-        </a>
-        <a href='https://react.dev' target='_blank'>
-          <img src={reactLogo} className='logo react' alt='React logo' />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className='card'>
-        <button
-          onClick={() => {
-            setCount((count) => count + 1);
-          }}
-        >
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className='read-the-docs'>
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+const protectedRoute = ({ request }: LoaderFunctionArgs): boolean => {
+  // TEST ROUTE MIDDLEWARE
+  console.info('request: ', request)
+  return false
 }
 
-export default App;
+const App = () => {
+  const router = createBrowserRouter([
+    {
+      id: 'root',
+      path: '/',
+      loader: protectedRoute, // #!TODO: Improve Middleware
+      element: <DefaultLayout />,
+      children: [
+        {
+          index: true,
+          element: <Dashboard />,
+        },
+        {
+          path: 'user',
+          element: <User />,
+        },
+        {
+          path: 'user/profile',
+          element: <UserProfile />,
+        },
+        {
+          path: 'user/settings',
+          element: <UserSettings />,
+        },
+      ],
+    },
+    {
+      path: '/auth',
+      element: <AuthLayout />,
+      children: [
+        {
+          index: true,
+          element: <Navigate to="/auth/signin" />,
+        },
+        {
+          path: 'signin',
+          element: <AuthSignIn />,
+        },
+      ],
+    },
+  ])
+  return (
+    <>
+      <LanguageSwitcher />
+      <RouterProvider router={router} />
+    </>
+  )
+}
+
+export default App

@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+NODE_ENV=${NODE_ENV:-development}
+ENV=.env
+ENV_CURRENT=${ENV}.${NODE_ENV}
+ENV_EXAMPLE=${ENV}.example
+
+if [[ ! -f "$ENV_CURRENT" && -f "$ENV_EXAMPLE" ]]; then
+    cp "$ENV_EXAMPLE" "$ENV_CURRENT"
+fi
