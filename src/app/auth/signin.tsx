@@ -1,111 +1,59 @@
 import Input from '@/components/input'
 import EnvelopeIcon from '@/assets/icons/EnvelopeIcon'
 import LockIcon from '@/assets/icons/lockIcon'
-import { type FC, useState, type ChangeEvent } from 'react'
-import { type FieldValues, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { auth, db } from '@/firebase/firebase'
-import {
-  signInWithEmailAndPassword,
-  type User,
-  type UserCredential,
-} from 'firebase/auth'
-import { doc, getDoc } from 'firebase/firestore'
+import { type FC, FormEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-
-const schema = z.object({
-  email: z.string().email().min(1),
-  password: z.string().min(6).max(20),
-})
-
-type schemaType = z.infer<typeof schema>
+import useInput from '@/hooks/useInput'
 
 const AuthSignIn: FC = () => {
   const { t } = useTranslation()
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm({ resolver: zodResolver(schema) })
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
-  const [inputValues, setInputValues] = useState<schemaType>({
-    email: '',
-    password: '',
-  })
-  const { email, password }: schemaType = inputValues
+  const email = useInput('', { name: 'signin-email', type: 'email' })
+  const password = useInput('', { name: 'signin-password', type: 'password' })
 
-  const onSignIn = (data: FieldValues) => {
-    if (!data.email || !data.password) return
-    signInWithEmailAndPassword(auth, email, password)
-      .then(async (response: UserCredential) => {
-        const user: User = response.user
-        const docRef = doc(db, 'users', user.uid)
-        const docSnapshot = await getDoc(docRef)
-        const userInfos = docSnapshot.data()
-
-        console.info(userInfos)
-      })
-      .catch((error: unknown) => {
-        console.info('/// ERROR: ', error)
-      })
-  }
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target
-    setInputValues((prev: schemaType) => ({
-      ...prev,
-      [name]: value,
-    }))
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (!email.errors.length && !password.errors.length) {
+      console.info('CORRECT')
+    }
   }
 
   return (
     <>
-      <form
-        id="form-signin"
-        onSubmit={(event) => void handleSubmit(onSignIn)(event)}>
+      <form id="form-signin" onSubmit={handleSubmit}>
         {/* Input Email */}
         <Input
-          uid="signin-email"
           label={t('label.email')}
-          placeholder="My Email"
-          type="text"
-          {...register('email')}
-          name="email"
-          value={email}
-          onChange={handleChange}>
+          placeholder={t('input.placeholder.email')}
+          type="email"
+          {...email}>
           {{
             icon: (
               <>
                 <EnvelopeIcon />
               </>
             ),
-            error: <>{errors.email && <p>{errors.email.message}</p>}</>,
           }}
         </Input>
 
         {/* Input Password */}
         <Input
-          uid="signin-password"
           label={t('label.password')}
-          placeholder="My Password"
+          placeholder={t('input.placeholder.password')}
           type={showPassword ? 'text' : 'password'}
-          {...register('password')}
-          name="password"
-          value={password}
-          onChange={handleChange}>
+          {...password}>
           {{
             icon: (
               <>
                 <LockIcon
+                  className="cursor-pointer hover:animate-pulse"
                   onClick={() => {
                     setShowPassword(!showPassword)
                   }}
                 />
               </>
             ),
-            error: <>{errors.password && <p>{errors.password.message}</p>}</>,
           }}
         </Input>
 
