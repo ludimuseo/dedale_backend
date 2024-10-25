@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 import DefaultLayout from '@/app/layouts/defaultLayout'
 import AuthLayout from '@/app/layouts/authLayout'
 import AuthSignIn from '@/app/pages/auth/signin'
@@ -9,7 +10,7 @@ import UserSettings from '@/app/pages/user/settings'
 import UserProfile from '@/app/pages/user/profile'
 import LanguageSwitcher from '@/app/components/languageSwitcher'
 import ErrorPage from '@/app/pages/errorPage'
-import store from '@/app/stores'
+import { store, persistor } from '@/app/stores'
 
 const AppRouter = () => {
   const router = createBrowserRouter([
@@ -63,8 +64,10 @@ const AppRouter = () => {
   return (
     <>
       <Provider store={store}>
-        <LanguageSwitcher />
-        <RouterProvider router={router} />
+        <PersistGate loading={null} persistor={persistor}>
+          <LanguageSwitcher />
+          <RouterProvider router={router} />
+        </PersistGate>
       </Provider>
     </>
   )
