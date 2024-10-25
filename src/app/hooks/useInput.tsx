@@ -1,11 +1,11 @@
 import { type ChangeEvent, useState } from 'react'
 import { z, type ZodString } from 'zod'
 
-type initialValueType = string | number | boolean
+// type initialValueType = string | number | boolean
 
 interface optionsType {
   name: string
-  type: string
+  type: 'text' | 'email' | 'password'
 }
 
 const schema: Record<string, ZodString> = {
@@ -14,8 +14,8 @@ const schema: Record<string, ZodString> = {
   date: z.string().trim().date(),
 }
 
-const useInput = (initialValue: initialValueType, options: optionsType) => {
-  const [value, setValue] = useState<typeof initialValue>(initialValue)
+const useInput = (initialValue: string, options: optionsType) => {
+  const [value, setValue] = useState<string>(initialValue)
   const [errors, errorsSetValue] = useState<string[]>([])
   const currentType: string = options.type
 
@@ -26,6 +26,7 @@ const useInput = (initialValue: initialValueType, options: optionsType) => {
     const result = zod.safeParse(data)
     if (result.success) {
       errorsSetValue([])
+      setValue(result.data)
     } else {
       errorsSetValue(result.error.errors.map((v) => v.message))
     }

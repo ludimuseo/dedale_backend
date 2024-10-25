@@ -11,7 +11,3 @@ export type InputProps = ComponentPropsWithoutRef<'input'> & {
     error: React.ReactNode
   }
 }
-
-// export function useInput<S>(
-//   initialValue: S | (() => S)
-// ): [S, Dispatch<SetStateAction<S>>]
