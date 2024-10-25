@@ -1,6 +1,7 @@
 import { type FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import LanguageSwitcher from '@/app/components/languageSwitcher'
 
 const HeaderComponent: FC = () => {
   const { t } = useTranslation()
@@ -29,6 +30,21 @@ const HeaderComponent: FC = () => {
             <Link to="/">{t('page.dashboard')}</Link>
           </div>
         </nav>
+        <LanguageSwitcher />
+        <button id="test-user-button">
+          USER BUTTON
+          <ul>
+            <li>
+              <Link to="/user">USER - PROFILE</Link>
+            </li>
+            <li>
+              <Link to="/user/profile">USER - PROFILE</Link>
+            </li>
+            <li>
+              <Link to="/user/settings">USER - SETTINGS</Link>
+            </li>
+          </ul>
+        </button>
       </header>
     </>
   )

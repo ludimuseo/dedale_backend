@@ -1,12 +1,19 @@
+@use 'sass:meta';
 /*
   Based on TailwindCSS recommendations,
   consider using classes instead of the `@apply` directive
   @see https://tailwindcss.com/docs/reusing-styles#avoiding-premature-abstraction
 */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@include meta.load-css('mixins');
+@include meta.load-css('core');
+
+@include meta.load-css('forms');
+@include meta.load-css('inputs');
+@include meta.load-css('buttons');
 
 :root {
   @apply leading-normal font-normal text-[rgba(255,255,255,0.87)] bg-[#242424];
@@ -16,10 +23,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-#root {
-  @apply max-w-screen-xl text-center mx-auto my-0 p-8;
 }
 
 a {

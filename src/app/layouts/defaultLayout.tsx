@@ -7,13 +7,16 @@ import FooterComponent from '@/app/layouts/core/footerComponent'
 const DefaultLayout: FC = () => {
   return (
     <>
-      <HeaderComponent />
-      <SidebarComponent />
-      <main>
-        <p className="bg-blue-500">DEFAULT_LAYOUT</p>
-        <Outlet context={[]} />
-      </main>
-      <FooterComponent />
+      <div id="layout-default">
+        <SidebarComponent />
+        <div id="inner-layout">
+          <HeaderComponent />
+          <main className="content">
+            <Outlet context={[]} />
+          </main>
+          <FooterComponent />
+        </div>
+      </div>
     </>
   )
 }

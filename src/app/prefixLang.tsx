@@ -46,4 +46,5 @@ const PrefixLang: FC = () => {
   )
 }
 
-export default PrefixLang
+// DISABLED
+// export default PrefixLang

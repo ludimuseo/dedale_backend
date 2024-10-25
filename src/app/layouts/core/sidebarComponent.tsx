@@ -3,7 +3,7 @@ import { type FC } from 'react'
 const SidebarComponent: FC = () => {
   return (
     <>
-      <aside>
+      <aside className="sidebar">
         <h2>ASIDE COMPONENT</h2>
       </aside>
     </>

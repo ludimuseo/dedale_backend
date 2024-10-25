@@ -8,7 +8,6 @@ import Dashboard from '@/app/pages/dashboard'
 import User from '@/app/pages/user'
 import UserSettings from '@/app/pages/user/settings'
 import UserProfile from '@/app/pages/user/profile'
-import LanguageSwitcher from '@/app/components/languageSwitcher'
 import ErrorPage from '@/app/pages/errorPage'
 import { store, persistor } from '@/app/stores'
 
@@ -65,7 +64,6 @@ const AppRouter = () => {
     <>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <LanguageSwitcher />
           <RouterProvider router={router} />
         </PersistGate>
       </Provider>

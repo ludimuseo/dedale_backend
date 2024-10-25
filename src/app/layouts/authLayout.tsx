@@ -5,11 +5,15 @@ import HeaderComponent from '@/app/layouts/core/headerComponent'
 const DefaultLayout: FC = () => {
   return (
     <>
-      <HeaderComponent />
-      <main>
-        <p className="bg-red-500">AUTH_LAYOUT</p>
-        <Outlet context={[]} />
-      </main>
+      <div id="layout-auth">
+        <HeaderComponent />
+        <main>
+          <div id="inner-main-content">
+            <p className="bg-red-500 text-center">AUTH_LAYOUT</p>
+            <Outlet context={[]} />
+          </div>
+        </main>
+      </div>
     </>
   )
 }
