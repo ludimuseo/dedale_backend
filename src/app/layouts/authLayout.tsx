@@ -1,32 +1,17 @@
 import { type FC } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Link, Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
+import HeaderComponent from '@/app/layouts/core/headerComponent'
 
-const AuthLayout: FC = () => {
-  const { t } = useTranslation()
-  const pageUrls: { name: string; path: string }[] = [
-    { name: 'auth', path: '/auth' }, // REDIRECTION FROM /auth TO /auth/signin
-    { name: 'auth_signin', path: '/auth/signin' },
-  ]
+const DefaultLayout: FC = () => {
   return (
     <>
-      AUTH_LAYOUT
-      <br />
-      <nav>
-        <ul className="flex justify-center gap-x-2 underline">
-          {pageUrls.map((page, key) => (
-            <li key={key} className="">
-              <Link to={page.path}>{t(`page.${page.name}`)}</Link>
-            </li>
-          ))}
-        </ul>
-        <Link to="/">{t('page.dashboard')}</Link>
-      </nav>
-      <br />
-      <hr />
-      <Outlet context={[]} />
+      <HeaderComponent />
+      <main>
+        <p className="bg-red-500">AUTH_LAYOUT</p>
+        <Outlet context={[]} />
+      </main>
     </>
   )
 }
 
-export default AuthLayout
+export default DefaultLayout

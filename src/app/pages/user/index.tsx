@@ -1,7 +1,11 @@
 import { type FC } from 'react'
 
 const User: FC = () => {
-  return <>USER</>
+  return (
+    <>
+      <div>(PAGE CONTENT) - USER</div>
+    </>
+  )
 }
 
 export default User
