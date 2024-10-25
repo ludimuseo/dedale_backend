@@ -26,5 +26,3 @@ export const persistor = persistStore(store)
 export type RootState = ReturnType<typeof rootReducer>
 // Inferred type: {auth: AuthState}
 export type AppDispatch = typeof store.dispatch
-
-// export default { store }

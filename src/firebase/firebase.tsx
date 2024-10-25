@@ -8,13 +8,13 @@ import { type Firestore, getFirestore } from 'firebase/firestore'
 
 // Your web app's Firebase configuration
 const firebaseConfig: FirebaseOptions = {
-  apiKey: 'AIzaSyCPs9eDug88NcIYKf8ObOh17-lzBv20VLE',
-  authDomain: 'dedale-db58f.firebaseapp.com',
-  projectId: 'dedale-db58f',
-  storageBucket: 'dedale-db58f.appspot.com',
-  messagingSenderId: '715477120087',
-  measurementId: 'G-PTZT20830P',
-  appId: '1:715477120087:web:f8095baa5455a4c9ce5f12',
+  apiKey: String(import.meta.env.VITE_FIREBASE_API_KEY),
+  authDomain: String(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN),
+  projectId: String(import.meta.env.VITE_FIREBASE_PROJECT_ID),
+  storageBucket: String(import.meta.env.VITE_FIREBASE_STORAGE_BUCKET),
+  messagingSenderId: String(import.meta.env.VITE_FIREBASE_MSID),
+  measurementId: String(import.meta.env.VITE_FIREBASE_MEASURE_ID),
+  appId: String(import.meta.env.VITE_FIREBASE_APP_ID),
 }
 
 // Initialize Firebase
