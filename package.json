@@ -27,6 +27,7 @@
     "@typescript-eslint/parser": "^8.9.0",
     "@vitejs/plugin-react": "^4.3.2",
     "autoprefixer": "^10.4.20",
+    "commit-prettier": "^1.0.5",
     "cross-env": "^7.0.3",
     "eslint": "^9.11.1",
     "eslint-config-prettier": "^9.1.0",

@@ -2,4 +2,4 @@
 
 ## Description
 
-Back-office de l'application mobile Dédale
+> Back-office de l'application mobile Dédale

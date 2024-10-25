@@ -1621,6 +1621,11 @@ commander@^4.0.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-4.1.1.tgz#9fd602bd936294e9e9ef46a3f4d6964044b18068"
   integrity sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==
 
+commit-prettier@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/commit-prettier/-/commit-prettier-1.0.5.tgz#e88eb32ae06977b2b77c587c6f150ed8625cfe18"
+  integrity sha512-xoZex4o3Q4fOsBN1vjMEFkzXlAp0B2+kUrCP4WpnA/30EetQDRGxaTswCFyPN0L6KfDxL+kR5jppwfkWSeNNbA==
+
 common-tags@^1.4.0:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/common-tags/-/common-tags-1.8.2.tgz#94ebb3c076d26032745fd54face7f688ef5ac9c6"
