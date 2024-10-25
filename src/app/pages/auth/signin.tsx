@@ -8,7 +8,7 @@ import { signInWithEmailAndPassword, type UserCredential } from 'firebase/auth'
 import { auth, db } from '@/firebase/firebase'
 import { useAppDispatch } from '@/app/hooks'
 import { signIn } from '@/app/stores/authReducer'
-import { type UserType } from '@/types/user'
+import { type User } from '@/types/user'
 import { doc, getDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import SpinIcon from '@/assets/icons/SpinIcon'
@@ -57,7 +57,7 @@ const AuthSignIn: FC = () => {
               // // username: userData?.pseudo,
               // // role: userData?.profile,
               // // isAdmin: userData?.isAdmin,
-            } satisfies UserType)
+            } satisfies User)
           )
           navigate('/', { viewTransition: true })
         })

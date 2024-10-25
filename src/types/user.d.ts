@@ -4,7 +4,7 @@ enum Role {
   CONTRIBUTOR = 'CONTRIBUTOR',
 }
 
-interface UserType {
+interface User {
   uid: string
   displayName: string | null
   email: string | null
@@ -16,4 +16,4 @@ interface UserType {
   // isAdmin: boolean
 }
 
-export { Role, UserType }
+export { Role, User }

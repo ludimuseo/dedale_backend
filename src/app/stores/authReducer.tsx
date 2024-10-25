@@ -1,12 +1,12 @@
-import { type UserType } from '@/types/user'
+import { type User } from '@/types/user'
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
-interface StateType {
-  user: UserType | null
+interface State {
+  user: User | null
   loggedAt: number | null
 }
 
-const initialState: StateType = {
+const initialState: State = {
   user: null,
   loggedAt: null,
 }
@@ -15,7 +15,7 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    signIn: (state, action: PayloadAction<UserType | null>) => {
+    signIn: (state, action: PayloadAction<User | null>) => {
       state.user = action.payload
       state.loggedAt = new Date().getTime()
     },

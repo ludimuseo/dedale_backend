@@ -3,7 +3,7 @@ import { z, type ZodString } from 'zod'
 
 // type initialValueType = string | number | boolean
 
-interface optionsType {
+interface OptionsType {
   name: string
   type: 'text' | 'email' | 'password'
 }
@@ -14,13 +14,13 @@ const schema: Record<string, ZodString> = {
   date: z.string().trim().date(),
 }
 
-const useInput = (initialValue: string, options: optionsType) => {
+const useInput = (initialValue: string, options: OptionsType) => {
   const [value, setValue] = useState<string>(initialValue)
   const [errors, errorsSetValue] = useState<string[]>([])
-  const currentType: string = options.type
+  const inputType: string = options.type
 
   const handleChange = ({ target }: ChangeEvent<HTMLInputElement>): void => {
-    const zod: ZodString = schema[currentType]
+    const zod: ZodString = schema[inputType]
     const data: string = target.value
     setValue(data)
     const result = zod.safeParse(data)
