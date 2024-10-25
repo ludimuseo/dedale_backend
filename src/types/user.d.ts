@@ -5,10 +5,15 @@ enum Role {
 }
 
 interface User {
-  uuid: number
-  role: Role
-  username: string
-  email: string
+  uid: string
+  displayName: string | null
+  email: string | null
+  emailVerified: boolean
+  photoURL: string | null
+
+  // username: string
+  // role: string
+  // isAdmin: boolean
 }
 
 export { Role, User }

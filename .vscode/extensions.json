@@ -5,6 +5,7 @@
     "toba.vsfire",
     "bradlc.vscode-tailwindcss",
     "ecmel.vscode-html-css",
-    "mikestead.dotenv"
+    "mikestead.dotenv",
+    "shd101wyy.markdown-preview-enhanced"
   ]
 }
