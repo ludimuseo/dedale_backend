@@ -1,13 +1,14 @@
-import type { type ComponentPropsWithoutRef, type ComponentProps } from 'react'
+import type {
+  type ComponentProps,
+  type ComponentPropsWithoutRef,
+  type ReactElement,
+} from 'react'
 
 export type SvgProps = ComponentProps<'svg'>
 
-export type InputProps = ComponentPropsWithoutRef<'input'> & {
+export type InputProps = {
   uid: string
   label: string
   errors: string[]
-  children?: {
-    icon?: React.ReactNode | undefined
-    error: React.ReactNode
-  }
-}
+  icon?: ReactElement
+} & ComponentPropsWithoutRef<'input'>

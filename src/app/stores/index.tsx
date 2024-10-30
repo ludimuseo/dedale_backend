@@ -1,9 +1,4 @@
-import {
-  configureStore,
-  Tuple,
-  type Reducer,
-  type Store,
-} from '@reduxjs/toolkit'
+import { configureStore, type Reducer, type Store } from '@reduxjs/toolkit'
 import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore } from 'redux-persist'
 import { rootReducer } from '@/app/stores/rootReducer'
@@ -17,7 +12,9 @@ const persistedReducer: Reducer = persistReducer(persistConfig, rootReducer)
 
 export const store: Store = configureStore({
   reducer: persistedReducer,
-  middleware: () => new Tuple(),
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware({ serializableCheck: false })
+  },
 })
 
 export const persistor = persistStore(store)

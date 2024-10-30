@@ -1,7 +1,8 @@
 import { type InputProps } from '@/types'
 import { forwardRef } from 'react'
+
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ uid, label, errors, children, ...props }, ref) => {
+  ({ uid, label, icon, errors, ...props }, ref) => {
     return (
       <>
         <div>
@@ -13,7 +14,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               data-errors={!!errors.length}
               {...props}
             />
-            {children?.icon && <span>{children.icon}</span>}
+            {icon && <span>{icon}</span>}
           </div>
           <ul>
             {!!errors.length &&

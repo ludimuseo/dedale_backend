@@ -6,14 +6,11 @@ enum Role {
 
 interface User {
   uid: string
-  displayName: string | null
+  role: Role | null
   email: string | null
   emailVerified: boolean
+  displayName: string | null
   photoURL: string | null
-
-  // username: string
-  // role: string
-  // isAdmin: boolean
 }
 
 export { Role, User }

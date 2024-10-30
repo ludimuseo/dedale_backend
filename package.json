@@ -7,36 +7,50 @@
     "dev": "cross-env NODE_ENV=development vite",
     "build": "cross-env NODE_ENV=production tsc -b && vite build --mode production",
     "lint": "eslint .",
-    "format": "prettier --check .",
-    "fix": "eslint --fix . && prettier --check --write .",
+    "format": "prettier --ignore-unknown --check .",
+    "fix": "eslint --fix . && prettier --ignore-unknown --check --write .",
     "preview": "vite preview",
-    "prepare": "husky",
-    "postinstall": "./.husky/post-install"
+    "prepare": "husky install",
+    "commitlint": "commitlint --edit"
+  },
+  "lint-staged": {
+    "*.{css,scss}": [
+      "prettier --ignore-unknown --check --write"
+    ],
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "*": [
+      "prettier --ignore-unknown --check --write"
+    ]
   },
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.11.1",
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@commitlint/format": "^19.5.0",
+    "@eslint/js": "^9.13.0",
     "@hookform/resolvers": "^3.9.0",
     "@reduxjs/toolkit": "^2.3.0",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
-    "@typescript-eslint/eslint-plugin": "^8.9.0",
-    "@typescript-eslint/parser": "^8.9.0",
+    "@typescript-eslint/eslint-plugin": "^8.12.2",
+    "@typescript-eslint/parser": "^8.12.2",
     "@vitejs/plugin-react": "^4.3.2",
     "autoprefixer": "^10.4.20",
     "commit-prettier": "^1.0.5",
     "cross-env": "^7.0.3",
-    "eslint": "^9.11.1",
+    "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
-    "eslint-plugin-react-refresh": "^0.4.12",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
     "firebase": "^11.0.0",
     "globals": "^15.9.0",
-    "husky": "^9.1.6",
+    "husky": "^8.0.0",
     "i18next": "^23.16.2",
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-http-backend": "^2.6.2",
@@ -50,10 +64,9 @@
     "redux-persist": "^6.0.0",
     "sass": "^1.80.4",
     "sass-migrator": "^2.2.1",
-    "superstruct": "^2.0.2",
     "tailwindcss": "^3.4.14",
-    "typescript": "^5.5.3",
-    "typescript-eslint": "^8.7.0",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.12.2",
     "vite": "^5.4.8",
     "zod": "^3.23.8"
   }

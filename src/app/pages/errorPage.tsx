@@ -1,6 +1,6 @@
 import { type FC } from 'react'
 
-const ErrorBoundary: FC = () => {
+const ErrorPage: FC = () => {
   return (
     <>
       <div>ERROR PAGE</div>
@@ -8,4 +8,4 @@ const ErrorBoundary: FC = () => {
   )
 }
 
-export default ErrorBoundary
+export default ErrorPage

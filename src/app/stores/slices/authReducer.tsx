@@ -3,25 +3,25 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 interface State {
   user: User | null
-  loggedAt: number | null
+  isLogged: boolean
 }
 
 const initialState: State = {
   user: null,
-  loggedAt: null,
+  isLogged: false,
 }
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    signIn: (state, action: PayloadAction<User | null>) => {
+    signIn: (state, action: PayloadAction<User>) => {
       state.user = action.payload
-      state.loggedAt = new Date().getTime()
+      state.isLogged = true
     },
     signOut: (state) => {
       state.user = null
-      state.loggedAt = null
+      state.isLogged = false
     },
   },
 })
