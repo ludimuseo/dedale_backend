@@ -1,44 +1,67 @@
-import {
-  createBrowserRouter,
-  Navigate,
-  RouteObject,
-} from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouteObject } from 'react-router-dom'
 import ErrorPage from '@/app/pages/errorPage'
 import { type Router as RemixRouter } from '@remix-run/router'
-import { createElement, lazy } from 'react'
-
-const DefaultLayout = lazy(() => import( '@/app/layouts/defaultLayout'))
-const AuthLayout = lazy(() => import( '@/app/layouts/authLayout'))
-const Dashboard = lazy(() => import('@/app/pages/dashboard'))
-const User = lazy(() => import('@/app/pages/user'))
-const UserProfile = lazy(() => import('@/app/pages/user/profile'))
-const UserSettings = lazy(() => import('@/app/pages/user/settings'))
-const AuthSignIn = lazy(() => import('@/app/pages/auth/signin'))
 
 const routes: RouteObject[] = [
   {
     id: 'root',
-    errorElement: createElement(ErrorPage),
+    errorElement: <ErrorPage />,
     children: [
       // Default Layout
       {
-        element: createElement(DefaultLayout),
+        async lazy() {
+          const DefaultLayout = await import('@/app/layouts/defaultLayout')
+          return { Component: DefaultLayout.default }
+        },
         children: [
-          { path: '/', element: createElement(Dashboard) },
-          { path: '/user', element: createElement(User) },
-          { path: '/user/profile', element: createElement(UserProfile) },
-          { path: '/user/settings', element: createElement(UserSettings) },
+          {
+            path: '/',
+            async lazy() {
+              const Dashboard = await import('@/app/pages/dashboard')
+              return { Component: Dashboard.default }
+            },
+          },
+          {
+            path: '/user',
+            async lazy() {
+              const User = await import('@/app/pages/user')
+              return { Component: User.default }
+            },
+          },
+          {
+            path: '/user/profile',
+            async lazy() {
+              const UserProfile = await import('@/app/pages/user/profile')
+              return { Component: UserProfile.default }
+            },
+          },
+          {
+            path: '/user/settings',
+            async lazy() {
+              const UserSettings = await import('@/app/pages/user/settings')
+              return { Component: UserSettings.default }
+            },
+          },
         ],
       },
       // Auth Layout
       {
-        element: <AuthLayout />,
+        async lazy() {
+          const AuthLayout = await import('@/app/layouts/authLayout')
+          return { Component: AuthLayout.default }
+        },
         children: [
           {
             path: '/auth',
             element: <Navigate to={{ pathname: '/auth/signin' }} />,
           },
-          { path: '/auth/signin', element: createElement(AuthSignIn) },
+          {
+            path: '/auth/signin',
+            async lazy() {
+              const AuthSignin = await import('@/app/pages/auth/signin')
+              return { Component: AuthSignin.default }
+            },
+          },
         ],
       },
     ],
@@ -46,29 +69,5 @@ const routes: RouteObject[] = [
 ]
 
 const router: RemixRouter = createBrowserRouter(routes)
-// const routes = (
-//   <>
-//     <Route id="root" errorElement={<ErrorPage />}>
-//       {/* // Default Layout */}
-//       <Route element={<DefaultLayout />}>
-//         <Route path="/" element={<Dashboard />} />
-//         <Route path="/user" element={<User />} />
-//         <Route path="/user/profile" element={<UserProfile />} />
-//         <Route path="/user/settings" element={<UserSettings />} />
-//       </Route>
-//       {/* // Auth Layout */}
-//       <Route element={<AuthLayout />}>
-//         <Route
-//           path="/auth"
-//           element={<Navigate to={{ pathname: '/auth/signin' }} />}
-//         />
-//         <Route path="/auth/signin" element={<AuthSignIn />} />
-//       </Route>
-//     </Route>
-//   </>
-// )
-// const router: RemixRouter = createBrowserRouter(
-//   createRoutesFromElements(routes)
-// )
 
 export default router

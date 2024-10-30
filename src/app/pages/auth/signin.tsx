@@ -7,18 +7,18 @@ import useInput from '@/app/hooks/useInput'
 import { signInWithEmailAndPassword, type UserCredential } from 'firebase/auth'
 import { auth, db } from '@/firebase/firebase'
 import { useAppDispatch } from '@/app/hooks'
-import { signIn } from '@/app/stores/slices/authReducer'
+import { signIn } from '@/app/stores/slices/reducerAuth'
 import { type User } from '@/types/user'
 import { doc, getDoc } from 'firebase/firestore'
-import { type Location, type NavigateFunction, useLocation, useNavigate } from 'react-router-dom'
+// import { type Location, type NavigateFunction, useLocation, useNavigate } from 'react-router-dom'
 import SpinIcon from '@/assets/icons/SpinIcon'
 import { type AppDispatch } from '@/app/stores'
 
 const AuthSignIn: FC = () => {
   const { t } = useTranslation()
-  const location: Location = useLocation()
-  const from: string = location.state?.from.pathname || '/'
-  const navigate: NavigateFunction = useNavigate()
+  // const location: Location = useLocation()
+  // const from: string = location.state?.from.pathname || '/'
+  // const navigate: NavigateFunction = useNavigate()
   const dispatch: AppDispatch = useAppDispatch()
   const emailRef = useRef<HTMLInputElement | null>(null)
   const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -49,18 +49,19 @@ const AuthSignIn: FC = () => {
           const docRef = doc(db, 'users', user.uid)
           const docSnapshot = await getDoc(docRef)
           const customData = docSnapshot.data()
+          console.info(customData)
           // Dispatch to User Store
           dispatch(
             signIn({
               uid: user.uid,
-              role: customData?.profile || null,
+              role: null,
               email: user.email,
               displayName: user.displayName,
               emailVerified: user.emailVerified,
               photoURL: user.photoURL,
             } satisfies User)
           )
-          navigate(from, { replace: true })
+          // navigate(from, { replace: true })
         })
         .catch((err: unknown) => {
           console.error(err)

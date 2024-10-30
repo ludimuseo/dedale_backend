@@ -1,10 +1,10 @@
 import { combineReducers, type Reducer } from '@reduxjs/toolkit'
-import authReducer from '@/app/stores/slices/authReducer'
-import themeReducer from '@/app/stores/slices/themeReducer'
+import reducerAuth from '@/app/stores/slices/reducerAuth'
+import reducerTheme from '@/app/stores/slices/reducerTheme'
 
 const combinedReducers = combineReducers({
-  auth: authReducer,
-  theme: themeReducer,
+  auth: reducerAuth,
+  theme: reducerTheme,
 })
 
 export const rootReducer: Reducer = combinedReducers
