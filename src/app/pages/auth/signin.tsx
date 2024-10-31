@@ -12,7 +12,6 @@ import { type User } from '@/types/user'
 import { doc, getDoc } from 'firebase/firestore'
 // import { type Location, type NavigateFunction, useLocation, useNavigate } from 'react-router-dom'
 import SpinIcon from '@/assets/icons/SpinIcon'
-import { type AppDispatch } from '@/app/stores'
 import {
   // type Location,
   type NavigateFunction,
@@ -24,7 +23,7 @@ const AuthSignIn: FC = () => {
   const { t } = useTranslation()
   // const location: Location = useLocation()
   const navigate: NavigateFunction = useNavigate()
-  const dispatch: AppDispatch = useAppDispatch()
+  const dispatch = useAppDispatch()
   const emailRef = useRef<HTMLInputElement | null>(null)
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showLoader, setShowLoader] = useState<boolean>(false)

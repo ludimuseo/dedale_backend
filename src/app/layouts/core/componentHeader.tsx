@@ -3,9 +3,16 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import ChangeLanguage from '@/app/components/changeLanguage'
 import ChangeTheme from '@/app/components/changeTheme'
+import { useAppDispatch, useAppSelector } from '@/app/hooks'
+import { type State } from '@/types'
+import { signOut } from '@/app/stores/slices/reducerAuth'
 
 const HeaderComponent: FC = () => {
   const { t } = useTranslation()
+  const isLogged: boolean = useAppSelector(
+    (state: State) => state.auth.isLogged
+  )
+  const dispatch = useAppDispatch()
   const pageUrls: { name: string; path: string }[] = [
     // { name: 'auth', path: '/auth' }, // AUTO-REDIRECTION FROM /auth TO /auth/signin
     { name: 'auth_signin', path: '/auth/signin' },
@@ -33,6 +40,9 @@ const HeaderComponent: FC = () => {
         </nav>
         <ChangeLanguage />
         <ChangeTheme />
+        {isLogged && (
+          <button onClick={() => dispatch(signOut())}>SIGN OUT</button>
+        )}
         <button id="test-user-button">
           USER BUTTON
           <ul>

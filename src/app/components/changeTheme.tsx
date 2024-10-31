@@ -1,7 +1,6 @@
 import { type State } from '@/types'
 import { useEffect, type FC } from 'react'
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
-import { type AppDispatch } from '@/app/stores'
 import {
   changeTheme,
   setDarkMode,
@@ -12,7 +11,7 @@ import Input from '@/app/components/input'
 
 const ChangeTheme: FC = () => {
   const { t } = useTranslation()
-  const dispatch: AppDispatch = useAppDispatch()
+  const dispatch = useAppDispatch()
   const { theme }: StateTheme = useAppSelector((state: State) => state.theme)
   useEffect(() => {
     const mediaWatcher: MediaQueryList = window.matchMedia(
