@@ -15,6 +15,7 @@ export const sliceTheme = createSlice({
   initialState,
   reducers: {
     changeTheme: (state, action: PayloadAction<StateTheme['currentTheme']>) => {
+      document.documentElement.className = String(action.payload).toLowerCase()
       state.currentTheme = action.payload
       state.isDark = state.currentTheme === 'DARK'
     },

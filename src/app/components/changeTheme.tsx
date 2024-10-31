@@ -1,17 +1,21 @@
 import { type State } from '@/types'
-import { type FC } from 'react'
+import { useEffect, type FC } from 'react'
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { type AppDispatch } from '@/app/stores'
-import { changeTheme } from '@/app/stores/slices/reducerTheme'
+import { changeTheme, type StateTheme } from '@/app/stores/slices/reducerTheme'
 import { useTranslation } from 'react-i18next'
 import Input from '@/app/components/input'
 
 const ChangeTheme: FC = () => {
   const { t } = useTranslation()
   const dispatch: AppDispatch = useAppDispatch()
-  const currentTheme: string = useAppSelector(
+  const currentTheme: StateTheme['currentTheme'] = useAppSelector(
     (state: State) => state.theme.currentTheme
   )
+  useEffect(() => {
+    console.info('theme: ', currentTheme)
+  }, [currentTheme])
+
   return (
     <>
       <div>
@@ -21,6 +25,7 @@ const ChangeTheme: FC = () => {
           name="change-theme"
           uid="change-theme-light"
           value="LIGHT"
+          checked={currentTheme === 'LIGHT'}
           errors={[]}
           onChange={() => dispatch(changeTheme('LIGHT'))}
         />
@@ -31,6 +36,7 @@ const ChangeTheme: FC = () => {
           name="change-theme"
           uid="change-theme-dark"
           value="DARK"
+          checked={currentTheme === 'DARK'}
           errors={[]}
           onChange={() => dispatch(changeTheme('DARK'))}
         />
@@ -41,10 +47,10 @@ const ChangeTheme: FC = () => {
           name="change-theme"
           uid="change-theme-system"
           value="SYSTEM"
+          checked={currentTheme === 'SYSTEM'}
           errors={[]}
           onChange={() => dispatch(changeTheme('SYSTEM'))}
         />
-        {currentTheme}
       </div>
     </>
   )
