@@ -1,15 +1,16 @@
 /* Inspiration from URL: https://codepen.io/azouaoui-med/pen/wpBadb */
 
 #root {
-  @apply my-0 mx-auto;
+  @apply absolute h-full w-full my-0 mx-auto;
 
   #layout-default {
-    @apply w-screen h-screen flex flex-row;
+    @apply flex flex-row;
 
     aside.sidebar {
       @apply w-56 bg-slate-500;
     }
 
+    /*
     #inner-layout {
       @apply grow flex flex-col;
       header {
@@ -25,10 +26,45 @@
         @apply bg-blue-400;
       }
     }
+    */
   }
 
   #layout-auth {
     @apply text-center;
+    height: inherit;
+
+    main {
+      @apply flex flex-row;
+      section.auth-info,
+      section.auth-form {
+        @apply flex-1 m-auto mx-16;
+      }
+      section.auth-info {
+        @apply hidden xl:block;
+        img {
+          @apply m-auto mb-4;
+        }
+      }
+      height: inherit;
+      form {
+        @apply max-w-xl m-auto;
+        & > div {
+          @apply mb-6;
+        }
+        label {
+          @apply mb-2.5 font-medium block text-justify text-black dark:text-white;
+          & + div {
+            @apply relative;
+            & > input {
+              @apply w-full rounded-lg border bg-transparent py-4 pl-6 pr-12 outline-none focus:border-blue-400;
+            }
+            & > span:has(svg) {
+              @apply absolute right-4 top-4;
+            }
+          }
+        }
+      }
+    }
   }
 }
 

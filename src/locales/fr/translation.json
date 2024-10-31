@@ -37,6 +37,7 @@
     "user_settings": "Paramètres Utilisateur"
   },
   "text": {
-    "current_language": "Langue Actuelle"
+    "current_language": "Langue Actuelle",
+    "description": "Accès au backoffice de Dédale reservé aux administrateurs et aux clients"
   }
 }

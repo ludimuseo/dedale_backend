@@ -37,6 +37,7 @@
     "user_settings": "User Settings"
   },
   "text": {
-    "current_language": "Current Language"
+    "current_language": "Current Language",
+    "description": "Access to the Daedalus backoffice reserved for administrators and clients"
   }
 }
