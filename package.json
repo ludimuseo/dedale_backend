@@ -12,11 +12,11 @@
     "preview": "vite preview",
     "prepare": "husky install",
     "commitlint": "commitlint --edit",
-    "stylelint": "stylelint --config stylelint.config.json --fix **/*.scss"
+    "stylelint": "stylelint --fix **/*.scss"
   },
   "lint-staged": {
     "*.{css,scss}": [
-      "stylelint --config stylelint.config.json .",
+      "stylelint --fix",
       "prettier --ignore-unknown --check --write"
     ],
     "*.{js,jsx,ts,tsx}": [
