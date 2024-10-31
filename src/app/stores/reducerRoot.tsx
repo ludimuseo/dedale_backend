@@ -7,4 +7,4 @@ const combinedReducers = combineReducers({
   theme: reducerTheme,
 })
 
-export const rootReducer: Reducer = combinedReducers
+export const reducerRoot: Reducer = combinedReducers

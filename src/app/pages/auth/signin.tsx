@@ -13,12 +13,17 @@ import { doc, getDoc } from 'firebase/firestore'
 // import { type Location, type NavigateFunction, useLocation, useNavigate } from 'react-router-dom'
 import SpinIcon from '@/assets/icons/SpinIcon'
 import { type AppDispatch } from '@/app/stores'
+import {
+  // type Location,
+  type NavigateFunction,
+  // useLocation,
+  useNavigate,
+} from 'react-router-dom'
 
 const AuthSignIn: FC = () => {
   const { t } = useTranslation()
   // const location: Location = useLocation()
-  // const from: string = location.state?.from.pathname || '/'
-  // const navigate: NavigateFunction = useNavigate()
+  const navigate: NavigateFunction = useNavigate()
   const dispatch: AppDispatch = useAppDispatch()
   const emailRef = useRef<HTMLInputElement | null>(null)
   const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -61,7 +66,11 @@ const AuthSignIn: FC = () => {
               photoURL: user.photoURL,
             } satisfies User)
           )
-          // navigate(from, { replace: true })
+          // console.info('state: ', location)
+          // const test = () => navigate(state)
+          // test()
+          // navigate('/auth/signin', { replace: true, state: { from: location } })
+          navigate('/', { replace: true })
         })
         .catch((err: unknown) => {
           console.error(err)

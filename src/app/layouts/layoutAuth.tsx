@@ -1,8 +1,8 @@
 import { type FC } from 'react'
 import { Outlet } from 'react-router-dom'
-import HeaderComponent from '@/app/layouts/core/headerComponent'
+import HeaderComponent from '@/app/layouts/core/componentHeader'
 
-const DefaultLayout: FC = () => {
+const LayoutDefault: FC = () => {
   return (
     <>
       <div id="layout-auth">
@@ -18,4 +18,4 @@ const DefaultLayout: FC = () => {
   )
 }
 
-export default DefaultLayout
+export default LayoutDefault

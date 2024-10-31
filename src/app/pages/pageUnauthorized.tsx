@@ -1,6 +1,6 @@
 import { type FC } from 'react'
 
-const UnauthorizedPage: FC = () => {
+const PageUnauthorized: FC = () => {
   return (
     <>
       <div>UNAUTHORIZED PAGE</div>
@@ -8,4 +8,4 @@ const UnauthorizedPage: FC = () => {
   )
 }
 
-export default UnauthorizedPage
+export default PageUnauthorized

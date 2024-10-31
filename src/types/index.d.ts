@@ -1,3 +1,5 @@
+import { StateAuth } from '@/app/stores/slices/reducerAuth'
+
 import type {
   type ComponentProps,
   type ComponentPropsWithoutRef,
@@ -12,3 +14,7 @@ export type InputProps = {
   errors: string[]
   icon?: ReactElement
 } & ComponentPropsWithoutRef<'input'>
+
+export interface State {
+  auth: StateAuth
+}

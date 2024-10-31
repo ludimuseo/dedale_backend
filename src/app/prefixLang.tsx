@@ -6,7 +6,7 @@
 import { useEffect, type FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
-import ErrorPage from '@/app/pages/errorPage'
+import PageError from '@/app/pages/pageError'
 
 const PrefixLang: FC = () => {
   const { i18n } = useTranslation()
@@ -20,7 +20,7 @@ const PrefixLang: FC = () => {
 
       if (lang) {
         if (!supportedLngs.includes(lang)) {
-          return <ErrorPage />
+          return <PageError />
         } else if (lang !== i18n.resolvedLanguage) {
           await i18n.changeLanguage(lang)
         }

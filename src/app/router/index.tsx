@@ -1,18 +1,23 @@
 import { createBrowserRouter, Navigate, RouteObject } from 'react-router-dom'
-import ErrorPage from '@/app/pages/errorPage'
+import PageError from '@/app/pages/pageError'
 import { type Router as RemixRouter } from '@remix-run/router'
+import LayoutDefault from '@/app/layouts/layoutDefault'
+import LayoutAuth from '@/app/layouts/layoutAuth'
+import RouteAuth from '@/app/middleware/routeAuth'
+import RouteGuest from '../middleware/routeGuest'
 
 const routes: RouteObject[] = [
   {
     id: 'root',
-    errorElement: <ErrorPage />,
+    errorElement: <PageError />,
     children: [
       // Default Layout
       {
-        async lazy() {
-          const DefaultLayout = await import('@/app/layouts/defaultLayout')
-          return { Component: DefaultLayout.default }
-        },
+        element: (
+          <RouteAuth role={null}>
+            <LayoutDefault />
+          </RouteAuth>
+        ),
         children: [
           {
             path: '/',
@@ -46,10 +51,11 @@ const routes: RouteObject[] = [
       },
       // Auth Layout
       {
-        async lazy() {
-          const AuthLayout = await import('@/app/layouts/authLayout')
-          return { Component: AuthLayout.default }
-        },
+        element: (
+          <RouteGuest>
+            <LayoutAuth />
+          </RouteGuest>
+        ),
         children: [
           {
             path: '/auth',

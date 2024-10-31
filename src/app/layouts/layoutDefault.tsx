@@ -1,10 +1,10 @@
 import { type FC } from 'react'
 import { Outlet } from 'react-router-dom'
-import HeaderComponent from '@/app/layouts/core/headerComponent'
-import SidebarComponent from '@/app/layouts/core/sidebarComponent'
-import FooterComponent from '@/app/layouts/core/footerComponent'
+import HeaderComponent from '@/app/layouts/core/componentHeader'
+import SidebarComponent from '@/app/layouts/core/componentSidebar'
+import FooterComponent from '@/app/layouts/core/componentFooter'
 
-const DefaultLayout: FC = () => {
+const LayoutDefault: FC = () => {
   return (
     <>
       <div id="layout-default">
@@ -21,4 +21,4 @@ const DefaultLayout: FC = () => {
   )
 }
 
-export default DefaultLayout
+export default LayoutDefault

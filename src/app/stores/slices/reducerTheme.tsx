@@ -1,4 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import { useSelector, type TypedUseSelectorHook } from 'react-redux'
 
 enum ThemeProp {
   DARK = 'DARK',
@@ -26,5 +27,6 @@ export const sliceTheme = createSlice({
   },
 })
 
+export const selectorTheme: TypedUseSelectorHook<State> = useSelector
 export const { changeTheme } = sliceTheme.actions
 export default sliceTheme.reducer

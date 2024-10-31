@@ -1,6 +1,6 @@
 import { type FC } from 'react'
 
-const ErrorPage: FC = () => {
+const PageError: FC = () => {
   return (
     <>
       <div>ERROR PAGE</div>
@@ -8,4 +8,4 @@ const ErrorPage: FC = () => {
   )
 }
 
-export default ErrorPage
+export default PageError
