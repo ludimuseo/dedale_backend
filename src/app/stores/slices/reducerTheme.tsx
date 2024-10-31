@@ -1,32 +1,25 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import { useSelector, type TypedUseSelectorHook } from 'react-redux'
 
-enum ThemeProp {
-  DARK = 'DARK',
-  LIGHT = 'LIGHT',
-  SYSTEM = 'SYSTEM',
-}
-
-interface State {
+export interface StateTheme {
   isDark: boolean
-  currentTheme: ThemeProp
+  currentTheme: 'DARK' | 'LIGHT' | 'SYSTEM'
 }
 
-const initialState: State = {
+const initialState: StateTheme = {
   isDark: false,
-  currentTheme: ThemeProp.SYSTEM,
+  currentTheme: 'SYSTEM',
 }
 
 export const sliceTheme = createSlice({
   name: 'theme',
   initialState,
   reducers: {
-    changeTheme: (state, action: PayloadAction<State['currentTheme']>) => {
+    changeTheme: (state, action: PayloadAction<StateTheme['currentTheme']>) => {
       state.currentTheme = action.payload
+      state.isDark = state.currentTheme === 'DARK'
     },
   },
 })
 
-export const selectorTheme: TypedUseSelectorHook<State> = useSelector
 export const { changeTheme } = sliceTheme.actions
 export default sliceTheme.reducer

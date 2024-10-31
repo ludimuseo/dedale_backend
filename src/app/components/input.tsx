@@ -16,14 +16,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             />
             {icon && <span>{icon}</span>}
           </div>
-          <ul>
-            {!!errors.length &&
-              errors.map((message, key) => (
+          {!!errors.length && (
+            <ul>
+              {errors.map((message, key) => (
                 <li key={key} className="text-red-400">
                   {message}
                 </li>
               ))}
-          </ul>
+            </ul>
+          )}
         </div>
       </>
     )

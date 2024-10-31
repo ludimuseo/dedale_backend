@@ -4,7 +4,7 @@ import { type Router as RemixRouter } from '@remix-run/router'
 import LayoutDefault from '@/app/layouts/layoutDefault'
 import LayoutAuth from '@/app/layouts/layoutAuth'
 import RouteAuth from '@/app/middleware/routeAuth'
-import RouteGuest from '../middleware/routeGuest'
+import RouteGuest from '@/app/middleware/routeGuest'
 
 const routes: RouteObject[] = [
   {

@@ -1,7 +1,7 @@
 import { type FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const LanguageSwitcher: FC = () => {
+const ChangeLanguage: FC = () => {
   const { i18n, t } = useTranslation()
 
   const supportedLngs: string[] =
@@ -35,4 +35,4 @@ const LanguageSwitcher: FC = () => {
   )
 }
 
-export default LanguageSwitcher
+export default ChangeLanguage

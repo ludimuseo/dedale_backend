@@ -3,6 +3,11 @@
     "en": "English",
     "fr": "French"
   },
+  "theme": {
+    "dark": "dark",
+    "light": "light",
+    "system": "system"
+  },
   "label": {
     "email": "email",
     "password": "password"

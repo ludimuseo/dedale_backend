@@ -3,6 +3,11 @@
     "en": "Anglais",
     "fr": "Français"
   },
+  "theme": {
+    "dark": "sombre",
+    "light": "clair",
+    "system": "système"
+  },
   "label": {
     "email": "courriel",
     "password": "mot de passe"

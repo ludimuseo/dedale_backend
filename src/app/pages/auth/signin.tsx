@@ -114,7 +114,6 @@ const AuthSignIn: FC = () => {
             </>
           }
         />
-
         {/* Button Submit */}
         <button type="submit" className="flex justify-center gap-x-2">
           {t('button.signin')}

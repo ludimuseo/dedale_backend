@@ -1,4 +1,5 @@
 import { StateAuth } from '@/app/stores/slices/reducerAuth'
+import { StateTheme } from '@/app/stores/slices/reducerTheme'
 
 import type {
   type ComponentProps,
@@ -17,4 +18,5 @@ export type InputProps = {
 
 export interface State {
   auth: StateAuth
+  theme: StateTheme
 }
