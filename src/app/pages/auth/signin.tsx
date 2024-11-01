@@ -54,12 +54,12 @@ const AuthSignIn: FC = () => {
           // Dispatch to User Store
           dispatch(
             signIn({
-              uid: user.uid,
-              role: null,
-              email: user.email,
               displayName: user.displayName,
+              email: user.email,
               emailVerified: user.emailVerified,
               photoURL: user.photoURL,
+              role: null,
+              uid: user.uid,
             } satisfies User)
           )
           // console.info('state: ', location)

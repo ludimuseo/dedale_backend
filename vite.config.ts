@@ -4,15 +4,15 @@ import { defineConfig } from 'vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: [{ find: '@', replacement: resolve(__dirname, 'src') }],
-  },
   css: {
     preprocessorOptions: {
       scss: {
         api: 'modern-compiler',
       },
     },
+  },
+  plugins: [react()],
+  resolve: {
+    alias: [{ find: '@', replacement: resolve(__dirname, 'src') }],
   },
 })

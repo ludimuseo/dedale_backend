@@ -4,21 +4,21 @@ import Backend from 'i18next-http-backend'
 import { initReactI18next } from 'react-i18next'
 
 const options: InitOptions = {
-  lng: 'fr',
-  fallbackLng: 'en',
-  supportedLngs: ['en', 'fr'],
-  debug: process.env.NODE_ENV !== 'production',
   backend: {
     loadPath: '/src/locales/{{lng}}/{{ns}}.json',
   },
-  interpolation: {
-    escapeValue: false,
-  },
+  cleanCode: true,
+  debug: process.env.NODE_ENV !== 'production',
   detection: {
     lookupQuerystring: 'lang',
   },
+  fallbackLng: 'en',
+  interpolation: {
+    escapeValue: false,
+  },
+  lng: 'fr',
   lowerCaseLng: true,
-  cleanCode: true,
+  supportedLngs: ['en', 'fr'],
 }
 
 await i18n.use(Backend).use(detector).use(initReactI18next).init(options)

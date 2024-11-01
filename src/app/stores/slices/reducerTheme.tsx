@@ -11,8 +11,8 @@ const initialState: StateTheme = {
 }
 
 export const sliceTheme = createSlice({
-  name: 'theme',
   initialState,
+  name: 'theme',
   reducers: {
     changeTheme: (state, action: PayloadAction<StateTheme['theme']>) => {
       state.theme = action.payload

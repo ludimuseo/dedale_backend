@@ -15,8 +15,8 @@ const initialState: StateAuth = {
 }
 
 export const sliceAuth = createSlice({
-  name: 'auth',
   initialState,
+  name: 'auth',
   reducers: {
     signIn: (state, action: PayloadAction<User>) => {
       state.isLogged = true

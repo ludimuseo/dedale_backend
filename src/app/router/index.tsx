@@ -9,69 +9,69 @@ import PageError from '@/app/pages/pageError'
 
 const routes: RouteObject[] = [
   {
-    id: 'root',
-    errorElement: <PageError />,
     children: [
       // Default Layout
       {
+        children: [
+          {
+            async lazy() {
+              const Dashboard = await import('@/app/pages/dashboard')
+              return { Component: Dashboard.default }
+            },
+            path: '/',
+          },
+          {
+            async lazy() {
+              const User = await import('@/app/pages/user')
+              return { Component: User.default }
+            },
+            path: '/user',
+          },
+          {
+            async lazy() {
+              const UserProfile = await import('@/app/pages/user/profile')
+              return { Component: UserProfile.default }
+            },
+            path: '/user/profile',
+          },
+          {
+            async lazy() {
+              const UserSettings = await import('@/app/pages/user/settings')
+              return { Component: UserSettings.default }
+            },
+            path: '/user/settings',
+          },
+        ],
         element: (
           <RouteAuth role={null}>
             <LayoutDefault />
           </RouteAuth>
         ),
-        children: [
-          {
-            path: '/',
-            async lazy() {
-              const Dashboard = await import('@/app/pages/dashboard')
-              return { Component: Dashboard.default }
-            },
-          },
-          {
-            path: '/user',
-            async lazy() {
-              const User = await import('@/app/pages/user')
-              return { Component: User.default }
-            },
-          },
-          {
-            path: '/user/profile',
-            async lazy() {
-              const UserProfile = await import('@/app/pages/user/profile')
-              return { Component: UserProfile.default }
-            },
-          },
-          {
-            path: '/user/settings',
-            async lazy() {
-              const UserSettings = await import('@/app/pages/user/settings')
-              return { Component: UserSettings.default }
-            },
-          },
-        ],
       },
       // Auth Layout
       {
+        children: [
+          {
+            element: <Navigate to={{ pathname: '/auth/signin' }} />,
+            path: '/auth',
+          },
+          {
+            async lazy() {
+              const AuthSignin = await import('@/app/pages/auth/signin')
+              return { Component: AuthSignin.default }
+            },
+            path: '/auth/signin',
+          },
+        ],
         element: (
           <RouteGuest>
             <LayoutAuth />
           </RouteGuest>
         ),
-        children: [
-          {
-            path: '/auth',
-            element: <Navigate to={{ pathname: '/auth/signin' }} />,
-          },
-          {
-            path: '/auth/signin',
-            async lazy() {
-              const AuthSignin = await import('@/app/pages/auth/signin')
-              return { Component: AuthSignin.default }
-            },
-          },
-        ],
       },
     ],
+    errorElement: <PageError />,
+    id: 'root',
   },
 ]
 

@@ -12,15 +12,14 @@ const persistConfig = {
 const persistedReducer: Reducer = persistReducer(persistConfig, reducerRoot)
 
 export const store: Store = configureStore({
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }),
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware({ serializableCheck: false })
-  },
 })
 
-export const persistor = persistStore(store)
-
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof reducerRoot>
 // Inferred type: {auth: AuthState}
 export type AppDispatch = typeof store.dispatch
+// Infer the `RootState` and `AppDispatch` types from the store itself
+export type RootState = ReturnType<typeof reducerRoot>
+
+export const persistor = persistStore(store)
