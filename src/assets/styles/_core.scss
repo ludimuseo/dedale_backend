@@ -38,18 +38,6 @@ $sidebar: 18rem;
       }
     }
 
-    header {
-      @apply flex flex-row items-center justify-between;
-
-      & > div {
-        @apply flex flex-row items-center;
-      }
-
-      .toggle-sidebar {
-        @apply cursor-pointer p-2 mx-4 bg-slate-400 w-16 h-8 text-center;
-      }
-    }
-
     main.content {
       @apply h-full bg-slate-200 text-black p-8;
     }
@@ -91,6 +79,14 @@ $sidebar: 18rem;
           }
         }
       }
+    }
+  }
+
+  header {
+    @apply flex flex-row items-center justify-between px-4;
+
+    .toggle-sidebar {
+      @apply cursor-pointer p-2 mx-4 bg-slate-400 w-16 h-8 text-center;
     }
   }
 }

@@ -1,1 +1,40 @@
 /* stylelint */
+
+$checkbox-switcher-size: 5rem;
+
+.toggle-switcher {
+  input[type='checkbox'] {
+    @apply h-0 w-0 invisible;
+  }
+
+  label {
+    @apply cursor-pointer -indent-[999px];
+    @apply h-[calc(#{$checkbox-switcher-size}_/_2)] w-[#{$checkbox-switcher-size}];
+    @apply bg-gray-500 block relative border rounded-[calc(#{$checkbox-switcher-size}_/_2)];
+
+    &.show {
+      @apply indent-0 flex items-center px-3 justify-end uppercase text-white;
+    }
+  }
+
+  label:before {
+    content: '';
+    left: 0.313rem;
+    @apply top-[calc(#{$checkbox-switcher-size}_/_16)];
+
+    @apply h-[calc(#{$checkbox-switcher-size}_/_3)] w-[calc(#{$checkbox-switcher-size}_/_3)];
+    @apply absolute rounded-[1.5rem] bg-white duration-200;
+  }
+
+  input:checked + label:before {
+    @apply left-[calc(100%_-_5px)] -translate-x-full;
+  }
+
+  input:checked + label.show {
+    @apply justify-start;
+  }
+
+  label:active:before {
+    @apply w-10;
+  }
+}

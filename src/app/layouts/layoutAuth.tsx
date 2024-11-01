@@ -5,7 +5,7 @@ import logoDedale1 from '@/assets/imgs/logoDedale_v2.webp'
 import logoDedale2 from '@/assets/imgs/logoDedale_v1.webp'
 import { useAppSelector } from '@/app/hooks'
 import { State } from '@/types'
-// import HeaderComponent from '@/app/layouts/core/componentHeader'
+import HeaderComponent from '@/app/layouts/core/componentHeader'
 
 const LayoutDefault: FC = () => {
   const { t } = useTranslation()
@@ -13,7 +13,7 @@ const LayoutDefault: FC = () => {
   return (
     <>
       <div id="layout-auth">
-        {/* <HeaderComponent /> */}
+        <HeaderComponent />
         <main>
           <section className="auth-info">
             <img src={isDark ? logoDedale1 : logoDedale2} />

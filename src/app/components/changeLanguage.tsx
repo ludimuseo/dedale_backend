@@ -2,34 +2,27 @@ import { type FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const ChangeLanguage: FC = () => {
-  const { i18n, t } = useTranslation()
+  const { i18n } = useTranslation()
 
-  const supportedLngs: string[] =
-    typeof i18n.options.supportedLngs == 'object'
-      ? i18n.options.supportedLngs.filter((lng: string) => lng.length <= 2)
-      : []
-
-  const changeLanguage = async (lng: string): Promise<void> => {
-    await i18n.changeLanguage(lng)
+  const changeLanguage = async (): Promise<void> => {
+    await i18n.changeLanguage(i18n.language === 'fr' ? 'en' : 'fr')
   }
 
   return (
     <>
-      <div>
-        <div className="flex justify-center gap-x-2">
-          {supportedLngs.map((lng, key) => (
-            <button
-              key={key}
-              type="button"
-              onClick={() => void changeLanguage(lng)}
-              className="uppercase">
-              {lng}
-            </button>
-          ))}
-        </div>
-        <h4>
-          {t('text.current_language')}: {t(`lang.${i18n.language}`)}
-        </h4>
+      <div className="toggle-switcher">
+        <input
+          type="checkbox"
+          id="checkbox-toggle-language"
+          checked={i18n.language === 'en'}
+        />
+        <label
+          onClick={() => void changeLanguage()}
+          htmlFor="checkbox-toggle-language"
+          className="show"
+          about="">
+          {i18n.language}
+        </label>
       </div>
     </>
   )
