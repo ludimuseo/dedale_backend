@@ -1,7 +1,7 @@
 import i18n, { type InitOptions } from 'i18next'
 import Backend from 'i18next-http-backend'
-import { initReactI18next } from 'react-i18next'
 import detector from 'i18next-browser-languagedetector'
+import { initReactI18next } from 'react-i18next'
 
 const options: InitOptions = {
   lng: 'fr',

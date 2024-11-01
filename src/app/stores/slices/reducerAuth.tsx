@@ -1,5 +1,5 @@
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { type User } from '@/types/user'
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 export interface StateAuth {
   isLogged: boolean

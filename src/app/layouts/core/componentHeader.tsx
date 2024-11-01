@@ -1,12 +1,13 @@
+import { useAppDispatch, useAppSelector } from '@/app/hooks'
+import ChangeLanguage from '@/app/components/changeLanguage'
+import ChangeTheme from '@/app/components/changeTheme'
 import { type FC } from 'react'
+import { type State } from '@/types'
 import logoDedale1 from '@/assets/imgs/logoDedale_v2.webp'
+import { signOut } from '@/app/stores/slices/reducerAuth'
+
 // import { useTranslation } from 'react-i18next'
 // import { Link } from 'react-router-dom'
-// import ChangeLanguage from '@/app/components/changeLanguage'
-import { useAppDispatch, useAppSelector } from '@/app/hooks'
-import { type State } from '@/types'
-import { signOut } from '@/app/stores/slices/reducerAuth'
-import ChangeLanguage from '@/app/components/changeLanguage'
 
 const HeaderComponent: FC = () => {
   // const { t } = useTranslation()
@@ -41,6 +42,7 @@ const HeaderComponent: FC = () => {
             </button>
           )}
           <ChangeLanguage />
+          <ChangeTheme />
         </div>
       </header>
     </>

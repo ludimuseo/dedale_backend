@@ -1,9 +1,9 @@
+import { type Auth, getAuth } from 'firebase/auth'
 import {
   type FirebaseApp,
   type FirebaseOptions,
   initializeApp,
 } from 'firebase/app'
-import { type Auth, getAuth } from 'firebase/auth'
 import { type Firestore, getFirestore } from 'firebase/firestore'
 
 // Your web app's Firebase configuration

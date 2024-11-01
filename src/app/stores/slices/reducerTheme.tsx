@@ -1,4 +1,4 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export interface StateTheme {
   isDark: boolean
@@ -19,6 +19,7 @@ export const sliceTheme = createSlice({
     },
     setDarkMode: (state, action: PayloadAction<boolean>) => {
       state.isDark = action.payload
+      console.info('state.isDark: ', state.isDark)
       document.documentElement.className = state.isDark ? 'dark' : 'light'
     },
   },

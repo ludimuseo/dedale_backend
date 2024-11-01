@@ -1,12 +1,12 @@
-import { StrictMode, Suspense } from 'react'
-import { createRoot, type Root } from 'react-dom/client'
-import router from '@/app/router'
 import '@/assets/styles/root.scss'
 import '@/locales/i18n'
+import { type Root, createRoot } from 'react-dom/client'
+import { StrictMode, Suspense } from 'react'
 import { persistor, store } from '@/app/stores'
-import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
+import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
+import router from '@/app/router'
 
 const rootElement: HTMLElement | null = document.getElementById('root')
 if (rootElement) {

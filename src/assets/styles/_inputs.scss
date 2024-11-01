@@ -1,6 +1,7 @@
 /* stylelint */
 
-$checkbox-switcher-size: 5rem;
+$checkbox-switcher-size: 4rem;
+$radio-slider-size: 4rem;
 
 .toggle-switcher {
   input[type='checkbox'] {
@@ -37,4 +38,8 @@ $checkbox-switcher-size: 5rem;
   label:active:before {
     @apply w-10;
   }
+}
+
+.radio-slider {
+  @apply relative;
 }

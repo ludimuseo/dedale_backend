@@ -1,23 +1,19 @@
-import Input from '@/app/components/input'
-import EnvelopeIcon from '@/assets/icons/EnvelopeIcon'
-import LockIcon from '@/assets/icons/LockIcon'
 import { type FC, type FormEvent, useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import useInput from '@/app/hooks/useInput'
-import { signInWithEmailAndPassword, type UserCredential } from 'firebase/auth'
+import { type NavigateFunction, useNavigate } from 'react-router-dom'
+import { type UserCredential, signInWithEmailAndPassword } from 'firebase/auth'
 import { auth, db } from '@/firebase/firebase'
-import { useAppDispatch } from '@/app/hooks'
-import { signIn } from '@/app/stores/slices/reducerAuth'
-import { type User } from '@/types/user'
 import { doc, getDoc } from 'firebase/firestore'
-// import { type Location, type NavigateFunction, useLocation, useNavigate } from 'react-router-dom'
+import EnvelopeIcon from '@/assets/icons/EnvelopeIcon'
+import Input from '@/app/components/input'
+import LockIcon from '@/assets/icons/LockIcon'
 import SpinIcon from '@/assets/icons/SpinIcon'
-import {
-  // type Location,
-  type NavigateFunction,
-  // useLocation,
-  useNavigate,
-} from 'react-router-dom'
+import { type User } from '@/types/user'
+import { signIn } from '@/app/stores/slices/reducerAuth'
+import { useAppDispatch } from '@/app/hooks'
+import useInput from '@/app/hooks/useInput'
+import { useTranslation } from 'react-i18next'
+
+// import { type Location, type NavigateFunction, useLocation, useNavigate } from 'react-router-dom'
 
 const AuthSignIn: FC = () => {
   const { t } = useTranslation()

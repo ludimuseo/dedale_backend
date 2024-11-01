@@ -1,5 +1,5 @@
 import { type ChangeEvent, useState } from 'react'
-import { z, type ZodString } from 'zod'
+import { type ZodString, z } from 'zod'
 
 interface OptionsProps {
   name: string

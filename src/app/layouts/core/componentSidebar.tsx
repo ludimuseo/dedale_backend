@@ -1,6 +1,7 @@
+import ArrowLeftIcon from '@/assets/icons/ArrowLeftIcon'
 import { type FC } from 'react'
 import logoDedale1 from '@/assets/imgs/logoDedale_v2.webp'
-import ArrowLeftIcon from '@/assets/icons/ArrowLeftIcon'
+
 // import { useTranslation } from 'react-i18next'
 // import { Link } from 'react-router-dom'
 

@@ -1,11 +1,11 @@
 import { type FC } from 'react'
-import { useTranslation } from 'react-i18next'
+import HeaderComponent from '@/app/layouts/core/componentHeader'
 import { Outlet } from 'react-router-dom'
+import { State } from '@/types'
 import logoDedale1 from '@/assets/imgs/logoDedale_v2.webp'
 import logoDedale2 from '@/assets/imgs/logoDedale_v1.webp'
 import { useAppSelector } from '@/app/hooks'
-import { State } from '@/types'
-import HeaderComponent from '@/app/layouts/core/componentHeader'
+import { useTranslation } from 'react-i18next'
 
 const LayoutDefault: FC = () => {
   const { t } = useTranslation()

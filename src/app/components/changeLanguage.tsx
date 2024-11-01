@@ -11,16 +11,11 @@ const ChangeLanguage: FC = () => {
   return (
     <>
       <div className="toggle-switcher">
-        <input
-          type="checkbox"
-          id="checkbox-toggle-language"
-          checked={i18n.language === 'en'}
-        />
+        <input type="checkbox" id="checkbox-toggle-language" />
         <label
           onClick={() => void changeLanguage()}
           htmlFor="checkbox-toggle-language"
-          className="show"
-          about="">
+          className="show">
           {i18n.language}
         </label>
       </div>
