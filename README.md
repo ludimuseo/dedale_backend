@@ -6,17 +6,18 @@
 
 # .github
 
-[@UnratedArt][UrlGh] organization
+[@Dedale][UrlPj] Project
 
-[UrlGh]: https://github.com/UnratedArt/
+[UrlPj]: https://github.com/ludimuseo/backoffice-dedale/
 
-## Welcome! 👋
+## Team! 🥇
 
-My name's [@Eternal-Grace][UrlSelf]. and I'm glad that you were able to come to
-this place.
+Project contributors :
 
-#### Feel free to contact me. And say [Hi](mailto:contact@genitus.tech)
+- [@Okkunsama][UrlUsr1]
+- [@A-Fidele][UrlUsr2]
+- [@Eternal-Grace][UrlUsr3]
 
-![Eternal-Grace's Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Eternal-Grace&theme=vue-dark&show_icons=true&hide_border=false&layout=compact)
-
-[UrlSelf]: https://github.com/Eternal-Grace/
+[UrlUsr1]: https://github.com/A-Fidele/
+[UrlUsr2]: https://github.com/okkunsama/
+[UrlUsr3]: https://github.com/Eternal-Grace/
