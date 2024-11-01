@@ -15,14 +15,17 @@
 @include meta.load-css('inputs');
 @include meta.load-css('buttons');
 
+$font-family-sans-serif: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
 :root {
-  @apply leading-normal font-normal text-[rgba(255,255,255,0.87)] bg-[#242424];
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  color-scheme: light dark;
+  --primary-color: #24303f;
+  --secondary-color: #213547;
+  --font-family-sans-serif: #{meta.inspect($font-family-sans-serif)} color-scheme:
+    light dark;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-family-sans-serif);
+  @apply leading-normal font-normal antialiased;
 }
 
 a {
@@ -55,7 +58,19 @@ form > label {
 
 @media (prefers-color-scheme: light) {
   :root {
-    @apply text-[#213547] bg-white;
+    @apply text-[var(--secondary-color)] bg-white;
+  }
+  a:hover {
+    @apply text-[#747bff];
+  }
+  button {
+    @apply bg-[#f9f9f9];
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    @apply text-white bg-[var(--secondary-color)];
   }
   a:hover {
     @apply text-[#747bff];

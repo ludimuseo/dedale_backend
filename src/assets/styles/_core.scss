@@ -1,40 +1,65 @@
 /* Inspiration from URL: https://codepen.io/azouaoui-med/pen/wpBadb */
 
+$sidebar: 18rem;
+
 #root {
   @apply absolute h-full w-full my-0 mx-auto;
 
   #layout-default {
-    @apply flex flex-row;
+    @apply flex flex-row h-[inherit];
 
-    aside.sidebar {
-      @apply w-56 bg-slate-500;
+    div#outer-content {
+      @apply flex-1 transition-transform duration-300;
+      @apply transform translate-x-0 translate-y-0 translate-z-0;
     }
 
-    /*
-    #inner-layout {
-      @apply grow flex flex-col;
-      header {
-        @apply bg-slate-600;
+    aside#menu-sidebar {
+      @apply absolute h-full left-0 transition-transform duration-300 w-[#{$sidebar}];
+      @apply transform translate-x-[#{-$sidebar}] translate-y-0 translate-z-0;
+      @apply bg-[var(--primary-color)] border-r border-r-white/50 shadow-lg shadow-black dark:shadow-white;
+    }
+
+    input#checkbox-toggle-sidebar {
+      @apply absolute opacity-0;
+      &:checked ~ div#outer-content {
+        @apply transform translate-x-0 xl:translate-x-[#{$sidebar}] translate-y-0 translate-z-0;
       }
 
-      main.content {
-        @apply bg-slate-400 p-8;
-        @apply grow;
-      }
-
-      footer {
-        @apply bg-blue-400;
+      &:checked ~ aside#menu-sidebar {
+        @apply transform translate-x-0 translate-y-0 translate-z-0;
       }
     }
-    */
+
+    .logo-container {
+      @apply w-full flex flex-row gap-x-3 py-2;
+
+      button {
+        @apply bg-transparent;
+      }
+    }
+
+    header {
+      @apply flex flex-row items-center justify-between;
+
+      & > div {
+        @apply flex flex-row items-center;
+      }
+
+      .toggle-sidebar {
+        @apply cursor-pointer p-2 mx-4 bg-slate-400 w-16 h-8 text-center;
+      }
+    }
+
+    main.content {
+      @apply h-full bg-slate-200 text-black p-8;
+    }
   }
 
   #layout-auth {
-    @apply text-center;
-    height: inherit;
+    @apply h-[inherit];
 
     main {
-      @apply flex flex-row;
+      @apply flex flex-row h-[inherit];
       section.auth-info,
       section.auth-form {
         @apply flex-1 m-auto mx-16;
@@ -44,8 +69,10 @@
         img {
           @apply m-auto mb-4;
         }
+        p {
+          @apply text-center;
+        }
       }
-      height: inherit;
       form {
         @apply max-w-xl m-auto;
         & > div {

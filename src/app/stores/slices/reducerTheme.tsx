@@ -19,7 +19,7 @@ export const sliceTheme = createSlice({
     },
     setDarkMode: (state, action: PayloadAction<boolean>) => {
       state.isDark = action.payload
-      document.documentElement.className = state.isDark ? 'dark' : ''
+      document.documentElement.className = state.isDark ? 'dark' : 'light'
     },
   },
 })

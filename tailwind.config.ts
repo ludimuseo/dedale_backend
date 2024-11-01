@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss'
+import tailwind3dtransforms from '@xpd/tailwind-3dtransforms'
 
 export default {
   darkMode: 'selector',
@@ -6,5 +7,5 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [tailwind3dtransforms],
 } satisfies Config
