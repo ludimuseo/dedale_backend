@@ -1,6 +1,7 @@
 import { type FC } from 'react'
-import HeaderComponent from '@/app/layouts/core/componentHeader'
 import { Outlet } from 'react-router-dom'
+
+import HeaderComponent from '@/app/layouts/core/componentHeader'
 import SidebarComponent from '@/app/layouts/core/componentSidebar'
 
 const LayoutDefault: FC = () => {

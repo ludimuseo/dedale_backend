@@ -1,5 +1,5 @@
-import type { Config } from 'tailwindcss'
 import tailwind3dtransforms from '@xpd/tailwind-3dtransforms'
+import type { Config } from 'tailwindcss'
 
 export default {
   darkMode: 'selector',

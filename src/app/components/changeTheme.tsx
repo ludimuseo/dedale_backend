@@ -1,13 +1,14 @@
 import { type FC, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+
+import Input from '@/app/components/input'
+import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import {
-  type StateTheme,
   changeTheme,
   setDarkMode,
+  type StateTheme,
 } from '@/app/stores/slices/reducerTheme'
-import { useAppDispatch, useAppSelector } from '@/app/hooks'
-import Input from '@/app/components/input'
 import { type State } from '@/types'
-import { useTranslation } from 'react-i18next'
 
 const ChangeTheme: FC = () => {
   const { t } = useTranslation()

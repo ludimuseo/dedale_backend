@@ -1,10 +1,11 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks'
+import { type FC } from 'react'
+
 import ChangeLanguage from '@/app/components/changeLanguage'
 import ChangeTheme from '@/app/components/changeTheme'
-import { type FC } from 'react'
-import { type State } from '@/types'
-import logoDedale1 from '@/assets/imgs/logoDedale_v2.webp'
+import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { signOut } from '@/app/stores/slices/reducerAuth'
+import logoDedale1 from '@/assets/imgs/logoDedale_v2.webp'
+import { type State } from '@/types'
 
 // import { useTranslation } from 'react-i18next'
 // import { Link } from 'react-router-dom'

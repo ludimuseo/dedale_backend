@@ -1,5 +1,5 @@
 import { type ChangeEvent, useState } from 'react'
-import { type ZodString, z } from 'zod'
+import { z, type ZodString } from 'zod'
 
 interface OptionsProps {
   name: string
@@ -7,9 +7,9 @@ interface OptionsProps {
 }
 
 const schema: Record<string, ZodString> = {
+  date: z.string().trim().date(),
   email: z.string().trim().toLowerCase().min(1).email(),
   password: z.string().trim().min(6).max(20),
-  date: z.string().trim().date(),
 }
 
 const useInput = (initialValue: string, options: OptionsProps) => {
@@ -31,11 +31,11 @@ const useInput = (initialValue: string, options: OptionsProps) => {
   }
 
   return {
-    value,
     errors,
-    uid: options.name,
     name: options.name,
     onChange: handleChange,
+    uid: options.name,
+    value,
   }
 }
 

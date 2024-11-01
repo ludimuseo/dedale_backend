@@ -1,4 +1,5 @@
-import { type Reducer, combineReducers } from '@reduxjs/toolkit'
+import { combineReducers, type Reducer } from '@reduxjs/toolkit'
+
 import reducerAuth from '@/app/stores/slices/reducerAuth'
 import reducerTheme from '@/app/stores/slices/reducerTheme'
 

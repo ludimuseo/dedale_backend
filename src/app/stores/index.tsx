@@ -1,7 +1,8 @@
-import { type Reducer, type Store, configureStore } from '@reduxjs/toolkit'
+import { configureStore, type Reducer, type Store } from '@reduxjs/toolkit'
 import { persistReducer, persistStore } from 'redux-persist'
-import { reducerRoot } from '@/app/stores/reducerRoot'
 import storage from 'redux-persist/lib/storage'
+
+import { reducerRoot } from '@/app/stores/reducerRoot'
 
 const persistConfig = {
   key: 'root',
