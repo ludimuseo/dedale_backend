@@ -7,7 +7,6 @@ export interface StateAuth {
   token: string | null
   user: User | null
 }
-
 const initialState: StateAuth = {
   isLogged: false,
   token: null,

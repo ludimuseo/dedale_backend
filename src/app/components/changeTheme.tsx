@@ -14,6 +14,7 @@ const ChangeTheme: FC = () => {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const { theme }: StateTheme = useAppSelector((state: State) => state.theme)
+  //
   useEffect(() => {
     const mediaWatcher: MediaQueryList = window.matchMedia(
       '(prefers-color-scheme: dark)'

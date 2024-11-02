@@ -5,16 +5,16 @@ $radio-slider-size: 4rem;
 
 .toggle-switcher {
   input[type='checkbox'] {
-    @apply h-0 w-0 invisible;
+    @apply invisible h-0 w-0;
   }
 
   label {
     @apply cursor-pointer -indent-[999px];
-    @apply h-[calc(#{$checkbox-switcher-size}_/_2)] w-[#{$checkbox-switcher-size}];
-    @apply bg-gray-500 block relative border rounded-[calc(#{$checkbox-switcher-size}_/_2)];
+    @apply w-[#{$checkbox-switcher-size}] h-[calc(#{$checkbox-switcher-size}_/_2)];
+    @apply relative block rounded-[calc(#{$checkbox-switcher-size}_/_2)] border bg-gray-500;
 
     &.show {
-      @apply indent-0 flex items-center px-3 justify-end uppercase text-white;
+      @apply flex items-center justify-end px-3 indent-0 uppercase text-white;
     }
   }
 

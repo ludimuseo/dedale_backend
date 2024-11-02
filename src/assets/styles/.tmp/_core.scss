@@ -3,35 +3,35 @@
 $sidebar: 18rem;
 
 #root {
-  @apply absolute h-full w-full my-0 mx-auto;
+  @apply absolute mx-auto my-0 h-full w-full;
 
   #layout-default {
-    @apply flex flex-row h-[inherit];
+    @apply flex h-[inherit] flex-row;
 
     div#outer-content {
       @apply flex-1 transition-transform duration-300;
-      @apply transform translate-x-0 translate-y-0 translate-z-0;
+      @apply translate-x-0 translate-y-0 transform translate-z-0;
     }
 
     aside#menu-sidebar {
-      @apply absolute h-full left-0 transition-transform duration-300 w-[#{$sidebar}];
-      @apply transform translate-x-[#{-$sidebar}] translate-y-0 translate-z-0;
-      @apply bg-[var(--primary-color)] border-r border-r-white/50 shadow-lg shadow-black dark:shadow-white;
+      @apply w-[#{$sidebar}] absolute left-0 h-full transition-transform duration-300;
+      @apply translate-x-[#{-$sidebar}] translate-y-0 transform translate-z-0;
+      @apply border-r border-r-white/50 bg-[var(--primary-color)] shadow-lg shadow-black dark:shadow-white;
     }
 
     input#checkbox-toggle-sidebar {
       @apply absolute opacity-0;
       &:checked ~ div#outer-content {
-        @apply transform translate-x-0 xl:translate-x-[#{$sidebar}] translate-y-0 translate-z-0;
+        @apply translate-x-0 translate-y-0 transform translate-z-0 xl:translate-x-[#{$sidebar}];
       }
 
       &:checked ~ aside#menu-sidebar {
-        @apply transform translate-x-0 translate-y-0 translate-z-0;
+        @apply translate-x-0 translate-y-0 transform translate-z-0;
       }
     }
 
     .logo-container {
-      @apply w-full flex flex-row gap-x-3 py-2;
+      @apply flex w-full flex-row gap-x-3 py-2;
 
       button {
         @apply bg-transparent;
@@ -39,7 +39,7 @@ $sidebar: 18rem;
     }
 
     main.content {
-      @apply h-full bg-slate-200 text-black p-8;
+      @apply h-full bg-slate-200 p-8 text-black;
     }
   }
 
@@ -47,10 +47,10 @@ $sidebar: 18rem;
     @apply h-[inherit];
 
     main {
-      @apply flex flex-row h-[inherit];
+      @apply flex h-[inherit] flex-row;
       section.auth-info,
       section.auth-form {
-        @apply flex-1 m-auto mx-16;
+        @apply m-auto mx-16 flex-1;
       }
       section.auth-info {
         @apply hidden xl:block;
@@ -62,12 +62,12 @@ $sidebar: 18rem;
         }
       }
       form {
-        @apply max-w-xl m-auto;
+        @apply m-auto max-w-xl;
         & > div {
           @apply mb-6;
         }
         label {
-          @apply mb-2.5 font-medium block text-justify text-black dark:text-white;
+          @apply mb-2.5 block text-justify font-medium text-black dark:text-white;
           & + div {
             @apply relative;
             & > input {
@@ -86,7 +86,7 @@ $sidebar: 18rem;
     @apply flex flex-row items-center justify-between px-4;
 
     .toggle-sidebar {
-      @apply cursor-pointer p-2 mx-4 bg-slate-400 w-16 h-8 text-center;
+      @apply mx-4 h-8 w-16 cursor-pointer bg-slate-400 p-2 text-center;
     }
   }
 }

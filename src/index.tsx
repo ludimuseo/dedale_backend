@@ -1,4 +1,4 @@
-import '@/assets/styles/root.scss'
+import '@/assets/styles/index.scss'
 import '@/locales/i18n'
 
 import { StrictMode, Suspense } from 'react'

@@ -1,0 +1,6 @@
+body {
+  /* Default Font: Satoshi */
+  @apply font-[var(--font-family-sans-serif)];
+
+  @apply bg-[var(--primary-bg-color)] text-[var(--primary-text-color)];
+}
