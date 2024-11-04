@@ -24,7 +24,7 @@ const SidebarComponent: FC = () => {
           </figure>
           <label
             htmlFor="checkbox-toggle-sidebar"
-            className="xl:hidden flex justify-center items-center hover:text-red-400 w-12 cursor-pointer">
+            className="flex w-12 cursor-pointer items-center justify-center hover:text-red-400 xl:hidden">
             {<ArrowLeftIcon />}
           </label>
         </div>

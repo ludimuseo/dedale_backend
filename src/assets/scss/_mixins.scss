@@ -1,0 +1,6 @@
+@use 'sass:meta';
+
+/* stylelint */
+@mixins button-form {
+  @apply relative;
+}

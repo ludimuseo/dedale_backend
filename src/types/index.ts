@@ -1,11 +1,18 @@
 import type {
-  type ComponentProps,
-  type ComponentPropsWithoutRef,
-  type ReactElement,
+  ComponentProps,
+  ComponentPropsWithoutRef,
+  ReactElement,
 } from 'react'
 
 import { StateAuth } from '@/app/stores/slices/reducerAuth'
 import { StateTheme } from '@/app/stores/slices/reducerTheme'
+
+export enum Theme {
+  DARK = 'DARK',
+  LIGHT = 'LIGHT',
+  CUSTOM = 'CUSTOM',
+  SYSTEM = 'SYSTEM',
+}
 
 export type SvgProps = ComponentProps<'svg'>
 

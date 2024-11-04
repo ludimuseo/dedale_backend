@@ -11,13 +11,13 @@
     "at-rule-no-unknown": [
       true,
       {
-        "ignoreAtRules": ["extends", "include", "tailwind", "use"]
+        "ignoreAtRules": ["extends", "include", "tailwind", "use", "mixins"]
       }
     ],
     "scss/at-rule-no-unknown": [
       true,
       {
-        "ignoreAtRules": ["include", "tailwind", "use"]
+        "ignoreAtRules": ["include", "tailwind", "use", "mixins"]
       }
     ],
     "block-no-empty": null,

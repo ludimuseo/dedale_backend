@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 
-yarn commitlint ${1}
+npx --no -- commitlint --edit ${1}
+npx commit-prettier ${1}

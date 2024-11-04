@@ -1,0 +1,103 @@
+@use '@style/variables/colors' as color;
+@import '@style/variables';
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: auto;
+  @apply leading-normal antialiased;
+}
+
+body {
+  @apply bg-primary;
+}
+
+html:root {
+  &[data-theme='light'] {
+    --color-buttons: #aaa;
+    --color-primary: #{color.$red};
+    --color-secondary: #aaa;
+    --color-tertiary: #aaa;
+    --color-typography: #aaa;
+  }
+
+  &[data-theme='dark'] {
+    --color-buttons: #aaa;
+    --color-primary: #{$test};
+    --color-secondary: #aaa;
+    --color-tertiary: #aaa;
+    --color-typography: #aaa;
+  }
+
+  //// https://fr.wikipedia.org/wiki/Tetrachromatisme => Tétrachromatie
+  &[data-theme='tetrachromacy'] {
+    --color-buttons: #aaa;
+    --color-primary: #aaa;
+    --color-secondary: #aaa;
+    --color-tertiary: #aaa;
+    --color-typography: #aaa;
+  }
+
+  //// https://fr.wikipedia.org/wiki/Daltonisme => Achromatopsie
+  &[data-theme='achromatopsia'] {
+    --color-buttons: #aaa;
+    --color-primary: #aaa;
+    --color-secondary: #aaa;
+    --color-tertiary: #aaa;
+    --color-typography: #aaa;
+  }
+
+  //// https://fr.wikipedia.org/wiki/Daltonisme => Protanopie
+  &[data-theme='protanopia'] {
+    --color-buttons: #aaa;
+    --color-primary: #aaa;
+    --color-secondary: #aaa;
+    --color-tertiary: #aaa;
+    --color-typography: #aaa;
+  }
+
+  //// https://fr.wikipedia.org/wiki/Daltonisme => Protanomalie
+  &[data-theme='protanomaly'] {
+    --color-buttons: #aaa;
+    --color-primary: #aaa;
+    --color-secondary: #aaa;
+    --color-tertiary: #aaa;
+    --color-typography: #aaa;
+  }
+
+  //// https://fr.wikipedia.org/wiki/Daltonisme => Deutéranopie
+  &[data-theme='deuteranopia'] {
+    --color-buttons: #aaa;
+    --color-primary: #aaa;
+    --color-secondary: #aaa;
+    --color-tertiary: #aaa;
+    --color-typography: #aaa;
+  }
+
+  //// https://fr.wikipedia.org/wiki/Daltonisme => Deutéranomalie
+  &[data-theme='deuteranomaly'] {
+    --color-buttons: #aaa;
+    --color-primary: #aaa;
+    --color-secondary: #aaa;
+    --color-tertiary: #aaa;
+    --color-typography: #aaa;
+  }
+
+  //// https://fr.wikipedia.org/wiki/Daltonisme => Tritanopie
+  &[data-theme='tritanopia'] {
+    --color-buttons: #aaa;
+    --color-primary: #aaa;
+    --color-secondary: #aaa;
+    --color-tertiary: #aaa;
+    --color-typography: #aaa;
+  }
+
+  //// https://fr.wikipedia.org/wiki/Daltonisme => Tritanomalie
+  &[data-theme='tritanomaly'] {
+    --color-buttons: #aaa;
+    --color-primary: #aaa;
+    --color-secondary: #aaa;
+    --color-tertiary: #aaa;
+    --color-typography: #aaa;
+  }
+}

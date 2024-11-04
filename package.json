@@ -15,15 +15,14 @@
     "stylelint": "stylelint --fix **/*.scss"
   },
   "lint-staged": {
-    "*.{css,scss}": [
-      "stylelint --fix",
-      "prettier --ignore-unknown --check --write"
+    "src/**/*.{css,scss}": [
+      "stylelint --fix"
     ],
-    "*.{js,jsx,ts,tsx}": [
+    "src/**/*.{js,jsx,ts,tsx,json}": [
       "eslint --fix"
     ],
-    "*": [
-      "prettier --ignore-unknown --check --write"
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --ignore-unknown --write"
     ]
   },
   "dependencies": {

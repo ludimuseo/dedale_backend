@@ -1,11 +1,24 @@
 import tailwind3dtransforms from '@xpd/tailwind-3dtransforms'
-import type { Config } from 'tailwindcss'
+import { type Config } from 'tailwindcss'
 
-export default {
+const config: Config = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  darkMode: 'selector',
+  darkMode: 'class',
   plugins: [tailwind3dtransforms],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        button: 'var(--color-buttons)',
+        primary: 'var(--color-primary)',
+        secondary: 'var(--color-secondary)',
+        tertiary: 'var(--color-tertiary)',
+        typography: 'var(--color-typography)',
+      },
+    },
+    fontFamily: {
+      satoshi: ['Satoshi', 'sans-serif'],
+    },
   },
-} satisfies Config
+}
+
+export default config

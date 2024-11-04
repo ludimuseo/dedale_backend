@@ -8,7 +8,7 @@ import {
   setDarkMode,
   type StateTheme,
 } from '@/app/stores/slices/reducerTheme'
-import { type State } from '@/types'
+import { type State, Theme } from '@/types'
 
 const ChangeTheme: FC = () => {
   const { t } = useTranslation()
@@ -21,20 +21,20 @@ const ChangeTheme: FC = () => {
     )
     // Detect if system changed theme
     const detectedSystemChangedTheme = (e: MediaQueryListEvent) => {
-      if (theme === 'SYSTEM') {
+      if (theme === Theme.SYSTEM) {
         dispatch(setDarkMode(e.matches))
       }
     }
     if ('addEventListener' in mediaWatcher) {
       mediaWatcher.addEventListener('change', detectedSystemChangedTheme)
       switch (theme) {
-        case 'DARK':
+        case Theme.DARK:
           dispatch(setDarkMode(true))
           break
-        case 'LIGHT':
+        case Theme.LIGHT:
           dispatch(setDarkMode(false))
           break
-        case 'SYSTEM':
+        case Theme.SYSTEM:
           dispatch(
             setDarkMode(
               window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -59,9 +59,9 @@ const ChangeTheme: FC = () => {
           name="change-theme"
           uid="change-theme-light"
           value="LIGHT"
-          checked={theme === 'LIGHT'}
+          checked={theme === Theme.LIGHT}
           errors={[]}
-          onChange={() => dispatch(changeTheme('LIGHT'))}
+          onChange={() => dispatch(changeTheme(Theme.LIGHT))}
         />
 
         <Input
@@ -70,9 +70,9 @@ const ChangeTheme: FC = () => {
           name="change-theme"
           uid="change-theme-dark"
           value="DARK"
-          checked={theme === 'DARK'}
+          checked={theme === Theme.DARK}
           errors={[]}
-          onChange={() => dispatch(changeTheme('DARK'))}
+          onChange={() => dispatch(changeTheme(Theme.DARK))}
         />
 
         <Input
@@ -81,9 +81,9 @@ const ChangeTheme: FC = () => {
           name="change-theme"
           uid="change-theme-system"
           value="SYSTEM"
-          checked={theme === 'SYSTEM'}
+          checked={theme === Theme.SYSTEM}
           errors={[]}
-          onChange={() => dispatch(changeTheme('SYSTEM'))}
+          onChange={() => dispatch(changeTheme(Theme.SYSTEM))}
         />
       </div>
     </>

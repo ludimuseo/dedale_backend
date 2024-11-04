@@ -13,6 +13,9 @@ export default defineConfig({
   },
   plugins: [react()],
   resolve: {
-    alias: [{ find: '@', replacement: resolve(__dirname, 'src') }],
+    alias: [
+      { find: '@', replacement: resolve(__dirname, 'src') },
+      { find: '@style', replacement: resolve(__dirname, 'src/assets/scss') },
+    ],
   },
 })
