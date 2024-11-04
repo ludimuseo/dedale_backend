@@ -1,3 +1,4 @@
+@use 'sass:meta';
 /*
 //// ./scss
 ////  |____ ./fonts
@@ -18,17 +19,17 @@
 @tailwind variants;
 
 @layer base {
-  @use '@style/tailwind/base';
+  @include meta.load-css('tailwind/base');
 }
 
 @layer components {
-  @use '@style/tailwind/components';
+  @include meta.load-css('tailwind/components');
 }
 
 @layer utilities {
-  @use '@style/tailwind/utilities';
+  @include meta.load-css('tailwind/utilities');
 }
 
 @layer variants {
-  @use '@style/tailwind/utilities';
+  @include meta.load-css('tailwind/utilities');
 }

@@ -1,5 +1,5 @@
-@use '@style/variables/colors' as color;
-@import '@style/variables';
+@use '../variables/colors' as color;
+@use '../variables/globals' as global;
 
 :root {
   font-synthesis: none;
@@ -23,7 +23,7 @@ html:root {
 
   &[data-theme='dark'] {
     --color-buttons: #aaa;
-    --color-primary: #{$test};
+    --color-primary: #{global.$test};
     --color-secondary: #aaa;
     --color-tertiary: #aaa;
     --color-typography: #aaa;
