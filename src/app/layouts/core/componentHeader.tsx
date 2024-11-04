@@ -7,11 +7,7 @@ import { signOut } from '@/app/stores/slices/reducerAuth'
 import logoDedale1 from '@/assets/imgs/logoDedale_v2.webp'
 import { type State } from '@/types'
 
-// import { useTranslation } from 'react-i18next'
-// import { Link } from 'react-router-dom'
-
 const HeaderComponent: FC = () => {
-  // const { t } = useTranslation()
   const isLogged: boolean = useAppSelector(
     (state: State) => state.auth.isLogged
   )
@@ -34,13 +30,9 @@ const HeaderComponent: FC = () => {
             </div>
           )}
         </div>
-        <div className="text-black">
+        <div>
           {isLogged && (
-            <button
-              className="bg-slate-400"
-              onClick={() => dispatch(signOut())}>
-              SIGN OUT
-            </button>
+            <button onClick={() => dispatch(signOut())}>SIGN OUT</button>
           )}
           <ChangeLanguage />
           <ChangeTheme />

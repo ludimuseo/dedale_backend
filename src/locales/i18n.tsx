@@ -10,13 +10,14 @@ const options: InitOptions = {
   cleanCode: true,
   debug: process.env.NODE_ENV !== 'production',
   detection: {
-    lookupQuerystring: 'lang',
+    lookupLocalStorage: 'lang',
+    order: ['localStorage', 'navigator'],
   },
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false,
+    formatSeparator: '|',
   },
-  lng: 'fr',
   lowerCaseLng: true,
   supportedLngs: ['en', 'fr'],
 }

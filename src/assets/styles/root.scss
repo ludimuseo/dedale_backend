@@ -1,18 +1,20 @@
-@use 'sass:meta';
 /*
 //// ./scss
 ////  |____ ./fonts
 ////         |____ ./satoshi.scss
 ////  |____ ./_mixins.scss
-////  |____ ./styles.scss <= (root file)
-////  |____ ./_tw_base.scss
-////  |____ ./_tw_components.scss
-////  |____ ./_tw_utilities.scss
-////  |____ ./_tw_variants.scss
+////  |____ ./root.scss <= (root file)
+////  |____ ./tailwind
+////         |____ ./base.scss
+////         |____ ./components.scss
+////         |____ ./utilities.scss
+////         |____ ./variants.scss
 ////  |____ ./variables
-////         |____ ./_index.scss
-////         |____ ./_colours.scss
+////         |____ ./_globals.scss
+////         |____ ./_colors.scss
 */
+@use 'sass:meta';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -31,5 +33,5 @@
 }
 
 @layer variants {
-  @include meta.load-css('tailwind/utilities');
+  @include meta.load-css('tailwind/variants');
 }

@@ -40,24 +40,6 @@ export const sliceTheme = createSlice({
         default:
           break
       }
-      // if (state.theme === Theme.CUSTOM) {
-      //   //
-      // }
-      // state.isDark = action.payload
-      // console.info('state.isDark: ', state.isDark)
-      // Add Theme to 'HTML html Element'
-      // document.documentElement.className = state.isDark ? 'dark' : 'light'
-      // Add Theme to 'HTML body Element'
-      // document.body.classList.toggle(!state.isDark ? 'dark' : 'light', false)
-      // document.body.classList.toggle(state.isDark ? 'dark' : 'light', true)
-      // document.body.classList.toggle()
-      // .documentElement.setAttribute(
-      //   'data-theme',
-      //   state.isDark ? 'dark' : 'light'
-      // )
-      // if ()
-      const a = 'DARK'
-      console.info(a, typeof state.theme)
     },
   },
 })

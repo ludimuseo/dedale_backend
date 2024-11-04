@@ -1,18 +1,16 @@
 @use '../variables/colors' as color;
 @use '../variables/globals' as global;
 
-:root {
+html:root {
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: auto;
   @apply leading-normal antialiased;
-}
 
-body {
-  @apply bg-primary;
-}
+  body {
+    @apply bg-primary;
+  }
 
-html:root {
   &[data-theme='light'] {
     --color-buttons: #aaa;
     --color-primary: #{color.$red};
@@ -23,7 +21,7 @@ html:root {
 
   &[data-theme='dark'] {
     --color-buttons: #aaa;
-    --color-primary: #{global.$test};
+    --color-primary: #{color.$red};
     --color-secondary: #aaa;
     --color-tertiary: #aaa;
     --color-typography: #aaa;

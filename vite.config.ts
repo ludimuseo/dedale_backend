@@ -15,7 +15,7 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: '@', replacement: resolve(__dirname, 'src') },
-      { find: '@style', replacement: resolve(__dirname, 'src/assets/scss') },
+      { find: '@style', replacement: resolve(__dirname, 'src/assets/styles') },
     ],
   },
 })

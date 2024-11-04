@@ -14,11 +14,8 @@ import SpinIcon from '@/assets/icons/SpinIcon'
 import { auth, db } from '@/firebase/firebase'
 import { type User } from '@/types/user'
 
-// import { type Location, type NavigateFunction, useLocation, useNavigate } from 'react-router-dom'
-
 const AuthSignIn: FC = () => {
   const { t } = useTranslation()
-  // const location: Location = useLocation()
   const navigate: NavigateFunction = useNavigate()
   const dispatch = useAppDispatch()
   const emailRef = useRef<HTMLInputElement | null>(null)
@@ -62,10 +59,6 @@ const AuthSignIn: FC = () => {
               uid: user.uid,
             } satisfies User)
           )
-          // console.info('state: ', location)
-          // const test = () => navigate(state)
-          // test()
-          // navigate('/auth/signin', { replace: true, state: { from: location } })
           navigate('/', { replace: true })
         })
         .catch((err: unknown) => {
@@ -102,7 +95,6 @@ const AuthSignIn: FC = () => {
           icon={
             <>
               <LockIcon
-                className="cursor-pointer hover:animate-pulse"
                 onClick={() => {
                   setShowPassword(!showPassword)
                 }}
@@ -111,7 +103,7 @@ const AuthSignIn: FC = () => {
           }
         />
         {/* Button Submit */}
-        <button type="submit" className="flex justify-center gap-x-2">
+        <button type="submit">
           {t('button.signin')}
           {showLoader && (
             <span className="motion-safe:animate-spin">

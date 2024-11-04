@@ -20,9 +20,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {!!errors.length && (
             <ul>
               {errors.map((message, key) => (
-                <li key={key} className="text-red-400">
-                  {message}
-                </li>
+                <li key={key}>{message}</li>
               ))}
             </ul>
           )}
