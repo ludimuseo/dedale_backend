@@ -5,7 +5,7 @@ import { initReactI18next } from 'react-i18next'
 
 const options: InitOptions = {
   backend: {
-    loadPath: '/src/locales/{{lng}}/{{ns}}.json',
+    loadPath: '/src/app/services/i18n/{{lng}}/{{ns}}.json',
   },
   cleanCode: true,
   debug: process.env.NODE_ENV !== 'production',

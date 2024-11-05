@@ -21,17 +21,81 @@
 @tailwind variants;
 
 @layer base {
-  @include meta.load-css('tailwind/base');
+  @include meta.load-css('@style/tailwind/base');
 }
 
 @layer components {
-  @include meta.load-css('tailwind/components');
+  @include meta.load-css('@style/tailwind/components');
 }
 
 @layer utilities {
-  @include meta.load-css('tailwind/utilities');
+  @include meta.load-css('@style/tailwind/utilities');
 }
 
 @layer variants {
-  @include meta.load-css('tailwind/variants');
+  @include meta.load-css('@style/tailwind/variants');
+}
+
+/* Layouts */
+div#layout-auth,
+div#layout-default {
+  @apply flex h-full;
+  header {
+    @apply h-24 w-full;
+  }
+}
+div#layout-auth {
+  @apply flex-col;
+  > main {
+    @apply flex flex-1 flex-row;
+    > section {
+      @apply flex flex-1 items-center justify-center px-4 md:px-16 xl:px-32;
+      > div,
+      form {
+        @apply w-full;
+      }
+      &#auth-info {
+        @apply max-lg:hidden;
+        figure {
+          @apply pb-4;
+        }
+        p {
+          @apply mx-auto my-0 text-center;
+        }
+      }
+    }
+  }
+}
+
+$sidebar-width: 15rem; // 240px
+div#layout-default {
+  @apply flex-row;
+
+  > div#outer-content {
+    @apply flex flex-1 flex-col transition-transform duration-300;
+    @apply translate-x-0 translate-y-0 transform translate-z-0;
+
+    > main.content {
+      @apply flex-1 border-2;
+    }
+  }
+
+  > aside#menu-sidebar {
+    @apply w-[#{$sidebar-width}] absolute left-0 h-full transition-transform duration-300;
+    @apply -translate-x-[#{$sidebar-width}] translate-y-0 transform translate-z-0;
+  }
+
+  > input#checkbox-toggle-sidebar {
+    @apply absolute opacity-0;
+
+    &:checked {
+      + div#outer-content {
+        @apply translate-x-[#{$sidebar-width}] translate-y-0 transform translate-z-0;
+      }
+
+      + aside#menu-sidebar {
+        @apply translate-x-0 translate-y-0 transform translate-z-0;
+      }
+    }
+  }
 }

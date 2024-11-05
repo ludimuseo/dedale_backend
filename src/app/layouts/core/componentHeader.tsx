@@ -1,10 +1,10 @@
+import { signOut } from '@service/redux/slices/reducerAuth'
 import { type FC } from 'react'
 
-import ChangeLanguage from '@/app/components/changeLanguage'
-import ChangeTheme from '@/app/components/changeTheme'
+import ChangeLanguage from '@/app/components/general/changeLanguage'
+import ChangeTheme from '@/app/components/general/changeTheme'
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
-import { signOut } from '@/app/stores/slices/reducerAuth'
-import logoDedale1 from '@/assets/imgs/logoDedale_v2.webp'
+import DedaleLogo from '@/app/icons/_DedaleLogo'
 import { type State } from '@/types'
 
 const HeaderComponent: FC = () => {
@@ -24,9 +24,7 @@ const HeaderComponent: FC = () => {
           )}
           {isLogged && (
             <div className="logo-container">
-              <figure>
-                <img width={'160px'} src={logoDedale1} alt="Logo" />
-              </figure>
+              <DedaleLogo width={140} />
             </div>
           )}
         </div>

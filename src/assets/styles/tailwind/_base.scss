@@ -1,101 +1,202 @@
-@use '../variables/colors' as color;
-@use '../variables/globals' as global;
+/* //tailwind/_base.scss */
+@use '@style/variables/colors' as c;
+@use '@style/variables/globals' as global;
 
-html:root {
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: auto;
-  @apply leading-normal antialiased;
-
-  body {
-    @apply bg-primary;
-  }
-
-  &[data-theme='light'] {
-    --color-buttons: #aaa;
-    --color-primary: #{color.$red};
-    --color-secondary: #aaa;
-    --color-tertiary: #aaa;
-    --color-typography: #aaa;
-  }
+/*
+// DEFAULT: light theme
+// No need to use [data-theme='light']
+*/
+:root {
+  --color-bg-button: #{c.$warmBlue};
+  --color-bg-primary: #{c.$white};
+  --color-bg-secondary: #{c.$test};
+  --color-bg-tertiary: #{c.$test};
+  --color-text-button: #{c.$test};
+  --color-text-primary: #{c.$dark};
+  --color-text-secondary: #{c.$test};
+  --color-text-tertiary: #{c.$test};
 
   &[data-theme='dark'] {
-    --color-buttons: #aaa;
-    --color-primary: #{color.$red};
-    --color-secondary: #aaa;
-    --color-tertiary: #aaa;
-    --color-typography: #aaa;
+    --color-bg-button: #{c.$warmBlue};
+    --color-bg-primary: #{c.$darkSlateGrey};
+    --color-bg-secondary: #{c.$test};
+    --color-bg-tertiary: #{c.$test};
+    --color-text-button: #{c.$test};
+    --color-text-primary: #{c.$white};
+    --color-text-secondary: #{c.$test};
+    --color-text-tertiary: #{c.$test};
   }
 
+  /*
   //// https://fr.wikipedia.org/wiki/Tetrachromatisme => Tétrachromatie
+  */
   &[data-theme='tetrachromacy'] {
-    --color-buttons: #aaa;
-    --color-primary: #aaa;
-    --color-secondary: #aaa;
-    --color-tertiary: #aaa;
-    --color-typography: #aaa;
+    --color-bg-button: #{c.$warmBlue};
+    --color-bg-primary: #{c.$test};
+    --color-bg-secondary: #{c.$test};
+    --color-bg-tertiary: #{c.$test};
+    --color-text-button: #{c.$test};
+    --color-text-primary: #{c.$test};
+    --color-text-secondary: #{c.$test};
+    --color-text-tertiary: #{c.$test};
   }
 
+  /*
   //// https://fr.wikipedia.org/wiki/Daltonisme => Achromatopsie
+  */
   &[data-theme='achromatopsia'] {
-    --color-buttons: #aaa;
-    --color-primary: #aaa;
-    --color-secondary: #aaa;
-    --color-tertiary: #aaa;
-    --color-typography: #aaa;
+    --color-bg-button: #{c.$warmBlue};
+    --color-bg-primary: #{c.$test};
+    --color-bg-secondary: #{c.$test};
+    --color-bg-tertiary: #{c.$test};
+    --color-text-button: #{c.$test};
+    --color-text-primary: #{c.$test};
+    --color-text-secondary: #{c.$test};
+    --color-text-tertiary: #{c.$test};
   }
 
+  /*
   //// https://fr.wikipedia.org/wiki/Daltonisme => Protanopie
+  */
   &[data-theme='protanopia'] {
-    --color-buttons: #aaa;
-    --color-primary: #aaa;
-    --color-secondary: #aaa;
-    --color-tertiary: #aaa;
-    --color-typography: #aaa;
+    --color-bg-button: #{c.$warmBlue};
+    --color-bg-primary: #{c.$test};
+    --color-bg-secondary: #{c.$test};
+    --color-bg-tertiary: #{c.$test};
+    --color-text-button: #{c.$test};
+    --color-text-primary: #{c.$test};
+    --color-text-secondary: #{c.$test};
+    --color-text-tertiary: #{c.$test};
   }
 
+  /*
   //// https://fr.wikipedia.org/wiki/Daltonisme => Protanomalie
+  */
   &[data-theme='protanomaly'] {
-    --color-buttons: #aaa;
-    --color-primary: #aaa;
-    --color-secondary: #aaa;
-    --color-tertiary: #aaa;
-    --color-typography: #aaa;
+    --color-bg-button: #{c.$warmBlue};
+    --color-bg-primary: #{c.$test};
+    --color-bg-secondary: #{c.$test};
+    --color-bg-tertiary: #{c.$test};
+    --color-text-button: #{c.$test};
+    --color-text-primary: #{c.$test};
+    --color-text-secondary: #{c.$test};
+    --color-text-tertiary: #{c.$test};
   }
 
+  /*
   //// https://fr.wikipedia.org/wiki/Daltonisme => Deutéranopie
+  */
   &[data-theme='deuteranopia'] {
-    --color-buttons: #aaa;
-    --color-primary: #aaa;
-    --color-secondary: #aaa;
-    --color-tertiary: #aaa;
-    --color-typography: #aaa;
+    --color-bg-button: #{c.$warmBlue};
+    --color-bg-primary: #{c.$test};
+    --color-bg-secondary: #{c.$test};
+    --color-bg-tertiary: #{c.$test};
+    --color-text-button: #{c.$test};
+    --color-text-primary: #{c.$test};
+    --color-text-secondary: #{c.$test};
+    --color-text-tertiary: #{c.$test};
   }
 
+  /*
   //// https://fr.wikipedia.org/wiki/Daltonisme => Deutéranomalie
+  */
   &[data-theme='deuteranomaly'] {
-    --color-buttons: #aaa;
-    --color-primary: #aaa;
-    --color-secondary: #aaa;
-    --color-tertiary: #aaa;
-    --color-typography: #aaa;
+    --color-bg-button: #{c.$warmBlue};
+    --color-bg-primary: #{c.$test};
+    --color-bg-secondary: #{c.$test};
+    --color-bg-tertiary: #{c.$test};
+    --color-text-button: #{c.$test};
+    --color-text-primary: #{c.$test};
+    --color-text-secondary: #{c.$test};
+    --color-text-tertiary: #{c.$test};
   }
 
+  /*
   //// https://fr.wikipedia.org/wiki/Daltonisme => Tritanopie
+  */
   &[data-theme='tritanopia'] {
-    --color-buttons: #aaa;
-    --color-primary: #aaa;
-    --color-secondary: #aaa;
-    --color-tertiary: #aaa;
-    --color-typography: #aaa;
+    --color-bg-button: #{c.$warmBlue};
+    --color-bg-primary: #{c.$test};
+    --color-bg-secondary: #{c.$test};
+    --color-bg-tertiary: #{c.$test};
+    --color-text-button: #{c.$test};
+    --color-text-primary: #{c.$test};
+    --color-text-secondary: #{c.$test};
+    --color-text-tertiary: #{c.$test};
   }
 
-  //// https://fr.wikipedia.org/wiki/Daltonisme => Tritanomalie
+  /*
+  /// https://fr.wikipedia.org/wiki/Daltonisme => Tritanomalie
+  */
   &[data-theme='tritanomaly'] {
-    --color-buttons: #aaa;
-    --color-primary: #aaa;
-    --color-secondary: #aaa;
-    --color-tertiary: #aaa;
-    --color-typography: #aaa;
+    --color-bg-button: #{c.$warmBlue};
+    --color-bg-primary: #{c.$test};
+    --color-bg-secondary: #{c.$test};
+    --color-bg-tertiary: #{c.$test};
+    --color-text-button: #{c.$test};
+    --color-text-primary: #{c.$test};
+    --color-text-secondary: #{c.$test};
+    --color-text-tertiary: #{c.$test};
+  }
+}
+
+html,
+:host {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+
+  @apply h-full min-h-screen select-none font-satoshi antialiased;
+}
+
+body,
+#root {
+  @apply h-[inherit];
+}
+
+body {
+  @apply bg-primary text-primary transition-[background-color,color] duration-300;
+}
+
+h1 {
+  @apply text-3xl;
+}
+
+h2 {
+  @apply text-2xl;
+}
+
+h3 {
+  @apply text-xl;
+}
+
+h4 {
+  @apply text-lg;
+}
+
+p {
+  @apply text-base;
+}
+
+a {
+  @apply decoration-inherit;
+}
+
+form {
+  @apply flex flex-col;
+}
+
+figure,
+img,
+svg {
+  /* // Disable 'dragging' */
+  @apply pointer-events-none;
+}
+
+figure {
+  > img {
+    @apply mx-auto my-0;
+  }
+  > figcaption {
+    @apply text-justify;
   }
 }

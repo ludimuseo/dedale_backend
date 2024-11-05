@@ -8,11 +8,11 @@
     "build": "cross-env NODE_ENV=production tsc -b && vite build --mode production",
     "lint": "eslint .",
     "format": "prettier --ignore-unknown --check .",
-    "fix": "eslint --fix . && prettier --ignore-unknown --check --write .",
+    "fix": "eslint --fix . && prettier --ignore-unknown --check --write . && stylelint --fix src/**/*.scss",
     "preview": "vite preview",
     "prepare": "husky install",
     "commitlint": "commitlint --edit",
-    "stylelint": "stylelint --fix **/*.scss"
+    "stylelint": "stylelint --fix src/**/*.scss"
   },
   "lint-staged": {
     "src/**/*.{css,scss}": [

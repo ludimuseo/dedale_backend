@@ -7,12 +7,17 @@ const config: Config = {
   plugins: [tailwind3dtransforms],
   theme: {
     extend: {
-      colors: {
-        button: 'var(--color-buttons)',
-        primary: 'var(--color-primary)',
-        secondary: 'var(--color-secondary)',
-        tertiary: 'var(--color-tertiary)',
-        typography: 'var(--color-typography)',
+      backgroundColor: {
+        button: 'var(--color-bg-button)',
+        primary: 'var(--color-bg-primary)',
+        secondary: 'var(--color-bg-secondary)',
+        tertiary: 'var(--color-bg-tertiary)',
+      },
+      textColor: {
+        button: 'var(--color-text-button)',
+        primary: 'var(--color-text-primary)',
+        secondary: 'var(--color-text-secondary)',
+        tertiary: 'var(--color-text-tertiary)',
       },
     },
     fontFamily: {

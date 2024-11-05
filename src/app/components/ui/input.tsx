@@ -3,12 +3,12 @@ import { forwardRef } from 'react'
 import { type InputProps } from '@/types'
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ uid, label, icon, errors, ...props }, ref) => {
+  ({ uid, label, icon, insideForm, errors, ...props }, ref) => {
     return (
       <>
-        <div>
+        <div className={insideForm ? 'form--group' : ''}>
           <label htmlFor={uid}>{label}</label>
-          <div>
+          <div className="relative">
             <input
               id={uid}
               ref={ref}

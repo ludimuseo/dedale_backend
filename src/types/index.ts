@@ -1,11 +1,10 @@
+import { StateAuth } from '@service/redux/slices/reducerAuth'
+import { StateTheme } from '@service/redux/slices/reducerTheme'
 import type {
   ComponentProps,
   ComponentPropsWithoutRef,
   ReactElement,
 } from 'react'
-
-import { StateAuth } from '@/app/stores/slices/reducerAuth'
-import { StateTheme } from '@/app/stores/slices/reducerTheme'
 
 export enum Theme {
   DARK = 'DARK',
@@ -21,6 +20,7 @@ export type InputProps = {
   label: string
   errors: string[]
   icon?: ReactElement
+  insideForm: boolean
 } & ComponentPropsWithoutRef<'input'>
 
 export interface State {

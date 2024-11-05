@@ -1,16 +1,16 @@
+import { signIn } from '@service/redux/slices/reducerAuth'
 import { signInWithEmailAndPassword, type UserCredential } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
 import { type FC, type FormEvent, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type NavigateFunction, useNavigate } from 'react-router-dom'
 
-import Input from '@/app/components/input'
+import Input from '@/app/components/ui/input'
 import { useAppDispatch } from '@/app/hooks'
 import useInput from '@/app/hooks/useInput'
-import { signIn } from '@/app/stores/slices/reducerAuth'
-import EnvelopeIcon from '@/assets/icons/EnvelopeIcon'
-import LockIcon from '@/assets/icons/LockIcon'
-import SpinIcon from '@/assets/icons/SpinIcon'
+import EnvelopeIcon from '@/app/icons/EnvelopeIcon'
+import LockIcon from '@/app/icons/LockIcon'
+import SpinIcon from '@/app/icons/SpinIcon'
 import { auth, db } from '@/firebase/firebase'
 import { type User } from '@/types/user'
 
@@ -75,6 +75,8 @@ const AuthSignIn: FC = () => {
       <form id="form-signin" onSubmit={handleSubmit}>
         {/* Input Email */}
         <Input
+          insideForm={true}
+          className="form--input"
           label={t('label.email')}
           placeholder={t('input.placeholder.email')}
           type="email"
@@ -88,6 +90,8 @@ const AuthSignIn: FC = () => {
         />
         {/* Input Password */}
         <Input
+          insideForm={true}
+          className="form--input"
           label={t('label.password')}
           placeholder={t('input.placeholder.password')}
           type={showPassword ? 'text' : 'password'}
@@ -103,8 +107,8 @@ const AuthSignIn: FC = () => {
           }
         />
         {/* Button Submit */}
-        <button type="submit">
-          {t('button.signin')}
+        <button type="submit" className="btn--primary">
+          {t('button.signin')}&nbsp;
           {showLoader && (
             <span className="motion-safe:animate-spin">
               <SpinIcon className="-scale-x-[1]" />

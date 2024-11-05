@@ -1,13 +1,13 @@
-import { type FC, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-
-import Input from '@/app/components/input'
-import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import {
   changeTheme,
   setDarkMode,
   type StateTheme,
-} from '@/app/stores/slices/reducerTheme'
+} from '@service/redux/slices/reducerTheme'
+import { type FC, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+
+import Input from '@/app/components/ui/input'
+import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { type State, Theme } from '@/types'
 
 const ChangeTheme: FC = () => {
@@ -42,6 +42,7 @@ const ChangeTheme: FC = () => {
           )
           break
         default:
+          console.info('IGNORE -> Theme.CUSTOM ... for now')
           break
       }
     }
@@ -62,6 +63,7 @@ const ChangeTheme: FC = () => {
           checked={theme === Theme.LIGHT}
           errors={[]}
           onChange={() => dispatch(changeTheme(Theme.LIGHT))}
+          insideForm={false}
         />
 
         <Input
@@ -73,6 +75,7 @@ const ChangeTheme: FC = () => {
           checked={theme === Theme.DARK}
           errors={[]}
           onChange={() => dispatch(changeTheme(Theme.DARK))}
+          insideForm={false}
         />
 
         <Input
@@ -84,6 +87,7 @@ const ChangeTheme: FC = () => {
           checked={theme === Theme.SYSTEM}
           errors={[]}
           onChange={() => dispatch(changeTheme(Theme.SYSTEM))}
+          insideForm={false}
         />
       </div>
     </>

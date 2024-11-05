@@ -2,25 +2,23 @@ import { type FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 
-import { useAppSelector } from '@/app/hooks'
+import DedaleLogo from '@/app/icons/_DedaleLogo'
 import HeaderComponent from '@/app/layouts/core/componentHeader'
-import logoDedale2 from '@/assets/imgs/logoDedale_v1.webp'
-import logoDedale1 from '@/assets/imgs/logoDedale_v2.webp'
-import { State } from '@/types'
 
 const LayoutDefault: FC = () => {
   const { t } = useTranslation()
-  const isDark: boolean = useAppSelector((state: State) => state.theme.isDark)
   return (
     <>
       <div id="layout-auth">
         <HeaderComponent />
         <main>
-          <section className="auth-info">
-            <img src={isDark ? logoDedale1 : logoDedale2} />
-            <p>{t('text.description')}</p>
+          <section id="auth-info">
+            <div>
+              <DedaleLogo width={240} />
+              <p className="max-w-sm">{t('text.description')}</p>
+            </div>
           </section>
-          <section className="auth-form">
+          <section id="auth-form">
             <Outlet context={[]} />
           </section>
         </main>
