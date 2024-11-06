@@ -106,6 +106,9 @@ const AuthSignIn: FC = () => {
             </>
           }
         />
+        <button>
+          <span>pouvoir aux hommes!!! lol</span>
+        </button>
         {/* Button Submit */}
         <button type="submit" className="btn--primary">
           {t('button.signin')}&nbsp;
