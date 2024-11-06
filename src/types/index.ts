@@ -1,5 +1,5 @@
-import { StateAuth } from '@service/redux/slices/reducerAuth'
-import { StateTheme } from '@service/redux/slices/reducerTheme'
+import type { StateAuth } from '@service/redux/slices/reducerAuth'
+import type { StateTheme } from '@service/redux/slices/reducerTheme'
 import type {
   ComponentProps,
   ComponentPropsWithoutRef,

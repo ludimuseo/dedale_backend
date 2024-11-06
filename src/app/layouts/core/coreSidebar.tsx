@@ -1,4 +1,4 @@
-import { type FC } from 'react'
+import type { FC } from 'react'
 
 import DedaleLogo from '@/app/icons/_DedaleLogo'
 import ArrowLeftIcon from '@/app/icons/ArrowLeftIcon'

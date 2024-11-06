@@ -1,4 +1,4 @@
-import { type FC } from 'react'
+import type { FC } from 'react'
 import { Outlet } from 'react-router-dom'
 
 import CoreHeader from '@/app/layouts/core/coreHeader'

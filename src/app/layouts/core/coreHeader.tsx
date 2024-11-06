@@ -1,11 +1,11 @@
 import { signOut } from '@service/redux/slices/reducerAuth'
-import { type FC } from 'react'
+import type { FC } from 'react'
 
 import ChangeLanguage from '@/app/components/general/changeLanguage'
 import ChangeTheme from '@/app/components/general/changeTheme'
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import DedaleLogo from '@/app/icons/_DedaleLogo'
-import { type State } from '@/types'
+import type { State } from '@/types'
 
 const CoreHeader: FC = () => {
   const isLogged: boolean = useAppSelector(

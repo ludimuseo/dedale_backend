@@ -1,9 +1,9 @@
-import { type ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 
 import { useAppSelector } from '@/app/hooks'
 import logoDedale2 from '@/assets/imgs/logoDedale_v1.webp'
 import logoDedale1 from '@/assets/imgs/logoDedale_v2.webp'
-import { type State } from '@/types'
+import type { State } from '@/types'
 
 type DedaleLogoProps = ComponentProps<'img'> & {
   width: number

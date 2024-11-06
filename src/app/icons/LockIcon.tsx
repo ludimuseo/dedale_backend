@@ -1,4 +1,4 @@
-import { type SvgProps } from '@/types'
+import type { SvgProps } from '@/types'
 
 const LockIcon = ({ ...props }: SvgProps) => {
   return (

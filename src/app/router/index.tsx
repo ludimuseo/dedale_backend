@@ -1,5 +1,9 @@
-import { type Router as RemixRouter } from '@remix-run/router'
-import { createBrowserRouter, Navigate, RouteObject } from 'react-router-dom'
+import type { Router as RemixRouter } from '@remix-run/router'
+import {
+  createBrowserRouter,
+  Navigate,
+  type RouteObject,
+} from 'react-router-dom'
 
 import LayoutAuth from '@/app/layouts/layoutAuth'
 import LayoutDefault from '@/app/layouts/layoutDefault'

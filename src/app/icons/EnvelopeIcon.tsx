@@ -1,4 +1,4 @@
-import { type SvgProps } from '@/types'
+import type { SvgProps } from '@/types'
 
 const EnvelopeIcon = ({ ...props }: SvgProps) => {
   return (

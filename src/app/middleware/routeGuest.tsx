@@ -1,8 +1,8 @@
-import { type PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 import { Navigate } from 'react-router-dom'
 
 import { useAppSelector } from '@/app/hooks'
-import { type State } from '@/types'
+import type { State } from '@/types'
 
 type RouteGuestProps = PropsWithChildren
 
