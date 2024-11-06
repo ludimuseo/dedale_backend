@@ -1,66 +1,135 @@
-@use 'sass:meta';
 /*
-  Based on TailwindCSS recommendations,
-  consider using classes instead of the `@apply` directive
-  @see https://tailwindcss.com/docs/reusing-styles#avoiding-premature-abstraction
+//// ./styles
+////  |____ ./fonts
+////         |____ ./satoshi.scss
+////  |____ ./_mixins.scss
+////  |____ ./tailwind
+////         |____ ./base.scss
+////         |____ ./components.scss
+////         |____ ./utilities.scss
+////         |____ ./variants.scss
+////  |____ ./variables
+////         |____ ./_colors.scss
+////         |____ ./_globals.scss
+////  |____ ./root.scss <= (root file)
 */
+@use 'sass:meta';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind variants;
 
-@include meta.load-css('mixins');
-@include meta.load-css('core');
-
-@include meta.load-css('forms');
-@include meta.load-css('inputs');
-@include meta.load-css('buttons');
-
-:root {
-  @apply leading-normal font-normal text-[rgba(255,255,255,0.87)] bg-[#242424];
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  color-scheme: light dark;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  @include meta.load-css('@style/tailwind/base');
 }
 
-a {
-  @apply font-medium text-[#646cff] hover:text-[#535bf2];
-  text-decoration: inherit;
+@layer components {
+  @include meta.load-css('@style/tailwind/components');
 }
 
-body {
-  @apply flex place-items-center min-w-[320px] min-h-screen m-0;
+@layer utilities {
+  @include meta.load-css('@style/tailwind/utilities');
 }
 
-h1 {
-  @apply text-[3.2em] leading-[1.1];
+@layer variants {
+  @include meta.load-css('@style/tailwind/variants');
 }
 
-button {
-  @apply border text-[1em] font-medium bg-[#1a1a1a] cursor-pointer transition-[border-color] duration-[0.25s] px-[1.2em] py-[0.6em] rounded-lg border-solid border-transparent hover:border-[#646cff];
-  font-family: inherit;
-}
-
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-form,
-form > label {
-  @apply flex flex-col;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    @apply text-[#213547] bg-white;
+/* Layouts */
+div#layout-auth,
+div#layout-default {
+  @apply flex h-full;
+  header {
+    @apply h-24 w-full;
   }
-  a:hover {
-    @apply text-[#747bff];
+}
+div#layout-auth {
+  @apply flex-col;
+  > main {
+    @apply flex flex-1 flex-row;
+    > section {
+      @apply flex flex-1 items-center justify-center px-4 md:px-16 xl:px-32;
+      > div,
+      form {
+        @apply w-full;
+      }
+      &#auth-info {
+        @apply max-lg:hidden;
+        figure {
+          @apply pb-4;
+        }
+        p {
+          @apply mx-auto my-0 text-center;
+        }
+      }
+    }
   }
-  button {
-    @apply bg-[#f9f9f9];
+}
+
+/* Sidebar Menu */
+$sidebar-width: 15rem;
+label[for='checkbox-toggle-sidebar'] {
+  @apply cursor-pointer;
+}
+div#layout-default {
+  @apply flex-row;
+
+  > div#outer-content {
+    @apply flex flex-1 flex-col transition-transform duration-300;
+    @apply translate-x-0 translate-y-0 transform translate-z-0;
+
+    > main.content {
+      @apply flex-1 border-2;
+    }
+  }
+
+  > aside#menu-sidebar {
+    @apply w-[#{$sidebar-width}] absolute left-0 h-full bg-indigo-950 text-white transition-transform duration-300;
+    @apply -translate-x-[#{$sidebar-width}] translate-y-0 transform translate-z-0;
+    @apply flex flex-col;
+
+    .logo-container {
+      @apply flex flex-row items-center justify-around py-4;
+    }
+
+    .container {
+      @apply bg-blue-800 px-8 py-4;
+    }
+  }
+
+  > input#checkbox-toggle-sidebar {
+    @apply absolute opacity-0;
+
+    &:checked {
+      ~ div#outer-content {
+        @apply translate-x-[#{$sidebar-width}] translate-y-0 transform translate-z-0;
+      }
+
+      ~ aside#menu-sidebar {
+        @apply translate-x-0 translate-y-0 transform translate-z-0;
+      }
+    }
+  }
+}
+
+/* Header */
+header {
+  @apply flex flex-row justify-between;
+
+  div#header-left {
+    @apply flex flex-row gap-x-4;
+    .toggle-sidebar,
+    .logo-container {
+      @apply mx-0 my-auto;
+    }
+  }
+  div#header-right {
+    @apply flex flex-row items-center justify-center;
+  }
+
+  div#change-theme,
+  div#change-language {
+    @apply flex flex-row gap-x-4;
   }
 }

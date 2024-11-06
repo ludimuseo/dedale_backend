@@ -9,12 +9,12 @@ import { type Firestore, getFirestore } from 'firebase/firestore'
 // Your web app's Firebase configuration
 const firebaseConfig: FirebaseOptions = {
   apiKey: String(import.meta.env.VITE_FIREBASE_API_KEY),
+  appId: String(import.meta.env.VITE_FIREBASE_APP_ID),
   authDomain: String(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN),
+  measurementId: String(import.meta.env.VITE_FIREBASE_MEASURE_ID),
+  messagingSenderId: String(import.meta.env.VITE_FIREBASE_MSID),
   projectId: String(import.meta.env.VITE_FIREBASE_PROJECT_ID),
   storageBucket: String(import.meta.env.VITE_FIREBASE_STORAGE_BUCKET),
-  messagingSenderId: String(import.meta.env.VITE_FIREBASE_MSID),
-  measurementId: String(import.meta.env.VITE_FIREBASE_MEASURE_ID),
-  appId: String(import.meta.env.VITE_FIREBASE_APP_ID),
 }
 
 // Initialize Firebase

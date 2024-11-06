@@ -23,8 +23,13 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["./src/*"],
+      "@font/*": ["./src/assets/fonts/*"],
+      "@service/*": ["./src/app/services/*"],
+      "@style/*": ["./src/assets/styles/*"]
+    },
+
+    "esModuleInterop": true
   },
   "include": ["src"]
 }

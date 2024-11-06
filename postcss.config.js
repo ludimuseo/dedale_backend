@@ -1,6 +1,8 @@
 export default {
+  syntax: 'postcss-scss',
   plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
+    'postcss-import': {},
+    'tailwindcss': {},
+    'autoprefixer': {},
   },
 }

@@ -1,26 +1,33 @@
-import Input from '@/app/components/input'
-import EnvelopeIcon from '@/assets/icons/EnvelopeIcon'
-import LockIcon from '@/assets/icons/LockIcon'
-import { type FC, type FormEvent, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import useInput from '@/app/hooks/useInput'
+import { signIn } from '@service/redux/slices/reducerAuth'
 import { signInWithEmailAndPassword, type UserCredential } from 'firebase/auth'
-import { auth, db } from '@/firebase/firebase'
-import { useAppDispatch } from '@/app/hooks'
-import { signIn } from '@/app/stores/authReducer'
-import { type User } from '@/types/user'
 import { doc, getDoc } from 'firebase/firestore'
-import { useNavigate } from 'react-router-dom'
-import SpinIcon from '@/assets/icons/SpinIcon'
+import { type FC, type FormEvent, useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { type NavigateFunction, useNavigate } from 'react-router-dom'
+
+import Input from '@/app/components/ui/input'
+import { useAppDispatch } from '@/app/hooks'
+import useInput from '@/app/hooks/useInput'
+import EnvelopeIcon from '@/app/icons/EnvelopeIcon'
+import LockIcon from '@/app/icons/LockIcon'
+import SpinIcon from '@/app/icons/SpinIcon'
+import { auth, db } from '@/firebase/firebase'
+import { type User } from '@/types'
 
 const AuthSignIn: FC = () => {
   const { t } = useTranslation()
-  const navigate = useNavigate()
+  const navigate: NavigateFunction = useNavigate()
   const dispatch = useAppDispatch()
+  const emailRef = useRef<HTMLInputElement | null>(null)
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showLoader, setShowLoader] = useState<boolean>(false)
   const email = useInput('', { name: 'signin-email', type: 'email' })
   const password = useInput('', { name: 'signin-password', type: 'password' })
+
+  // After the page loads, have the Email input focused for immediate typing
+  useEffect(() => {
+    emailRef.current?.focus()
+  }, [])
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -39,27 +46,20 @@ const AuthSignIn: FC = () => {
           // Firestore database
           const docRef = doc(db, 'users', user.uid)
           const docSnapshot = await getDoc(docRef)
-          // const userData:
-          //   | DocumentData
-          //   | { pseudo: string; profile: string; isAdmin: boolean }
-          //   | undefined = docSnapshot.data()
-          console.info(docSnapshot.data())
-
+          const customData = docSnapshot.data()
+          console.info(customData)
+          // Dispatch to User Store
           dispatch(
             signIn({
-              uid: user.uid,
               displayName: user.displayName,
               email: user.email,
               emailVerified: user.emailVerified,
               photoURL: user.photoURL,
-
-              // // Firestore remote database infos
-              // // username: userData?.pseudo,
-              // // role: userData?.profile,
-              // // isAdmin: userData?.isAdmin,
+              role: null,
+              uid: user.uid,
             } satisfies User)
           )
-          navigate('/', { viewTransition: true })
+          navigate('/', { replace: true })
         })
         .catch((err: unknown) => {
           console.error(err)
@@ -75,42 +75,43 @@ const AuthSignIn: FC = () => {
       <form id="form-signin" onSubmit={handleSubmit}>
         {/* Input Email */}
         <Input
+          insideForm={true}
+          className="form--input"
           label={t('label.email')}
           placeholder={t('input.placeholder.email')}
           type="email"
-          {...email}>
-          {{
-            icon: (
-              <>
-                <EnvelopeIcon />
-              </>
-            ),
-          }}
-        </Input>
-
+          ref={emailRef}
+          {...email}
+          icon={
+            <>
+              <EnvelopeIcon />
+            </>
+          }
+        />
         {/* Input Password */}
         <Input
+          insideForm={true}
+          className="form--input"
           label={t('label.password')}
           placeholder={t('input.placeholder.password')}
           type={showPassword ? 'text' : 'password'}
-          {...password}>
-          {{
-            icon: (
-              <>
-                <LockIcon
-                  className="cursor-pointer hover:animate-pulse"
-                  onClick={() => {
-                    setShowPassword(!showPassword)
-                  }}
-                />
-              </>
-            ),
-          }}
-        </Input>
-
+          {...password}
+          icon={
+            <>
+              <LockIcon
+                onClick={() => {
+                  setShowPassword(!showPassword)
+                }}
+              />
+            </>
+          }
+        />
+        <button>
+          <span>pouvoir aux hommes et aux femmes!!! lol</span>
+        </button>
         {/* Button Submit */}
-        <button type="submit" className="flex justify-center gap-x-2">
-          {t('button.signin')}
+        <button type="submit" className="btn--primary">
+          {t('button.signin')}&nbsp;
           {showLoader && (
             <span className="motion-safe:animate-spin">
               <SpinIcon className="-scale-x-[1]" />

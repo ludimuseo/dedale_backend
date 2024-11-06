@@ -6,6 +6,8 @@
     "bradlc.vscode-tailwindcss",
     "ecmel.vscode-html-css",
     "mikestead.dotenv",
-    "shd101wyy.markdown-preview-enhanced"
+    "shd101wyy.markdown-preview-enhanced",
+    "stylelint.vscode-stylelint",
+    "csstools.postcss"
   ]
 }
