@@ -12,7 +12,7 @@ import EnvelopeIcon from '@/app/icons/EnvelopeIcon'
 import LockIcon from '@/app/icons/LockIcon'
 import SpinIcon from '@/app/icons/SpinIcon'
 import { auth, db } from '@/firebase/firebase'
-import { type User } from '@/types/user'
+import { type User } from '@/types'
 
 const AuthSignIn: FC = () => {
   const { t } = useTranslation()

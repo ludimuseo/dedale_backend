@@ -1,8 +1,8 @@
 import { type FC } from 'react'
 import { Outlet } from 'react-router-dom'
 
-import HeaderComponent from '@/app/layouts/core/componentHeader'
-import SidebarComponent from '@/app/layouts/core/componentSidebar'
+import CoreHeader from '@/app/layouts/core/coreHeader'
+import CoreSidebar from '@/app/layouts/core/coreSidebar'
 
 const LayoutDefault: FC = () => {
   return (
@@ -10,12 +10,12 @@ const LayoutDefault: FC = () => {
       <div id="layout-default">
         <input id="checkbox-toggle-sidebar" type="checkbox" />
         <div id="outer-content">
-          <HeaderComponent />
+          <CoreHeader />
           <main className="content">
             <Outlet context={[]} />
           </main>
         </div>
-        <SidebarComponent />
+        <CoreSidebar />
       </div>
     </>
   )

@@ -1,17 +1,17 @@
 /*
-//// ./scss
+//// ./styles
 ////  |____ ./fonts
 ////         |____ ./satoshi.scss
 ////  |____ ./_mixins.scss
-////  |____ ./root.scss <= (root file)
 ////  |____ ./tailwind
 ////         |____ ./base.scss
 ////         |____ ./components.scss
 ////         |____ ./utilities.scss
 ////         |____ ./variants.scss
 ////  |____ ./variables
-////         |____ ./_globals.scss
 ////         |____ ./_colors.scss
+////         |____ ./_globals.scss
+////  |____ ./root.scss <= (root file)
 */
 @use 'sass:meta';
 
@@ -67,7 +67,11 @@ div#layout-auth {
   }
 }
 
-$sidebar-width: 15rem; // 240px
+/* Sidebar Menu */
+$sidebar-width: 15rem;
+label[for='checkbox-toggle-sidebar'] {
+  @apply cursor-pointer;
+}
 div#layout-default {
   @apply flex-row;
 
@@ -81,21 +85,51 @@ div#layout-default {
   }
 
   > aside#menu-sidebar {
-    @apply w-[#{$sidebar-width}] absolute left-0 h-full transition-transform duration-300;
+    @apply w-[#{$sidebar-width}] absolute left-0 h-full bg-indigo-950 text-white transition-transform duration-300;
     @apply -translate-x-[#{$sidebar-width}] translate-y-0 transform translate-z-0;
+    @apply flex flex-col;
+
+    .logo-container {
+      @apply flex flex-row items-center justify-around py-4;
+    }
+
+    .container {
+      @apply bg-blue-800 px-8 py-4;
+    }
   }
 
   > input#checkbox-toggle-sidebar {
     @apply absolute opacity-0;
 
     &:checked {
-      + div#outer-content {
+      ~ div#outer-content {
         @apply translate-x-[#{$sidebar-width}] translate-y-0 transform translate-z-0;
       }
 
-      + aside#menu-sidebar {
+      ~ aside#menu-sidebar {
         @apply translate-x-0 translate-y-0 transform translate-z-0;
       }
     }
+  }
+}
+
+/* Header */
+header {
+  @apply flex flex-row justify-between;
+
+  div#header-left {
+    @apply flex flex-row gap-x-4;
+    .toggle-sidebar,
+    .logo-container {
+      @apply mx-0 my-auto;
+    }
+  }
+  div#header-right {
+    @apply flex flex-row items-center justify-center;
+  }
+
+  div#change-theme,
+  div#change-language {
+    @apply flex flex-row gap-x-4;
   }
 }

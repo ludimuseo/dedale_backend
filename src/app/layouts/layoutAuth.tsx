@@ -3,14 +3,14 @@ import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 
 import DedaleLogo from '@/app/icons/_DedaleLogo'
-import HeaderComponent from '@/app/layouts/core/componentHeader'
+import CoreHeader from '@/app/layouts/core/coreHeader'
 
-const LayoutDefault: FC = () => {
+const LayoutAuth: FC = () => {
   const { t } = useTranslation()
   return (
     <>
       <div id="layout-auth">
-        <HeaderComponent />
+        <CoreHeader />
         <main>
           <section id="auth-info">
             <div>
@@ -27,4 +27,4 @@ const LayoutDefault: FC = () => {
   )
 }
 
-export default LayoutDefault
+export default LayoutAuth

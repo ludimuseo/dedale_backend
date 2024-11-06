@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import DedaleLogo from '@/app/icons/_DedaleLogo'
 import { type State } from '@/types'
 
-const HeaderComponent: FC = () => {
+const CoreHeader: FC = () => {
   const isLogged: boolean = useAppSelector(
     (state: State) => state.auth.isLogged
   )
@@ -16,7 +16,7 @@ const HeaderComponent: FC = () => {
     <>
       <header>
         {/* Sidebar Burger Icon Menu */}
-        <div>
+        <div id="header-left">
           {isLogged && (
             <label htmlFor="checkbox-toggle-sidebar" className="toggle-sidebar">
               MENU
@@ -28,7 +28,7 @@ const HeaderComponent: FC = () => {
             </div>
           )}
         </div>
-        <div>
+        <div id="header-right">
           {isLogged && (
             <button onClick={() => dispatch(signOut())}>SIGN OUT</button>
           )}
@@ -39,4 +39,4 @@ const HeaderComponent: FC = () => {
     </>
   )
 }
-export default HeaderComponent
+export default CoreHeader

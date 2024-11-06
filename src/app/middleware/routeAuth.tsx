@@ -3,10 +3,10 @@ import { Navigate } from 'react-router-dom'
 
 import { useAppSelector } from '@/app/hooks'
 import { type State } from '@/types'
-import { type User } from '@/types/user'
+import { type User } from '@/types'
 
 type RouteAuthProps = PropsWithChildren & {
-  role?: User['role'] | null
+  role: User['role'] | null | undefined
 }
 
 const RouteAuth = ({ role, children }: RouteAuthProps) => {

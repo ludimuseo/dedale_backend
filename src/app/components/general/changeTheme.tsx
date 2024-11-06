@@ -53,7 +53,7 @@ const ChangeTheme: FC = () => {
 
   return (
     <>
-      <div>
+      <div id="change-theme">
         <Input
           label={t('theme.light')}
           type="radio"

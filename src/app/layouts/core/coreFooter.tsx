@@ -1,6 +1,6 @@
 import { type FC } from 'react'
 
-const FooterComponent: FC = () => {
+const CoreFooter: FC = () => {
   return (
     <>
       <footer>
@@ -9,4 +9,4 @@ const FooterComponent: FC = () => {
     </>
   )
 }
-export default FooterComponent
+export default CoreFooter

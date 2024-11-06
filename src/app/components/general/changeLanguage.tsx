@@ -13,7 +13,7 @@ const ChangeLanguage: FC = () => {
 
   return (
     <>
-      <div className="toggle-switcher">
+      <div className="toggle-switcher" id="change-language">
         <input
           checked={i18n.language === 'en'}
           ref={checkbox}
