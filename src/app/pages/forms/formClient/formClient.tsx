@@ -19,10 +19,7 @@ const FormClient: FC = () => {
 
   useEffect(() => {
     setStep(getInput.length)
-    console.log('data:', getInput[2][0].category)
   }, [getInput])
-
-  console.log('step', currentStep)
 
   return (
     <>
@@ -46,10 +43,10 @@ const FormClient: FC = () => {
           </h1>
           <div className="flex flex-row">
             {getInput.map((inputs, index) => {
-              if (currentStep + 1 > inputs.indexOf(inputs[index]) + 1) {
+              if (currentStep + 1 > index + 1) {
                 return (
                   <div>
-                    <svg height="100" width="100">
+                    <svg height="100" width="100" key={index}>
                       <circle
                         cx="50"
                         cy="50"
@@ -67,23 +64,23 @@ const FormClient: FC = () => {
                         strokeLinejoin="round"
                       />
                     </svg>
+                    <span>{inputs[index].section}</span>
+                    <br />
                     <span>Complet</span>
                   </div>
                 )
               } else {
                 return (
                   <div>
-                    <svg height="100" width="100">
+                    <svg height="100" width="100" key={index}>
                       <circle
                         cx="50"
                         cy="50"
                         r="25"
-                        stroke="#0A184D"
+                        stroke="#707785"
                         strokeWidth="1"
                         fill={
-                          currentStep + 1 === inputs.indexOf(inputs[index]) + 1
-                            ? '#0A184D'
-                            : 'white'
+                          currentStep + 1 === index + 1 ? '#0A184D' : 'white'
                         }
                       />
                       <text
@@ -91,22 +88,19 @@ const FormClient: FC = () => {
                         y="52"
                         fontSize="30"
                         fontWeight={
-                          currentStep + 1 > inputs.indexOf(inputs[index]) + 1
-                            ? 'bold'
-                            : 'light'
+                          currentStep + 1 > index + 1 ? 'bold' : 'light'
                         }
                         fill={
-                          currentStep + 1 === inputs.indexOf(inputs[index]) + 1
-                            ? 'white'
-                            : '#0A184D'
+                          currentStep + 1 === index + 1 ? 'white' : '#707785'
                         }
                         textAnchor="middle"
                         dominantBaseline="middle">
-                        {inputs.indexOf(inputs[index]) + 1}
+                        {index + 1}
                       </text>
                     </svg>
+                    <br />
                     <span>
-                      {currentStep + 1 === inputs.indexOf(inputs[index]) + 1
+                      {currentStep + 1 === index + 1
                         ? 'En cours'
                         : 'En attente'}
                     </span>
@@ -116,7 +110,6 @@ const FormClient: FC = () => {
             })}
           </div>
           <br />
-          <span>{getInput[currentStep][0].category}</span>
         </div>
 
         {/*INPUT AREA CONTAINER*/}
@@ -132,6 +125,7 @@ const FormClient: FC = () => {
               <div className="mt-5 flex flex-col">
                 <span>{inputs.label}</span>
                 <input
+                  key={inputs.id}
                   id={inputs.id}
                   className="border-stroke focus:border-primary active:border-primary disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary w-1/3 rounded border-[1.5px] bg-transparent px-5 py-3 text-black outline-none transition disabled:cursor-default dark:text-white"
                   placeholder={inputs.placeholder}
@@ -152,7 +146,7 @@ const FormClient: FC = () => {
           <div>
             {currentStep < step - 1 ? (
               <>
-                {currentStep === 1 && (
+                {currentStep > 0 && (
                   <>
                     <button onClick={handlePrevStep}>Précédent</button>
                     <br />
