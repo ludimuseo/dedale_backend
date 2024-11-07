@@ -16,6 +16,7 @@ const FormClient: FC = () => {
   }
 
   const getInput = getInputClientConfig
+
   useEffect(() => {
     setStep(getInput.length)
   }, [getInput])
@@ -72,10 +73,19 @@ const FormClient: FC = () => {
         <div className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark rounded-sm border bg-red-500">
           <span>STEP AREA</span>
           <div>
-            <button onClick={handlePrevStep}>Précédent</button>
-            <br />
-            <span> </span>
-            <button onClick={handleNextStep}>Suivant</button>
+            {currentStep < step - 1 ? (
+              <>
+                <button onClick={handlePrevStep}>Précédent</button>
+                <br />
+                <button onClick={handleNextStep}>Suivant</button>
+              </>
+            ) : (
+              <>
+                <button onClick={handlePrevStep}>Précédent</button>
+                <br />
+                <button onClick={handleNextStep}>VALIDER</button>
+              </>
+            )}
           </div>
         </div>
       </div>
