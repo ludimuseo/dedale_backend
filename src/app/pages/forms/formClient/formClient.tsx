@@ -19,6 +19,7 @@ const FormClient: FC = () => {
 
   useEffect(() => {
     setStep(getInput.length)
+    console.log('data:', getInput[2][0].category)
   }, [getInput])
 
   return (
@@ -41,6 +42,8 @@ const FormClient: FC = () => {
           <h1>
             {currentStep + 1}/{step}
           </h1>
+          <br />
+          <span>{getInput[currentStep][0].category}</span>
         </div>
 
         {/*INPUT AREA CONTAINER*/}
@@ -53,9 +56,10 @@ const FormClient: FC = () => {
 
           {getInput[currentStep].map((inputs) => {
             return (
-              <div key={inputs.id}>
+              <div>
                 <span>{inputs.label}</span>
                 <input
+                  id={inputs.id}
                   className="border-stroke focus:border-primary active:border-primary disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary w-1/3 rounded border-[1.5px] bg-transparent px-5 py-3 text-black outline-none transition disabled:cursor-default dark:text-white"
                   placeholder={inputs.placeholder}
                   type={inputs.type}
@@ -75,8 +79,12 @@ const FormClient: FC = () => {
           <div>
             {currentStep < step - 1 ? (
               <>
-                <button onClick={handlePrevStep}>Précédent</button>
-                <br />
+                {currentStep === 1 && (
+                  <>
+                    <button onClick={handlePrevStep}>Précédent</button>
+                    <br />
+                  </>
+                )}
                 <button onClick={handleNextStep}>Suivant</button>
               </>
             ) : (
