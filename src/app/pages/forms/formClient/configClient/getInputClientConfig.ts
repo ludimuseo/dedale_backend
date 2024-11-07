@@ -1,6 +1,6 @@
 interface GetInputClientConfigType {
   category: string
-  id: number
+  id: string
   label: string
   name: string
   placeholder: string
@@ -12,7 +12,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
   [
     {
       category: 'compagny',
-      id: 0,
+      id: '0',
       label: 'Nom Enteprise ou société',
       name: 'name',
       placeholder: "Entrez le nom de l'entrprise ou société",
@@ -21,7 +21,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
     },
     {
       category: 'compagny',
-      id: 1,
+      id: '1',
       label: 'SIRET',
       name: 'siret',
       placeholder: 'Entrez le SIRET',
@@ -30,7 +30,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
     },
     {
       category: 'compagny',
-      id: 2,
+      id: '2',
       label: 'Numéro de TVA',
       name: 'tva',
       placeholder: 'Entrez le numéro de TVA',
@@ -41,7 +41,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
   [
     {
       category: 'compagny',
-      id: 3,
+      id: '3',
       label: 'Adresse',
       name: 'address',
       placeholder: 'Entrez le nom de la rue',
@@ -50,7 +50,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
     },
     {
       category: 'compagny',
-      id: 4,
+      id: '4',
       label: 'Ville',
       name: 'city',
       placeholder: 'Entrez la ville',
@@ -59,7 +59,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
     },
     {
       category: 'compagny',
-      id: 5,
+      id: '5',
       label: 'Pays',
       name: 'country',
       placeholder: 'Entrez le pays',
@@ -68,7 +68,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
     },
     {
       category: 'compagny',
-      id: 6,
+      id: '6',
       label: 'Code postal',
       name: 'postal',
       placeholder: 'Entrez le code postal',
@@ -79,7 +79,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
   [
     {
       category: 'contact_client',
-      id: 7,
+      id: '7',
       label: 'Nom du contact',
       name: 'contact_name',
       placeholder: 'Entrez le nom du contact',
@@ -88,7 +88,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
     },
     {
       category: 'contact_client',
-      id: 8,
+      id: '8',
       label: 'Email',
       name: 'email',
       placeholder: 'Entrez l adresse email',
@@ -97,7 +97,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
     },
     {
       category: 'contact_client',
-      id: 9,
+      id: '9',
       label: 'Numero de telephone',
       name: 'phone',
       placeholder: 'Entrez le numero de telephone',
@@ -106,7 +106,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
     },
     {
       category: 'contact_client',
-      id: 10,
+      id: '10',
       label: 'Commentaire',
       name: 'note',
       placeholder: 'Commentaire',
