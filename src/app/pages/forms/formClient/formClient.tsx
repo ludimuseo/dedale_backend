@@ -22,6 +22,8 @@ const FormClient: FC = () => {
     console.log('data:', getInput[2][0].category)
   }, [getInput])
 
+  console.log('step', currentStep)
+
   return (
     <>
       {/*CONTAINER */}
@@ -42,6 +44,77 @@ const FormClient: FC = () => {
           <h1>
             {currentStep + 1}/{step}
           </h1>
+          <div className="flex flex-row">
+            {getInput.map((inputs, index) => {
+              if (currentStep + 1 > inputs.indexOf(inputs[index]) + 1) {
+                return (
+                  <div>
+                    <svg height="100" width="100">
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="25"
+                        stroke="#4AD87E"
+                        strokeWidth="1"
+                        fill="#4AD87E"
+                      />
+                      <path
+                        d="M35 50 L45 60 L65 40"
+                        fill="none"
+                        stroke="white"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <span>Complet</span>
+                  </div>
+                )
+              } else {
+                return (
+                  <div>
+                    <svg height="100" width="100">
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="25"
+                        stroke="#0A184D"
+                        strokeWidth="1"
+                        fill={
+                          currentStep + 1 === inputs.indexOf(inputs[index]) + 1
+                            ? '#0A184D'
+                            : 'white'
+                        }
+                      />
+                      <text
+                        x="50"
+                        y="52"
+                        fontSize="30"
+                        fontWeight={
+                          currentStep + 1 > inputs.indexOf(inputs[index]) + 1
+                            ? 'bold'
+                            : 'light'
+                        }
+                        fill={
+                          currentStep + 1 === inputs.indexOf(inputs[index]) + 1
+                            ? 'white'
+                            : '#0A184D'
+                        }
+                        textAnchor="middle"
+                        dominantBaseline="middle">
+                        {inputs.indexOf(inputs[index]) + 1}
+                      </text>
+                    </svg>
+                    <span>
+                      {currentStep + 1 === inputs.indexOf(inputs[index]) + 1
+                        ? 'En cours'
+                        : 'En attente'}
+                    </span>
+                  </div>
+                )
+              }
+            })}
+          </div>
           <br />
           <span>{getInput[currentStep][0].category}</span>
         </div>
@@ -51,12 +124,12 @@ const FormClient: FC = () => {
           <span>INPUT AREA CONTAINER</span>
 
           {/*INPUT AREA 1*/}
-          <div className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark rounded-sm border bg-blue-800"></div>
+          <div className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark mt-5 flex flex-col rounded-sm border bg-blue-800"></div>
           <h2>-- INPUT AREA 1 --</h2>
 
           {getInput[currentStep].map((inputs) => {
             return (
-              <div>
+              <div className="mt-5 flex flex-col">
                 <span>{inputs.label}</span>
                 <input
                   id={inputs.id}
