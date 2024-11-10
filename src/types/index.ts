@@ -45,3 +45,28 @@ export type InputProps = {
   icon?: ReactElement
   insideForm: boolean
 } & ComponentPropsWithoutRef<'input'>
+
+/* CLIENT */
+export interface ClientType {
+  company: {
+    name: string
+    siret: string
+    tva: string
+    website: string
+  }
+  address: {
+    address: string
+    postal: string
+    city: string
+    country: string
+  }
+  contact: {
+    name: string
+    email: string
+    tel: string
+    note: string
+  }
+  status: {
+    isActive: boolean //ACTIVER/DESACTIVER LE CLIENT
+  }
+}

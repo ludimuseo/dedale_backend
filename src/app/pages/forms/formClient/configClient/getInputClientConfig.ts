@@ -4,7 +4,9 @@ interface GetInputClientConfigType {
   name: string
   placeholder?: string
   required: boolean
+  rows?: number | undefined
   section: string
+  sectionLabel: string
   type: string
 }
 
@@ -16,7 +18,8 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       name: 'name',
       placeholder: "Entrez le nom de l'entrprise ou société",
       required: false,
-      section: 'compagny',
+      section: 'company',
+      sectionLabel: 'Information client',
       type: 'text',
     },
     {
@@ -25,7 +28,8 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       name: 'siret',
       placeholder: 'Entrez le SIRET',
       required: false,
-      section: 'compagny',
+      section: 'company',
+      sectionLabel: 'Information client',
       type: 'text',
     },
     {
@@ -34,7 +38,18 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       name: 'tva',
       placeholder: 'Entrez le numéro de TVA',
       required: false,
-      section: 'compagny',
+      section: 'company',
+      sectionLabel: 'Information client',
+      type: 'text',
+    },
+    {
+      id: '12',
+      label: 'Site internet',
+      name: 'website',
+      placeholder: 'Entrez le site internet',
+      required: false,
+      section: 'company',
+      sectionLabel: 'Information client',
       type: 'text',
     },
   ],
@@ -46,6 +61,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       placeholder: 'Entrez le nom de la rue',
       required: false,
       section: 'address',
+      sectionLabel: 'Information client',
       type: 'text',
     },
     {
@@ -55,6 +71,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       placeholder: 'Entrez la ville',
       required: false,
       section: 'address',
+      sectionLabel: 'Information client',
       type: 'text',
     },
     {
@@ -64,6 +81,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       placeholder: 'Entrez le pays',
       required: false,
       section: 'address',
+      sectionLabel: 'Information client',
       type: 'text',
     },
     {
@@ -73,6 +91,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       placeholder: 'Entrez le code postal',
       required: false,
       section: 'address',
+      sectionLabel: 'Information client',
       type: 'number',
     },
   ],
@@ -82,8 +101,9 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       label: 'Nom du contact',
       name: 'contact_name',
       placeholder: 'Entrez le nom du contact',
-      required: false,
+      required: true,
       section: 'contact',
+      sectionLabel: 'Contact client',
       type: 'text',
     },
     {
@@ -91,8 +111,9 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       label: 'Email',
       name: 'email',
       placeholder: 'Entrez l adresse email',
-      required: false,
+      required: true,
       section: 'contact',
+      sectionLabel: 'Contact client',
       type: 'email',
     },
     {
@@ -102,6 +123,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       placeholder: 'Entrez le numero de telephone',
       required: false,
       section: 'contact',
+      sectionLabel: 'Contact client',
       type: 'tel',
     },
     {
@@ -110,18 +132,10 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       name: 'note',
       placeholder: 'Commentaire',
       required: false,
+      rows: 4, //si rows alors c'est un textarea
       section: 'contact',
+      sectionLabel: 'Contact client',
       type: 'text',
-    },
-  ],
-  [
-    {
-      id: '11',
-      label: 'Activé / Desactivé',
-      name: 'isActive',
-      required: false,
-      section: 'status',
-      type: 'checkbox',
     },
   ],
 ]

@@ -10,7 +10,7 @@ const Dashboard: FC = () => {
         <label htmlFor="checkbox-toggle-sidebar">CHECK</label>
       </div>
       <div>
-        <h1>FORMULAIRE CLIENT</h1>
+        <h1>FORMULAIRES</h1>
         <FormClient />
       </div>
     </>
