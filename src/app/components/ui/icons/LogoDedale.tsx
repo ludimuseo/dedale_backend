@@ -5,12 +5,12 @@ import logoDedale2 from '@/assets/imgs/logoDedale_v1.webp'
 import logoDedale1 from '@/assets/imgs/logoDedale_v2.webp'
 import type { State } from '@/types'
 
-type DedaleLogoProps = ComponentProps<'img'> & {
+type LogoDedaleProps = ComponentProps<'img'> & {
   width: number
   forceDark?: boolean | null
 }
 
-const DedaleLogo = ({ width, forceDark }: DedaleLogoProps) => {
+const LogoDedale = ({ width, forceDark }: LogoDedaleProps) => {
   const isDark: boolean = useAppSelector((state: State) => state.theme.isDark)
   const imgData: string = forceDark
     ? logoDedale1
@@ -26,4 +26,4 @@ const DedaleLogo = ({ width, forceDark }: DedaleLogoProps) => {
   )
 }
 
-export default DedaleLogo
+export { LogoDedale }

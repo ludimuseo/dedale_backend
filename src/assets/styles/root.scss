@@ -16,22 +16,21 @@
 @use 'sass:meta';
 
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
-@tailwind variants;
-
 @layer base {
   @include meta.load-css('@style/tailwind/base');
 }
 
+@tailwind components;
 @layer components {
   @include meta.load-css('@style/tailwind/components');
 }
 
+@tailwind utilities;
 @layer utilities {
   @include meta.load-css('@style/tailwind/utilities');
 }
 
+@tailwind variants;
 @layer variants {
   @include meta.load-css('@style/tailwind/variants');
 }
@@ -68,13 +67,26 @@ div#layout-auth {
 }
 
 /* Sidebar Menu */
-$sidebar-width: 15rem;
+$sidebarWidth: 15rem;
+/*
 label[for='checkbox-toggle-sidebar'] {
   @apply cursor-pointer;
 }
+*/
 div#layout-default {
-  @apply flex-row;
+  @apply flex-row-reverse;
 
+  > div#outer-content {
+    @apply w-full flex-1;
+    @apply translate-x-0 translate-y-0 transition-all translate-z-0;
+  }
+  > aside#menu-sidebar {
+    @apply w-[#{$sidebarWidth}] left-0 flex h-full max-lg:absolute;
+    @apply max-lg:-translate-x-[#{$sidebarWidth}] -translate-x-0 translate-y-0 transition-all translate-z-0;
+    /* @apply -translate-x-[230px] translate-y-0 translate-z-0; */
+    /* @apply translate-y-0 translate-z-0 -translate-x-[2rem]; */
+  }
+  /*
   > div#outer-content {
     @apply flex flex-1 flex-col transition-transform duration-300;
     @apply translate-x-0 translate-y-0 transform translate-z-0;
@@ -85,29 +97,28 @@ div#layout-default {
   }
 
   > aside#menu-sidebar {
-    @apply w-[#{$sidebar-width}] absolute left-0 h-full bg-indigo-950 text-white transition-transform duration-300;
-    @apply -translate-x-[#{$sidebar-width}] translate-y-0 transform translate-z-0;
+    @apply w-[#{$sidebarWidth}] absolute left-0 h-full bg-indigo-950 text-white transition-transform duration-300;
+    @apply -translate-x-[#{$sidebarWidth}] translate-y-0 transform translate-z-0;
     @apply flex flex-col;
 
-    .logo-container {
-      @apply flex flex-row items-center justify-around py-4;
-    }
-
     .container {
-      @apply bg-blue-800 px-8 py-4;
+      @apply bg-blue-800 px-8 py-4 mt-24;
     }
   }
+  */
 
   > input#checkbox-toggle-sidebar {
     @apply absolute opacity-0;
 
     &:checked {
       ~ div#outer-content {
-        @apply translate-x-[#{$sidebar-width}] translate-y-0 transform translate-z-0;
+        @apply translate-x-0 translate-y-0 translate-z-0;
+        /* @apply translate-x-[#{$sidebarWidth}] translate-y-0 transform translate-z-0; */
       }
 
       ~ aside#menu-sidebar {
-        @apply translate-x-0 translate-y-0 transform translate-z-0;
+        @apply translate-x-0 translate-y-0 translate-z-0;
+        /* @apply translate-x-0 translate-y-0 transform translate-z-0; */
       }
     }
   }
@@ -115,21 +126,89 @@ div#layout-default {
 
 /* Header */
 header {
-  @apply flex flex-row justify-between;
+  @apply flex flex-row justify-between px-4;
 
-  div#header-left {
-    @apply flex flex-row gap-x-4;
-    .toggle-sidebar,
-    .logo-container {
+  #header-left {
+    @apply relative block;
+    /*
+    #fixed-header-content {
+      @apply left-0 top-0 fixed bg-blue-400;
+    }
+    */
+  }
+
+  #header-right {
+    @apply flex flex-row items-center gap-x-4;
+
+    /* label.toggle-sidebar, */
+    /* div.logo-container, */
+    div#change-language,
+    div#change-theme {
       @apply mx-0 my-auto;
     }
-  }
-  div#header-right {
-    @apply flex flex-row items-center justify-center;
+
+    div#change-theme {
+      @apply flex flex-row;
+    }
   }
 
-  div#change-theme,
-  div#change-language {
-    @apply flex flex-row gap-x-4;
+  // You can change the switcher button size
+  $switchSize: 1.8rem;
+
+  #change-theme {
+    @apply justify-between gap-x-1 rounded-md bg-slate-300 p-1 text-slate-600;
+    min-width: 11rem;
+
+    div {
+      > label {
+        @apply block h-full w-16 cursor-pointer rounded-sm bg-white text-center text-sm uppercase;
+        font-size: 0.625rem;
+
+        &:has(+ div > input:checked) {
+          @apply bg-slate-400 text-slate-50;
+        }
+      }
+      > div:has(input) {
+        @apply hidden;
+      }
+    }
   }
+
+  #change-language {
+    @apply mx-0 my-auto inline-flex;
+    label[for='checkbox-toggle-language'] {
+      @apply absolute z-[1] cursor-pointer text-center text-sm uppercase text-slate-600;
+      line-height: calc(#{$switchSize} * 0.85);
+      margin-top: calc(#{$switchSize} * 0.1);
+      margin-left: calc(#{$switchSize} * 0.1);
+      width: calc(#{$switchSize} * 0.8);
+      font-size: 0.625rem;
+
+      &:has(~ input[type='checkbox']:checked) {
+        margin-left: calc(#{$switchSize} * 0.9);
+      }
+    }
+    input[type='checkbox'] {
+      @apply relative cursor-pointer appearance-none bg-slate-300;
+
+      height: #{$switchSize};
+      width: calc(#{$switchSize} * 1.8);
+      border-radius: calc(#{$switchSize} / 4);
+
+      &::before {
+        @apply absolute block bg-white transition-[left] content-[''];
+        height: calc(#{$switchSize} * 0.7);
+        width: calc(#{$switchSize} * 0.7);
+        top: calc(#{$switchSize} * 0.15);
+        left: calc(#{$switchSize} * 0.15);
+        border-radius: calc(#{$switchSize} / 4);
+      }
+      &:checked::before {
+        left: calc(#{$switchSize} * 0.95);
+      }
+    }
+  }
+}
+
+.menu-burger {
 }

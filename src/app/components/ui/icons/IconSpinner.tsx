@@ -1,6 +1,6 @@
 import type { SvgProps } from '@/types'
 
-const SpinIcon = ({ ...props }: SvgProps) => {
+const IconSpinner = ({ ...props }: SvgProps) => {
   return (
     <>
       <svg
@@ -16,4 +16,4 @@ const SpinIcon = ({ ...props }: SvgProps) => {
   )
 }
 
-export default SpinIcon
+export { IconSpinner }

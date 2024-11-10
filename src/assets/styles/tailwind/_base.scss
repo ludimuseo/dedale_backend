@@ -181,7 +181,12 @@ p {
 }
 
 a {
-  @apply decoration-inherit;
+  @apply decoration-inherit hover:underline;
+}
+
+button,
+a {
+  @apply cursor-pointer;
 }
 
 form {

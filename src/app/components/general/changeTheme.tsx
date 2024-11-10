@@ -6,7 +6,7 @@ import {
 import { type FC, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import Input from '@/app/components/ui/input'
+import { Input } from '@/app/components'
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { type State, Theme } from '@/types'
 
@@ -94,4 +94,4 @@ const ChangeTheme: FC = () => {
   )
 }
 
-export default ChangeTheme
+export { ChangeTheme }

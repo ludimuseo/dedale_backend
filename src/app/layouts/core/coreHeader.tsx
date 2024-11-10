@@ -1,10 +1,8 @@
 import { signOut } from '@service/redux/slices/reducerAuth'
 import type { FC } from 'react'
 
-import ChangeLanguage from '@/app/components/general/changeLanguage'
-import ChangeTheme from '@/app/components/general/changeTheme'
+import { ChangeLanguage, ChangeTheme, LogoDedale } from '@/app/components'
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
-import DedaleLogo from '@/app/icons/_DedaleLogo'
 import type { State } from '@/types'
 
 const CoreHeader: FC = () => {
@@ -17,23 +15,34 @@ const CoreHeader: FC = () => {
       <header>
         {/* Sidebar Burger Icon Menu */}
         <div id="header-left">
-          {isLogged && (
-            <label htmlFor="checkbox-toggle-sidebar" className="toggle-sidebar">
-              MENU
-            </label>
-          )}
-          {isLogged && (
-            <div className="logo-container">
-              <DedaleLogo width={140} />
-            </div>
-          )}
+          <div id="fixed-header-content">
+            {isLogged && (
+              <label
+                htmlFor="checkbox-toggle-sidebar"
+                className="toggle-sidebar menu-burger">
+                MENU
+                <span></span>
+                <span></span>
+                <span></span>
+              </label>
+            )}
+            {isLogged && (
+              <div className="logo-container">
+                <LogoDedale width={140} />
+              </div>
+            )}
+          </div>
         </div>
         <div id="header-right">
-          {isLogged && (
-            <button onClick={() => dispatch(signOut())}>SIGN OUT</button>
-          )}
           <ChangeLanguage />
           <ChangeTheme />
+          {isLogged && (
+            <button
+              className="btn--primary h-8 text-xs"
+              onClick={() => dispatch(signOut())}>
+              SIGN OUT
+            </button>
+          )}
         </div>
       </header>
     </>

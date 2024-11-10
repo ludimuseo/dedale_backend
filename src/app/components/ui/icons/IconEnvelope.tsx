@@ -1,6 +1,6 @@
 import type { SvgProps } from '@/types'
 
-const EnvelopeIcon = ({ ...props }: SvgProps) => {
+const IconEnvelope = ({ ...props }: SvgProps) => {
   return (
     <>
       <svg
@@ -22,4 +22,4 @@ const EnvelopeIcon = ({ ...props }: SvgProps) => {
   )
 }
 
-export default EnvelopeIcon
+export { IconEnvelope }

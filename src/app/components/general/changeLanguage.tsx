@@ -13,7 +13,14 @@ const ChangeLanguage: FC = () => {
 
   return (
     <>
-      <div className="toggle-switcher" id="change-language">
+      <div id="change-language">
+        <label
+          onClick={() => {
+            checkbox.current?.toggleAttribute('checked')
+          }}
+          htmlFor="checkbox-toggle-language">
+          {i18n.language}
+        </label>
         <input
           checked={i18n.language === 'en'}
           ref={checkbox}
@@ -21,17 +28,9 @@ const ChangeLanguage: FC = () => {
           type="checkbox"
           id="checkbox-toggle-language"
         />
-        <label
-          onClick={() => {
-            checkbox.current?.toggleAttribute('checked')
-          }}
-          htmlFor="checkbox-toggle-language"
-          className="show">
-          {i18n.language}
-        </label>
       </div>
     </>
   )
 }
 
-export default ChangeLanguage
+export { ChangeLanguage }

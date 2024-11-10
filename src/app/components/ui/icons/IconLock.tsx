@@ -1,6 +1,6 @@
 import type { SvgProps } from '@/types'
 
-const LockIcon = ({ ...props }: SvgProps) => {
+const IconLock = ({ ...props }: SvgProps) => {
   return (
     <>
       <svg
@@ -26,4 +26,4 @@ const LockIcon = ({ ...props }: SvgProps) => {
   )
 }
 
-export default LockIcon
+export { IconLock }

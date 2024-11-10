@@ -5,12 +5,9 @@ import { type FC, type FormEvent, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type NavigateFunction, useNavigate } from 'react-router-dom'
 
-import Input from '@/app/components/ui/input'
+import { IconEnvelope, IconLock, IconSpinner, Input } from '@/app/components'
 import { useAppDispatch } from '@/app/hooks'
 import useInput from '@/app/hooks/useInput'
-import EnvelopeIcon from '@/app/icons/EnvelopeIcon'
-import LockIcon from '@/app/icons/LockIcon'
-import SpinIcon from '@/app/icons/SpinIcon'
 import { auth, db } from '@/firebase/firebase'
 import type { User } from '@/types'
 
@@ -18,7 +15,7 @@ const AuthSignIn: FC = () => {
   const { t } = useTranslation()
   const navigate: NavigateFunction = useNavigate()
   const dispatch = useAppDispatch()
-  const emailRef = useRef<HTMLInputElement | null>(null)
+  const emailRef = useRef<HTMLInputElement>(null)
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showLoader, setShowLoader] = useState<boolean>(false)
   const email = useInput('', { name: 'signin-email', type: 'email' })
@@ -84,7 +81,7 @@ const AuthSignIn: FC = () => {
           {...email}
           icon={
             <>
-              <EnvelopeIcon />
+              <IconEnvelope />
             </>
           }
         />
@@ -98,7 +95,7 @@ const AuthSignIn: FC = () => {
           {...password}
           icon={
             <>
-              <LockIcon
+              <IconLock
                 onClick={() => {
                   setShowPassword(!showPassword)
                 }}
@@ -106,15 +103,12 @@ const AuthSignIn: FC = () => {
             </>
           }
         />
-        <button>
-          <span>pouvoir aux hommes et aux femmes!!! lol</span>
-        </button>
         {/* Button Submit */}
         <button type="submit" className="btn--primary">
           {t('button.signin')}&nbsp;
           {showLoader && (
             <span className="motion-safe:animate-spin">
-              <SpinIcon className="-scale-x-[1]" />
+              <IconSpinner className="-scale-x-[1]" />
             </span>
           )}
         </button>

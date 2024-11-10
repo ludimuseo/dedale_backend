@@ -9,6 +9,7 @@ const LayoutDefault: FC = () => {
     <>
       <div id="layout-default">
         <input id="checkbox-toggle-sidebar" type="checkbox" />
+
         <div id="outer-content">
           <CoreHeader />
           <main className="content">
