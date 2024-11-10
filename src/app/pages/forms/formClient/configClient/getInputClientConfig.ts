@@ -7,6 +7,7 @@ interface GetInputClientConfigType {
   rows?: number | undefined
   section: string
   sectionLabel: string
+  translate: boolean
   type: string
 }
 
@@ -20,6 +21,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       required: false,
       section: 'company',
       sectionLabel: 'Information client',
+      translate: false,
       type: 'text',
     },
     {
@@ -30,6 +32,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       required: false,
       section: 'company',
       sectionLabel: 'Information client',
+      translate: false,
       type: 'text',
     },
     {
@@ -40,6 +43,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       required: false,
       section: 'company',
       sectionLabel: 'Information client',
+      translate: false,
       type: 'text',
     },
     {
@@ -50,6 +54,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       required: false,
       section: 'company',
       sectionLabel: 'Information client',
+      translate: false,
       type: 'text',
     },
   ],
@@ -62,6 +67,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       required: false,
       section: 'address',
       sectionLabel: 'Information client',
+      translate: false,
       type: 'text',
     },
     {
@@ -72,6 +78,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       required: false,
       section: 'address',
       sectionLabel: 'Information client',
+      translate: false,
       type: 'text',
     },
     {
@@ -82,6 +89,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       required: false,
       section: 'address',
       sectionLabel: 'Information client',
+      translate: false,
       type: 'text',
     },
     {
@@ -92,6 +100,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       required: false,
       section: 'address',
       sectionLabel: 'Information client',
+      translate: false,
       type: 'number',
     },
   ],
@@ -104,6 +113,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       required: true,
       section: 'contact',
       sectionLabel: 'Contact client',
+      translate: false,
       type: 'text',
     },
     {
@@ -114,6 +124,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       required: true,
       section: 'contact',
       sectionLabel: 'Contact client',
+      translate: false,
       type: 'email',
     },
     {
@@ -124,6 +135,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       required: false,
       section: 'contact',
       sectionLabel: 'Contact client',
+      translate: false,
       type: 'tel',
     },
     {
@@ -135,6 +147,7 @@ export const getInputClientConfig: GetInputClientConfigType[][] = [
       rows: 4, //si rows alors c'est un textarea
       section: 'contact',
       sectionLabel: 'Contact client',
+      translate: false,
       type: 'text',
     },
   ],
