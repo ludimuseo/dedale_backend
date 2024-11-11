@@ -19,29 +19,29 @@ const routes: RouteObject[] = [
         children: [
           {
             async lazy() {
-              const Dashboard = await import('@/app/pages/dashboard')
-              return { Component: Dashboard.default }
+              const { Dashboard } = await import('@/app/pages/dashboard')
+              return { Component: Dashboard }
             },
             path: '/',
           },
           {
             async lazy() {
-              const User = await import('@/app/pages/user')
-              return { Component: User.default }
+              const { User } = await import('@/app/pages/user')
+              return { Component: User }
             },
             path: '/user',
           },
           {
             async lazy() {
-              const UserProfile = await import('@/app/pages/user/profile')
-              return { Component: UserProfile.default }
+              const { UserProfile } = await import('@/app/pages/user/profile')
+              return { Component: UserProfile }
             },
             path: '/user/profile',
           },
           {
             async lazy() {
-              const UserSettings = await import('@/app/pages/user/settings')
-              return { Component: UserSettings.default }
+              const { UserSettings } = await import('@/app/pages/user/settings')
+              return { Component: UserSettings }
             },
             path: '/user/settings',
           },
@@ -61,8 +61,8 @@ const routes: RouteObject[] = [
           },
           {
             async lazy() {
-              const AuthSignin = await import('@/app/pages/auth/signin')
-              return { Component: AuthSignin.default }
+              const { AuthSignIn } = await import('@/app/pages/auth/signin')
+              return { Component: AuthSignIn }
             },
             path: '/auth/signin',
           },

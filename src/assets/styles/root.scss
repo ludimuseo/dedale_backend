@@ -85,7 +85,7 @@ $switchCheckboxSize: 1.8rem;
     }
     /* always display 'white Logo' when sidebar is OPEN */
     img.show-on-sidebar {
-      @apply hidden;
+      @apply max-lg:hidden;
     }
   }
   /* // Menu Burger */
@@ -151,7 +151,7 @@ input#checkbox-toggle-sidebar:checked + #floating-header-logo {
     }
 
     #change-theme {
-      @apply mx-0 my-auto flex min-w-48 flex-row justify-between rounded-md bg-slate-300 p-1 text-slate-600;
+      @apply m-auto flex w-56 flex-row justify-between rounded-md bg-slate-300 p-1 text-slate-600;
 
       div {
         > label {

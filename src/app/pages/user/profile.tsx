@@ -1,11 +1,7 @@
 import type { FC } from 'react'
 
 const UserProfile: FC = () => {
-  return (
-    <>
-      <div>(PAGE CONTENT) - USER → PROFILE</div>
-    </>
-  )
+  return <></>
 }
 
-export default UserProfile
+export { UserProfile }

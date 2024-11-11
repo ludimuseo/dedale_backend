@@ -1,10 +1,9 @@
 import type { FC } from 'react'
 import { Outlet } from 'react-router-dom'
 
+import { LogoDedale } from '@/app/components'
 import CoreHeader from '@/app/layouts/core/coreHeader'
 import CoreSidebar from '@/app/layouts/core/coreSidebar'
-
-import { LogoDedale } from '../components'
 
 const LayoutDefault: FC = () => {
   return (

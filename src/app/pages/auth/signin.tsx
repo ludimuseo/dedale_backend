@@ -6,8 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { type NavigateFunction, useNavigate } from 'react-router-dom'
 
 import { IconEnvelope, IconLock, IconSpinner, Input } from '@/app/components'
-import { useAppDispatch } from '@/app/hooks'
-import useInput from '@/app/hooks/useInput'
+import { useAppDispatch, useInput } from '@/app/hooks'
 import { auth, db } from '@/firebase/firebase'
 import type { User } from '@/types'
 
@@ -117,4 +116,4 @@ const AuthSignIn: FC = () => {
   )
 }
 
-export default AuthSignIn
+export { AuthSignIn }
