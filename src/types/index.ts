@@ -46,6 +46,12 @@ export type InputProps = {
   insideForm: boolean
 } & ComponentPropsWithoutRef<'input'>
 
+/* ON_SUBMIT_FORM_MESSAGE */
+export interface MessageType {
+  info: string
+  result: boolean
+}
+
 /* CLIENT */
 export interface ClientType {
   company: {
@@ -72,8 +78,47 @@ export interface ClientType {
   }
 }
 
-/* ON_SUBMIT_FORM_MESSAGE */
-export interface MessageType {
-  info: string
-  result: boolean
+export interface PlaceType {
+  clientId: string
+  medalId: string
+  address: {
+    address: string
+    postal: string
+    city: string
+    country: string
+  }
+  name: {
+    fr: string
+    en: string
+  }
+  coords: {
+    lat: number
+    lon: number
+    locationRequired: boolean
+  }
+  description: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+      isValidate: boolean
+    }
+  }
+  audio: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+    }
+  }
+  status: {
+    isActive: boolean
+    isPublished: boolean
+  }
 }
