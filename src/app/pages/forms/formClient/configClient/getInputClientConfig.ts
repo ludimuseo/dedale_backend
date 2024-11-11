@@ -1,4 +1,4 @@
-interface GetInputClientConfigType {
+export interface GetInputClientConfigType {
   id: string
   label: string
   name: string
