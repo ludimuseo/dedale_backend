@@ -8,14 +8,10 @@ import { MuseumIcon } from '@/app/icons/MuseumIcon'
 import { UserIcon } from '@/app/icons/UserIcon'
 import successImage from '@/assets/imgs/minos-reussi.png'
 import { db } from '@/firebase/firebase'
-import { ClientType } from '@/types'
+import { ClientType, MessageType } from '@/types'
 
+import FormFooter from '../formFooter'
 import { getInputClientConfig } from './configClient/getInputClientConfig'
-
-export interface MessageType {
-  info: string
-  result: boolean
-}
 
 const FormClient: FC = () => {
   const [step, setStep] = useState(0)
@@ -107,8 +103,6 @@ const FormClient: FC = () => {
   useEffect(() => {
     setStep(getInput.length)
   }, [getInput])
-
-  console.log('data:', client)
 
   return (
     <>
@@ -316,55 +310,17 @@ const FormClient: FC = () => {
             })
           }
         </div>
-
-        {/*STEP AREA */}
-        <div className="dark:border-strokedark dark:bg-boxdark flex flex-col rounded-sm border bg-white px-20">
-          <div className="flex flex-row justify-center">
-            {message.result ? (
-              <>
-                <button
-                  className="mx-8 mb-8 mt-8 flex justify-center rounded bg-blue-900 p-3 font-bold text-white hover:bg-opacity-100"
-                  onClick={handleEditPlace}>
-                  <MuseumIcon />
-                  <span className="ml-4 mt-0.5">{`Editer un Lieu `}</span>
-                </button>
-              </>
-            ) : currentStep < step - 1 ? (
-              <>
-                {currentStep > 0 && (
-                  <>
-                    <button
-                      className="mx-8 mb-8 mt-8 flex justify-center rounded bg-blue-900 p-3 font-bold text-white hover:bg-opacity-100"
-                      onClick={handlePrevStep}>
-                      {`<- Précédent`}
-                    </button>
-                    <br />
-                  </>
-                )}
-                <button
-                  className="mx-8 mb-8 mt-8 flex justify-center rounded bg-blue-900 p-3 font-bold text-white hover:bg-opacity-100"
-                  onClick={handleNextStep}>
-                  {`Suivant ->`}
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  className="mx-8 mb-8 mt-8 flex justify-center rounded bg-blue-900 p-3 font-bold text-white hover:bg-opacity-100"
-                  onClick={handlePrevStep}>
-                  {`<- Précédent`}
-                </button>
-                <br />
-                <button
-                  className="mx-8 mb-8 mt-8 flex justify-center rounded bg-rose-400 p-3 font-bold text-white hover:bg-opacity-100"
-                  onClick={(event) => void handleSubmit(event)}>
-                  {/*Add void because Promise-returning function provided to attribute where a void return was expected  */}
-                  VALIDER
-                </button>
-              </>
-            )}
-          </div>
-        </div>
+        {/*FORMFOOTER */}
+        <FormFooter
+          message={message}
+          handleEdit={handleEditPlace}
+          currentStep={currentStep}
+          step={step}
+          handlePrevStep={handlePrevStep}
+          handleNextStep={handleNextStep}
+          handleSubmit={(event) => void handleSubmit(event)}
+          icon={<MuseumIcon />}
+        />
       </div>
     </>
   )

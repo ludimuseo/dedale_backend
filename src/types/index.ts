@@ -71,3 +71,9 @@ export interface ClientType {
     isActive: boolean //ACTIVER/DESACTIVER LE CLIENT
   }
 }
+
+/* ON_SUBMIT_FORM_MESSAGE */
+export interface MessageType {
+  info: string
+  result: boolean
+}
