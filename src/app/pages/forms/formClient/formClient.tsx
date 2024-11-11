@@ -1,7 +1,6 @@
 import { addDoc, collection } from 'firebase/firestore'
 import { type FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 
-import ArrowLeftIcon from '@/app/icons/ArrowLeftIcon'
 import { MuseumIcon } from '@/app/icons/MuseumIcon'
 import { UserIcon } from '@/app/icons/UserIcon'
 import successImage from '@/assets/imgs/minos-reussi.png'
@@ -9,6 +8,7 @@ import { db } from '@/firebase/firebase'
 import { ClientType, MessageType } from '@/types'
 
 import FormFooter from '../formFooter'
+import FormHeader from '../formheader'
 import Timeline from '../timeline'
 import { getInputClientConfig } from './configClient/getInputClientConfig'
 
@@ -55,6 +55,10 @@ const FormClient: FC = () => {
   }
   const handleEditPlace = () => {
     alert('Edit Place')
+  }
+
+  const handleArrowLeft = () => {
+    alert('Back to Dashboard')
   }
 
   //soumission des informations
@@ -107,16 +111,11 @@ const FormClient: FC = () => {
     <>
       {/*CONTAINER */}
       <div className="grid grid-cols-1 gap-1 p-10 sm:grid-cols-1">
-        {/*NAVIGATION AREA */}
-        <div className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark rounded-sm border bg-white">
-          <div className="mx-5 mb-4 mt-4 flex flex-row">
-            <button className="flex justify-center rounded bg-rose-400 p-3 font-bold text-white hover:bg-opacity-100">
-              <ArrowLeftIcon className="5" />
-            </button>
-            <h1 className="ml-4 mt-2">Formulaire Client</h1>
-            <UserIcon />
-          </div>
-        </div>
+        <FormHeader
+          title={'Formulaire Client'}
+          icon={<UserIcon />}
+          handleSubmit={handleArrowLeft}
+        />
         {/*TIMELINE AREA */}
         <Timeline
           getInput={getInput}
