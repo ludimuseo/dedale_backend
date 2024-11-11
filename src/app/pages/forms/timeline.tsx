@@ -19,7 +19,7 @@ const Timeline = ({ getInput, currentStep, step, message }: TimelineProps) => {
         {getInput.map((inputs, index) => {
           if (currentStep + 1 > index + 1 || message.info) {
             return (
-              <div>
+              <div key={index}>
                 <CircleWithLineIcon index={index} currentStep={currentStep} />
                 <div className="mr-12 text-center">
                   <span>{inputs[index].sectionLabel}</span>
@@ -30,7 +30,7 @@ const Timeline = ({ getInput, currentStep, step, message }: TimelineProps) => {
             )
           } else {
             return (
-              <div className="mr-5">
+              <div className="mr-5" key={index}>
                 <CircleIcon index={index} currentStep={currentStep} />
                 <div className="text-center">
                   {currentStep + 1 === index + 1 ? (
