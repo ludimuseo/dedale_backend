@@ -9,15 +9,15 @@ import { getInputClientConfig } from './configClient/getInputClientConfig'
 
 export interface MessageType {
   info: string
-  error: boolean
+  result: boolean
 }
 
 const FormClient: FC = () => {
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
   const [message, setMessage] = useState<MessageType>({
-    error: false,
     info: '',
+    result: false,
   })
   const [client, setClient] = useState<ClientType>({
     address: {
@@ -52,27 +52,29 @@ const FormClient: FC = () => {
     if (currentStep === 0) return
     setCurrentStep(currentStep - 1)
   }
+  const handleEditPlace = () => {
+    alert('Edit Place')
+  }
 
   //soumission des informations
   const handleSubmit = async (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault()
-
     try {
       const docRef = await addDoc(collection(db, 'clients'), { client })
       const id = docRef.id
       if (id) {
         setMessage(() => ({
-          error: false,
           info: 'Votre formulaire a été envoyé avec succès !',
+          result: true,
         }))
       }
     } catch (error) {
       console.error("Erreur sur l'envoi du formulaire", error)
       setMessage(() => ({
-        error: true,
         info: "Erreur lors de l'envoi du formulaire",
+        result: false,
       }))
     }
   }
@@ -100,13 +102,30 @@ const FormClient: FC = () => {
     setStep(getInput.length)
   }, [getInput])
 
+  console.log('message.result: ', message.result)
   return (
     <>
       {/*CONTAINER */}
       <div className="grid grid-cols-1 gap-1 p-10 sm:grid-cols-1">
         {/*NAVIGATION AREA */}
         <div className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark rounded-sm border bg-white">
-          <span>NAVIGATION AREA</span>
+          <div className="mx-5 mb-4 mt-4 flex flex-row">
+            <button className="flex justify-center rounded bg-rose-400 p-3 font-bold text-white hover:bg-opacity-100">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M19 12H5" />
+                <path d="M12 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <h1 className="ml-4 mt-2">Formulaire Client</h1>
+          </div>
         </div>
 
         {/*TIMELINE AREA */}
@@ -197,7 +216,9 @@ const FormClient: FC = () => {
                         <div>
                           <span>{getInput[index][step]?.sectionLabel}</span>
                           <br />
-                          <span className="font-bold">En cours</span>
+                          <span className="font-bold text-rose-500">
+                            En cours
+                          </span>
                         </div>
                       ) : (
                         <>
@@ -288,8 +309,13 @@ const FormClient: FC = () => {
           ) : (
             <>
               <div className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark mt-5 flex w-1/2 flex-col items-center rounded-sm p-2">
-                <h1> ✅ {message.info}</h1>
-                <img width="30%" src={successImage} alt="Success Minos" />
+                <h1> 🚀 {message.info}</h1>
+                <img
+                  width="30%"
+                  src={successImage}
+                  alt="Success Minos"
+                  className="mt-10"
+                />
               </div>
             </>
           )}
@@ -312,14 +338,34 @@ const FormClient: FC = () => {
         {/*STEP AREA */}
         <div className="dark:border-strokedark dark:bg-boxdark flex flex-col rounded-sm border bg-white px-20">
           <div className="flex flex-row justify-center">
-            {currentStep < step - 1 ? (
+            {message.result ? (
+              <>
+                <button
+                  className="mx-8 mb-8 mt-8 flex justify-center rounded bg-blue-900 p-3 font-bold text-white hover:bg-opacity-100"
+                  onClick={handleEditPlace}>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M2 10h20M12 2l10 8H2l10-8z" />
+                    <path d="M5 10v10M9 10v10M15 10v10M19 10v10M2 20h20" />
+                  </svg>
+                  <span className="ml-4 mt-0.5">{`Editer un Lieu `}</span>
+                </button>
+              </>
+            ) : currentStep < step - 1 ? (
               <>
                 {currentStep > 0 && (
                   <>
                     <button
                       className="mx-8 mb-8 mt-8 flex justify-center rounded bg-blue-900 p-3 font-bold text-white hover:bg-opacity-100"
                       onClick={handlePrevStep}>
-                      {`< Précédent`}
+                      {`<- Précédent`}
                     </button>
                     <br />
                   </>
@@ -327,7 +373,7 @@ const FormClient: FC = () => {
                 <button
                   className="mx-8 mb-8 mt-8 flex justify-center rounded bg-blue-900 p-3 font-bold text-white hover:bg-opacity-100"
                   onClick={handleNextStep}>
-                  {`Suivant >`}
+                  {`Suivant ->`}
                 </button>
               </>
             ) : (
@@ -335,7 +381,7 @@ const FormClient: FC = () => {
                 <button
                   className="mx-8 mb-8 mt-8 flex justify-center rounded bg-blue-900 p-3 font-bold text-white hover:bg-opacity-100"
                   onClick={handlePrevStep}>
-                  {`< Précédent`}
+                  {`<- Précédent`}
                 </button>
                 <br />
                 <button
