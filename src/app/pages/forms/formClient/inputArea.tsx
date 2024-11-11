@@ -43,7 +43,7 @@ const InputArea = ({
               }
               if (rows) {
                 return (
-                  <div className="mt-5 flex flex-col">
+                  <div className="mt-5 flex flex-col" key={id}>
                     <span>{label}</span>
                     <textarea
                       key={id}
@@ -70,7 +70,7 @@ const InputArea = ({
                 )
               } else if (option) {
                 return (
-                  <div className="mt-5 flex flex-col">
+                  <div className="mt-5 flex flex-col" key={id}>
                     <span>{label}</span>
                     <select
                       name={name}
@@ -102,7 +102,7 @@ const InputArea = ({
                   /*INPUT*/
                 }
                 return (
-                  <div className="mt-5 flex flex-col">
+                  <div className="mt-5 flex flex-col" key={id}>
                     <span>{label}</span>
                     <input
                       key={id}
