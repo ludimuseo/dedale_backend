@@ -30,6 +30,7 @@ const FormClient: FC = () => {
       name: '',
       siret: '',
       tva: '',
+      type: '',
       website: '',
     },
     contact: {
@@ -102,7 +103,8 @@ const FormClient: FC = () => {
     setStep(getInput.length)
   }, [getInput])
 
-  console.log('message.result: ', message.result)
+  console.log('data:', client)
+
   return (
     <>
       {/*CONTAINER */}
@@ -125,6 +127,10 @@ const FormClient: FC = () => {
               </svg>
             </button>
             <h1 className="ml-4 mt-2">Formulaire Client</h1>
+            <svg width="100" height="40" viewBox="0 0 24 24" fill="none">
+              <circle cx="5" cy="8" r="5" fill="#0A184D" />
+              <ellipse cx="5" cy="19" rx="8" ry="5" fill="#0A184D" />
+            </svg>
           </div>
         </div>
 
@@ -246,8 +252,19 @@ const FormClient: FC = () => {
               className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark mt-5 flex w-1/2 flex-col rounded-sm p-2">
               {/* <span>-- INPUT AREA 1 --</span> */}
               {getInput[currentStep].map(
-                ({ id, section, rows, type, name, label, placeholder }) => {
-                  console.log('section', section, 'name', name)
+                ({
+                  id,
+                  section,
+                  rows,
+                  type,
+                  name,
+                  label,
+                  option,
+                  placeholder,
+                }) => {
+                  {
+                    /*TEXTAREA*/
+                  }
                   if (rows) {
                     return (
                       <div className="mt-5 flex flex-col">
@@ -275,7 +292,39 @@ const FormClient: FC = () => {
                         />
                       </div>
                     )
+                  } else if (option) {
+                    return (
+                      <div className="mt-5 flex flex-col">
+                        <span>{label}</span>
+                        <select
+                          name={name}
+                          id={id}
+                          value={
+                            client[section as keyof ClientType][
+                              name as keyof ClientType[keyof ClientType]
+                            ]
+                          }
+                          onChange={(e) => {
+                            handleInputChange(
+                              section as keyof ClientType,
+                              name as keyof ClientType[keyof ClientType],
+                              e.target
+                                .value as ClientType[keyof ClientType][keyof ClientType[keyof ClientType]]
+                            )
+                          }}
+                          className="border-stroke disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary w-4/6 rounded border-[1.5px] bg-transparent px-5 py-3 text-black outline-none transition focus:border-blue-800 active:border-blue-400 disabled:cursor-default dark:text-white">
+                          {option.map((opt, index) => (
+                            <option key={index} value={opt}>
+                              {opt}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )
                   } else {
+                    {
+                      /*INPUT*/
+                    }
                     return (
                       <div className="mt-5 flex flex-col">
                         <span>{label}</span>

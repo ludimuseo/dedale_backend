@@ -2,17 +2,29 @@ interface GetInputClientConfigType {
   id: string
   label: string
   name: string
+  option?: string[]
   placeholder?: string
   required: boolean
   rows?: number | undefined
   section: string
   sectionLabel: string
   translate: boolean
-  type: string
+  type?: string
 }
 
 export const getInputClientConfig: GetInputClientConfigType[][] = [
   [
+    {
+      id: '11',
+      label: 'Type',
+      name: 'type',
+      option: ['PROFESSIONNEL', 'ASSOCIATION', 'PARTICULIER'],
+      placeholder: 'Selectionnez le type',
+      required: true,
+      section: 'company',
+      sectionLabel: 'Information client',
+      translate: false,
+    },
     {
       id: '0',
       label: 'Nom Enteprise ou société',

@@ -52,6 +52,7 @@ export interface ClientType {
     name: string
     siret: string
     tva: string
+    type: string
     website: string
   }
   address: {
