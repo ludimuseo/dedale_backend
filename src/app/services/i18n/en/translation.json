@@ -26,7 +26,8 @@
     }
   },
   "button": {
-    "signin": "sign in"
+    "signin": "sign in",
+    "signout": "sign out"
   },
   "page": {
     "auth": "🫙",

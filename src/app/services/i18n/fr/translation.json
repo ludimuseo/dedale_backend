@@ -26,7 +26,8 @@
     }
   },
   "button": {
-    "signin": "connectez-vous"
+    "signin": "connectez-vous",
+    "signout": "déconnectez-vous"
   },
   "page": {
     "auth": "🪹",

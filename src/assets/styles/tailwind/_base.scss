@@ -8,7 +8,13 @@
 //
 */
 :root {
-  background-color: #ffffff;
+  --color-dark1: #{color.$dark1};
+  --color-dark2: #{color.$dark2};
+  --color-light1: #{color.$light1};
+  --color-light2: #{color.$light2};
+  --color-warm-blue: #{color.$warmBlue};
+  --color-dark-slate-grey: #{color.$darkSlateGrey};
+
   --color-bg-button: #{color.$warmBlue};
   --color-bg-primary: #{color.$light1};
   --color-bg-secondary: #{color.$light2};

@@ -21,6 +21,13 @@ const LogoDedale = ({ width, forceDark }: LogoDedaleProps) => {
     <>
       <figure>
         <img height="auto" width={width} src={imgData} alt="logo" />
+        <img
+          className="show-on-sidebar"
+          height="auto"
+          width={width}
+          src={logoDedale1}
+          alt="logo"
+        />
       </figure>
     </>
   )
