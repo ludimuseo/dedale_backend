@@ -1,16 +1,11 @@
 import { addDoc, collection } from 'firebase/firestore'
 import { type FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 
-import { MuseumIcon } from '@/app/icons/MuseumIcon'
-import { UserIcon } from '@/app/icons/UserIcon'
 import { db } from '@/firebase/firebase'
 import { ClientType, MessageType } from '@/types'
 
-import FormFooter from '../formFooter'
-import FormHeader from '../formheader'
-import Timeline from '../timeline'
+import Form from '../form'
 import { getInputClientConfig } from './configClient/getInputClientConfig'
-import InputArea from './inputArea'
 
 const FormClient: FC = () => {
   const [step, setStep] = useState(0)
@@ -109,37 +104,22 @@ const FormClient: FC = () => {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-1 p-10 sm:grid-cols-1">
-        <FormHeader
-          title={'Formulaire Client'}
-          icon={<UserIcon />}
-          handleSubmit={handleArrowLeft}
-        />
-        <Timeline
-          getInput={getInput}
-          currentStep={currentStep}
-          step={step}
-          message={message}
-        />
-        <InputArea
-          message={message}
-          handleSubmit={(event) => void handleSubmit(event)}
-          getInput={getInput}
-          currentStep={currentStep}
-          client={client}
-          handleInputChange={() => handleInputChange}
-        />
-        <FormFooter
-          message={message}
-          handleEdit={handleEditPlace}
-          currentStep={currentStep}
-          step={step}
-          handlePrevStep={handlePrevStep}
-          handleNextStep={handleNextStep}
-          handleSubmit={(event) => void handleSubmit(event)}
-          icon={<MuseumIcon />}
-        />
-      </div>
+      <Form
+        title={'Formulaire Client'}
+        handleArrowLeft={handleArrowLeft}
+        getInput={getInput}
+        currentStep={currentStep}
+        step={step}
+        message={message}
+        handleSubmit={() => void handleSubmit}
+        client={client}
+        handleInputChange={(section, name, value) => {
+          handleInputChange(section, name, value)
+        }}
+        handleEdit={handleEditPlace}
+        handlePrevStep={handlePrevStep}
+        handleNextStep={handleNextStep}
+      />
     </>
   )
 }
