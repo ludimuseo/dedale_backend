@@ -6,13 +6,14 @@ import { useTranslation } from 'react-i18next'
 import { type NavigateFunction, useNavigate } from 'react-router-dom'
 
 import { IconEnvelope, IconLock, IconSpinner, Input } from '@/app/components'
-import { useAppDispatch, useInput } from '@/app/hooks'
+import { useAppDispatch, useInput, useNotification } from '@/app/hooks'
 import { auth, db } from '@/firebase/firebase'
 import type { User } from '@/types'
 
 const AuthSignIn: FC = () => {
   const { t } = useTranslation()
   const navigate: NavigateFunction = useNavigate()
+  const { push } = useNotification()
   const dispatch = useAppDispatch()
   const emailRef = useRef<HTMLInputElement>(null)
   const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -55,10 +56,12 @@ const AuthSignIn: FC = () => {
               uid: user.uid,
             } satisfies User)
           )
+          push('OK', { type: 'success' })
           navigate('/', { replace: true })
         })
         .catch((err: unknown) => {
           console.error(err)
+          push('KO', { type: 'error' })
         })
         .finally(() => {
           setShowLoader(false)

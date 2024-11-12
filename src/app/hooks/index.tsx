@@ -6,3 +6,4 @@ export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
 export const useAppSelector = useSelector.withTypes<RootState>()
 
 export { useInput } from '@/app/hooks/useInput'
+export { useNotification } from '@/app/hooks/useNotification'

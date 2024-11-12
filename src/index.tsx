@@ -1,6 +1,7 @@
 import '@style/root.scss'
 import '@service/i18n'
 
+import { SnackbarProvider } from 'notistack'
 import { persistor, store } from '@service/redux'
 import { createRoot, Root } from 'react-dom/client'
 import { StrictMode, Suspense } from 'react'
@@ -15,15 +16,17 @@ const rootElement: HTMLElement = document.getElementById(
 const root: Root = createRoot(rootElement)
 root.render(
   <StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Suspense fallback={<div>Loading...</div>}>
-          <RouterProvider
-            router={router}
-            future={{ v7_startTransition: true }}
-          />
-        </Suspense>
-      </PersistGate>
-    </Provider>
+    <SnackbarProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Suspense fallback={<div>Loading...</div>}>
+            <RouterProvider
+              router={router}
+              future={{ v7_startTransition: true }}
+            />
+          </Suspense>
+        </PersistGate>
+      </Provider>
+    </SnackbarProvider>
   </StrictMode>
 )
