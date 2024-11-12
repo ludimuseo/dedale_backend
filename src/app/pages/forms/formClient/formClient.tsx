@@ -111,7 +111,7 @@ const FormClient: FC = () => {
         currentStep={currentStep}
         step={step}
         message={message}
-        handleSubmit={() => void handleSubmit}
+        handleSubmit={(event) => void handleSubmit(event)}
         client={client}
         handleInputChange={(section, name, value) => {
           handleInputChange(section, name, value)
