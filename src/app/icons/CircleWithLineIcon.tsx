@@ -21,6 +21,7 @@ export const CircleWithLineIcon = ({
         stroke="#4AD87E"
         strokeWidth="1"
         fill="#4AD87E"
+        xmlns="http://www.w3.org/2000/svg"
       />
       <path
         d="M55 50 L65 60 L85 40"
