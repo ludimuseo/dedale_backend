@@ -13,7 +13,7 @@ export const CircleIcon = ({
   return (
     <svg height="100" width="100" key={index} {...props}>
       <circle
-        cx="50"
+        cx="60"
         cy="50"
         r="25"
         stroke="#707785"
@@ -22,7 +22,7 @@ export const CircleIcon = ({
         fill={currentStep + 1 === index + 1 ? '#0A184D' : 'white'}
       />
       <text
-        x="50"
+        x="60"
         y="52"
         fontSize="30"
         fontWeight={currentStep + 1 > index + 1 ? 'bold' : 'light'}
