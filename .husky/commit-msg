@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 set -e
 
-npx commitlint --edit $1
+yarn commitlint $1
 npx commit-prettier $1

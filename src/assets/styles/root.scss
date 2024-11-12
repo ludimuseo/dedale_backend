@@ -59,6 +59,9 @@ $switchCheckboxSize: 1.8rem;
       }
       &#auth-info {
         @apply max-lg:hidden;
+        img.show-on-sidebar {
+          @apply hidden;
+        }
         figure {
           @apply pb-4;
         }
