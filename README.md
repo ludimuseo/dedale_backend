@@ -1,4 +1,4 @@
-# Project Dedale [BackOffice]
+# Project Dédale > [BackOffice]
 
 ## Description
 
@@ -6,7 +6,7 @@
 
 ## About
 
-> [@Dédale][UrlPj] Project By the association:
+> Project [@Dédale][UrlPj] By the association:
 > [_Ludi Museo_](https://www.ludimuseo.fr/lassociation/) (French URL)
 
 [UrlPj]: https://github.com/ludimuseo/backoffice/
@@ -49,7 +49,7 @@ git clone git@github.com:ludimuseo/backoffice.git
 yarn install
 ```
 
-~this~ (this also updates yarn locally to version @4.5.1)
+\*(this also updates **yarn** locally to version @4.5.1)
 
 > Note: ⚠️ If an error occurs, please refer to the official documentation at
 > [yarnpkg.com > installation](https://yarnpkg.com/getting-started/install).
