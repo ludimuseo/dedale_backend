@@ -3,7 +3,7 @@ import { FormEvent, MouseEvent } from 'react'
 import successImage from '@/assets/imgs/minos-reussi.png'
 import { ClientType, MessageType } from '@/types'
 
-import { GetInputClientConfigType } from './configClient/getInputClientConfig'
+import { GetInputClientConfigType } from './formClient/configClient/getInputClientConfig'
 
 interface InputAreaProps {
   message: MessageType
@@ -13,10 +13,13 @@ interface InputAreaProps {
   getInput: GetInputClientConfigType[][]
   currentStep: number
   client: ClientType
-  handleInputChange: (
-    section: string,
-    name: string,
-    event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
+  handleInputChange: <
+    S extends keyof ClientType,
+    K extends keyof ClientType[S],
+  >(
+    section: S,
+    name: K,
+    event: ClientType[S][K]
   ) => void
 }
 
