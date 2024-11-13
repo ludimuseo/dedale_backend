@@ -5,6 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import eslintPrettierConfig from 'eslint-config-prettier'
 import eslintPrettierPlugin from 'eslint-plugin-prettier/recommended'
+import simpleImportSort from 'eslint-plugin-simple-import-sort'
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -27,9 +28,12 @@ export default tseslint.config(
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      'simple-import-sort': simpleImportSort,
       'prettier': eslintPrettierPlugin,
     },
     rules: {
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
       'sort-vars': ['error', { ignoreCase: false }],
       'sort-keys': [
         'error',
@@ -49,4 +53,3 @@ export default tseslint.config(
     },
   }
 )
-// .concat(prettierPlugin)

@@ -1,13 +1,14 @@
 import '@style/root.scss'
 import '@service/i18n'
 
-import { SnackbarProvider } from 'notistack'
 import { persistor, store } from '@service/redux'
-import { createRoot, Root } from 'react-dom/client'
+import { SnackbarProvider } from 'notistack'
 import { StrictMode, Suspense } from 'react'
+import { createRoot, Root } from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { PersistGate } from 'redux-persist/integration/react'
 import { RouterProvider } from 'react-router-dom'
+import { PersistGate } from 'redux-persist/integration/react'
+
 import { router } from '@/app/router'
 
 const rootElement: HTMLElement = document.getElementById(
