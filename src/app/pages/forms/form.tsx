@@ -74,7 +74,9 @@ const Form = ({
         handleEdit={handleEdit}
         currentStep={currentStep}
         step={step}
-        handlePrevStep={handlePrevStep}
+        handlePrevStep={() => {
+          handlePrevStep()
+        }}
         handleNextStep={handleNextStep}
         handleSubmit={(event) => {
           handleSubmit(event)
