@@ -52,6 +52,85 @@ export interface MessageType {
   result: boolean
 }
 
+export interface GetInputConfigType {
+  id: string
+  label: string
+  locationRequired?: boolean
+  name: string
+  option?: string[]
+  placeholder?: string
+  required: boolean
+  rows?: number | undefined
+  section: string
+  sectionLabel: string
+  translate: boolean
+  type?: string
+}
+
+/* TYPE GENERIQUE */
+
+export type T = Record<
+  string,
+  Address | Compagny | Contact | Status | Name | Coords | Description | Audio
+>
+
+interface Contact {
+  name: string
+  email: string
+  tel: string
+  note: string
+}
+
+interface Address {
+  address: string
+  postal: string
+  city: string
+  country: string
+}
+interface Compagny {
+  name: string
+  siret: string
+  tva: string
+  type: string
+  website: string
+}
+
+interface Status {
+  isActive: boolean //ACTIVER/DESACTIVER LE CLIENT
+  isPublished?: boolean
+}
+
+interface Name {
+  fr: string
+  en: string
+}
+interface Coords {
+  lat: number
+  lon: number
+  locationRequired: boolean
+}
+interface Description {
+  standard: {
+    fr: string
+    en: string
+  }
+  falc: {
+    fr: string
+    en: string
+    isValidate: boolean
+  }
+}
+interface Audio {
+  standard: {
+    fr: string
+    en: string
+  }
+  falc: {
+    fr: string
+    en: string
+  }
+}
+
 /* CLIENT */
 export interface ClientType {
   company: {
@@ -78,6 +157,7 @@ export interface ClientType {
   }
 }
 
+/* PLACE */
 export interface PlaceType {
   clientId: string
   medalId: string

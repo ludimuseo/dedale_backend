@@ -1,18 +1,6 @@
-export interface GetInputClientConfigType {
-  id: string
-  label: string
-  name: string
-  option?: string[]
-  placeholder?: string
-  required: boolean
-  rows?: number | undefined
-  section: string
-  sectionLabel: string
-  translate: boolean
-  type?: string
-}
+import { GetInputConfigType } from '@/types'
 
-export const getInputClientConfig: GetInputClientConfigType[][] = [
+export const getInputClientConfig: GetInputConfigType[][] = [
   [
     {
       id: '11',

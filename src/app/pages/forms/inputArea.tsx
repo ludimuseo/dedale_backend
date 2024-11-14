@@ -1,25 +1,20 @@
 import { FormEvent, MouseEvent } from 'react'
 
 import successImage from '@/assets/imgs/minos-reussi.png'
-import { ClientType, MessageType } from '@/types'
-
-import { GetInputClientConfigType } from './formClient/configClient/getInputClientConfig'
+import { GetInputConfigType, MessageType, T } from '@/types'
 
 interface InputAreaProps {
   message: MessageType
   handleSubmit: (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => void
-  getInput: GetInputClientConfigType[][]
+  getInput: GetInputConfigType[][]
   currentStep: number
-  client: ClientType
-  handleInputChange: <
-    S extends keyof ClientType,
-    K extends keyof ClientType[S],
-  >(
+  formData: T
+  handleInputChange: <S extends keyof T, K extends keyof T[S]>(
     section: S,
     name: K,
-    event: ClientType[S][K]
+    event: T[S][K]
   ) => void
 }
 
@@ -28,7 +23,7 @@ const InputArea = ({
   handleSubmit,
   getInput,
   currentStep,
-  client,
+  formData,
   handleInputChange,
 }: InputAreaProps) => {
   return (
@@ -55,17 +50,12 @@ const InputArea = ({
                       className="border-stroke disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary mt-1 w-4/6 rounded border-[1.5px] bg-transparent px-5 py-3 text-black outline-none transition focus:border-blue-800 active:border-blue-400 disabled:cursor-default dark:text-white"
                       placeholder={placeholder}
                       rows={rows}
-                      value={
-                        client[section as keyof ClientType][
-                          name as keyof ClientType[keyof ClientType]
-                        ]
-                      }
+                      value={formData[section][name as keyof T[keyof T]]}
                       onChange={(e) => {
                         handleInputChange(
-                          section as keyof ClientType,
-                          name as keyof ClientType[keyof ClientType],
-                          e.target
-                            .value as ClientType[keyof ClientType][keyof ClientType[keyof ClientType]]
+                          section,
+                          name as keyof T[keyof T],
+                          e.target.value as T[keyof T][keyof T[keyof T]]
                         )
                       }}
                     />
@@ -78,17 +68,12 @@ const InputArea = ({
                     <select
                       name={name}
                       id={id}
-                      value={
-                        client[section as keyof ClientType][
-                          name as keyof ClientType[keyof ClientType]
-                        ]
-                      }
+                      value={formData[section][name as keyof T[keyof T]]}
                       onChange={(e) => {
                         handleInputChange(
-                          section as keyof ClientType,
-                          name as keyof ClientType[keyof ClientType],
-                          e.target
-                            .value as ClientType[keyof ClientType][keyof ClientType[keyof ClientType]]
+                          section,
+                          name as keyof T[keyof T],
+                          e.target.value as T[keyof T][keyof T[keyof T]]
                         )
                       }}
                       className="border-stroke disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary mt-1 w-4/6 rounded border-[1.5px] bg-transparent px-5 py-3 text-black outline-none transition focus:border-blue-800 active:border-blue-400 disabled:cursor-default dark:text-white">
@@ -114,17 +99,12 @@ const InputArea = ({
                       className="border-stroke disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary mt-1 w-4/6 rounded border-[1.5px] bg-transparent px-5 py-3 text-black outline-none transition focus:border-blue-800 active:border-blue-400 disabled:cursor-default dark:text-white"
                       placeholder={placeholder}
                       type={type}
-                      value={
-                        client[section as keyof ClientType][
-                          name as keyof ClientType[keyof ClientType]
-                        ]
-                      }
+                      value={formData[section][name as keyof T[keyof T]]}
                       onChange={(e) => {
                         handleInputChange(
-                          section as keyof ClientType,
-                          name as keyof ClientType[keyof ClientType],
-                          e.target
-                            .value as ClientType[keyof ClientType][keyof ClientType[keyof ClientType]]
+                          section,
+                          name as keyof T[keyof T],
+                          e.target.value as T[keyof T][keyof T[keyof T]]
                         )
                       }}
                     />

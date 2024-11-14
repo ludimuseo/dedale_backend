@@ -1,11 +1,9 @@
 import { CircleIcon } from '@/app/icons/CircleIcon'
 import { CircleWithLineIcon } from '@/app/icons/CircleWithLineIcon'
-import { MessageType } from '@/types'
-
-import { GetInputClientConfigType } from './formClient/configClient/getInputClientConfig'
+import { GetInputConfigType, MessageType } from '@/types'
 
 interface TimelineProps {
-  getInput: GetInputClientConfigType[][]
+  getInput: GetInputConfigType[][]
   currentStep: number
   step: number
   message: MessageType

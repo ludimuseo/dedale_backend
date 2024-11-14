@@ -2,7 +2,7 @@ import { addDoc, collection } from 'firebase/firestore'
 import { type FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 
 import { db } from '@/firebase/firebase'
-import { ClientType, MessageType } from '@/types'
+import { MessageType, T } from '@/types'
 
 import Form from '../form'
 import { getInputClientConfig } from './configClient/getInputClientConfig'
@@ -14,7 +14,7 @@ const FormClient: FC = () => {
     info: '',
     result: false,
   })
-  const [client, setClient] = useState<ClientType>({
+  const [formData, setFormData] = useState<T>({
     address: {
       address: '',
       city: '',
@@ -62,7 +62,7 @@ const FormClient: FC = () => {
   ) => {
     event.preventDefault()
     try {
-      const docRef = await addDoc(collection(db, 'clients'), { client })
+      const docRef = await addDoc(collection(db, 'clients'), { formData })
       const id = docRef.id
       if (id) {
         setMessage(() => ({
@@ -79,18 +79,15 @@ const FormClient: FC = () => {
     }
   }
 
-  const handleInputChange = <
-    S extends keyof ClientType,
-    K extends keyof ClientType[S],
-  >(
+  const handleInputChange = <S extends keyof T, K extends keyof T[S]>(
     section: S,
     name: K,
-    value: ClientType[S][K]
+    value: T[S][K]
   ) => {
-    setClient((prevClient) => ({
-      ...prevClient,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [section]: {
-        ...prevClient[section],
+        ...prevFormData[section],
         [name]: value,
       },
     }))
@@ -112,7 +109,7 @@ const FormClient: FC = () => {
         step={step}
         message={message}
         handleSubmit={(event) => void handleSubmit(event)}
-        client={client}
+        formData={formData}
         handleInputChange={(section, name, value) => {
           handleInputChange(section, name, value)
         }}
