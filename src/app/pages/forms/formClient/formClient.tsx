@@ -1,13 +1,14 @@
 import { addDoc, collection } from 'firebase/firestore'
-import { type FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
+import { type FormEvent, MouseEvent, useEffect, useState } from 'react'
 
+import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
 import { MessageType, T } from '@/types'
 
 import Form from '../form'
 import { getInputClientConfig } from './configClient/getInputClientConfig'
 
-const FormClient: FC = () => {
+const FormClient = () => {
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
   const [message, setMessage] = useState<MessageType>({
@@ -48,12 +49,9 @@ const FormClient: FC = () => {
     if (currentStep === 0) return
     setCurrentStep(currentStep - 1)
   }
+
   const handleEditPlace = () => {
     alert('Edit Place')
-  }
-
-  const handleArrowLeft = () => {
-    alert('Back to Dashboard')
   }
 
   //soumission des informations

@@ -53,8 +53,10 @@ export interface MessageType {
 }
 
 export interface GetInputConfigType {
+  accessType?: string
   id: string
   label: string
+  language?: string
   locationRequired?: boolean
   name: string
   option?: string[]
@@ -63,7 +65,7 @@ export interface GetInputConfigType {
   rows?: number | undefined
   section: string
   sectionLabel: string
-  translate: boolean
+  translate?: boolean
   type?: string
 }
 

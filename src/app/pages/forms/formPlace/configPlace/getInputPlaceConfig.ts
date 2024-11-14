@@ -1,4 +1,6 @@
-export const getInputPlaceConfig = [
+import { GetInputConfigType } from '@/types'
+
+export const getInputPlaceConfig: GetInputConfigType[][] = [
   [
     {
       id: '0',
@@ -9,6 +11,19 @@ export const getInputPlaceConfig = [
       section: 'name',
       sectionLabel: 'Information du Lieu',
       translate: true,
+    },
+  ],
+  [
+    {
+      accessType: 'image/*',
+      id: '14',
+      label: 'Image',
+      name: 'image',
+      placeholder: 'Telecharger l image du lieu',
+      required: false,
+      section: 'image',
+      sectionLabel: 'Image du lieu',
+      type: 'file',
     },
   ],
   [
@@ -94,8 +109,61 @@ export const getInputPlaceConfig = [
       type: 'checkbox',
     },
   ],
-  [],
-  [],
-  [],
+  [
+    {
+      id: '11',
+      label: 'Description standard',
+      language: 'fr',
+      name: 'standard',
+      placeholder: 'Entrez la description du lieu',
+      required: false,
+      rows: 10,
+      section: 'description',
+      sectionLabel: 'Descripton standard',
+      translate: true,
+      type: 'text',
+    },
+  ],
+  [
+    {
+      id: '12',
+      label: 'Description FALC ou Facile à lire',
+      language: 'fr',
+      name: 'falc',
+      placeholder: 'Entrez la description facile a lire du lieu',
+      required: false,
+      rows: 10,
+      section: 'description',
+      sectionLabel: 'Descripton FALC ou Facile a lire',
+      translate: true,
+      type: 'text',
+    },
+  ],
+  [
+    {
+      accessType: 'audio/*',
+      id: '12',
+      label: 'Audio standard',
+      language: 'fr',
+      name: 'standard',
+      placeholder: 'Telecharger l audio du lieu',
+      required: false,
+      section: 'audio',
+      sectionLabel: 'Audio standard',
+      type: 'file',
+    },
+    {
+      accessType: 'audio/*',
+      id: '13',
+      label: 'Audio Facile a comprendre',
+      language: 'fr',
+      name: 'falc',
+      placeholder: 'Telecharger l audio du lieu',
+      required: false,
+      section: 'audio',
+      sectionLabel: 'Audio standard',
+      type: 'file',
+    },
+  ],
   [],
 ]
