@@ -2,9 +2,8 @@ import { FormEvent, MouseEvent } from 'react'
 
 import { MuseumIcon } from '@/app/icons/MuseumIcon'
 import { UserIcon } from '@/app/icons/UserIcon'
-import { ClientType, MessageType } from '@/types'
+import { GetInputConfigType, MessageType, T } from '@/types'
 
-import { GetInputClientConfigType } from './formClient/configClient/getInputClientConfig'
 import FormFooter from './formFooter'
 import FormHeader from './formheader'
 import InputArea from './inputArea'
@@ -13,25 +12,22 @@ import Timeline from './timeline'
 interface FormProps {
   title: string
   handleArrowLeft: () => void
-  getInput: GetInputClientConfigType[][]
+  getInput: GetInputConfigType[][]
   currentStep: number
   step: number
   message: MessageType
-  handleSubmit: (
-    event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
-  ) => void
-  client: ClientType
-  handleInputChange: <
-    S extends keyof ClientType,
-    K extends keyof ClientType[S],
-  >(
-    section: S,
-    name: K,
-    event: ClientType[S][K]
-  ) => void
   handleEdit: () => void
   handlePrevStep: () => void
   handleNextStep: () => void
+  handleSubmit: (
+    event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
+  ) => void
+  formData: T
+  handleInputChange: <S extends keyof T, K extends keyof T[S]>(
+    section: S,
+    name: K,
+    event: T[S][K]
+  ) => void
 }
 
 const Form = ({
@@ -42,7 +38,7 @@ const Form = ({
   step,
   message,
   handleSubmit,
-  client,
+  formData,
   handleInputChange,
   handleEdit,
   handlePrevStep,
@@ -68,7 +64,7 @@ const Form = ({
         }}
         getInput={getInput}
         currentStep={currentStep}
-        client={client}
+        formData={formData}
         handleInputChange={(section, name, value) => {
           handleInputChange(section, name, value)
         }}
