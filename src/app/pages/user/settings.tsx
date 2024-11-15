@@ -1,11 +1,7 @@
-import { type FC } from 'react'
+import type { FC } from 'react'
 
 const UserSettings: FC = () => {
-  return (
-    <>
-      <div>(PAGE CONTENT) - USER → SETTINGS</div>
-    </>
-  )
+  return <></>
 }
 
-export default UserSettings
+export { UserSettings }

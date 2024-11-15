@@ -2,7 +2,7 @@ import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 
-// https://vitejs.dev/config/
+// https://vite.dev/config/
 export default defineConfig({
   css: {
     preprocessorOptions: {
@@ -11,16 +11,24 @@ export default defineConfig({
       },
     },
   },
+  esbuild: {
+    supported: {
+      'top-level-await': true,
+    },
+  },
   plugins: [react()],
   resolve: {
     alias: [
       { find: '@', replacement: resolve(__dirname, 'src') },
+      // Assets Alias
       { find: '@font', replacement: resolve(__dirname, 'src/assets/fonts') },
+      { find: '@img', replacement: resolve(__dirname, 'src/assets/imgs') },
+      { find: '@style', replacement: resolve(__dirname, 'src/assets/styles') },
+      // App Alias
       {
         find: '@service',
         replacement: resolve(__dirname, 'src/app/services'),
       },
-      { find: '@style', replacement: resolve(__dirname, 'src/assets/styles') },
     ],
   },
 })

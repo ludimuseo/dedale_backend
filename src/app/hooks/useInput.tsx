@@ -39,4 +39,4 @@ const useInput = (initialValue: string, options: OptionsProps) => {
   }
 }
 
-export default useInput
+export { useInput }

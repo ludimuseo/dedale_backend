@@ -24,6 +24,7 @@ dist-ssr
 *.sw?
 
 .env
-.env.local
-.env.prod
 .env.*
+
+.pnp.js
+.pnp.*

@@ -1,7 +1,7 @@
+/** @type {import('tailwindcss').Config} */
 import tailwind3dtransforms from '@xpd/tailwind-3dtransforms'
-import { type Config } from 'tailwindcss'
 
-const config: Config = {
+export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
   plugins: [tailwind3dtransforms],
@@ -25,5 +25,3 @@ const config: Config = {
     },
   },
 }
-
-export default config

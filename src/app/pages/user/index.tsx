@@ -1,11 +1,7 @@
-import { type FC } from 'react'
+import type { FC } from 'react'
 
 const User: FC = () => {
-  return (
-    <>
-      <div>(PAGE CONTENT) - USER</div>
-    </>
-  )
+  return <></>
 }
 
-export default User
+export { User }

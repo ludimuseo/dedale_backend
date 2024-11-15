@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 
-const Dashboard: FC = () => {
+const Clients: FC = () => {
   return <></>
 }
 
-export { Dashboard }
+export { Clients }

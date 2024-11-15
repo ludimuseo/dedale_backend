@@ -4,7 +4,13 @@
 .btn {
   /* class: .btn--primary */
   &--primary {
-    @apply my-8 flex w-full justify-center rounded-lg bg-button p-3 font-medium capitalize text-white;
+    @apply flex items-center justify-center rounded-lg bg-button p-3 font-medium text-white;
+  }
+}
+
+form > .btn {
+  &--primary {
+    @apply my-8 w-full capitalize;
   }
 }
 

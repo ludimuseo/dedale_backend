@@ -5,20 +5,17 @@ import { type FC, type FormEvent, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type NavigateFunction, useNavigate } from 'react-router-dom'
 
-import Input from '@/app/components/ui/input'
-import { useAppDispatch } from '@/app/hooks'
-import useInput from '@/app/hooks/useInput'
-import EnvelopeIcon from '@/app/icons/EnvelopeIcon'
-import LockIcon from '@/app/icons/LockIcon'
-import SpinIcon from '@/app/icons/SpinIcon'
+import { IconEnvelope, IconLock, IconSpinner, Input } from '@/app/components'
+import { useAppDispatch, useInput, useNotification } from '@/app/hooks'
 import { auth, db } from '@/firebase/firebase'
-import { type User } from '@/types'
+import type { User } from '@/types'
 
 const AuthSignIn: FC = () => {
   const { t } = useTranslation()
   const navigate: NavigateFunction = useNavigate()
+  const { push } = useNotification()
   const dispatch = useAppDispatch()
-  const emailRef = useRef<HTMLInputElement | null>(null)
+  const emailRef = useRef<HTMLInputElement>(null)
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showLoader, setShowLoader] = useState<boolean>(false)
   const email = useInput('', { name: 'signin-email', type: 'email' })
@@ -59,10 +56,12 @@ const AuthSignIn: FC = () => {
               uid: user.uid,
             } satisfies User)
           )
+          push('OK', { type: 'success' })
           navigate('/', { replace: true })
         })
         .catch((err: unknown) => {
           console.error(err)
+          push('KO', { type: 'error' })
         })
         .finally(() => {
           setShowLoader(false)
@@ -84,7 +83,7 @@ const AuthSignIn: FC = () => {
           {...email}
           icon={
             <>
-              <EnvelopeIcon />
+              <IconEnvelope />
             </>
           }
         />
@@ -98,7 +97,7 @@ const AuthSignIn: FC = () => {
           {...password}
           icon={
             <>
-              <LockIcon
+              <IconLock
                 onClick={() => {
                   setShowPassword(!showPassword)
                 }}
@@ -111,7 +110,7 @@ const AuthSignIn: FC = () => {
           {t('button.signin')}&nbsp;
           {showLoader && (
             <span className="motion-safe:animate-spin">
-              <SpinIcon className="-scale-x-[1]" />
+              <IconSpinner className="-scale-x-[1]" />
             </span>
           )}
         </button>
@@ -120,4 +119,4 @@ const AuthSignIn: FC = () => {
   )
 }
 
-export default AuthSignIn
+export { AuthSignIn }
