@@ -1,10 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 import tailwind3dtransforms from '@xpd/tailwind-3dtransforms'
+import daisyui from 'daisyui'
 
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
-  plugins: [tailwind3dtransforms],
+  plugins: [tailwind3dtransforms, daisyui],
   theme: {
     extend: {
       backgroundColor: {
