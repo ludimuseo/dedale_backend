@@ -43,24 +43,31 @@ git clone git@github.com:ludimuseo/backoffice.git
 - `git checkout [BRANCH NAME]` => To enter an existing branch
 - `git checkout -b [BRANCH NAME]` => To create and enter a **NEW** branch
 
-3 - Install all dependancies at the root of the project
+3 - Enable **corepack** and set updated & stable version of **yarn** \*(this
+updates **yarn** locally to version @4.5.1)
+
+```sh
+cd backoffice
+corepack enable
+yarn set version stable
+```
+
+> Note: ⚠️ If an error occurs, please refer to the official documentation at
+> [yarnpkg.com > installation](https://yarnpkg.com/getting-started/install).
+
+4 - Install all dependancies at the root of the project
 
 ```sh
 yarn install
 ```
 
-\*(this also updates **yarn** locally to version @4.5.1)
-
-> Note: ⚠️ If an error occurs, please refer to the official documentation at
-> [yarnpkg.com > installation](https://yarnpkg.com/getting-started/install).
-
-4 - Generate a `.env.development` or `.env` file at the root of the project.
+5 - Generate a `.env.development` or `.env` file at the root of the project.
 
 ```sh
 echo "NODE_ENV=\"development\"" >> .env.development
 ```
 
-5 - Inside the file, add the following environment variables then set their
+6 - Inside the file, add the following environment variables then set their
 values :
 
 ```env
@@ -75,7 +82,7 @@ VITE_FIREBASE_PROJECT_ID=""
 VITE_FIREBASE_STORAGE_BUCKET=""
 ```
 
-6 - 🎉 DONE! You can now launch the project:
+7 - 🎉 DONE! You can now launch the project:
 
 ```sh
 yarn dev --open
