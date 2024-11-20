@@ -26,7 +26,7 @@ const FormFooter = ({
   icon,
 }: FormFooterProps) => {
   return (
-    <div className="dark:border-strokedark dark:bg-boxdark flex flex-col rounded-sm border bg-white px-20">
+    <div className="dark:border-strokedark dark:bg-boxdark mt-5 flex flex-col rounded-sm bg-white px-20">
       <div className="flex flex-row justify-center">
         {message.result ? (
           <>
@@ -40,38 +40,32 @@ const FormFooter = ({
         ) : currentStep < step - 1 ? (
           <>
             {currentStep > 0 && (
-              <>
-                <button
-                  className="mx-8 mb-8 mt-8 flex justify-center rounded bg-blue-900 p-3 font-bold text-white hover:bg-opacity-100"
-                  onClick={handlePrevStep}>
+              <div className="mr-10">
+                <button className="btn btn-primary" onClick={handlePrevStep}>
                   {`<- Précédent`}
                 </button>
                 <br />
-              </>
+              </div>
             )}
-            <button
-              className="mx-8 mb-8 mt-8 flex justify-center rounded bg-blue-900 p-3 font-bold text-white hover:bg-opacity-100"
-              onClick={handleNextStep}>
+            <button className="btn btn-primary" onClick={handleNextStep}>
               {`Suivant ->`}
             </button>
           </>
         ) : (
-          <>
-            <button
-              className="mx-8 mb-8 mt-8 flex justify-center rounded bg-blue-900 p-3 font-bold text-white hover:bg-opacity-100"
-              onClick={handlePrevStep}>
+          <div className="flex flex-row">
+            <button className="btn btn-primary mr-10" onClick={handlePrevStep}>
               {`<- Précédent`}
             </button>
             <br />
             <button
-              className="mx-8 mb-8 mt-8 flex justify-center rounded bg-rose-400 p-3 font-bold text-white hover:bg-opacity-100"
+              className="btn btn-secondary"
               onClick={(event) => {
                 handleSubmit(event)
               }}>
               {/*Add void because Promise-returning function provided to attribute where a void return was expected  */}
               VALIDER
             </button>
-          </>
+          </div>
         )}
       </div>
     </div>

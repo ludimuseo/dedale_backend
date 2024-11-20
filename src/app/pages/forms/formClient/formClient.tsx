@@ -97,6 +97,11 @@ const FormClient = () => {
     setStep(getInput.length)
   }, [getInput])
 
+  //useEffect(() => {
+  //VERIFIER SI USER.ROLE === 'SUPERADMIN' sinon redirection page dashboard
+  //}, [])
+  console.log('formData:', formData)
+
   return (
     <>
       <Form
