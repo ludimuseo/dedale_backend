@@ -17,4 +17,4 @@ const Dashboard: FC = () => {
   )
 }
 
-export default Dashboard
+export { Dashboard }

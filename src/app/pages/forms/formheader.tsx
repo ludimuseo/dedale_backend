@@ -1,5 +1,4 @@
-import ArrowLeftIcon from '@/app/icons/ArrowLeftIcon'
-
+import { IconArrowLeft } from '@/app/components'
 interface HeaderProps {
   icon: React.JSX.Element
   title: string
@@ -12,7 +11,7 @@ const FormHeader = ({ title, icon, handleSubmit }: HeaderProps) => {
         <button
           onClick={handleSubmit}
           className="flex justify-center rounded bg-rose-400 p-3 font-bold text-white hover:bg-opacity-100">
-          <ArrowLeftIcon className="5" />
+          <IconArrowLeft className="5" />
         </button>
         <h1 className="ml-4 mt-2">{title}</h1>
         {icon}

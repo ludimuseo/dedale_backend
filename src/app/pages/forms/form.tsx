@@ -1,7 +1,7 @@
 import { FormEvent, MouseEvent } from 'react'
 
-import { MuseumIcon } from '@/app/icons/MuseumIcon'
-import { UserIcon } from '@/app/icons/UserIcon'
+import { MuseumIcon } from '@/app/components/ui/icons/MuseumIcon'
+import { UserIcon } from '@/app/components/ui/icons/UserIcon'
 import { GetInputConfigType, MessageType, T } from '@/types'
 
 import FormFooter from './formFooter'

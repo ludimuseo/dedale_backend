@@ -1,5 +1,5 @@
-import { CircleIcon } from '@/app/icons/CircleIcon'
-import { CircleWithLineIcon } from '@/app/icons/CircleWithLineIcon'
+import { CircleIcon } from '@/app/components/ui/icons/CircleIcon'
+import { CircleWithLineIcon } from '@/app/components/ui/icons/CircleWithLineIcon'
 import { GetInputConfigType, MessageType } from '@/types'
 
 interface TimelineProps {

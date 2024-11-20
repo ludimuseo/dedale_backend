@@ -47,7 +47,7 @@ const InputArea = ({
                       key={id}
                       id={id}
                       name={name}
-                      className="border-stroke disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary mt-1 w-4/6 rounded border-[1.5px] bg-transparent px-5 py-3 text-black outline-none transition focus:border-blue-800 active:border-blue-400 disabled:cursor-default dark:text-white"
+                      className="border-stroke disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input mt-1 w-4/6 rounded border-[1.5px] bg-transparent px-5 py-3 text-black outline-none transition focus:border-blue-800 active:border-blue-400 disabled:cursor-default dark:text-white dark:focus:border-primary"
                       placeholder={placeholder}
                       rows={rows}
                       value={formData[section][name as keyof T[keyof T]]}
@@ -76,7 +76,7 @@ const InputArea = ({
                           e.target.value as T[keyof T][keyof T[keyof T]]
                         )
                       }}
-                      className="border-stroke disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary mt-1 w-4/6 rounded border-[1.5px] bg-transparent px-5 py-3 text-black outline-none transition focus:border-blue-800 active:border-blue-400 disabled:cursor-default dark:text-white">
+                      className="border-stroke disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input mt-1 w-4/6 rounded border-[1.5px] bg-transparent px-5 py-3 text-black outline-none transition focus:border-blue-800 active:border-blue-400 disabled:cursor-default dark:text-white dark:focus:border-primary">
                       {option.map((opt, index) => (
                         <option key={index} value={opt}>
                           {opt}
@@ -96,7 +96,7 @@ const InputArea = ({
                       key={id}
                       id={id}
                       name={name}
-                      className="border-stroke disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary mt-1 w-4/6 rounded border-[1.5px] bg-transparent px-5 py-3 text-black outline-none transition focus:border-blue-800 active:border-blue-400 disabled:cursor-default dark:text-white"
+                      className="border-stroke disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input mt-1 w-4/6 rounded border-[1.5px] bg-transparent px-5 py-3 text-black outline-none transition focus:border-blue-800 active:border-blue-400 disabled:cursor-default dark:text-white dark:focus:border-primary"
                       placeholder={placeholder}
                       type={type}
                       value={formData[section][name as keyof T[keyof T]]}
