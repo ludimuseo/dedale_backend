@@ -25,4 +25,21 @@ export default {
       satoshi: ['Satoshi', 'sans-serif'],
     },
   },
+  // daisyui: {
+  //   themes: [
+  //     {
+  //       customtheme: {
+  //         'primary': 'var(--color-bg-primary)',
+  //         'secondary': 'var(--color-bg-secondary)',
+  //         'accent': 'var(--color-bg-tertiary)',
+  //         'neutral': '#3d4451',
+  //         'base-100': '#ffffff',
+  //         'info': '#3abff8',
+  //         'success': '#36d399',
+  //         'warning': '#fbbf24',
+  //         'error': '#f87272',
+  //       },
+  //     },
+  //   ],
+  // },
 }

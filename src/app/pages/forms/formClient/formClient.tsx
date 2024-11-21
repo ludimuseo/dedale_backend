@@ -60,7 +60,7 @@ const FormClient = () => {
   ) => {
     event.preventDefault()
     try {
-      const docRef = await addDoc(collection(db, 'clients'), { formData })
+      const docRef = await addDoc(collection(db, 'clients'), { ...formData })
       const id = docRef.id
       if (id) {
         setMessage(() => ({
@@ -100,7 +100,7 @@ const FormClient = () => {
   //useEffect(() => {
   //VERIFIER SI USER.ROLE === 'SUPERADMIN' sinon redirection page dashboard
   //}, [])
-  console.log('formData:', formData)
+  console.log('formData:', { ...formData })
 
   return (
     <>

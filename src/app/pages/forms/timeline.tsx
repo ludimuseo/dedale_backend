@@ -13,6 +13,17 @@ const Timeline = ({ getInput, currentStep, step, message }: TimelineProps) => {
       {
         <ul className="steps">
           {getInput.map((inputs, index) => {
+            if (currentStep + 1 > index + 1 || message.result) {
+              return (
+                //CHECKED
+                <li key={index} className="step step-success" data-content="✓">
+                  <span className="font-bold text-emerald-500">
+                    {inputs[index].sectionLabel}
+                  </span>
+                  <span className="font-bold text-emerald-500">Complet</span>
+                </li>
+              )
+            }
             if (currentStep + 1 === index + 1) {
               return (
                 //EN COURS
@@ -21,17 +32,6 @@ const Timeline = ({ getInput, currentStep, step, message }: TimelineProps) => {
                     {getInput[index][step]?.sectionLabel}
                   </span>
                   <span className="text-rose-500">En cours</span>
-                </li>
-              )
-            }
-            if (currentStep + 1 > index + 1 || message.info) {
-              return (
-                //CHECKED
-                <li key={index} className="step step-success" data-content="✓">
-                  <span className="font-bold text-emerald-500">
-                    {inputs[index].sectionLabel}
-                  </span>
-                  <span className="font-bold text-emerald-500">Complet</span>
                 </li>
               )
             }
