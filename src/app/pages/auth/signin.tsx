@@ -3,7 +3,7 @@ import { signInWithEmailAndPassword, type UserCredential } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
 import { type FC, type FormEvent, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type NavigateFunction, useNavigate } from 'react-router-dom'
+import { type NavigateFunction, useNavigate } from 'react-router'
 
 import { IconEnvelope, IconLock, IconSpinner, Input } from '@/app/components'
 import { useAppDispatch, useInput, useNotification } from '@/app/hooks'
@@ -57,7 +57,7 @@ const AuthSignIn: FC = () => {
             } satisfies User)
           )
           push('OK', { type: 'success' })
-          navigate('/', { replace: true })
+          void navigate('/', { replace: true })
         })
         .catch((err: unknown) => {
           console.error(err)

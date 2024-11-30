@@ -6,7 +6,7 @@ import { SnackbarProvider } from 'notistack'
 import { StrictMode, Suspense } from 'react'
 import { createRoot, Root } from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { RouterProvider } from 'react-router-dom'
+import { RouterProvider } from 'react-router'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import { router } from '@/app/router'

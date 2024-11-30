@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router'
 
 import { useAppSelector } from '@/app/hooks'
 import type { State, User } from '@/types'
