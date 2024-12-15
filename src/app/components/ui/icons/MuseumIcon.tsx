@@ -7,7 +7,7 @@ export const MuseumIcon = ({ ...props }) => {
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
-      stroke-linecap="round"
+      strokeLinecap="round"
       stroke-linejoin="round"
       xmlns="http://www.w3.org/2000/svg"
       {...props}>

@@ -32,7 +32,9 @@ const FormFooter = ({
           <>
             <button
               className="mx-8 mb-8 mt-8 flex justify-center rounded bg-blue-900 p-3 font-bold text-white hover:bg-opacity-100"
-              onClick={handleEdit}>
+              onClick={() => {
+                handleEdit()
+              }}>
               {icon && icon}
               <span className="ml-2 mt-1">{`Editer un Lieu `}</span>
             </button>

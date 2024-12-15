@@ -54,15 +54,18 @@ export interface MessageType {
 
 export interface GetInputConfigType {
   accessType?: string
+  fileType?: string
   id: string
   label: string
   language?: string
-  locationRequired?: boolean
+  isLocationRequired?: boolean
+  mode?: string
   name: string
   option?: string[]
   placeholder?: string
   required: boolean
   rows?: number | undefined
+  rightSideVisible?: boolean | undefined
   section: string
   sectionLabel: string
   translate?: boolean
@@ -73,7 +76,15 @@ export interface GetInputConfigType {
 
 export type T = Record<
   string,
-  Address | Compagny | Contact | Status | Name | Coords | Description | Audio
+  | Address
+  | Compagny
+  | Contact
+  | Status
+  | Name
+  | Coords
+  | Description
+  | Audio
+  | Content
 >
 
 interface Contact {
@@ -109,7 +120,7 @@ interface Name {
 interface Coords {
   lat: number
   lon: number
-  locationRequired: boolean
+  isLocationRequired: boolean
 }
 interface Description {
   standard: {
@@ -131,6 +142,11 @@ interface Audio {
     fr: string
     en: string
   }
+}
+
+interface Content {
+  image: string[]
+  type: string
 }
 
 /* CLIENT */
@@ -163,6 +179,10 @@ export interface ClientType {
 export interface PlaceType {
   clientId: string
   medalId: string
+  content: {
+    image: string[]
+    type: string
+  }
   address: {
     address: string
     postal: string
@@ -176,7 +196,7 @@ export interface PlaceType {
   coords: {
     lat: number
     lon: number
-    locationRequired: boolean
+    isLocationRequired: boolean
   }
   description: {
     standard: {
