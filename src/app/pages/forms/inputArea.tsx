@@ -138,17 +138,6 @@ const InputArea = ({
                         />
                       </label>
                     </div>
-                    // <CheckBox
-                    //   isChecked={formData[section][
-                    //     name as keyof T[keyof T]
-                    //   ] as boolean}
-                    //   id={id}
-                    //   name={name}
-                    //   label={label}
-                    //   type={type}
-                    //   section={section}
-                    //   handleInputChange={handleInputChange}
-                    // />
                   )
                 }
 
@@ -231,19 +220,25 @@ const InputArea = ({
                           className="file-input file-input-bordered w-full max-w-xs"
                         />
                       </div>
-                      {/* {imagePreview && (
-                        <div className="carousel mt-4 w-64 rounded-box">
-                          <div className="carousel-item w-full">
-                            <p>Aperçu:</p>
-                            <img
-                              src={imagePreview}
-                              alt="Prévisualisation"
-                              className="ml-1 mt-4 w-full rounded-xl"
-                            />
-                          </div>
-                        </div>
-                      )
-                      } */}
+                      {fileType === 'image'
+                        ? imagePreview && (
+                            <div className="carousel mt-4 w-64 rounded-box">
+                              <div className="carousel-item w-full">
+                                <p>Aperçu:</p>
+                                <img
+                                  src={imagePreview}
+                                  alt="Prévisualisation"
+                                  className="ml-1 mt-4 w-full rounded-xl"
+                                />
+                              </div>
+                            </div>
+                          )
+                        : audioPreview && (
+                            <audio controls>
+                              <source src={audioPreview} type="audio/mpeg" />
+                              Votre navigateur ne supporte pas la lecture audio.
+                            </audio>
+                          )}
                     </div>
                   )
                 }
