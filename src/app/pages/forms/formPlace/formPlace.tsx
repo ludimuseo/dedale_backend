@@ -1,7 +1,9 @@
-//import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { addDoc, collection } from 'firebase/firestore'
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FormEvent, MouseEvent, useEffect, useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
+import { PlaceIcon } from '@/app/components/ui/icons/PlaceIcon'
 import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
 import { MessageType, T } from '@/types'
@@ -91,10 +93,6 @@ const FormPlace = () => {
           result: true,
         }))
       }
-      setMessage(() => ({
-        info: 'Votre formulaire a été envoyé avec succès !',
-        result: true,
-      }))
     } catch (error) {
       console.error("Erreur sur l'envoi du formulaire", error)
       setMessage(() => ({
@@ -144,13 +142,12 @@ const FormPlace = () => {
     })
   }
 
-  const handleFileUpload = (
+  const handleFileUpload = async (
     file: File,
     fileType: string,
     section: string,
     name: string
   ) => {
-    console.log('fileType: ', fileType)
     setFormData((prevFormData) => ({
       ...prevFormData,
       [section]: {
@@ -158,25 +155,23 @@ const FormPlace = () => {
         [name]: file,
       },
     }))
-    //const storage = getStorage();
-    //const storageRef = ref(storage, `${fileType}/${file.name + (Math.random() + 1)}`);
-
-    // try {
-    //     await uploadBytes(storageRef, file);
-    //     const downloadURL = await getDownloadURL(storageRef);
-    //     console.log("File uploaded successfully. Download URL:", downloadURL);
-    //     setFormData((prevState) => ({
-    //         ...prevState,
-    //         fileUpload: {
-    //             ...prevState.fileUpload,
-    //             [fileType]: downloadURL,
-    //         }
-    //     }));
-    // } catch (error) {
-    //     console.error("Error uploading file:", error);
-    //     console.log(error);
-
-    // }
+    const storage = getStorage()
+    const storageRef = ref(storage, `${fileType}/${uuidv4()}_${file.name}`)
+    try {
+      await uploadBytes(storageRef, file)
+      const downloadURL = await getDownloadURL(storageRef)
+      console.log('File uploaded successfully. Download URL:', downloadURL)
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [section]: {
+          ...prevFormData[section],
+          [name]: downloadURL,
+        },
+      }))
+    } catch (error) {
+      console.error('Error uploading file:', error)
+      console.log(error)
+    }
   }
 
   const getInput = getInputPlaceConfig
@@ -195,6 +190,7 @@ const FormPlace = () => {
     <>
       <Form
         title={'Formulaire Lieu'}
+        icon={PlaceIcon}
         handleArrowLeft={handleArrowLeft}
         getInput={getInput}
         currentStep={currentStep}
@@ -213,7 +209,7 @@ const FormPlace = () => {
         handleEdit={handleEditPlace}
         handlePrevStep={handlePrevStep}
         handleNextStep={handleNextStep}
-        handleFileUpload={handleFileUpload}
+        handleFileUpload={void handleFileUpload}
       />
     </>
   )

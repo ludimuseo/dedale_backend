@@ -1,6 +1,7 @@
 import { addDoc, collection } from 'firebase/firestore'
 import { type FormEvent, MouseEvent, useEffect, useState } from 'react'
 
+import { UserIcon } from '@/app/components/ui/icons/UserIcon'
 import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
 import { MessageType, T } from '@/types'
@@ -106,6 +107,7 @@ const FormClient = () => {
     <>
       <Form
         title={'Formulaire Client'}
+        icon={UserIcon}
         handleArrowLeft={handleArrowLeft}
         getInput={getInput}
         currentStep={currentStep}
