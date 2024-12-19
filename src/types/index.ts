@@ -83,6 +83,8 @@ export type T = Record<
   | Name
   | Coords
   | Description
+  | Standard
+  | Falc
   | Audio
   | Content
 >
@@ -122,16 +124,18 @@ interface Coords {
   lon: number
   isLocationRequired: boolean
 }
+interface Standard {
+  fr: string
+  en: string
+}
+interface Falc {
+  fr: string
+  en: string
+  isValidate?: boolean
+}
 interface Description {
-  standard: {
-    fr: string
-    en: string
-  }
-  falc: {
-    fr: string
-    en: string
-    isValidate: boolean
-  }
+  standard: Standard
+  falc: Falc
 }
 interface Audio {
   standard: {
@@ -143,7 +147,6 @@ interface Audio {
     en: string
   }
 }
-
 interface Content {
   image: string[]
   type: string

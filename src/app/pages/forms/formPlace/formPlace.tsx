@@ -1,9 +1,9 @@
-//import { db } from "@/firebase/firebase"
 //import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-//import { addDoc, collection } from "firebase/firestore"
+import { addDoc, collection } from 'firebase/firestore'
 import { FormEvent, MouseEvent, useEffect, useState } from 'react'
 
 import { handleArrowLeft } from '@/app/services/utils'
+import { db } from '@/firebase/firebase'
 import { MessageType, T } from '@/types'
 
 import Form from '../form'
@@ -78,19 +78,19 @@ const FormPlace = () => {
   }
 
   //soumission des informations
-  const handleSubmit = (
+  const handleSubmit = async (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault()
     try {
-      //    const docRef = await addDoc(collection(db, 'places'), { ...formData })
-      //    const id = docRef.id
-      // if (id) {
-      //     setMessage(() => ({
-      //         info: 'Votre formulaire a été envoyé avec succès !',
-      //         result: true,
-      //     }))
-      // }
+      const docRef = await addDoc(collection(db, 'places'), { ...formData })
+      const id = docRef.id
+      if (id) {
+        setMessage(() => ({
+          info: 'Votre formulaire a été envoyé avec succès !',
+          result: true,
+        }))
+      }
       setMessage(() => ({
         info: 'Votre formulaire a été envoyé avec succès !',
         result: true,
@@ -130,14 +130,13 @@ const FormPlace = () => {
   ) => {
     setFormData((prevFormData) => {
       const sectionData = prevFormData[section]
-
-      const modeData = sectionData[mode]
+      const modeData = sectionData[mode] as Record<string, M>
       return {
         ...prevFormData,
         [section]: {
           ...sectionData,
           [mode]: {
-            modeData,
+            ...modeData,
             [language]: value,
           },
         },
@@ -190,7 +189,7 @@ const FormPlace = () => {
   //VERIFIER SI USER.ROLE === 'SUPERADMIN' sinon redirection page dashboard
   //}, [])
 
-  console.log('FormData image:', formData.content)
+  console.log('FormData image:', { ...formData })
 
   return (
     <>
@@ -202,7 +201,7 @@ const FormPlace = () => {
         step={step}
         message={message}
         handleSubmit={(event) => {
-          handleSubmit(event)
+          void handleSubmit(event)
         }}
         formData={formData}
         handleInputChange={(section, name, value) => {

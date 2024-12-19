@@ -3,6 +3,9 @@ import { FormEvent, MouseEvent, useState } from 'react'
 import successImage from '@/assets/imgs/minos-reussi.png'
 import { GetInputConfigType, MessageType, T } from '@/types'
 
+//import Option from './inputForm/Option'
+import TextArea from './inputForm/TextArea'
+
 interface InputAreaProps {
   message: MessageType
   handleSubmit: (
@@ -59,11 +62,13 @@ const InputArea = ({
         handleFileUpload(file, 'image', section, name)
         const imageUrl = URL.createObjectURL(file)
         setImagePreview(imageUrl)
+        console.log('imagePreview: ', imagePreview)
       }
       if (type === 'audio') {
         handleFileUpload(file, 'audio', section, name)
         const audioUrl = URL.createObjectURL(file)
         setAudioPreview(audioUrl)
+        console.log('audioPreview: ', audioPreview)
       }
     }
   }
@@ -94,41 +99,19 @@ const InputArea = ({
               if (!rightSideVisible) {
                 if (rows) {
                   return (
-                    <div className="mt-2 flex flex-col" key={id}>
-                      <span>{label}</span>
-                      <textarea
-                        key={id}
-                        id={id}
-                        name={name}
-                        className="textarea textarea-bordered"
-                        placeholder={placeholder}
-                        rows={rows}
-                        value={
-                          mode
-                            ? formData[section][mode as keyof T[keyof T]][
-                                language ? language : 'fr'
-                              ]
-                            : formData[section][name as keyof T[keyof T]]
-                        }
-                        onChange={(e) => {
-                          if (mode) {
-                            handleChange(
-                              section,
-                              mode as keyof T[keyof T],
-                              language as T[keyof T][keyof T[keyof T]],
-                              e.target
-                                .value as T[keyof T][keyof T[keyof T[keyof T]]]
-                            )
-                          } else {
-                            handleInputChange(
-                              section,
-                              name as keyof T[keyof T],
-                              e.target.value as T[keyof T][keyof T[keyof T]]
-                            )
-                          }
-                        }}
-                      />
-                    </div>
+                    <TextArea
+                      id={id}
+                      label={label}
+                      name={name}
+                      placeholder={placeholder}
+                      rows={rows}
+                      mode={mode}
+                      formData={formData}
+                      section={section}
+                      language={language}
+                      handleChange={handleChange}
+                      handleInputChange={handleInputChange}
+                    />
                   )
                 }
                 if (type === 'checkbox') {
@@ -155,8 +138,20 @@ const InputArea = ({
                         />
                       </label>
                     </div>
+                    // <CheckBox
+                    //   isChecked={formData[section][
+                    //     name as keyof T[keyof T]
+                    //   ] as boolean}
+                    //   id={id}
+                    //   name={name}
+                    //   label={label}
+                    //   type={type}
+                    //   section={section}
+                    //   handleInputChange={handleInputChange}
+                    // />
                   )
                 }
+
                 if (option) {
                   return (
                     <div className="mt-2 flex flex-col" key={id}>
@@ -180,6 +175,20 @@ const InputArea = ({
                         ))}
                       </select>
                     </div>
+                    // <Option
+                    //   label={label}
+                    //   id={id}
+                    //   name={name}
+                    //   section={section}
+                    //   option={option}
+                    //   handleInputChange={(e) => {
+                    //     handleInputChange(
+                    //       section,
+                    //       name as keyof T[keyof T],
+                    //       e.target.value as T[keyof T][keyof T[keyof T]]
+                    //     )
+                    //   }}
+                    // />
                   )
                 }
                 if (type !== 'file' && !rows) {
@@ -222,7 +231,7 @@ const InputArea = ({
                           className="file-input file-input-bordered w-full max-w-xs"
                         />
                       </div>
-                      {imagePreview && (
+                      {/* {imagePreview && (
                         <div className="carousel mt-4 w-64 rounded-box">
                           <div className="carousel-item w-full">
                             <p>Aperçu:</p>
@@ -233,13 +242,8 @@ const InputArea = ({
                             />
                           </div>
                         </div>
-                      )}
-                      {audioPreview && (
-                        <>
-                          {' '}
-                          <p>Aperçu:</p>
-                        </>
-                      )}
+                      )
+                      } */}
                     </div>
                   )
                 }
@@ -282,33 +286,20 @@ const InputArea = ({
             if (rightSideVisible) {
               if (rows) {
                 return (
-                  <div
-                    key={index}
-                    className="border-stroke shadow-defaul dark:bg-boxdark w-1/2 rounded-lg border bg-sky-100 p-2">
-                    <div className="mt-2 flex flex-col" key={id}>
-                      <span>
-                        {label}
-                        {' (English)'}
-                      </span>
-                      <textarea
-                        key={id}
-                        id={id}
-                        name={name}
-                        className="textarea textarea-bordered"
-                        placeholder={placeholder}
-                        rows={rows}
-                        value={
-                          formData[section][mode as keyof T[keyof T]][
-                            language ? language : 'en'
-                          ]
-                        }
-                        onChange={(e) => {
-                          handleChange(section, mode, language, e.target.value)
-                        }}
-                      />
-                    </div>
-                    <div>TRANSLATE</div>
-                  </div>
+                  <TextArea
+                    id={id}
+                    label={label}
+                    name={name}
+                    placeholder={placeholder}
+                    rows={rows}
+                    mode={mode}
+                    formData={formData}
+                    section={section}
+                    language={language}
+                    handleChange={handleChange}
+                    handleInputChange={handleInputChange}
+                    rightSideVisible={rightSideVisible}
+                  />
                 )
               }
 
