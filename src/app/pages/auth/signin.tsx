@@ -1,3 +1,5 @@
+import { IconEnvelope, IconLock, IconSpinner, Input } from '@component/index'
+import { useAppDispatch, useInput, useNotification } from '@hook/index'
 import { signIn } from '@service/redux/slices/reducerAuth'
 import { signInWithEmailAndPassword, type UserCredential } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
@@ -5,8 +7,6 @@ import { type FC, type FormEvent, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type NavigateFunction, useNavigate } from 'react-router'
 
-import { IconEnvelope, IconLock, IconSpinner, Input } from '@/app/components'
-import { useAppDispatch, useInput, useNotification } from '@/app/hooks'
 import { auth, db } from '@/firebase/firebase'
 import type { User } from '@/types'
 

@@ -1,7 +1,7 @@
+import { LogoDedale } from '@component/index'
 import type { FC } from 'react'
 import { Outlet } from 'react-router'
 
-import { LogoDedale } from '@/app/components'
 import CoreHeader from '@/app/layouts/core/coreHeader'
 import CoreSidebar from '@/app/layouts/core/coreSidebar'
 
