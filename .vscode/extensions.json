@@ -11,6 +11,7 @@
     "ecmel.vscode-html-css",
     "toba.vsfire",
     "mikestead.dotenv",
-    "shd101wyy.markdown-preview-enhanced"
+    "shd101wyy.markdown-preview-enhanced",
+    "editorconfig.editorconfig"
   ]
 }
