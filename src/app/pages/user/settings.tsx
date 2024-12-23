@@ -1,7 +1,11 @@
 import type { FC } from 'react'
 
 const UserSettings: FC = () => {
-  return <></>
+  return (
+    <>
+      <div>USER SETTINGS</div>
+    </>
+  )
 }
 
 export { UserSettings }

@@ -15,6 +15,8 @@
 */
 @use 'sass:meta';
 
+// @use '@style/mixins';
+
 @tailwind base;
 @layer base {
   @include meta.load-css('@style/tailwind/base');
@@ -28,11 +30,6 @@
 @tailwind utilities;
 @layer utilities {
   @include meta.load-css('@style/tailwind/utilities');
-}
-
-@tailwind variants;
-@layer variants {
-  @include meta.load-css('@style/tailwind/variants');
 }
 
 $headerHeight: 6rem;
@@ -59,9 +56,9 @@ $switchCheckboxSize: 1.8rem;
       }
       &#auth-info {
         @apply max-lg:hidden;
-        img.show-on-sidebar {
-          @apply hidden;
-        }
+        // img.show-on-sidebar {
+        //   @apply hidden;
+        // }
         figure {
           @apply pb-4;
         }
@@ -87,9 +84,9 @@ $switchCheckboxSize: 1.8rem;
       @apply absolute left-0 top-0;
     }
     /* always display 'white Logo' when sidebar is OPEN */
-    img.show-on-sidebar {
-      @apply max-lg:hidden;
-    }
+    // img.show-on-sidebar {
+    //   @apply max-lg:hidden;
+    // }
   }
   /* // Menu Burger */
   label[for='checkbox-toggle-sidebar'] {
@@ -113,9 +110,9 @@ $switchCheckboxSize: 1.8rem;
 }
 input#checkbox-toggle-sidebar:checked + #floating-header-logo {
   @apply flex-row-reverse;
-  .logo-container img.show-on-sidebar {
-    @apply block;
-  }
+  // .logo-container img.show-on-sidebar {
+  //   @apply block;
+  // }
   > label[for='checkbox-toggle-sidebar'] > span {
     @apply left-1 bg-red-400;
     &:nth-of-type(1) {
@@ -143,7 +140,7 @@ input#checkbox-toggle-sidebar:checked + #floating-header-logo {
     }
   }
   > aside#menu-sidebar {
-    @apply pt-[#{$headerHeight}] w-[#{$sidebarWidth}] left-0 flex h-full flex-col border-r bg-[--color-dark-slate-grey] text-white max-lg:absolute;
+    @apply pt-[#{$headerHeight}] w-[#{$sidebarWidth}] left-0 flex h-full flex-col border-r bg-primary text-white max-lg:absolute;
     @apply max-lg:-translate-x-[#{$sidebarWidth}] -translate-x-0 translate-y-0 transition-all translate-z-0;
 
     > :nth-of-type(1) {
@@ -185,7 +182,7 @@ input#checkbox-toggle-sidebar:checked + #floating-header-logo {
 
 /* // Header */
 header {
-  @apply flex flex-row justify-between px-4;
+  @apply flex h-24 flex-row justify-between p-4;
 
   #header-right {
     @apply flex flex-row items-center gap-x-4;

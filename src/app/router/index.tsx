@@ -1,9 +1,4 @@
-import type { Router as RemixRouter } from '@remix-run/router'
-import {
-  createBrowserRouter,
-  Navigate,
-  type RouteObject,
-} from 'react-router-dom'
+import { createBrowserRouter, Navigate, type RouteObject } from 'react-router'
 
 import LayoutAuth from '@/app/layouts/layoutAuth'
 import LayoutDefault from '@/app/layouts/layoutDefault'
@@ -79,7 +74,7 @@ const routes: RouteObject[] = [
   },
 ]
 
-const router: RemixRouter = createBrowserRouter(routes, {
+const router = createBrowserRouter(routes, {
   future: {
     v7_fetcherPersist: true,
     v7_normalizeFormMethod: true,

@@ -26,8 +26,10 @@
     }
   },
   "button": {
-    "signin": "sign in",
-    "signout": "sign out"
+    "signin": "Sign In",
+    "signout": "Sign Out",
+    "accept": "Accept",
+    "decline": "Decline"
   },
   "page": {
     "auth": "🫙",
@@ -40,5 +42,8 @@
   "text": {
     "current_language": "Current Language",
     "description": "Access to the Daedalus backoffice reserved for administrators and clients"
+  },
+  "question": {
+    "proceed": "Do you wish to proceed ?"
   }
 }

@@ -26,8 +26,10 @@
     }
   },
   "button": {
-    "signin": "connectez-vous",
-    "signout": "déconnectez-vous"
+    "signin": "Connexion",
+    "signout": "Déconnexion",
+    "accept": "Accepter",
+    "decline": "Refuser"
   },
   "page": {
     "auth": "🪹",
@@ -40,5 +42,8 @@
   "text": {
     "current_language": "Langue Actuelle",
     "description": "Accès au backoffice de Dédale reservé aux administrateurs et aux clients"
+  },
+  "question": {
+    "proceed": "Voulez-vous continuer ?"
   }
 }
