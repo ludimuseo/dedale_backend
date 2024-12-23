@@ -35,16 +35,17 @@ export default tseslint.config(
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
       'sort-vars': ['error', { ignoreCase: false }],
-      'sort-keys': [
-        'error',
-        'asc',
-        {
-          caseSensitive: true,
-          natural: true,
-          minKeys: 2,
-          allowLineSeparatedGroups: false,
-        },
-      ],
+      // 'sort-keys': [
+      //   'error',
+      //   'asc',
+      //   {
+      //     caseSensitive: true,
+      //     natural: true,
+      //     minKeys: 2,
+      //     allowLineSeparatedGroups: false,
+      //   },
+      // ],
+      'sort-keys': 'off',
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': [
         'warn',
