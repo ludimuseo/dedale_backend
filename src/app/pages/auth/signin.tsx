@@ -1,4 +1,4 @@
-import { IconEnvelope, IconLock, IconSpinner, Input } from '@component/index'
+import { IconEnvelope, IconLock, Input } from '@component/index'
 import { useAppDispatch, useInput, useNotification } from '@hook/index'
 import { signIn } from '@service/redux/slices/reducerAuth'
 import { signInWithEmailAndPassword, type UserCredential } from 'firebase/auth'
@@ -108,11 +108,7 @@ const AuthSignIn: FC = () => {
         {/* Button Submit */}
         <button type="submit" className="btn--primary">
           {t('button.signin')}&nbsp;
-          {showLoader && (
-            <span className="motion-safe:animate-spin">
-              <IconSpinner className="-scale-x-[1]" />
-            </span>
-          )}
+          {showLoader && <span className="loading loading-spinner"></span>}
         </button>
       </form>
     </>

@@ -32,11 +32,6 @@
   @include meta.load-css('@style/tailwind/utilities');
 }
 
-@tailwind variants;
-@layer variants {
-  @include meta.load-css('@style/tailwind/variants');
-}
-
 $headerHeight: 6rem;
 $sidebarWidth: 15rem;
 $switchCheckboxSize: 1.8rem;
@@ -187,7 +182,7 @@ input#checkbox-toggle-sidebar:checked + #floating-header-logo {
 
 /* // Header */
 header {
-  @apply flex flex-row justify-between px-4;
+  @apply flex h-24 flex-row justify-between p-4;
 
   #header-right {
     @apply flex flex-row items-center gap-x-4;
