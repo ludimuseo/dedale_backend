@@ -18,8 +18,8 @@ export default function CheckBox({
   id,
   name,
   label,
-  section,
-  handleInputChange,
+  // section,
+  // handleInputChange,
 }: CheckBoxType) {
   return (
     <div className="form-control mt-4 flex flex-row" key={id}>
@@ -31,7 +31,9 @@ export default function CheckBox({
           type="checkbox"
           checked={isChecked}
           onChange={() => {
-            handleInputChange(section, name as keyof T[keyof T], !isChecked)
+            console.error('ERROR MUST CORRECT')
+            alert('ERROR : CONTACT DEV NOW')
+            // handleInputChange(section, name as keyof T[keyof T], !isChecked)
           }}
           className="checkbox"
         />

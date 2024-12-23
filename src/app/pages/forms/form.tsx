@@ -85,7 +85,9 @@ const Form = ({
           handleInputChange(section, name, value)
         }}
         handleChange={(section, mode, language, value) => {
-          handleChange(section, mode, language, value)
+          if (typeof handleChange !== 'undefined') {
+            handleChange(section, mode, language, value)
+          }
         }}
         handleFileUpload={handleFileUpload}
       />
