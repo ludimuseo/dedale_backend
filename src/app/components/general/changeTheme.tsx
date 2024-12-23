@@ -1,55 +1,18 @@
+import { Input } from '@component/index'
+import { useAppDispatch, useAppSelector } from '@hook/index'
 import {
   changeTheme,
-  setDarkMode,
   type StateTheme,
 } from '@service/redux/slices/reducerTheme'
-import { type FC, useEffect } from 'react'
+import { type FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Input } from '@/app/components'
-import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { type State, Theme } from '@/types'
 
 const ChangeTheme: FC = () => {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const { theme }: StateTheme = useAppSelector((state: State) => state.theme)
-  //
-  useEffect(() => {
-    const mediaWatcher: MediaQueryList = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    )
-    // Detect if system changed theme
-    const detectedSystemChangedTheme = (e: MediaQueryListEvent) => {
-      if (theme === Theme.SYSTEM) {
-        dispatch(setDarkMode(e.matches))
-      }
-    }
-    if ('addEventListener' in mediaWatcher) {
-      mediaWatcher.addEventListener('change', detectedSystemChangedTheme)
-      switch (theme) {
-        case Theme.DARK:
-          dispatch(setDarkMode(true))
-          break
-        case Theme.LIGHT:
-          dispatch(setDarkMode(false))
-          break
-        case Theme.SYSTEM:
-          dispatch(
-            setDarkMode(
-              window.matchMedia('(prefers-color-scheme: dark)').matches
-            )
-          )
-          break
-        default:
-          console.info('IGNORE -> Theme.CUSTOM ... for now')
-          break
-      }
-    }
-    return () => {
-      mediaWatcher.removeEventListener('change', detectedSystemChangedTheme)
-    }
-  }, [theme, dispatch])
 
   return (
     <>

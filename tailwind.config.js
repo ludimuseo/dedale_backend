@@ -4,21 +4,17 @@ import daisyui from 'daisyui'
 
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  darkMode: 'class',
+  darkMode: 'selector',
   plugins: [tailwind3dtransforms, daisyui],
   theme: {
     extend: {
       backgroundColor: {
-        button: 'var(--color-bg-button)',
-        primary: 'var(--color-bg-primary)',
-        secondary: 'var(--color-bg-secondary)',
-        tertiary: 'var(--color-bg-tertiary)',
+        primary: 'var(--color-primary)',
+        secondary: 'var(--color-secondary)',
+        tertiary: 'var(--color-tertiary)',
       },
       textColor: {
-        button: 'var(--color-text-button)',
-        primary: 'var(--color-text-primary)',
-        secondary: 'var(--color-text-secondary)',
-        tertiary: 'var(--color-text-tertiary)',
+        default: 'var(--color-primary)',
       },
     },
     fontFamily: {

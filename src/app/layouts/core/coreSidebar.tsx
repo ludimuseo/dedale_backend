@@ -1,6 +1,5 @@
+import { ChangeTheme } from '@component/index'
 import type { FC } from 'react'
-
-import { ChangeTheme } from '@/app/components'
 
 const CoreSidebar: FC = () => {
   return (

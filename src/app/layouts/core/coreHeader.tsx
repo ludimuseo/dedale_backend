@@ -1,9 +1,9 @@
+import { ChangeLanguage } from '@component/index'
+import { useAppDispatch, useAppSelector } from '@hook/index'
 import { signOut } from '@service/redux/slices/reducerAuth'
 import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { ChangeLanguage } from '@/app/components'
-import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import type { State } from '@/types'
 
 const CoreHeader: FC = () => {

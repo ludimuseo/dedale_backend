@@ -26,6 +26,18 @@ export default defineConfig({
       { find: '@style', replacement: resolve(__dirname, 'src/assets/styles') },
       // App Alias
       {
+        find: '@hook',
+        replacement: resolve(__dirname, 'src/app/hooks'),
+      },
+      {
+        find: '@component',
+        replacement: resolve(__dirname, 'src/app/components'),
+      },
+      {
+        find: '@context',
+        replacement: resolve(__dirname, 'src/app/contexts'),
+      },
+      {
         find: '@service',
         replacement: resolve(__dirname, 'src/app/services'),
       },
