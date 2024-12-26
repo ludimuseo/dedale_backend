@@ -1,27 +1,26 @@
-import { forwardRef, useEffect, useState } from 'react'
+import {
+  DOMAttributes,
+  forwardRef,
+  MouseEvent,
+  useEffect,
+  useState,
+} from 'react'
 
 import type { InputProps } from '@/types'
 
-interface IconType {
-  props: { children: { props: object } }
-}
-
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ uid, label, icon, insideForm, errors, ...props }, ref) => {
-    const [iconProps, setIconProps] = useState<object>({})
-
-    const handleIconOnClick = () => {
-      if ('onClick' in iconProps) {
-        iconProps.onClick()
+    const [iconProps, setIconProps] = useState<DOMAttributes<Element>>()
+    const handleIconOnClick = (ev: MouseEvent) => {
+      if (iconProps?.onClick) {
+        iconProps.onClick.apply(this, [ev])
       }
     }
 
     useEffect(() => {
-      const inputIcon: IconType | undefined = icon
-      if (inputIcon?.props.children.props) {
-        setIconProps(inputIcon.props.children.props)
-      }
-    }, [icon, iconProps])
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+      setIconProps(icon?.props.children.props)
+    }, [icon])
 
     return (
       <>
@@ -36,10 +35,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             />
             {icon && (
               <span
-                className={
-                  Object.keys(iconProps).length ? 'cursor-pointer' : ''
-                }
-                onClick={handleIconOnClick}>
+                className={iconProps?.onClick ? 'cursor-pointer' : ''}
+                onClick={(ev) => {
+                  handleIconOnClick(ev)
+                }}>
                 {icon}
               </span>
             )}

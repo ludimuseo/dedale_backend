@@ -100,7 +100,6 @@ const AuthSignIn: FC = () => {
               <IconLock
                 onClick={() => {
                   setShowPassword(!showPassword)
-                  console.info('showPassword : ', showPassword)
                 }}
               />
             </>
