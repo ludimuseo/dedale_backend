@@ -28,33 +28,33 @@ const CoreHeader: FC = () => {
           <ChangeLanguage />
 
           {/* Dropdown Menu */}
-          <div className="dropdown dropdown-end dropdown-hover">
-            {/* Avatar */}
-            {/* !TODO: remove class 'placeholder' if avatar image exists */}
-            <div tabIndex={0} role="button" className="avatar placeholder">
-              <div className="w-16 rounded-full bg-neutral text-neutral-content">
-                <span className="text-2xl">
-                  {user?.email?.charAt(0).toUpperCase()}
-                </span>
+          {isLogged && (
+            <div className="dropdown dropdown-end dropdown-hover">
+              {/* Avatar */}
+              {/* !TODO: remove class 'placeholder' if avatar image exists */}
+              <div tabIndex={0} role="button" className="avatar placeholder">
+                <div className="w-16 rounded-full bg-neutral text-neutral-content">
+                  <span className="text-2xl">
+                    {user?.email?.charAt(0).toUpperCase()}
+                  </span>
+                </div>
               </div>
-            </div>
 
-            <ul
-              tabIndex={0}
-              className="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow">
-              <li>
-                <NavLink to={{ pathname: '/user/profile' }}>
-                  {t('page.user_profile')}
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to={{ pathname: '/user/settings' }}>
-                  {t('page.user_settings')}
-                </NavLink>
-              </li>
+              <ul
+                tabIndex={0}
+                className="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow">
+                <li>
+                  <NavLink to={{ pathname: '/user/profile' }}>
+                    {t('page.user_profile')}
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to={{ pathname: '/user/settings' }}>
+                    {t('page.user_settings')}
+                  </NavLink>
+                </li>
 
-              {/* Modal */}
-              {isLogged && (
+                {/* Modal */}
                 <li>
                   <button className="" onClick={handleModalSignOut}>
                     {t('button.signout')}
@@ -79,9 +79,9 @@ const CoreHeader: FC = () => {
                     </div>
                   </dialog>
                 </li>
-              )}
-            </ul>
-          </div>
+              </ul>
+            </div>
+          )}
         </div>
       </header>
     </>

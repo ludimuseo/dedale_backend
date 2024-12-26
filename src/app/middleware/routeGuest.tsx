@@ -11,8 +11,10 @@ const RouteGuest = ({ children }: RouteGuestProps) => {
     (state: State) => state.auth.isLogged
   )
   if (!isLogged) {
+    console.info('KO°')
     return children
   } else {
+    console.info('OK°')
     return <Navigate to={{ pathname: '/' }} replace />
   }
 }

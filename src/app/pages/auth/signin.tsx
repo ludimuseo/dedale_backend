@@ -61,7 +61,7 @@ const AuthSignIn: FC = () => {
         })
         .catch((err: unknown) => {
           console.error(err)
-          push('KO', { type: 'error' })
+          push(t('error.4XX'), { type: 'error' })
         })
         .finally(() => {
           setShowLoader(false)
@@ -100,6 +100,7 @@ const AuthSignIn: FC = () => {
               <IconLock
                 onClick={() => {
                   setShowPassword(!showPassword)
+                  console.info('showPassword : ', showPassword)
                 }}
               />
             </>

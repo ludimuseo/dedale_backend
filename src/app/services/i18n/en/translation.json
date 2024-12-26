@@ -39,6 +39,10 @@
     "user_profile": "User Profil",
     "user_settings": "User Settings"
   },
+  "error": {
+    "4XX": "An error occurred. Please try again.",
+    "5XX": "An error occurred. Please contact an administrator."
+  },
   "text": {
     "current_language": "Current Language",
     "description": "Access to the Daedalus backoffice reserved for administrators and clients"
