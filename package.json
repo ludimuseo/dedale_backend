@@ -33,6 +33,7 @@
     "react-redux": "^9.1.2",
     "react-router": "^7.1.0",
     "redux-persist": "^6.0.0",
+    "semantic-commit-emoji": "^2.0.0",
     "uuid": "^11.0.3"
   },
   "devDependencies": {
@@ -45,7 +46,6 @@
     "@vitejs/plugin-react": "^4.3.3",
     "@xpd/tailwind-3dtransforms": "^1.0.3",
     "autoprefixer": "^10.4.20",
-    "commit-prettier": "^1.0.5",
     "cross-env": "^7.0.3",
     "daisyui": "^4.12.14",
     "eslint": "^9.13.0",
