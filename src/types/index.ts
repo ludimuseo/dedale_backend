@@ -76,6 +76,7 @@ export interface GetInputConfigType {
 
 export type T = Record<
   string,
+  | string
   | Address
   | Compagny
   | Contact

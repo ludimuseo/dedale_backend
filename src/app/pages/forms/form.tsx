@@ -85,9 +85,12 @@ const Form = ({
           handleInputChange(section, name, value)
         }}
         handleChange={(section, mode, language, value) => {
-          handleChange(section, mode, language, value)
+          if (handleChange !== undefined)
+            handleChange(section, mode, language, value)
         }}
-        handleFileUpload={handleFileUpload}
+        handleFileUpload={(file, fileType, section, name) =>
+          handleFileUpload?.(file, fileType, section, name)
+        }
       />
       <FormFooter
         message={message}
