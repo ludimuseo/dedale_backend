@@ -4,13 +4,13 @@ export const getInputPlaceConfig: GetInputConfigType[][] = [
   [
     {
       id: '011',
-      label: 'Client',
-      name: 'fr',
-      option: ['PROFESSIONNEL', 'ASSOCIATION', 'PARTICULIER'],
+      label: 'Type de lieu',
+      name: 'type',
+      option: ['museum', 'castle', 'outdoor'],
       placeholder: 'Selectionnez le type',
       required: true,
-      section: 'name',
-      sectionLabel: 'Info client',
+      section: 'content',
+      sectionLabel: 'Type de Lieu',
       translate: false,
     },
   ],
