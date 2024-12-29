@@ -1,4 +1,4 @@
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, getDocs } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
@@ -14,6 +14,10 @@ import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
 const FormPlace = () => {
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
+  const [idAndDocName, setIdAndDocName] = useState<
+    { id: string; name: string }[] | undefined
+  >([])
+  const [selectedOption, setSelectedOption] = useState('')
   const [message, setMessage] = useState<MessageType>({
     info: '',
     result: false,
@@ -187,21 +191,76 @@ const FormPlace = () => {
     })
   }
 
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value
+    setSelectedOption(selectedValue)
+    setFormData((prevFormData) => {
+      return {
+        ...prevFormData,
+        ['clientId']: selectedValue,
+      }
+    })
+  }
+
   const getInput = getInputPlaceConfig
 
   useEffect(() => {
     setStep(getInput.length)
   }, [getInput])
 
+  useEffect(() => {
+    const fetchData = async () => {
+      interface ClientData {
+        id: string
+        client?: {
+          company?: {
+            name?: string
+          }
+        }
+        company?: {
+          name?: string
+        }
+      }
+      try {
+        const querySnapshot = await getDocs(collection(db, 'clients'))
+        const clientData: ClientData[] = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...(doc.data() as Omit<ClientData, 'id'>),
+        }))
+
+        const clientPackageData = clientData
+          .map((item) => {
+            if (item.client?.company?.name) {
+              return { id: item.id, name: item.client.company.name } // Si "client" et "company.name" existent
+            } else if (item.company?.name) {
+              return { id: item.id, name: item.company.name } // Si "company.name" existe directement;
+            }
+            return undefined
+          })
+          .filter(
+            (item): item is { id: string; name: string } => item !== undefined
+          ) //Ce filtre assure à TypeScript que le tableau résultant ne contient que des objets conformes au type { id: string, name: string }.
+
+        setIdAndDocName(clientPackageData)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+    void fetchData()
+  }, [])
+
   //useEffect(() => {
   //VERIFIER SI USER.ROLE === 'SUPERADMIN' sinon redirection page dashboard
   //}, [])
 
-  console.log('FormData image:', { ...formData })
+  console.log('FormData:', { ...formData })
 
   return (
     <>
       <Form
+        idAndDocName={idAndDocName && idAndDocName}
+        handleSelect={handleSelect}
+        selectedOption={selectedOption}
         title={'Formulaire Lieu'}
         icon={PlaceIcon}
         handleArrowLeft={handleArrowLeft}
