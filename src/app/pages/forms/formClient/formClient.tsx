@@ -83,13 +83,21 @@ const FormClient = () => {
     name: K,
     value: T[S][K]
   ) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [section]: {
-        ...prevFormData[section],
+    const sectionData = formData[section]
+    if (!section) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
         [name]: value,
-      },
-    }))
+      }))
+    } else if (typeof sectionData === 'object') {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [section]: {
+          ...sectionData,
+          [name]: value,
+        },
+      }))
+    }
   }
 
   const getInput = getInputClientConfig

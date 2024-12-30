@@ -10,6 +10,7 @@ import InputArea from './inputArea'
 import Timeline from './timeline'
 
 interface FormProps {
+  idAndDocName?: { id: string; name: string }[] | undefined
   title: string
   icon: React.JSX.Element
   handleArrowLeft: () => void
@@ -45,9 +46,12 @@ interface FormProps {
     section: string,
     name: string
   ) => void
+  handleSelect?: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  selectedOption?: string
 }
 
 const Form = ({
+  idAndDocName,
   title,
   icon,
   handleArrowLeft,
@@ -63,48 +67,93 @@ const Form = ({
   handlePrevStep,
   handleNextStep,
   handleFileUpload,
+  handleSelect,
+  selectedOption,
 }: FormProps) => {
   return (
     <div className="grid grid-cols-1 gap-1 p-10 sm:grid-cols-1">
       <FormHeader title={title} icon={icon} handleSubmit={handleArrowLeft} />
-      <Timeline
-        getInput={getInput}
-        currentStep={currentStep}
-        step={step}
-        message={message}
-      />
-      <InputArea
-        message={message}
-        handleSubmit={(event) => {
-          handleSubmit(event)
-        }}
-        getInput={getInput}
-        currentStep={currentStep}
-        formData={formData}
-        handleInputChange={(section, name, value) => {
-          handleInputChange(section, name, value)
-        }}
-        handleChange={(section, mode, language, value) => {
-          if (typeof handleChange !== 'undefined') {
-            handleChange(section, mode, language, value)
-          }
-        }}
-        handleFileUpload={handleFileUpload}
-      />
-      <FormFooter
-        message={message}
-        handleEdit={handleEdit}
-        currentStep={currentStep}
-        step={step}
-        handlePrevStep={() => {
-          handlePrevStep()
-        }}
-        handleNextStep={handleNextStep}
-        handleSubmit={(event) => {
-          handleSubmit(event)
-        }}
-        icon={<MuseumIcon />}
-      />
+      {title === 'Formulaire Client' ? (
+        <></>
+      ) : (
+        <>
+          <label htmlFor="my_modal_6" className="btn">
+            Choisir le Client
+          </label>
+
+          <input type="checkbox" id="my_modal_6" className="modal-toggle" />
+          <div className="modal" role="dialog">
+            <div className="modal-box">
+              <h3 className="text-lg font-bold">Client</h3>
+
+              <p className="py-4">Sélection du client lié au formulaire Lieu</p>
+
+              <select
+                value={selectedOption}
+                onChange={handleSelect}
+                className="select select-bordered select-xs w-full max-w-xs">
+                <option>Choisir le client</option>
+                {idAndDocName?.map(({ id, name }, index) => (
+                  <option key={index} value={id}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+
+              <div className="modal-action">
+                <label htmlFor="my_modal_6" className="btn">
+                  Fermer
+                </label>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+      {selectedOption || title === 'Formulaire Client' ? (
+        <>
+          <Timeline
+            getInput={getInput}
+            currentStep={currentStep}
+            step={step}
+            message={message}
+          />
+          <InputArea
+            message={message}
+            handleSubmit={(event) => {
+              handleSubmit(event)
+            }}
+            getInput={getInput}
+            currentStep={currentStep}
+            formData={formData}
+            handleInputChange={(section, name, value) => {
+              handleInputChange(section, name, value)
+            }}
+            handleChange={(section, mode, language, value) => {
+              if (handleChange !== undefined)
+                handleChange(section, mode, language, value)
+            }}
+            handleFileUpload={(file, fileType, section, name) =>
+              handleFileUpload?.(file, fileType, section, name)
+            }
+          />
+          <FormFooter
+            message={message}
+            handleEdit={handleEdit}
+            currentStep={currentStep}
+            step={step}
+            handlePrevStep={() => {
+              handlePrevStep()
+            }}
+            handleNextStep={handleNextStep}
+            handleSubmit={(event) => {
+              handleSubmit(event)
+            }}
+            icon={<MuseumIcon />}
+          />
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   )
 }

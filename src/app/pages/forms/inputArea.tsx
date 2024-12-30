@@ -19,7 +19,7 @@ interface InputAreaProps {
     name: K,
     event: T[S][K]
   ) => void
-  handleFileUpload?: (
+  handleFileUpload: (
     file: File,
     fileType: string,
     section: string,
