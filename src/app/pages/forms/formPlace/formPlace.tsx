@@ -17,7 +17,14 @@ const FormPlace = () => {
   const [idAndDocName, setIdAndDocName] = useState<
     { id: string; name: string }[] | undefined
   >([])
+  const [medalsData, setMedalsData] = useState<
+    | { id: string; name: string; image: string; description: string }[]
+    | undefined
+  >([])
   const [selectedOption, setSelectedOption] = useState('')
+  const [attributedMedal, setAttributedMedal] = useState<
+    { id: string; name: string; image: string; description: string } | undefined
+  >()
   const [message, setMessage] = useState<MessageType>({
     info: '',
     result: false,
@@ -194,12 +201,29 @@ const FormPlace = () => {
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value
     setSelectedOption(selectedValue)
+
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
         ['clientId']: selectedValue,
       }
     })
+  }
+
+  const handleAttributeMedal = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (medalsData) {
+      const selectedValue = e.target.value
+      const selectedMedal = medalsData.find(
+        (medal) => medal.id === selectedValue
+      )
+      setAttributedMedal(selectedMedal)
+      setFormData((prevFormData) => {
+        return {
+          ...prevFormData,
+          ['medalId']: selectedValue,
+        }
+      })
+    }
   }
 
   const getInput = getInputPlaceConfig
@@ -249,6 +273,44 @@ const FormPlace = () => {
     void fetchData()
   }, [])
 
+  useEffect(() => {
+    interface Medal {
+      id: string
+
+      medal: {
+        description: {
+          standard: {
+            fr: string
+          }
+        }
+        name: {
+          fr: string
+        }
+        image: string
+      }
+    }
+    const fecthMedal = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'medals'))
+        const medalData: Medal[] = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...(doc.data() as Omit<Medal, 'id'>),
+        }))
+        const medalPackageData = medalData.map((item) => {
+          return {
+            id: item.id,
+            name: item.medal.name.fr,
+            image: item.medal.image,
+            description: item.medal.description.standard.fr,
+          }
+        })
+        setMedalsData(medalPackageData)
+      } catch (error) {
+        console.log('Error in fetching medals', error)
+      }
+    }
+    void fecthMedal()
+  }, [])
   //useEffect(() => {
   //VERIFIER SI USER.ROLE === 'SUPERADMIN' sinon redirection page dashboard
   //}, [])
@@ -261,6 +323,9 @@ const FormPlace = () => {
         idAndDocName={idAndDocName && idAndDocName}
         handleSelect={handleSelect}
         selectedOption={selectedOption}
+        medalsData={medalsData}
+        attributedMedal={attributedMedal}
+        handleAttributeMedal={handleAttributeMedal}
         title={'Formulaire Lieu'}
         icon={PlaceIcon}
         handleArrowLeft={handleArrowLeft}

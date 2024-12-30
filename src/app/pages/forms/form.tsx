@@ -14,6 +14,14 @@ interface FormProps {
   title: string
   icon: React.JSX.Element
   handleArrowLeft: () => void
+  attributedMedal?: {
+    id: string
+    name: string
+    image: string
+    description: string
+  }
+  handleAttributeMedal?: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  medalsData?: { id: string; name: string; image: string }[] | undefined
   getInput: GetInputConfigType[][]
   currentStep: number
   step: number
@@ -55,6 +63,9 @@ const Form = ({
   title,
   icon,
   handleArrowLeft,
+  attributedMedal,
+  handleAttributeMedal,
+  medalsData,
   getInput,
   currentStep,
   step,
@@ -86,7 +97,7 @@ const Form = ({
             <div className="modal-box">
               <h3 className="text-lg font-bold">Client</h3>
 
-              <p className="py-4">Sélection du client lié au formulaire Lieu</p>
+              <p className="py-4">Sélection du client lié au Lieu</p>
 
               <select
                 value={selectedOption}
@@ -108,6 +119,36 @@ const Form = ({
             </div>
           </div>
         </>
+      )}
+      {handleAttributeMedal ? (
+        <>
+          <div className="hero-content flex-col lg:flex-row">
+            <select
+              value={attributedMedal?.id ?? ''}
+              onChange={handleAttributeMedal}
+              className="select select-info w-full max-w-xs">
+              <option value="">Associer une Médaille</option>
+              {medalsData?.map((medal, index) => (
+                <option key={index} value={medal.id}>
+                  {medal.name}
+                </option>
+              ))}
+            </select>
+            <div className="flex flex-row">
+              <p className="mr-6 py-6">
+                {attributedMedal?.description ??
+                  'Aucune description disponible'}
+              </p>
+              <img
+                src={attributedMedal?.image ?? ''}
+                alt={attributedMedal?.name ?? 'Image de la médaille'}
+                className="max-h-24 rounded-lg shadow-2xl"
+              />
+            </div>
+          </div>
+        </>
+      ) : (
+        <></>
       )}
       {selectedOption || title === 'Formulaire Client' ? (
         <>
