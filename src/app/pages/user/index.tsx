@@ -1,7 +1,11 @@
 import type { FC } from 'react'
 
 const User: FC = () => {
-  return <></>
+  return (
+    <>
+      <div>USER INDEX</div>
+    </>
+  )
 }
 
 export { User }

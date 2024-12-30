@@ -1,7 +1,7 @@
+import { useAppSelector } from '@hook/index'
 import type { PropsWithChildren } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router'
 
-import { useAppSelector } from '@/app/hooks'
 import type { State, User } from '@/types'
 
 type RouteAuthProps = PropsWithChildren & {
@@ -12,7 +12,7 @@ const RouteAuth = ({ role, children }: RouteAuthProps) => {
   const isLogged: boolean = useAppSelector(
     (state: State) => state.auth.isLogged
   )
-  console.info('Role: ', role)
+  console.info('User role: ', role)
   if (isLogged) {
     return children
   } else {

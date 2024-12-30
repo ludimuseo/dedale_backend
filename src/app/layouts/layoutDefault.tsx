@@ -1,7 +1,7 @@
+import { LogoDedale } from '@component/index'
 import type { FC } from 'react'
-import { Outlet } from 'react-router-dom'
+import { NavLink, Outlet } from 'react-router'
 
-import { LogoDedale } from '@/app/components'
 import CoreHeader from '@/app/layouts/core/coreHeader'
 import CoreSidebar from '@/app/layouts/core/coreSidebar'
 
@@ -21,7 +21,9 @@ const LayoutDefault: FC = () => {
           </label>
           {/* // Logo Dedale */}
           <div className="logo-container">
-            <LogoDedale width={140} />
+            <NavLink to={{ pathname: '/' }}>
+              <LogoDedale width={140} />
+            </NavLink>
           </div>
         </div>
         <div id="outer-content">

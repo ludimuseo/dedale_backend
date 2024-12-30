@@ -59,13 +59,17 @@ const InputArea = ({
     const file = event.target.files?.[0]
     if (file) {
       if (type === 'image') {
-        handleFileUpload(file, 'image', section, name)
+        if (typeof handleFileUpload !== 'undefined') {
+          handleFileUpload(file, 'image', section, name)
+        }
         const imageUrl = URL.createObjectURL(file)
         setImagePreview(imageUrl)
         console.log('imagePreview: ', imagePreview)
       }
       if (type === 'audio') {
-        handleFileUpload(file, 'audio', section, name)
+        if (typeof handleFileUpload !== 'undefined') {
+          handleFileUpload(file, 'audio', section, name)
+        }
         const audioUrl = URL.createObjectURL(file)
         setAudioPreview(audioUrl)
         console.log('audioPreview: ', audioPreview)
@@ -128,11 +132,13 @@ const InputArea = ({
                           type={type}
                           checked={isChecked}
                           onChange={() => {
-                            handleInputChange(
-                              section,
-                              name as keyof T[keyof T],
-                              !isChecked
-                            )
+                            console.error('ERROR MUST CORRECT')
+                            alert('ERROR : CONTACT DEV NOW')
+                            // handleInputChange(
+                            //   section,
+                            //   name as keyof T[keyof T],
+                            //   !isChecked
+                            // )
                           }}
                           className="checkbox"
                         />

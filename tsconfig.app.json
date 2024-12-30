@@ -23,9 +23,14 @@
     "noUncheckedSideEffectImports": true,
     "paths": {
       "@/*": ["./src/*"],
+      // Assets alias
       "@font/*": ["./src/assets/fonts/*"],
       "@img/*": ["./src/assets/imgs/*"],
       "@style/*": ["./src/assets/styles/*"],
+      // App alias
+      "@component/*": ["./src/app/components/*"],
+      "@context/*": ["./src/app/contexts/*"],
+      "@hook/*": ["./src/app/hooks/*"],
       "@service/*": ["./src/app/services/*"]
     }
   },

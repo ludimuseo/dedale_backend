@@ -9,7 +9,7 @@
 > Project [@Dédale][UrlPj] By the association:
 > [_Ludi Museo_](https://www.ludimuseo.fr/lassociation/) (French URL)
 
-[UrlPj]: https://github.com/ludimuseo/backoffice/
+[UrlPj]: https://github.com/ludimuseo/dedale_backend/
 
 ## Team! 🥇
 
@@ -33,8 +33,8 @@
 
 1 - Execute git clone script:
 
-```sh
-git clone git@github.com:ludimuseo/backoffice.git
+```bash
+git clone git@github.com:ludimuseo/dedale_backend.git
 ```
 
 2 - Do not forget to switches to your developpment branch
@@ -43,27 +43,21 @@ git clone git@github.com:ludimuseo/backoffice.git
 - `git checkout [BRANCH NAME]` => To enter an existing branch
 - `git checkout -b [BRANCH NAME]` => To create and enter a **NEW** branch
 
-3 - Enable **corepack** and set updated & stable version of **yarn** \*(this
-updates **yarn** locally to version @4.5.1)
+3 - Enter the project directory
 
-```sh
-cd backoffice
-corepack enable
-yarn set version stable
+```bash
+cd dedale_backend
 ```
-
-> Note: ⚠️ If an error occurs, please refer to the official documentation at
-> [yarnpkg.com > installation](https://yarnpkg.com/getting-started/install).
 
 4 - Install all dependancies at the root of the project
 
-```sh
+```bash
 yarn install
 ```
 
 5 - Generate a `.env.development` or `.env` file at the root of the project.
 
-```sh
+```bash
 echo "NODE_ENV=\"development\"" >> .env.development
 ```
 
@@ -84,6 +78,6 @@ VITE_FIREBASE_STORAGE_BUCKET=""
 
 7 - 🎉 DONE! You can now launch the project:
 
-```sh
+```bash
 yarn dev --open
 ```

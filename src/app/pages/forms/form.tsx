@@ -73,7 +73,6 @@ const Form = ({
   return (
     <div className="grid grid-cols-1 gap-1 p-10 sm:grid-cols-1">
       <FormHeader title={title} icon={icon} handleSubmit={handleArrowLeft} />
-
       {title === 'Formulaire Client' ? (
         <></>
       ) : (
