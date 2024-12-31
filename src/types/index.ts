@@ -301,3 +301,109 @@ export interface JourneyType {
     isPublished: boolean
   }
 }
+
+export interface StepType {
+  journeyId: string
+  medalId: string
+  content: {
+    image: string[]
+    type: string
+  }
+  address: {
+    address: string
+    postal: string
+    city: string
+    country: string
+  }
+  name: {
+    fr: string
+    en: string
+  }
+  coords: {
+    lat: number
+    lon: number
+    isLocationRequired: boolean
+  }
+  description: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+      falcCertified: string
+      userId: string
+      statut: {
+        isValidate: boolean
+        isCertified: boolean
+        certifiedDate: Date
+        isCorrected: boolean
+      }
+    }
+  }
+  audio: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+    }
+  }
+  status: {
+    isActive: boolean
+    isPublished: boolean
+  }
+}
+
+export interface PieceType {
+  stepId: string
+  medalId: string
+  content: {
+    image: string[]
+    type: string
+  }
+  name: {
+    fr: string
+    en: string
+  }
+  coords: {
+    lat: number
+    lon: number
+    isLocationRequired: boolean
+  }
+  description: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+      falcCertified: string
+      userId: string
+      statut: {
+        isValidate: boolean
+        isCertified: boolean
+        certifiedDate: Date
+        isCorrected: boolean
+      }
+    }
+  }
+  audio: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+    }
+  }
+  status: {
+    isActive: boolean
+    isPublished: boolean
+  }
+}
