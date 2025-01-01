@@ -106,14 +106,14 @@ const TextList: FC = () => {
                 <tr className="bg-base-200">
                   <th>{index + 1}</th>
                   <td>
-                    <h2>
+                    <h2 className="color-secondary">
                       {`Lieu: `}
                       {place.name.fr}
                     </h2>
                   </td>
                   <td>
                     <button
-                      className="btn btn-sm"
+                      className="btn btn-primary"
                       onClick={() => void fetchJourneys(place.id)}>
                       Voir les parcours
                     </button>
@@ -138,7 +138,7 @@ const TextList: FC = () => {
                         </td>
                         <td>
                           <button
-                            className="btn btn-sm"
+                            className="btn btn-success btn-sm"
                             onClick={() => void fetchSteps(journey.id)}>
                             Voir les indices
                           </button>
@@ -154,7 +154,7 @@ const TextList: FC = () => {
                         steps.map((step) => (
                           <React.Fragment key={step.id}>
                             <tr className="bg-base-100" key={step.id}>
-                              <th></th>
+                              <th>👉</th>
                               <td>
                                 <h4>
                                   {`Etape: `}
