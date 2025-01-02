@@ -1,5 +1,15 @@
 /* //tailwind/_components.scss */
 
+/* class: .card */
+.card {
+  position: inherit;
+  @apply m-3;
+}
+
+.avatar {
+  position: inherit;
+}
+
 /* class: .btn */
 .btn {
   /* class: .btn--primary */

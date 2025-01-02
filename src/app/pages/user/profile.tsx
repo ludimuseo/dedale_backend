@@ -1,12 +1,13 @@
+import { Card } from '@component/index'
 import type { FC } from 'react'
 
 const UserProfile: FC = () => {
   return (
     <>
       <div>
-        <p>POSTS</p>
-        <p>FOLLOWERS</p>
-        <p>FOLLOWING</p>
+        <Card>{'POSTS'}</Card>
+        <Card>{'FOLLOWERS'}</Card>
+        <Card>{'FOLLOWING'}</Card>
       </div>
     </>
   )

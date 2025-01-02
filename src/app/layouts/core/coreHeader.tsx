@@ -97,6 +97,11 @@ const CoreHeader: FC = () => {
                       {t('page.user_settings')}
                     </NavLink>
                   </li>
+                  <li>
+                    <NavLink to={{ pathname: '/user/create' }}>
+                      {t('page.user_create')}
+                    </NavLink>
+                  </li>
                   <div className="divider m-0"></div>
                   <li>
                     <ChangeLanguage />

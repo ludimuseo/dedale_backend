@@ -36,8 +36,9 @@
     "auth_signin": "Sign In Back-Office",
     "dashboard": "Dashboard",
     "user": "User",
-    "user_profile": "User Profil",
-    "user_settings": "User Settings"
+    "user_create": "Create User",
+    "user_profile": "My Profile",
+    "user_settings": "Account Settings"
   },
   "success": {
     "signin": "You are now logged in"

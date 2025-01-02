@@ -40,6 +40,13 @@ const routes: RouteObject[] = [
             },
             path: '/user/settings',
           },
+          {
+            async lazy() {
+              const { UserCreate } = await import('@/app/pages/user/create')
+              return { Component: UserCreate }
+            },
+            path: '/user/create',
+          },
         ],
         element: (
           <RouteAuth role={null}>

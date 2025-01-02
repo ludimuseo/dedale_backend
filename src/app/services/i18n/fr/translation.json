@@ -36,8 +36,9 @@
     "auth_signin": "Connection Back-Office",
     "dashboard": "Tableau de Bord",
     "user": "Utilisateur",
-    "user_profile": "Profile Utilisateur",
-    "user_settings": "Paramètres Utilisateur"
+    "user_create": "Ajouter Utilisateur",
+    "user_profile": "Mon Profil",
+    "user_settings": "Paramètres Compte"
   },
   "success": {
     "signin": "Vous êtes maintenant connecté"

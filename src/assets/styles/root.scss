@@ -41,7 +41,7 @@ $switchCheckboxSize: 1.8rem;
 #layout-default {
   @apply flex h-full;
   header {
-    @apply h-[#{$headerHeight}] w-full;
+    @apply h-[#{$headerHeight}] w-full border-b;
   }
 }
 #layout-auth {
@@ -74,7 +74,7 @@ $switchCheckboxSize: 1.8rem;
   @apply flex-col;
 
   #sidebar-control {
-    @apply lg:hidden;
+    @apply px-0 lg:hidden;
   }
 
   > #inner-content {
@@ -82,8 +82,8 @@ $switchCheckboxSize: 1.8rem;
     @apply h-full w-full;
     @apply overflow-x-auto overflow-y-scroll;
 
-    > #sidebar {
-      @apply w-[#{$sidebarWidth}] h-full bg-primary;
+    > aside#sidebar {
+      @apply w-[#{$sidebarWidth}] h-full bg-primary p-3;
     }
 
     > main.content {
