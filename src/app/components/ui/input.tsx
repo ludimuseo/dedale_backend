@@ -25,7 +25,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <>
         <div className={insideForm ? 'form--group' : ''}>
-          <label htmlFor={uid}>{label}</label>
+          {!!label.length && <label htmlFor={uid}>{label}</label>}
           <div className="relative">
             <input
               id={uid}

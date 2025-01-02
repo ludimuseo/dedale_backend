@@ -1,5 +1,6 @@
-import { useAppSelector } from '@hook/index'
+import { useAppSelector, useNotification } from '@hook/index'
 import type { PropsWithChildren } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Navigate } from 'react-router'
 
 import type { State, User } from '@/types'
@@ -9,6 +10,8 @@ type RouteAuthProps = PropsWithChildren & {
 }
 
 const RouteAuth = ({ role, children }: RouteAuthProps) => {
+  const { t } = useTranslation()
+  const { push } = useNotification()
   const isLogged: boolean = useAppSelector(
     (state: State) => state.auth.isLogged
   )
@@ -16,6 +19,7 @@ const RouteAuth = ({ role, children }: RouteAuthProps) => {
   if (isLogged) {
     return children
   } else {
+    push(t('warning.guest'), { type: 'warning' })
     return <Navigate to={{ pathname: '/auth/signin' }} replace />
   }
 }

@@ -32,7 +32,6 @@ export interface User {
 export enum Theme {
   DARK = 'DARK',
   LIGHT = 'LIGHT',
-  CUSTOM = 'CUSTOM',
   SYSTEM = 'SYSTEM',
 }
 

@@ -39,9 +39,16 @@
     "user_profile": "Profile Utilisateur",
     "user_settings": "Paramètres Utilisateur"
   },
+  "success": {
+    "signin": "Vous êtes maintenant connecté"
+  },
   "error": {
     "4XX": "Une erreur est survenue. Veuillez réessayer.",
     "5XX": "Une erreur est survenue. Veuillez contacter un administrateur."
+  },
+  "warning": {
+    "auth": "Vous êtes actuellement connecté en tant qu’utilisateur {{user}}.",
+    "guest": "Vous n’êtes pas connecté."
   },
   "text": {
     "current_language": "Langue Actuelle",

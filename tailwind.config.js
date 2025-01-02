@@ -1,12 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 import tailwind3dtransforms from '@xpd/tailwind-3dtransforms'
+import typography from '@tailwindcss/typography'
 import daisyui from 'daisyui'
 
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   daisyui: {},
   darkMode: 'selector',
-  plugins: [tailwind3dtransforms, daisyui],
+  plugins: [tailwind3dtransforms, typography, daisyui],
   theme: {
     extend: {
       backgroundColor: {

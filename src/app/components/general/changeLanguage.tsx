@@ -1,33 +1,25 @@
-import { type ChangeEvent, type FC, useRef } from 'react'
+import { ChangeEvent, type FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const ChangeLanguage: FC = () => {
-  const { i18n } = useTranslation()
-  const checkbox = useRef<HTMLInputElement>(null)
-
-  const changeLanguage = async ({
-    target,
-  }: ChangeEvent<HTMLInputElement>): Promise<void> => {
-    await i18n.changeLanguage(target.checked ? 'en' : 'fr')
+  const { t, i18n } = useTranslation()
+  const changeLanguage = async ({ target }: ChangeEvent<HTMLInputElement>) => {
+    if ('checked' in target) {
+      await i18n.changeLanguage(target.checked ? 'fr' : 'en')
+    }
   }
-
   return (
     <>
       <div id="change-language">
-        <label
-          onClick={() => {
-            checkbox.current?.toggleAttribute('checked')
-          }}
-          htmlFor="checkbox-toggle-language">
-          {i18n.language}
+        <label className="swap swap-rotate w-full py-1">
+          <input
+            type="checkbox"
+            checked={i18n.language === 'fr'}
+            onChange={(e) => void changeLanguage(e)}
+          />
+          <span className="swap-off">{t('lang.en')}</span>
+          <span className="swap-on">{t('lang.fr')}</span>
         </label>
-        <input
-          checked={i18n.language === 'en'}
-          ref={checkbox}
-          onChange={(e) => void changeLanguage(e)}
-          type="checkbox"
-          id="checkbox-toggle-language"
-        />
       </div>
     </>
   )
