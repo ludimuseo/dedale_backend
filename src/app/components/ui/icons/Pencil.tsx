@@ -11,7 +11,7 @@ export const Pencil = () => {
         r="45"
         fill="#FFFFFF"
         stroke="#001F54"
-        strokeWidth="2"
+        strokeWidth="3"
       />
       <g transform="translate(25, 25) rotate(130, 35, 25)">
         <rect
@@ -21,13 +21,13 @@ export const Pencil = () => {
           height="10"
           fill="#FFFFFF"
           stroke="#001F54"
-          strokeWidth="1.5"
+          strokeWidth="3"
         />
         <polygon
           points="65,25 75,30 65,35"
           fill="#fffff"
           stroke="#001F54"
-          strokeWidth="1.5"
+          strokeWidth="3"
         />
         <polygon points="75,30 78,31 75,32" fill="#001F54" />
         <rect
@@ -37,7 +37,7 @@ export const Pencil = () => {
           height="10"
           fill="#FFFFFF"
           stroke="#001F54"
-          strokeWidth="1.5"
+          strokeWidth="3"
         />
       </g>
     </svg>

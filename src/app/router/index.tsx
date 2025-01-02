@@ -40,6 +40,13 @@ const routes: RouteObject[] = [
             },
             path: '/user/settings',
           },
+          // {
+          //   async lazy() {
+          //     const { TalosInterface } = await import('@/app/pages/talos/TalosInterface.tsx')
+          //     return { Component: TalosInterface }
+          //   },
+          //   path: '/interface',
+          // },
         ],
         element: (
           <RouteAuth role={null}>

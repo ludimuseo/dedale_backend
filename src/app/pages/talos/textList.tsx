@@ -1,20 +1,29 @@
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import React, { FC, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 
 import { Envelope } from '@/app/components/ui/icons/Envelope'
 import { Pencil } from '@/app/components/ui/icons/Pencil'
 import { db } from '@/firebase/firebase'
-import { JourneyType, PieceType, PlaceType, StepType } from '@/types'
+import { GameType, JourneyType, PieceType, PlaceType, StepType } from '@/types'
 
 const TextList: FC = () => {
   const [places, setPlaces] = useState<(PlaceType & { id: string })[]>([])
   const [journeys, setJourneys] = useState<(JourneyType & { id: string })[]>([])
   const [steps, setSteps] = useState<(StepType & { id: string })[]>([])
   const [pieces, setPieces] = useState<(PieceType & { id: string })[]>([])
-  //const [games, setGames] = useState<any[]>([])
+  const [games, setGames] = useState<(GameType & { id: string })[]>([])
   const [activePlaceId, setActivePlaceId] = useState<string | null>(null)
   const [activeJourneyId, setActiveJourneyId] = useState<string | null>(null)
   const [activeStepId, setActiveStepId] = useState<string | null>(null)
+  const [activePieceId, setActivePieceId] = useState<string | null>(null)
+  const navigate = useNavigate()
+
+  const handleNavigate = (
+    formData: PlaceType | JourneyType | StepType | PieceType | GameType
+  ) => {
+    void navigate('/interface', { state: { formData: formData } })
+  }
 
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -86,27 +95,48 @@ const TextList: FC = () => {
     }
   }
 
+  const fetchGames = async (pieceId: string) => {
+    try {
+      const q = query(
+        collection(db, 'games'),
+        where('game.pieceID', '==', pieceId)
+      )
+      const querySnapshot = await getDocs(q)
+      const gameData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...(doc.data().game as GameType),
+      }))
+      setGames(gameData)
+      setActivePieceId(pieceId)
+    } catch (error) {
+      console.error('Error fetching journeys:', error)
+    }
+  }
+
   return (
     <div>
       <div className="overflow-x-auto">
         <table className="table">
-          {/* Head */}
           <thead>
             <tr>
-              <th>#</th>
-              <th>LIEU</th>
-              <th>ACTIONS</th>
-              <th>MODIFIER</th>
-              <th>ENVOYER</th>
+              <th className="text-xl">#</th>
+              <th className="text-xl">LIEU</th>
+              <th className="text-xl">ACTIONS</th>
+              <th className="text-xl">MODIFIER</th>
+              <th className="text-xl">ENVOYER</th>
             </tr>
           </thead>
           <tbody>
             {places.map((place, index) => (
               <React.Fragment key={place.id}>
-                <tr className="bg-base-200">
+                <tr className="bg-base-300">
                   <th>{index + 1}</th>
                   <td>
-                    <h2 className="color-secondary">
+                    <h2
+                      className="cursor-pointer hover:underline"
+                      onClick={() => {
+                        handleNavigate(place)
+                      }}>
                       {`Lieu: `}
                       {place.name.fr}
                     </h2>
@@ -118,20 +148,25 @@ const TextList: FC = () => {
                       Voir les parcours
                     </button>
                   </td>
-                  <td>
+
+                  <td className="">
                     <Pencil />
                   </td>
-                  <td>
+                  <td className="">
                     <Envelope />
                   </td>
                 </tr>
                 {activePlaceId === place.id &&
                   journeys.map((journey) => (
                     <React.Fragment key={journey.id}>
-                      <tr className="bg-base-100">
-                        <th></th>
+                      <tr className="bg-base-200">
+                        <th>〰</th>
                         <td>
-                          <h3>
+                          <h3
+                            className="cursor-pointer hover:underline"
+                            onClick={() => {
+                              alert(journey.name.fr)
+                            }}>
                             {`Parcours: `}
                             {journey.name.fr}
                           </h3>
@@ -143,10 +178,10 @@ const TextList: FC = () => {
                             Voir les indices
                           </button>
                         </td>
-                        <td>
+                        <td className="">
                           <Pencil />
                         </td>
-                        <td>
+                        <td className="">
                           <Envelope />
                         </td>
                       </tr>
@@ -156,8 +191,12 @@ const TextList: FC = () => {
                             <tr className="bg-base-100" key={step.id}>
                               <th>👉</th>
                               <td>
-                                <h4>
-                                  {`Etape: `}
+                                <h4
+                                  className="cursor-pointer hover:underline"
+                                  onClick={() => {
+                                    alert(step.name.fr)
+                                  }}>
+                                  {`Etape : `}
                                   {step.name.fr}
                                 </h4>
                               </td>
@@ -168,10 +207,10 @@ const TextList: FC = () => {
                                   Voir l'oeuvre
                                 </button>
                               </td>
-                              <td>
+                              <td className="">
                                 <Pencil />
                               </td>
-                              <td>
+                              <td className="">
                                 <Envelope />
                               </td>
                             </tr>
@@ -179,28 +218,60 @@ const TextList: FC = () => {
                               pieces.map((piece) => (
                                 <React.Fragment key={piece.id}>
                                   <tr className="bg-base-100" key={step.id}>
-                                    <th></th>
+                                    <th>🖼️</th>
                                     <td>
-                                      <h5>
+                                      <h4
+                                        className="cursor-pointer hover:underline"
+                                        onClick={() => {
+                                          alert(piece.name.fr)
+                                        }}>
                                         {`Oeuvre: `}
                                         {piece.name.fr}
-                                      </h5>
+                                      </h4>
                                     </td>
                                     <td>
                                       <button
                                         className="btn btn-sm"
-                                        //onClick={() => fetchSteps(journey.id)}
-                                      >
+                                        onClick={() =>
+                                          void fetchGames(piece.id)
+                                        }>
                                         Voir le quiz
                                       </button>
                                     </td>
-                                    <td>
+                                    <td className="">
                                       <Pencil />
                                     </td>
-                                    <td>
+                                    <td className="">
                                       <Envelope />
                                     </td>
                                   </tr>
+                                  {activePieceId === piece.id &&
+                                    games.map((game) => (
+                                      <React.Fragment key={game.id}>
+                                        <tr
+                                          className="bg-base-100"
+                                          key={game.id}>
+                                          <th>;</th>
+                                          <td>
+                                            <h4
+                                              className="cursor-pointer hover:underline"
+                                              onClick={() => {
+                                                alert(game.name.fr)
+                                              }}>
+                                              {`Jeu: `}
+                                              {game.name.fr}
+                                            </h4>
+                                          </td>
+                                          <td></td>
+                                          <td className="">
+                                            <Pencil />
+                                          </td>
+                                          <td className="">
+                                            <Envelope />
+                                          </td>
+                                        </tr>
+                                      </React.Fragment>
+                                    ))}
                                 </React.Fragment>
                               ))}
                           </React.Fragment>

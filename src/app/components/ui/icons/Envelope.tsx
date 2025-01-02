@@ -11,7 +11,7 @@ export const Envelope = () => {
         r="45"
         fill="#FFFFFF"
         stroke="#001F54"
-        strokeWidth="2"
+        strokeWidth="3"
       />
       <g transform="translate(11, 13)">
         <rect
@@ -21,13 +21,13 @@ export const Envelope = () => {
           height="40"
           fill="#FFFFFF"
           stroke="#001F54"
-          strokeWidth="1.5"
+          strokeWidth="3"
         />
         <polygon
           points="10,20 40,5 70,20"
           fill="#FFFFFF"
           stroke="#001F54"
-          strokeWidth="1.5"
+          strokeWidth="3"
         />
         <line
           x1="10"
@@ -35,7 +35,7 @@ export const Envelope = () => {
           x2="40"
           y2="45"
           stroke="#001F54"
-          strokeWidth="1"
+          strokeWidth="3"
         />
         <line
           x1="70"
@@ -43,7 +43,7 @@ export const Envelope = () => {
           x2="40"
           y2="45"
           stroke="#001F54"
-          strokeWidth="1"
+          strokeWidth="3"
         />
       </g>
     </svg>

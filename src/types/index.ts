@@ -352,6 +352,9 @@ export interface StepType {
       en: string
     }
   }
+  stage: {
+    stepNumber: number
+  }
   status: {
     isActive: boolean
     isPublished: boolean
@@ -405,5 +408,91 @@ export interface PieceType {
   status: {
     isActive: boolean
     isPublished: boolean
+  }
+}
+
+export interface GameType {
+  pieceId: string
+  content: {
+    image: string[]
+    level: string
+    type: string
+  }
+  name: {
+    fr: string
+    en: string
+  }
+  description: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+      falcCertified: string
+      userId: string
+      statut: {
+        isValidate: boolean
+        isCertified: boolean
+        certifiedDate: Date
+        isCorrected: boolean
+      }
+    }
+  }
+  audio: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+    }
+  }
+  question: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+      certifiedTxt: string
+    }
+  }
+  response: {
+    responseTrue: {
+      fr: string
+      en: string
+      certifiedTxt: string
+    }
+    response1: {
+      fr: string
+      en: string
+      certifiedTxt: string
+    }
+    response2: {
+      fr: string
+      en: string
+      certifiedTxt: string
+    }
+  }
+  explanation: {
+    responseTrue: {
+      fr: string
+      en: string
+      certifiedTxt: string
+    }
+    response1: {
+      fr: string
+      en: string
+      certifiedTxt: string
+    }
+    response2: {
+      fr: string
+      en: string
+      certifiedTxt: string
+    }
   }
 }
