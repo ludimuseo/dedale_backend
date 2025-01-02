@@ -3,7 +3,7 @@
 import 'daisyui/dist/full.css'
 
 import React from 'react'
-import { Link } from 'react-router'
+import { useNavigate } from 'react-router'
 
 interface TalosDashboardProps {
   role: 'referent' | 'corrector'
@@ -12,12 +12,19 @@ interface TalosDashboardProps {
 
 const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
   const isReferent = role === 'referent' // Détermine si l'utilisateur est un référent
+  //const aCorrigerSvg = "assets/imgs/Talos/acorriger.svg"
+  const navigate = useNavigate()
+
+  const handleNavigateTextList = () => {
+    void navigate('/textList', { state: { userName: userName, role: role } })
+  }
 
   return (
     <div className="p-6">
       <header className="mt-0 text-center">
         <h1 className="text-2xl font-semibold text-[#0a184d]">
-          Bonjour {userName}, vous êtes sur le tableau de bord des textes.
+          Bonjour {userName}, vous êtes sur le tableau de bord de correction des
+          textes.
         </h1>
       </header>
 
@@ -27,7 +34,7 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
           tabIndex={0}
           aria-labelledby="text-to-correct-card-title">
           <img
-            src="../../../assets/imgs/Talos/acorriger.svg"
+            src="/src/assets/imgs/Talos/acorriger.svg"
             alt="Texte à corriger"
             className="mx-auto mb-4 ml-[15px] h-[200px] w-[200px]"
           />
@@ -43,7 +50,7 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
           tabIndex={0}
           aria-labelledby="text-to-correct-in-progress-card-title">
           <img
-            src="/src/assets/imgs/SVG-talos/en-cours-blanc.svg"
+            src="/src/assets/imgs/Talos/en-cours-blanc.svg"
             alt="Textes en cours de correction"
             className="mx-auto mb-4 ml-[55px] h-[200px] w-[200px]"
           />
@@ -59,7 +66,7 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
           tabIndex={0}
           aria-labelledby="text-validate-and-send-card-title">
           <img
-            src="/src/assets/imgs/SVG-talos/valide-texte.svg"
+            src="/src/assets/imgs/Talos/valide-texte.svg"
             alt="Textes validés et envoyés"
             className="mx-auto mb-4 ml-[35px] h-[200px] w-[200px]"
           />
@@ -112,9 +119,9 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
 
         {/* Bouton Voir tous les textes */}
         <div className="group relative">
-          <Link
-            to="@/app/pages/talos/textList.tsx"
-            className="relative flex w-48 flex-col items-center rounded-lg border-2 border-transparent bg-white px-6 py-4 text-lg text-[#0a184d] transition-all duration-300 hover:border-[#0a184d] hover:bg-gray-100">
+          <div
+            className="relative flex w-48 cursor-pointer flex-col items-center rounded-lg border-2 border-transparent bg-white px-6 py-4 text-lg text-[#0a184d] transition-all duration-300 hover:border-[#0a184d] hover:bg-gray-100"
+            onClick={handleNavigateTextList}>
             <span
               className="mb-2 inline whitespace-nowrap font-semibold"
               id="view-all-texts-button">
@@ -133,7 +140,7 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
                 />
               </svg>
             </div>
-          </Link>
+          </div>
 
           {/* Infobulle pour le bouton "Voir tous les textes" */}
           <div

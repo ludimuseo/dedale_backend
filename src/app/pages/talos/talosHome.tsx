@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 
-import TalosDashboard from './RoleBaesdDashboard.tsx'
+import TalosDashboard from './RoleBasedDashboard'
 
 const TalosHome: FC = () => {
   // Supposons qu'on récupère les données de l'utilisateur, ici en statique pour l'exemple.
@@ -16,4 +16,4 @@ const TalosHome: FC = () => {
   )
 }
 
-export default TalosHome
+export { TalosHome }

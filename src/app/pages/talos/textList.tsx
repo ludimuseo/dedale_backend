@@ -287,4 +287,4 @@ const TextList: FC = () => {
   )
 }
 
-export default TextList
+export { TextList }

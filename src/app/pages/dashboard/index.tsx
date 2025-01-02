@@ -1,7 +1,8 @@
 import { type FC } from 'react'
 
+import { TalosHome } from '../Talos/TalosHome'
+
 //import TextList from '../talos/TextList'
-import TalosHome from '../talos/talosHome'
 
 const Dashboard: FC = () => {
   return (
