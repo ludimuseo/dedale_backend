@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-import tailwind3dtransforms from '@xpd/tailwind-3dtransforms'
 import typography from '@tailwindcss/typography'
+import tailwind3dtransforms from '@xpd/tailwind-3dtransforms'
 import daisyui from 'daisyui'
 
 export default {

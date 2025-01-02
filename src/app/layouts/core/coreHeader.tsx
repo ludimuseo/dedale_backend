@@ -108,7 +108,7 @@ const CoreHeader: FC = () => {
                   <div className="divider m-0"></div>
                   {/* Modal */}
                   <li>
-                    <button className="" onClick={handleModalSignOut}>
+                    <button onClick={handleModalSignOut}>
                       {t('button.signout')}
                     </button>
                   </li>
