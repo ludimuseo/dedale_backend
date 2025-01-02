@@ -1,4 +1,4 @@
-//component/RoleBasedDashboard.tsx
+//component/roleBasedDashboard.tsx
 // Dynamic component that changes the homepage based on the user's role.
 import 'daisyui/dist/full.css'
 

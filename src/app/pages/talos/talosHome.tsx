@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 
-import TalosDashboard from './RoleBasedDashboard'
+import TalosDashboard from './roleBasedDashboard'
 
 const TalosHome: FC = () => {
   // Supposons qu'on récupère les données de l'utilisateur, ici en statique pour l'exemple.

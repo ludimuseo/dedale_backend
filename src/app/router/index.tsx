@@ -42,7 +42,7 @@ const routes: RouteObject[] = [
           },
           {
             async lazy() {
-              const { TextList } = await import('@/app/pages/Talos/textList')
+              const { TextList } = await import('@/app/pages/talos/textList')
               return { Component: TextList }
             },
             path: '/textList',

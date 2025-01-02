@@ -1,6 +1,6 @@
 import { type FC } from 'react'
 
-import { TalosHome } from '../Talos/TalosHome'
+import { TalosHome } from '../talos/talosHome'
 
 //import TextList from '../talos/TextList'
 
