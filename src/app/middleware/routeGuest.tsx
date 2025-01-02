@@ -18,7 +18,7 @@ const RouteGuest = ({ children }: RouteGuestProps) => {
   if (!isLogged) {
     return children
   } else {
-    const username: string = user?.displayName ?? 'N/A'
+    const username: string = user?.pseudo ?? 'N/A'
     push(t('warning.auth', { user: username }), { type: 'warning' })
     return <Navigate to={{ pathname: '/' }} replace />
   }

@@ -48,10 +48,10 @@ const AuthSignIn: FC = () => {
           // Dispatch to User Store
           dispatch(
             signIn({
-              displayName: user.displayName,
               email: user.email,
               emailVerified: user.emailVerified,
               photoURL: user.photoURL,
+              pseudo: String(customData?.pseudo),
               role: null,
               uid: user.uid,
             } satisfies User)

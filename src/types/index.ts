@@ -24,7 +24,7 @@ export interface User {
   role: UserRole | null
   email: string | null
   emailVerified: boolean
-  displayName: string | null
+  pseudo: string | null
   photoURL: string | null
 }
 

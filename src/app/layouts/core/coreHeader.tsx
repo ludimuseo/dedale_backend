@@ -52,7 +52,7 @@ const CoreHeader: FC = () => {
           {isLogged && !!user && (
             <div className="flex items-center space-x-3 text-sm">
               <div className="flex flex-col items-end">
-                <b>{user.displayName}</b>
+                <b>{user.pseudo}</b>
                 <em>{user.email}</em>
               </div>
 
@@ -70,18 +70,17 @@ const CoreHeader: FC = () => {
                         ? ''
                         : 'bg-neutral-content text-neutral-content')
                     }>
-                    {hasAvatarImg ? (
-                      <img
-                        src="https://avatar.iran.liara.run/public/2"
-                        alt="image avatar"
-                        width={48}
-                        height={48}
-                      />
-                    ) : (
-                      <span className="text-2xl">
-                        {user.email?.charAt(0).toUpperCase()}
-                      </span>
-                    )}
+                    <img
+                      width={48}
+                      height={48}
+                      className="avatar"
+                      alt="avatar image"
+                      src={user.photoURL ?? ''}
+                      onError={(e) => {
+                        e.currentTarget.src =
+                          'https://avatar.iran.liara.run/public/job/designer/female'
+                      }}
+                    />
                   </div>
                 </div>
                 <ul
