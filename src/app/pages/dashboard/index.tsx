@@ -1,6 +1,7 @@
 import { type FC } from 'react'
 
-import TextList from '../talos/TextList'
+//import TextList from '../talos/TextList'
+import TalosHome from '../talos/talosHome'
 
 const Dashboard: FC = () => {
   return (
@@ -9,7 +10,8 @@ const Dashboard: FC = () => {
       <div>
         <h1>TALOS</h1>
         <div>
-          <TextList />
+          {/* <TextList /> */}
+          <TalosHome />
         </div>
       </div>
     </>
