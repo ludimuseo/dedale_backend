@@ -1,4 +1,4 @@
-import { IconEnvelope, IconLock, Input } from '@component/index'
+import { EnvelopeIcon, Input, LockIcon } from '@component/index'
 import { useAppDispatch, useInput, useNotification } from '@hook/index'
 import { signIn } from '@service/redux/slices/reducerAuth'
 import { signInWithEmailAndPassword, type UserCredential } from 'firebase/auth'
@@ -82,7 +82,7 @@ const AuthSignIn: FC = () => {
           {...email}
           icon={
             <>
-              <IconEnvelope />
+              <EnvelopeIcon />
             </>
           }
         />
@@ -96,7 +96,7 @@ const AuthSignIn: FC = () => {
           {...password}
           icon={
             <>
-              <IconLock
+              <LockIcon
                 onClick={() => {
                   setShowPassword(!showPassword)
                 }}

@@ -107,7 +107,7 @@ const FormClient = () => {
     <>
       <Form
         title={'Formulaire Client'}
-        icon={UserIcon}
+        icon={<UserIcon />}
         handleArrowLeft={handleArrowLeft}
         getInput={getInput}
         currentStep={currentStep}

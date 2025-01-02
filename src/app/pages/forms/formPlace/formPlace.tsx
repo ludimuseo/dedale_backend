@@ -190,7 +190,7 @@ const FormPlace = () => {
     <>
       <Form
         title={'Formulaire Lieu'}
-        icon={PlaceIcon}
+        icon={<PlaceIcon />}
         handleArrowLeft={handleArrowLeft}
         getInput={getInput}
         currentStep={currentStep}
