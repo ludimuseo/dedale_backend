@@ -60,24 +60,10 @@ const AuthSignIn: FC = () => {
         })
         .catch((err: unknown) => {
           console.error(err)
-          // push(t('error.4XX'), { type: 'error' })
+          push(t('error.4XX'), { type: 'error' })
         })
         .finally(() => {
           setShowLoader(false)
-
-          // Dispatch to User Store
-          dispatch(
-            signIn({
-              displayName: 'user.displayName',
-              email: 'user.email',
-              emailVerified: false,
-              photoURL: 'user.photoURL',
-              role: null,
-              uid: 'user.uid',
-            } satisfies User)
-          )
-          void navigate('/', { replace: true })
-          push(t('success.signin'), { type: 'success' })
         })
     }
   }

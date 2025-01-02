@@ -4,7 +4,6 @@ const UserSettings: FC = () => {
   return (
     <>
       <div>
-        USER SETTINGS
         <p>NOM</p>
         <p>PRENOM</p>
         <p>PHOTO PROFILE</p>
