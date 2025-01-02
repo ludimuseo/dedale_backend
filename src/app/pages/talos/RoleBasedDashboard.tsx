@@ -28,7 +28,7 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
         </h1>
       </header>
 
-      <main className="mb-20 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+      <main className="mb-20 mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
         <div
           className="dashboard-item shadow-extra-dark card flex h-[300px] w-[300px] transform cursor-pointer flex-col items-center gap-4 rounded-lg bg-[#f4fdff] p-4 transition-transform hover:scale-125 hover:border-4 hover:border-[#0a184d] hover:font-bold hover:shadow-2xl"
           tabIndex={0}
@@ -81,7 +81,7 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
       {/* Section des boutons */}
       <div className="mt-12 flex w-full justify-around gap-4">
         {isReferent && (
-          <div className="group relative">
+          <div className="group relative mt-10">
             {/* Conteneur parent avec la classe `group` */}
             <button
               className="relative flex w-48 flex-col items-center rounded-lg border-2 border-transparent bg-white px-6 py-4 text-lg text-[#0a184d] transition-all duration-300 hover:border-[#0a184d] hover:bg-gray-100"
@@ -118,7 +118,7 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
         )}
 
         {/* Bouton Voir tous les textes */}
-        <div className="group relative">
+        <div className="group relative mt-10">
           <div
             className="relative flex w-48 cursor-pointer flex-col items-center rounded-lg border-2 border-transparent bg-white px-6 py-4 text-lg text-[#0a184d] transition-all duration-300 hover:border-[#0a184d] hover:bg-gray-100"
             onClick={handleNavigateTextList}>
