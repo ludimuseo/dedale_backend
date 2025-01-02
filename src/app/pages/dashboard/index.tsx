@@ -1,16 +1,18 @@
 import { type FC } from 'react'
 
-import FormClient from '../forms/formClient/formClient'
-import FormPlace from '../forms/formPlace/formPlace'
+import { TalosHome } from '../Talos/TalosHome'
+
+//import TextList from '../talos/TextList'
 
 const Dashboard: FC = () => {
   return (
     <>
+      <div>(PAGE CONTENT) - DASHBOARD</div>
       <div>
-        <h1>FORMULAIRES</h1>
+        <h1>TALOS</h1>
         <div>
-          <FormPlace />
-          <FormClient />
+          {/* <TextList /> */}
+          <TalosHome />
         </div>
       </div>
     </>

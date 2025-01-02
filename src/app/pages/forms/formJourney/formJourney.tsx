@@ -9,9 +9,9 @@ import { db } from '@/firebase/firebase'
 import { MessageType, T } from '@/types'
 
 import Form from '../form'
-import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
+import { getInputJourneyConfig } from './configJourney/getInputJourneyConfig'
 
-const FormPlace = () => {
+const FormJourney = () => {
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
   const [idAndDocName, setIdAndDocName] = useState<
@@ -30,7 +30,7 @@ const FormPlace = () => {
     result: false,
   })
   const [formData, setFormData] = useState<T>({
-    clientId: '',
+    placeId: '',
     medalId: '',
     address: {
       address: '',
@@ -61,7 +61,14 @@ const FormPlace = () => {
       falc: {
         en: '',
         fr: '',
-        isValidate: false,
+        falcCertified: '',
+        userId: '',
+        statut: {
+          isValidate: false,
+          isCertified: false,
+          certifiedDate: new Date(),
+          isCorrected: false,
+        },
       },
       standard: {
         en: '',
@@ -226,7 +233,7 @@ const FormPlace = () => {
     }
   }
 
-  const getInput = getInputPlaceConfig
+  const getInput = getInputJourneyConfig
 
   useEffect(() => {
     setStep(getInput.length)
@@ -352,4 +359,4 @@ const FormPlace = () => {
   )
 }
 
-export default FormPlace
+export default FormJourney
