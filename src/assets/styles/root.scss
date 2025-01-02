@@ -79,15 +79,15 @@ $switchCheckboxSize: 1.8rem;
 
   > #inner-content {
     @apply flex flex-row;
-    @apply h-full w-full;
-    @apply overflow-x-auto overflow-y-scroll;
+    @apply h-full w-full bg-white;
+    @apply overflow-hidden;
 
     > aside#sidebar {
       @apply w-[#{$sidebarWidth}] h-full bg-primary p-3;
     }
 
     > main.content {
-      @apply flex-1;
+      @apply flex-1 overflow-x-auto overflow-y-scroll;
     }
   }
 
