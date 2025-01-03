@@ -1,12 +1,12 @@
+import { EnvelopeIcon, Input, LockIcon } from '@component/index'
+import { useAppDispatch, useInput, useNotification } from '@hook/index'
 import { signIn } from '@service/redux/slices/reducerAuth'
 import { signInWithEmailAndPassword, type UserCredential } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
 import { type FC, type FormEvent, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type NavigateFunction, useNavigate } from 'react-router-dom'
+import { type NavigateFunction, useNavigate } from 'react-router'
 
-import { IconEnvelope, IconLock, IconSpinner, Input } from '@/app/components'
-import { useAppDispatch, useInput, useNotification } from '@/app/hooks'
 import { auth, db } from '@/firebase/firebase'
 import type { User } from '@/types'
 
@@ -48,20 +48,19 @@ const AuthSignIn: FC = () => {
           // Dispatch to User Store
           dispatch(
             signIn({
-              displayName: user.displayName,
               email: user.email,
               emailVerified: user.emailVerified,
               photoURL: user.photoURL,
+              pseudo: String(customData?.pseudo),
               role: null,
               uid: user.uid,
             } satisfies User)
           )
-          push('OK', { type: 'success' })
-          navigate('/', { replace: true })
+          void navigate('/', { replace: true })
         })
         .catch((err: unknown) => {
           console.error(err)
-          push('KO', { type: 'error' })
+          push(t('error.4XX'), { type: 'error' })
         })
         .finally(() => {
           setShowLoader(false)
@@ -83,7 +82,7 @@ const AuthSignIn: FC = () => {
           {...email}
           icon={
             <>
-              <IconEnvelope />
+              <EnvelopeIcon />
             </>
           }
         />
@@ -97,7 +96,7 @@ const AuthSignIn: FC = () => {
           {...password}
           icon={
             <>
-              <IconLock
+              <LockIcon
                 onClick={() => {
                   setShowPassword(!showPassword)
                 }}
@@ -108,11 +107,7 @@ const AuthSignIn: FC = () => {
         {/* Button Submit */}
         <button type="submit" className="btn--primary">
           {t('button.signin')}&nbsp;
-          {showLoader && (
-            <span className="motion-safe:animate-spin">
-              <IconSpinner className="-scale-x-[1]" />
-            </span>
-          )}
+          {showLoader && <span className="loading loading-spinner"></span>}
         </button>
       </form>
     </>

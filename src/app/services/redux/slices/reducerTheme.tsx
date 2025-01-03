@@ -19,30 +19,25 @@ export const sliceTheme = createSlice({
     changeTheme: (state, action: PayloadAction<StateTheme['theme']>) => {
       if (Object.values(Theme).includes(action.payload)) {
         state.theme = Theme[action.payload]
-      }
-    },
-    setDarkMode: (state, action: PayloadAction<boolean>) => {
-      switch (state.theme) {
-        case Theme.LIGHT:
-        case Theme.DARK:
-        case Theme.SYSTEM:
-          state.isDark = action.payload
+        if ('documentElement' in document) {
           document.documentElement.setAttribute(
             'data-theme',
-            state.isDark ? 'dark' : 'light'
+            String(action.payload).toLowerCase()
           )
-          break
-        case Theme.CUSTOM:
-          state.isDark = false
-          // Must get Theme from User
-          // Example: user.theme = 'protanopia'
-          break
-        default:
-          break
+        }
+      }
+    },
+    setIsDark: (state, action: PayloadAction<boolean>) => {
+      state.isDark = action.payload
+      if ('documentElement' in document) {
+        document.documentElement.setAttribute(
+          'data-is-dark',
+          String(action.payload)
+        )
       }
     },
   },
 })
 
-export const { changeTheme, setDarkMode } = sliceTheme.actions
+export const { changeTheme, setIsDark } = sliceTheme.actions
 export default sliceTheme.reducer

@@ -1,94 +1,76 @@
+import { useAppDispatch, useAppSelector } from '@hook/index'
 import {
   changeTheme,
-  setDarkMode,
   type StateTheme,
 } from '@service/redux/slices/reducerTheme'
-import { type FC, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+import { ChangeEvent, type FC, useEffect, useRef } from 'react'
 
-import { Input } from '@/app/components'
-import { useAppDispatch, useAppSelector } from '@/app/hooks'
-import { type State, Theme } from '@/types'
+import { State, Theme } from '@/types'
 
 const ChangeTheme: FC = () => {
-  const { t } = useTranslation()
+  const darkCheckbox = useRef<HTMLInputElement>(null)
   const dispatch = useAppDispatch()
-  const { theme }: StateTheme = useAppSelector((state: State) => state.theme)
-  //
+  const { theme, isDark }: StateTheme = useAppSelector(
+    (state: State) => state.theme
+  )
+
+  const switchDarkLight = (value: boolean): void => {
+    if (value) dispatch(changeTheme(Theme.DARK))
+    else dispatch(changeTheme(Theme.LIGHT))
+  }
+
+  const handleSwitchSystem = ({ target }: ChangeEvent) => {
+    if ('checked' in target) {
+      if (target.checked) dispatch(changeTheme(Theme.SYSTEM))
+      else switchDarkLight(isDark)
+    }
+  }
+
+  const handleSwitchDark = ({ target }: ChangeEvent) => {
+    if ('checked' in target) {
+      const checked = Boolean(target.checked)
+      switchDarkLight(checked)
+    }
+  }
+
   useEffect(() => {
-    const mediaWatcher: MediaQueryList = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    )
-    // Detect if system changed theme
-    const detectedSystemChangedTheme = (e: MediaQueryListEvent) => {
-      if (theme === Theme.SYSTEM) {
-        dispatch(setDarkMode(e.matches))
-      }
+    if (darkCheckbox.current && 'indeterminate' in darkCheckbox.current) {
+      darkCheckbox.current.indeterminate = theme === Theme.SYSTEM
     }
-    if ('addEventListener' in mediaWatcher) {
-      mediaWatcher.addEventListener('change', detectedSystemChangedTheme)
-      switch (theme) {
-        case Theme.DARK:
-          dispatch(setDarkMode(true))
-          break
-        case Theme.LIGHT:
-          dispatch(setDarkMode(false))
-          break
-        case Theme.SYSTEM:
-          dispatch(
-            setDarkMode(
-              window.matchMedia('(prefers-color-scheme: dark)').matches
-            )
-          )
-          break
-        default:
-          console.info('IGNORE -> Theme.CUSTOM ... for now')
-          break
-      }
-    }
-    return () => {
-      mediaWatcher.removeEventListener('change', detectedSystemChangedTheme)
-    }
-  }, [theme, dispatch])
+    return
+  }, [theme])
 
   return (
     <>
       <div id="change-theme">
-        <Input
-          label={t('theme.light')}
-          type="radio"
-          name="change-theme"
-          uid="change-theme-light"
-          value="LIGHT"
-          checked={theme === Theme.LIGHT}
-          errors={[]}
-          onChange={() => dispatch(changeTheme(Theme.LIGHT))}
-          insideForm={false}
-        />
+        <label className="swap h-6 w-full text-center">
+          <input
+            type="checkbox"
+            value={'SYSTEM'}
+            checked={theme === Theme.SYSTEM}
+            onChange={handleSwitchSystem}
+          />
+          <div className="swap-on">AUTO</div>
+          <div className="swap-off">
+            <i>&#x1F5B5;</i>
+          </div>
+        </label>
 
-        <Input
-          label={t('theme.dark')}
-          type="radio"
-          name="change-theme"
-          uid="change-theme-dark"
-          value="DARK"
-          checked={theme === Theme.DARK}
-          errors={[]}
-          onChange={() => dispatch(changeTheme(Theme.DARK))}
-          insideForm={false}
-        />
+        <div className="divider divider-horizontal m-0"></div>
 
-        <Input
-          label={t('theme.system')}
-          type="radio"
-          name="change-theme"
-          uid="change-theme-system"
-          value="SYSTEM"
-          checked={theme === Theme.SYSTEM}
-          errors={[]}
-          onChange={() => dispatch(changeTheme(Theme.SYSTEM))}
-          insideForm={false}
-        />
+        <label className="flex cursor-pointer gap-2">
+          <i>&#x1F31E;</i>
+          <input
+            className="toggle"
+            type="checkbox"
+            value={'DARK'}
+            ref={darkCheckbox}
+            checked={isDark}
+            onChange={handleSwitchDark}
+            disabled={theme === Theme.SYSTEM}
+          />
+          <i>&#x1F31C;</i>
+        </label>
       </div>
     </>
   )

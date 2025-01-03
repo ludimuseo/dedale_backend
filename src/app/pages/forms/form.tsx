@@ -1,7 +1,6 @@
+import { MuseumIcon } from '@component/index'
 import { FormEvent, MouseEvent } from 'react'
 
-import { MuseumIcon } from '@/app/components/ui/icons/MuseumIcon'
-//import { UserIcon } from '@/app/components/ui/icons/UserIcon'
 import { GetInputConfigType, MessageType, T } from '@/types'
 
 import FormFooter from './formFooter'
@@ -102,7 +101,6 @@ const Form = ({
   return (
     <div className="grid grid-cols-1 gap-1 p-10 sm:grid-cols-1">
       <FormHeader title={title} icon={icon} handleSubmit={handleArrowLeft} />
-
       {title === 'Formulaire Client' ? (
         <></>
       ) : (

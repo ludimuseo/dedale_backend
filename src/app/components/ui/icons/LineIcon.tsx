@@ -1,6 +1,6 @@
 import { SvgProps } from '@/types'
 
-export const LineIcon = ({ ...props }: SvgProps) => {
+const LineIcon = ({ ...props }: SvgProps) => {
   return (
     <>
       <svg height="200" width="250" {...props}>
@@ -9,3 +9,5 @@ export const LineIcon = ({ ...props }: SvgProps) => {
     </>
   )
 }
+
+export { LineIcon }

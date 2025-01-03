@@ -1,10 +1,20 @@
 /* //tailwind/_components.scss */
 
+/* class: .card */
+.card {
+  position: inherit;
+  @apply m-3;
+}
+
+.avatar {
+  position: inherit;
+}
+
 /* class: .btn */
 .btn {
   /* class: .btn--primary */
   &--primary {
-    @apply flex items-center justify-center rounded-lg bg-button p-3 font-medium text-white;
+    @apply flex items-center justify-center rounded-lg p-3 font-medium text-white;
   }
 }
 

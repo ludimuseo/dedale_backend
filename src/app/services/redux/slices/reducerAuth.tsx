@@ -21,6 +21,7 @@ export const sliceAuth = createSlice({
       state.isLogged = true
       state.token = ''
       state.user = action.payload
+      console.info(action.payload)
     },
     signOut: (state) => {
       state.isLogged = false

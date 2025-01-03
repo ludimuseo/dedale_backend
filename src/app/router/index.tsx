@@ -1,9 +1,4 @@
-import type { Router as RemixRouter } from '@remix-run/router'
-import {
-  createBrowserRouter,
-  Navigate,
-  type RouteObject,
-} from 'react-router-dom'
+import { createBrowserRouter, Navigate, type RouteObject } from 'react-router'
 
 import LayoutAuth from '@/app/layouts/layoutAuth'
 import LayoutDefault from '@/app/layouts/layoutDefault'
@@ -45,6 +40,27 @@ const routes: RouteObject[] = [
             },
             path: '/user/settings',
           },
+          {
+            async lazy() {
+              const { TextList } = await import('@/app/pages/talos/textList')
+              return { Component: TextList }
+            },
+            path: '/textList',
+          },
+          // {
+          //   async lazy() {
+          //     const { TalosInterface } = await import('@/app/pages/talos/TalosInterface.tsx')
+          //     return { Component: TalosInterface }
+          //   },
+          //   path: '/interface',
+          // },
+          {
+            async lazy() {
+              const { UserCreate } = await import('@/app/pages/user/create')
+              return { Component: UserCreate }
+            },
+            path: '/user/create',
+          },
         ],
         element: (
           <RouteAuth role={null}>
@@ -79,7 +95,7 @@ const routes: RouteObject[] = [
   },
 ]
 
-const router: RemixRouter = createBrowserRouter(routes, {
+const router = createBrowserRouter(routes, {
   future: {
     v7_fetcherPersist: true,
     v7_normalizeFormMethod: true,

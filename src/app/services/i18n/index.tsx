@@ -13,7 +13,7 @@ const options: InitOptions = {
     lookupLocalStorage: 'lang',
     order: ['localStorage', 'navigator'],
   },
-  fallbackLng: 'en',
+  fallbackLng: 'fr',
   interpolation: {
     escapeValue: false,
     formatSeparator: '|',

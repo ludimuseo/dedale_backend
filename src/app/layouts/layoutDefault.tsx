@@ -1,7 +1,7 @@
+import { CloseIcon, HamburgerIcon } from '@component/index'
 import type { FC } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router'
 
-import { LogoDedale } from '@/app/components'
 import CoreHeader from '@/app/layouts/core/coreHeader'
 import CoreSidebar from '@/app/layouts/core/coreSidebar'
 
@@ -9,28 +9,28 @@ const LayoutDefault: FC = () => {
   return (
     <>
       <div id="layout-default">
-        <input id="checkbox-toggle-sidebar" type="checkbox" />
-        <div id="floating-header-logo">
-          {/* // Menu Burger - 100% CSS */}
-          <label
-            htmlFor="checkbox-toggle-sidebar"
-            className="toggle-sidebar menu-burger">
-            <span></span>
-            <span></span>
-            <span></span>
-          </label>
-          {/* // Logo Dedale */}
-          <div className="logo-container">
-            <LogoDedale width={140} />
-          </div>
-        </div>
-        <div id="outer-content">
-          <CoreHeader />
+        <CoreHeader
+          toggleMenu={
+            <>
+              <label
+                id="sidebar-control"
+                className="btn btn-ghost swap swap-rotate">
+                {/* this hidden checkbox controls the state */}
+                <input type="checkbox" />
+                {/* close icon */}
+                <CloseIcon className="swap-off" />
+                {/* hamburger icon */}
+                <HamburgerIcon className="swap-on" />
+              </label>
+            </>
+          }
+        />
+        <div id="inner-content">
+          <CoreSidebar />
           <main className="content">
             <Outlet context={[]} />
           </main>
         </div>
-        <CoreSidebar />
       </div>
     </>
   )

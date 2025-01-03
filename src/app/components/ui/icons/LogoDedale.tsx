@@ -1,33 +1,22 @@
+import { useAppSelector } from '@hook/index'
+import { StateTheme } from '@service/redux/slices/reducerTheme'
 import type { ComponentProps } from 'react'
 
-import { useAppSelector } from '@/app/hooks'
-import logoDedale2 from '@/assets/imgs/logoDedale_v1.webp'
-import logoDedale1 from '@/assets/imgs/logoDedale_v2.webp'
+import logoDedaleDark from '@/assets/imgs/logoDedale_dark.webp'
+import logoDedaleLight from '@/assets/imgs/logoDedale_light.webp'
 import type { State } from '@/types'
 
 type LogoDedaleProps = ComponentProps<'img'> & {
   width: number
-  forceDark?: boolean | null
 }
 
-const LogoDedale = ({ width, forceDark }: LogoDedaleProps) => {
-  const isDark: boolean = useAppSelector((state: State) => state.theme.isDark)
-  const imgData: string = forceDark
-    ? logoDedale1
-    : isDark
-      ? logoDedale1
-      : logoDedale2
+const LogoDedale = ({ width }: LogoDedaleProps) => {
+  const { isDark }: StateTheme = useAppSelector((state: State) => state.theme)
+  const imgData: string = isDark ? logoDedaleLight : logoDedaleDark
   return (
     <>
       <figure>
         <img height="auto" width={width} src={imgData} alt="logo" />
-        <img
-          className="show-on-sidebar"
-          height="auto"
-          width={width}
-          src={logoDedale1}
-          alt="logo"
-        />
       </figure>
     </>
   )
