@@ -11,6 +11,7 @@ import Timeline from './timeline'
 
 interface FormProps {
   clientIdAndName?: { id: string; name: string }[] | undefined
+  placeIdAndName?: { id: string; name: string }[] | undefined
   title: string
   icon: React.JSX.Element
   handleArrowLeft: () => void
@@ -55,11 +56,14 @@ interface FormProps {
     name: string
   ) => void
   handleSelect?: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  handlePlaceSelect?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   selectedOption?: string
+  selectedPlaceOption?: string
 }
 
 const Form = ({
   clientIdAndName,
+  placeIdAndName,
   title,
   icon,
   handleArrowLeft,
@@ -79,9 +83,13 @@ const Form = ({
   handleNextStep,
   handleFileUpload,
   handleSelect,
+  handlePlaceSelect,
   selectedOption,
+  selectedPlaceOption,
 }: FormProps) => {
-  //fetchPlace
+  // const [journeyIdAndName, setJourneyIdAndName] = useState<{ id: string; name: string }[] | undefined>([])
+  // const [stepIdAndName, setStepAndName] = useState<{ id: string; name: string }[] | undefined>([])
+  // const [pieceIdAndName, setPiecedAndName] = useState<{ id: string; name: string }[] | undefined>([])
 
   //fetchJourney
 
@@ -89,7 +97,7 @@ const Form = ({
 
   //fetchPiece
 
-  //fetchGame
+  //fetchGamei
 
   return (
     <div className="grid grid-cols-1 gap-1 p-10 sm:grid-cols-1">
@@ -106,21 +114,41 @@ const Form = ({
           <input type="checkbox" id="my_modal_6" className="modal-toggle" />
           <div className="modal" role="dialog">
             <div className="modal-box">
-              <h3 className="text-lg font-bold">Client</h3>
+              <h3 className="text-lg font-bold">Sélection</h3>
 
-              <p className="py-4">Sélection du client lié au Lieu</p>
+              <p className="py-2">Sélection du Client lié au Lieu</p>
 
               <select
                 value={selectedOption}
                 onChange={handleSelect}
                 className="select select-bordered select-xs w-full max-w-xs">
-                <option>Choisir le client</option>
+                <option>Choisir le Client</option>
                 {clientIdAndName?.map(({ id, name }, index) => (
                   <option key={index} value={id}>
                     {name}
                   </option>
                 ))}
               </select>
+              {
+                <div
+                  className={
+                    placeIdAndName && placeIdAndName.length > 0 ? '' : 'hidden'
+                  }>
+                  <p className="mt-2 py-2">Sélection du Lieu lié au Client</p>
+
+                  <select
+                    value={selectedPlaceOption}
+                    onChange={handlePlaceSelect}
+                    className="select select-bordered select-xs w-full max-w-xs">
+                    <option>Choisir le Lieu</option>
+                    {placeIdAndName?.map(({ id, name }, index) => (
+                      <option key={index} value={id}>
+                        {name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              }
 
               <div className="modal-action">
                 <label htmlFor="my_modal_6" className="btn">

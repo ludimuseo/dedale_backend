@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs } from 'firebase/firestore'
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
@@ -6,14 +6,18 @@ import { v4 as uuidv4 } from 'uuid'
 import { JourneyIcon } from '@/app/components/ui/icons/journeyIcon'
 import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
-import { MessageType, T } from '@/types'
+import { MessageType, PlaceType, T } from '@/types'
 
 import Form from '../form'
 import { getInputJourneyConfig } from './configJourney/getInputJourneyConfig'
 
 const FormJourney = () => {
+  const title = 'Formulaire Parcours'
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
+  const [placeIdAndName, setPlaceIdAndName] = useState<
+    { id: string; name: string }[] | undefined
+  >([])
   const [clientIdAndName, setClientIdAndName] = useState<
     { id: string; name: string }[] | undefined
   >([])
@@ -22,6 +26,7 @@ const FormJourney = () => {
     | undefined
   >([])
   const [selectedOption, setSelectedOption] = useState('')
+  const [selectedPlaceOption, setSelectedPlaceOption] = useState('')
   const [attributedMedal, setAttributedMedal] = useState<
     { id: string; name: string; image: string; description: string } | undefined
   >()
@@ -205,14 +210,43 @@ const FormJourney = () => {
     })
   }
 
+  //fetchPlaces
+  const fetchPlaces = async (clientId: string) => {
+    try {
+      const q = query(
+        collection(db, 'places'),
+        where('place.clientID', '==', clientId)
+      )
+      const querySnapshot = await getDocs(q)
+      const placeData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...(doc.data().place as PlaceType),
+      }))
+
+      const packagePlaceData = placeData.map((item) => {
+        return { id: item.id, name: item.name.fr }
+      })
+      setPlaceIdAndName(packagePlaceData)
+    } catch (error) {
+      console.error('Error fetching places:', error)
+    }
+  }
+
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value
     setSelectedOption(selectedValue)
+    void fetchPlaces(selectedValue)
+  }
+
+  const handlePlaceSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value
+    setSelectedPlaceOption(selectedValue)
+    void fetchPlaces(selectedValue)
 
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
-        ['clientId']: selectedValue,
+        ['placeId']: selectedValue,
       }
     })
   }
@@ -323,16 +357,21 @@ const FormJourney = () => {
   //VERIFIER SI USER.ROLE === 'SUPERADMIN' sinon redirection page dashboard
   //}, [])
 
+  console.log('FormDataJourney:', { ...formData })
+
   return (
     <>
       <Form
         clientIdAndName={clientIdAndName && clientIdAndName}
+        placeIdAndName={placeIdAndName && placeIdAndName}
         handleSelect={handleSelect}
+        handlePlaceSelect={handlePlaceSelect}
         selectedOption={selectedOption}
+        selectedPlaceOption={selectedPlaceOption}
         medalsData={medalsData}
         attributedMedal={attributedMedal}
         handleAttributeMedal={handleAttributeMedal}
-        title={'Formulaire Parcours'}
+        title={title}
         icon={JourneyIcon}
         handleArrowLeft={handleArrowLeft}
         getInput={getInput}
