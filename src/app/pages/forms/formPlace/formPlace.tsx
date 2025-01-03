@@ -1,9 +1,9 @@
+import { PlaceIcon } from '@component/index'
 import { addDoc, collection, getDocs } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
-import { PlaceIcon } from '@/app/components/ui/icons/PlaceIcon'
 import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
 import { MessageType, T } from '@/types'
@@ -327,7 +327,7 @@ const FormPlace = () => {
         attributedMedal={attributedMedal}
         handleAttributeMedal={handleAttributeMedal}
         title={'Formulaire Lieu'}
-        icon={PlaceIcon}
+        icon={<PlaceIcon />}
         handleArrowLeft={handleArrowLeft}
         getInput={getInput}
         currentStep={currentStep}

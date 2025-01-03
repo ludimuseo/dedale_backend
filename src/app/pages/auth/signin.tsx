@@ -1,4 +1,4 @@
-import { IconEnvelope, IconLock, Input } from '@component/index'
+import { EnvelopeIcon, Input, LockIcon } from '@component/index'
 import { useAppDispatch, useInput, useNotification } from '@hook/index'
 import { signIn } from '@service/redux/slices/reducerAuth'
 import { signInWithEmailAndPassword, type UserCredential } from 'firebase/auth'
@@ -48,20 +48,19 @@ const AuthSignIn: FC = () => {
           // Dispatch to User Store
           dispatch(
             signIn({
-              displayName: user.displayName,
               email: user.email,
               emailVerified: user.emailVerified,
               photoURL: user.photoURL,
+              pseudo: String(customData?.pseudo),
               role: null,
               uid: user.uid,
             } satisfies User)
           )
-          push('OK', { type: 'success' })
           void navigate('/', { replace: true })
         })
         .catch((err: unknown) => {
           console.error(err)
-          push('KO', { type: 'error' })
+          push(t('error.4XX'), { type: 'error' })
         })
         .finally(() => {
           setShowLoader(false)
@@ -83,7 +82,7 @@ const AuthSignIn: FC = () => {
           {...email}
           icon={
             <>
-              <IconEnvelope />
+              <EnvelopeIcon />
             </>
           }
         />
@@ -97,7 +96,7 @@ const AuthSignIn: FC = () => {
           {...password}
           icon={
             <>
-              <IconLock
+              <LockIcon
                 onClick={() => {
                   setShowPassword(!showPassword)
                 }}

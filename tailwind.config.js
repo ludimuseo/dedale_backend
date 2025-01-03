@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import typography from '@tailwindcss/typography'
 import tailwind3dtransforms from '@xpd/tailwind-3dtransforms'
 import daisyui from 'daisyui'
 
@@ -32,7 +33,7 @@ export default {
     ],
   },
   darkMode: 'selector',
-  plugins: [tailwind3dtransforms, daisyui],
+  plugins: [tailwind3dtransforms, typography, daisyui],
   theme: {
     extend: {
       backgroundColor: {
