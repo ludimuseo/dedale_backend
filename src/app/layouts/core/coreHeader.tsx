@@ -1,19 +1,17 @@
-import {
-  ChangeLanguage,
-  ChangeTheme,
-  CloseIcon,
-  HamburgerIcon,
-  LogoDedale,
-} from '@component/index'
+import { ChangeLanguage, ChangeTheme, LogoDedale } from '@component/index'
 import { useAppDispatch, useAppSelector } from '@hook/index'
 import { signOut, StateAuth } from '@service/redux/slices/reducerAuth'
-import { type FC, useRef } from 'react'
+import { type FC, ReactElement, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router'
 
 import type { State } from '@/types'
 
-const CoreHeader: FC = () => {
+interface HeaderProps {
+  toggleMenu: ReactElement<HTMLElement> | null
+}
+
+const CoreHeader: FC<HeaderProps> = ({ toggleMenu }) => {
   const { t } = useTranslation()
   const { isLogged, user }: StateAuth = useAppSelector(
     (state: State) => state.auth
@@ -31,16 +29,7 @@ const CoreHeader: FC = () => {
       <header className="navbar min-h-24 p-4">
         {/* Sidebar Burger Icon Menu */}
         <div className="navbar-start gap-x-3">
-          <label
-            id="sidebar-control"
-            className="btn btn-ghost swap swap-rotate">
-            {/* this hidden checkbox controls the state */}
-            <input type="checkbox" />
-            {/* close icon */}
-            <CloseIcon className="swap-off" />
-            {/* hamburger icon */}
-            <HamburgerIcon className="swap-on" />
-          </label>
+          {toggleMenu}
           <div className="logo-container">
             <NavLink to={{ pathname: '/' }}>
               <LogoDedale width={140} />

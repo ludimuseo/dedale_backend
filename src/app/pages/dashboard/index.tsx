@@ -7,7 +7,6 @@ import FormPlace from '../forms/formPlace/formPlace'
 const Dashboard: FC = () => {
   return (
     <>
-      <div>(PAGE CONTENT) - DASHBOARD</div>
       <div>
         <h1>TALOS</h1>
         <div>
