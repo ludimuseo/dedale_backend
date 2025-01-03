@@ -10,7 +10,7 @@ import InputArea from './inputArea'
 import Timeline from './timeline'
 
 interface FormProps {
-  idAndDocName?: { id: string; name: string }[] | undefined
+  clientIdAndName?: { id: string; name: string }[] | undefined
   title: string
   icon: React.JSX.Element
   handleArrowLeft: () => void
@@ -59,7 +59,7 @@ interface FormProps {
 }
 
 const Form = ({
-  idAndDocName,
+  clientIdAndName,
   title,
   icon,
   handleArrowLeft,
@@ -81,6 +81,16 @@ const Form = ({
   handleSelect,
   selectedOption,
 }: FormProps) => {
+  //fetchPlace
+
+  //fetchJourney
+
+  //fetchStep
+
+  //fetchPiece
+
+  //fetchGame
+
   return (
     <div className="grid grid-cols-1 gap-1 p-10 sm:grid-cols-1">
       <FormHeader title={title} icon={icon} handleSubmit={handleArrowLeft} />
@@ -105,7 +115,7 @@ const Form = ({
                 onChange={handleSelect}
                 className="select select-bordered select-xs w-full max-w-xs">
                 <option>Choisir le client</option>
-                {idAndDocName?.map(({ id, name }, index) => (
+                {clientIdAndName?.map(({ id, name }, index) => (
                   <option key={index} value={id}>
                     {name}
                   </option>

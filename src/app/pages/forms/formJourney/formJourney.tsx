@@ -3,7 +3,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
-import { PlaceIcon } from '@/app/components/ui/icons/PlaceIcon'
+import { JourneyIcon } from '@/app/components/ui/icons/journeyIcon'
 import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
 import { MessageType, T } from '@/types'
@@ -14,7 +14,7 @@ import { getInputJourneyConfig } from './configJourney/getInputJourneyConfig'
 const FormJourney = () => {
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
-  const [idAndDocName, setIdAndDocName] = useState<
+  const [clientIdAndName, setClientIdAndName] = useState<
     { id: string; name: string }[] | undefined
   >([])
   const [medalsData, setMedalsData] = useState<
@@ -240,7 +240,7 @@ const FormJourney = () => {
   }, [getInput])
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchClient = async () => {
       interface ClientData {
         id: string
         client?: {
@@ -272,12 +272,12 @@ const FormJourney = () => {
             (item): item is { id: string; name: string } => item !== undefined
           ) //Ce filtre assure à TypeScript que le tableau résultant ne contient que des objets conformes au type { id: string, name: string }.
 
-        setIdAndDocName(clientPackageData)
+        setClientIdAndName(clientPackageData)
       } catch (error) {
         console.error('Error fetching data:', error)
       }
     }
-    void fetchData()
+    void fetchClient()
   }, [])
 
   useEffect(() => {
@@ -296,6 +296,7 @@ const FormJourney = () => {
         image: string
       }
     }
+
     const fecthMedal = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, 'medals'))
@@ -322,19 +323,17 @@ const FormJourney = () => {
   //VERIFIER SI USER.ROLE === 'SUPERADMIN' sinon redirection page dashboard
   //}, [])
 
-  console.log('FormData:', { ...formData })
-
   return (
     <>
       <Form
-        idAndDocName={idAndDocName && idAndDocName}
+        clientIdAndName={clientIdAndName && clientIdAndName}
         handleSelect={handleSelect}
         selectedOption={selectedOption}
         medalsData={medalsData}
         attributedMedal={attributedMedal}
         handleAttributeMedal={handleAttributeMedal}
-        title={'Formulaire Lieu'}
-        icon={PlaceIcon}
+        title={'Formulaire Parcours'}
+        icon={JourneyIcon}
         handleArrowLeft={handleArrowLeft}
         getInput={getInput}
         currentStep={currentStep}
