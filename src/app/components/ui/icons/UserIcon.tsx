@@ -1,6 +1,4 @@
-import type { SvgProps } from '@/types'
-
-const UserIcon = ({ ...props }: SvgProps) => {
+const UserIcon = (): React.JSX.Element => {
   return (
     <>
       <svg
@@ -8,8 +6,7 @@ const UserIcon = ({ ...props }: SvgProps) => {
         height="40"
         viewBox="0 0 24 24"
         fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        {...props}>
+        xmlns="http://www.w3.org/2000/svg">
         <circle cx="5" cy="8" r="5" fill="#0A184D" />
         <ellipse cx="5" cy="19" rx="8" ry="5" fill="#0A184D" />
       </svg>
