@@ -40,6 +40,34 @@ const routes: RouteObject[] = [
             },
             path: '/user/settings',
           },
+          {
+            async lazy() {
+              const { TextList } = await import('@/app/pages/talos/textList')
+              return { Component: TextList }
+            },
+            path: '/textList',
+          },
+          {
+            async lazy() {
+              const { TalosHome } = await import('@/app/pages/talos/talosHome')
+              return { Component: TalosHome }
+            },
+            path: '/talos',
+          },
+          // {
+          //   async lazy() {
+          //     const { TalosInterface } = await import('@/app/pages/talos/TalosInterface.tsx')
+          //     return { Component: TalosInterface }
+          //   },
+          //   path: '/interface',
+          // },
+          {
+            async lazy() {
+              const { UserCreate } = await import('@/app/pages/user/create')
+              return { Component: UserCreate }
+            },
+            path: '/user/create',
+          },
         ],
         element: (
           <RouteAuth role={null}>

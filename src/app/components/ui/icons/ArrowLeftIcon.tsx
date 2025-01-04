@@ -1,6 +1,6 @@
 import type { SvgProps } from '@/types'
 
-const IconArrowLeft = ({ ...props }: SvgProps) => {
+const ArrowLeftIcon = ({ ...props }: SvgProps) => {
   return (
     <>
       <svg
@@ -19,4 +19,4 @@ const IconArrowLeft = ({ ...props }: SvgProps) => {
   )
 }
 
-export { IconArrowLeft }
+export { ArrowLeftIcon }

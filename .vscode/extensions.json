@@ -12,6 +12,7 @@
     "toba.vsfire",
     "mikestead.dotenv",
     "shd101wyy.markdown-preview-enhanced",
-    "editorconfig.editorconfig"
+    "editorconfig.editorconfig",
+    "jock.svg"
   ]
 }

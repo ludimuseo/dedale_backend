@@ -3,6 +3,19 @@ import { GetInputConfigType } from '@/types'
 export const getInputPlaceConfig: GetInputConfigType[][] = [
   [
     {
+      id: '011',
+      label: 'Type de lieu',
+      name: 'type',
+      option: ['museum', 'castle', 'outdoor'],
+      placeholder: 'Selectionnez le type',
+      required: true,
+      section: 'content',
+      sectionLabel: 'Type de Lieu',
+      translate: false,
+    },
+  ],
+  [
+    {
       id: '0',
       label: 'Nom',
       name: 'fr',

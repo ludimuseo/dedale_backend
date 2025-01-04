@@ -1,7 +1,7 @@
+import { UserIcon } from '@component/index'
 import { addDoc, collection } from 'firebase/firestore'
 import { type FormEvent, MouseEvent, useEffect, useState } from 'react'
 
-import { UserIcon } from '@/app/components/ui/icons/UserIcon'
 import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
 import { MessageType, T } from '@/types'
@@ -83,13 +83,21 @@ const FormClient = () => {
     name: K,
     value: T[S][K]
   ) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [section]: {
-        ...prevFormData[section],
+    const sectionData = formData[section]
+    if (!section) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
         [name]: value,
-      },
-    }))
+      }))
+    } else if (typeof sectionData === 'object') {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [section]: {
+          ...sectionData,
+          [name]: value,
+        },
+      }))
+    }
   }
 
   const getInput = getInputClientConfig
@@ -107,7 +115,7 @@ const FormClient = () => {
     <>
       <Form
         title={'Formulaire Client'}
-        icon={UserIcon}
+        icon={<UserIcon />}
         handleArrowLeft={handleArrowLeft}
         getInput={getInput}
         currentStep={currentStep}

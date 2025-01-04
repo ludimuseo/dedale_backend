@@ -10,11 +10,8 @@ const RouteGuest = ({ children }: RouteGuestProps) => {
   const isLogged: boolean = useAppSelector(
     (state: State) => state.auth.isLogged
   )
-  if (!isLogged) {
-    return children
-  } else {
-    return <Navigate to={{ pathname: '/' }} replace />
-  }
+  if (!isLogged) return children
+  else return <Navigate to={{ pathname: '/' }} replace />
 }
 
 export default RouteGuest
