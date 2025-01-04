@@ -1,10 +1,15 @@
 import { type FC } from 'react'
+import { useNavigate } from 'react-router'
 
 const Dashboard: FC = () => {
+  const navigate = useNavigate()
+
   return (
     <>
       <div className="flex min-h-full flex-row items-center justify-center">
-        <div className="card w-96 cursor-pointer bg-base-100 shadow-xl">
+        <div
+          className="card w-96 cursor-pointer bg-base-100 shadow-xl"
+          onClick={() => void navigate('/')}>
           <figure>
             <img src="/src/assets/imgs/ludi_couv_applimobile.jpg" alt="Shoes" />
           </figure>
@@ -14,7 +19,9 @@ const Dashboard: FC = () => {
           </div>
         </div>
 
-        <div className="card w-96 cursor-pointer bg-base-100 p-2 shadow-xl">
+        <div
+          className="card w-96 cursor-pointer bg-base-100 p-2 shadow-xl"
+          onClick={() => void navigate('/talos')}>
           <figure>
             <img
               src="/src/assets/imgs/Talos/logo-talos-fond-blanc.svg"
