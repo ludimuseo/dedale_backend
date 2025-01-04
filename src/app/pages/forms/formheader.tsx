@@ -2,7 +2,7 @@ import { ReactElement } from 'react'
 
 import { ArrowLeftIcon } from '@/app/components'
 interface HeaderProps {
-  icon: () => React.JSX.Element | ReactElement
+  icon: ReactElement
   title: string
   handleSubmit: () => void
 }
