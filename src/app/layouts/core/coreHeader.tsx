@@ -5,6 +5,7 @@ import { type FC, ReactElement, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router'
 
+import placeholderAvatar from '/placeholder-avatar.webp'
 import type { State } from '@/types'
 
 interface HeaderProps {
@@ -17,7 +18,6 @@ const CoreHeader: FC<HeaderProps> = ({ toggleMenu }) => {
     (state: State) => state.auth
   )
   const dispatch = useAppDispatch()
-  const hasAvatarImg = !!user?.photoURL?.length
   const modalSignOut = useRef<HTMLDialogElement>(null)
   const handleModalSignOut = () => {
     if (modalSignOut.current) {
@@ -48,44 +48,39 @@ const CoreHeader: FC<HeaderProps> = ({ toggleMenu }) => {
               {/* Dropdown Menu */}
               <div className="dropdown dropdown-end dropdown-hover">
                 {/* Avatar */}
-                <div
-                  tabIndex={0}
-                  role="button"
-                  className={'avatar ' + (hasAvatarImg ? '' : 'placeholder')}>
-                  <div
-                    className={
-                      'w-12 rounded-full' +
-                      (hasAvatarImg
-                        ? ''
-                        : 'bg-neutral-content text-neutral-content')
-                    }>
-                    <img
-                      width={48}
-                      height={48}
-                      className="avatar"
-                      alt="avatar image"
-                      src={user.photoURL ?? ''}
-                      onError={(e) => {
-                        e.currentTarget.src =
-                          'https://avatar.iran.liara.run/public/job/designer/female'
-                      }}
-                    />
-                  </div>
-                </div>
+                {/* USER AVATAR */}
+                <object
+                  className="avatar rounded-full"
+                  data={user.photoURL ?? ''}
+                  type="image/webp"
+                  width={48}
+                  height={48}>
+                  {/* PLACEHOLDER IMAGE */}
+                  <img
+                    className="rounded-full"
+                    src={placeholderAvatar}
+                    alt=""
+                    width={48}
+                    height={48}
+                  />
+                </object>
                 <ul
                   tabIndex={0}
                   className="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow">
                   <li>
+                    {/* User Profile Page */}
                     <NavLink to={{ pathname: '/user/profile' }}>
                       {t('page.user_profile')}
                     </NavLink>
                   </li>
                   <li>
+                    {/* Account Settings */}
                     <NavLink to={{ pathname: '/user/settings' }}>
                       {t('page.user_settings')}
                     </NavLink>
                   </li>
                   <li>
+                    {/* ADMIN+ ONLY TO CREATE NEW USERS */}
                     <NavLink to={{ pathname: '/user/create' }}>
                       {t('page.user_create')}
                     </NavLink>

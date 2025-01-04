@@ -80,11 +80,7 @@ const AuthSignIn: FC = () => {
           type="email"
           ref={emailRef}
           {...email}
-          icon={
-            <>
-              <EnvelopeIcon />
-            </>
-          }
+          icon={<EnvelopeIcon />}
         />
         {/* Input Password */}
         <Input
@@ -95,13 +91,11 @@ const AuthSignIn: FC = () => {
           type={showPassword ? 'text' : 'password'}
           {...password}
           icon={
-            <>
-              <LockIcon
-                onClick={() => {
-                  setShowPassword(!showPassword)
-                }}
-              />
-            </>
+            <LockIcon
+              onClick={() => {
+                setShowPassword(!showPassword)
+              }}
+            />
           }
         />
         {/* Button Submit */}

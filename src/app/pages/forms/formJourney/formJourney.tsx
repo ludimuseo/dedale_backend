@@ -372,7 +372,7 @@ const FormJourney = () => {
         attributedMedal={attributedMedal}
         handleAttributeMedal={handleAttributeMedal}
         title={title}
-        icon={JourneyIcon}
+        icon={<JourneyIcon />}
         handleArrowLeft={handleArrowLeft}
         getInput={getInput}
         currentStep={currentStep}

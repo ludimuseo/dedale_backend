@@ -326,7 +326,7 @@ const FormPlace = () => {
         attributedMedal={attributedMedal}
         handleAttributeMedal={handleAttributeMedal}
         title={title}
-        icon={PlaceIcon}
+        icon={<PlaceIcon />}
         handleArrowLeft={handleArrowLeft}
         getInput={getInput}
         currentStep={currentStep}

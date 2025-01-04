@@ -1,6 +1,6 @@
-import React from 'react'
+import { SvgProps } from '@/types'
 
-const JourneyIcon = (): React.JSX.Element => {
+const JourneyIcon = ({ ...props }: SvgProps) => {
   return (
     <>
       <svg
@@ -9,6 +9,8 @@ const JourneyIcon = (): React.JSX.Element => {
         height="24"
         fill="none"
         viewBox="0 0 24 24"
+        ref={props.ref}
+        {...props}
         className={`fill-current`}>
         <path
           fill="#000"

@@ -2,7 +2,7 @@ import { ReactElement } from 'react'
 
 import { ArrowLeftIcon } from '@/app/components'
 interface HeaderProps {
-  icon: ReactElement
+  icon: ReactElement<SVGElement>
   title: string
   handleSubmit: () => void
 }

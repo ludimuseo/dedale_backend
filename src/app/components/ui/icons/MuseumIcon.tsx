@@ -1,4 +1,6 @@
-const MuseumIcon = (): React.JSX.Element => {
+import { SvgProps } from '@/types'
+
+const MuseumIcon = ({ ...props }: SvgProps) => {
   return (
     <>
       <svg
@@ -10,7 +12,8 @@ const MuseumIcon = (): React.JSX.Element => {
         strokeWidth="2"
         strokeLinecap="round"
         stroke-linejoin="round"
-        xmlns="http://www.w3.org/2000/svg">
+        xmlns="http://www.w3.org/2000/svg"
+        {...props}>
         <path d="M2 10h20M12 2l10 8H2l10-8z" />
         <path d="M5 10v10M9 10v10M15 10v10M19 10v10M2 20h20" />
       </svg>
