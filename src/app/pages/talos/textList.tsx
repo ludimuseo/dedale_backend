@@ -1,9 +1,8 @@
+import { Envelope, PencilIcon } from '@component/index'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import React, { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
-import { Envelope } from '@/app/components/ui/icons/Envelope'
-import { Pencil } from '@/app/components/ui/icons/Pencil'
 import { db } from '@/firebase/firebase'
 import { GameType, JourneyType, PieceType, PlaceType, StepType } from '@/types'
 
@@ -150,7 +149,7 @@ const TextList: FC = () => {
                   </td>
 
                   <td className="">
-                    <Pencil />
+                    <PencilIcon />
                   </td>
                   <td className="">
                     <Envelope />
@@ -160,7 +159,7 @@ const TextList: FC = () => {
                   journeys.map((journey) => (
                     <React.Fragment key={journey.id}>
                       <tr className="bg-base-200">
-                        <th>〰</th>
+                        <th>&#12336;</th>
                         <td>
                           <h3
                             className="cursor-pointer hover:underline"
@@ -179,7 +178,7 @@ const TextList: FC = () => {
                           </button>
                         </td>
                         <td className="">
-                          <Pencil />
+                          <PencilIcon />
                         </td>
                         <td className="">
                           <Envelope />
@@ -189,7 +188,7 @@ const TextList: FC = () => {
                         steps.map((step) => (
                           <React.Fragment key={step.id}>
                             <tr className="bg-base-100" key={step.id}>
-                              <th>👉</th>
+                              <th>&#128073;</th>
                               <td>
                                 <h4
                                   className="cursor-pointer hover:underline"
@@ -208,7 +207,7 @@ const TextList: FC = () => {
                                 </button>
                               </td>
                               <td className="">
-                                <Pencil />
+                                <PencilIcon />
                               </td>
                               <td className="">
                                 <Envelope />
@@ -218,7 +217,7 @@ const TextList: FC = () => {
                               pieces.map((piece) => (
                                 <React.Fragment key={piece.id}>
                                   <tr className="bg-base-100" key={step.id}>
-                                    <th>🖼️</th>
+                                    <th>&#128444;&#65039;</th>
                                     <td>
                                       <h4
                                         className="cursor-pointer hover:underline"
@@ -239,7 +238,7 @@ const TextList: FC = () => {
                                       </button>
                                     </td>
                                     <td className="">
-                                      <Pencil />
+                                      <PencilIcon />
                                     </td>
                                     <td className="">
                                       <Envelope />
@@ -264,7 +263,7 @@ const TextList: FC = () => {
                                           </td>
                                           <td></td>
                                           <td className="">
-                                            <Pencil />
+                                            <PencilIcon />
                                           </td>
                                           <td className="">
                                             <Envelope />

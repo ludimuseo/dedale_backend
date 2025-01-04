@@ -1,9 +1,9 @@
+import { JourneyIcon } from '@component/index'
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
-import { JourneyIcon } from '@/app/components/ui/icons/journeyIcon'
 import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
 import { MessageType, PlaceType, T } from '@/types'
