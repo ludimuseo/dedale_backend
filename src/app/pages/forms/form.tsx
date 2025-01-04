@@ -1,5 +1,5 @@
 import { MuseumIcon } from '@component/index'
-import { FormEvent, MouseEvent } from 'react'
+import React, { FormEvent, MouseEvent, ReactElement } from 'react'
 
 import { GetInputConfigType, MessageType, T } from '@/types'
 
@@ -12,7 +12,7 @@ interface FormProps {
   clientIdAndName?: { id: string; name: string }[] | undefined
   placeIdAndName?: { id: string; name: string }[] | undefined
   title: string
-  icon: React.JSX.Element
+  icon: () => React.JSX.Element | ReactElement
   handleArrowLeft: () => void
   attributedMedal?: {
     id: string
