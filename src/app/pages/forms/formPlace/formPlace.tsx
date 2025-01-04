@@ -1,9 +1,9 @@
-import { addDoc, collection } from 'firebase/firestore'
+import { PlaceIcon } from '@component/index'
+import { addDoc, collection, getDocs } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
-import { PlaceIcon } from '@/app/components/ui/icons/PlaceIcon'
 import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
 import { MessageType, T } from '@/types'
@@ -12,13 +12,27 @@ import Form from '../form'
 import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
 
 const FormPlace = () => {
+  const title = 'Formulaire Lieu'
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
+  const [clientIdAndName, setClientIdAndName] = useState<
+    { id: string; name: string }[] | undefined
+  >([])
+  const [medalsData, setMedalsData] = useState<
+    | { id: string; name: string; image: string; description: string }[]
+    | undefined
+  >([])
+  const [selectedOption, setSelectedOption] = useState('')
+  const [attributedMedal, setAttributedMedal] = useState<
+    { id: string; name: string; image: string; description: string } | undefined
+  >()
   const [message, setMessage] = useState<MessageType>({
     info: '',
     result: false,
   })
   const [formData, setFormData] = useState<T>({
+    clientId: '',
+    medalId: '',
     address: {
       address: '',
       city: '',
@@ -48,7 +62,6 @@ const FormPlace = () => {
       falc: {
         en: '',
         fr: '',
-        isValidate: false,
       },
       standard: {
         en: '',
@@ -79,6 +92,8 @@ const FormPlace = () => {
     alert('Edit Place')
   }
 
+  //liste des clients
+
   //soumission des informations
   const handleSubmit = async (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
@@ -107,15 +122,24 @@ const FormPlace = () => {
     name: K,
     value: T[S][K]
   ) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [section]: {
-        ...prevFormData[section],
+    const sectionData = formData[section]
+    if (!section) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
         [name]: value,
-      },
-    }))
+      }))
+    } else if (typeof sectionData === 'object') {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [section]: {
+          ...sectionData,
+          [name]: value,
+        },
+      }))
+    }
   }
 
+  //changement des donnees avec un objet plus profond
   const handleChange = <
     S extends keyof T,
     M extends keyof T[S],
@@ -128,16 +152,20 @@ const FormPlace = () => {
   ) => {
     setFormData((prevFormData) => {
       const sectionData = prevFormData[section]
-      const modeData = sectionData[mode] as Record<string, M>
-      return {
-        ...prevFormData,
-        [section]: {
-          ...sectionData,
-          [mode]: {
-            ...modeData,
-            [language]: value,
+      const modeData = sectionData[mode] as T[M]
+      if (typeof sectionData === 'object' && typeof modeData === 'object') {
+        return {
+          ...prevFormData,
+          [section]: {
+            ...sectionData,
+            [mode]: {
+              ...modeData,
+              [language]: value,
+            },
           },
-        },
+        }
+      } else {
+        return formData
       }
     })
   }
@@ -148,29 +176,52 @@ const FormPlace = () => {
     section: string,
     name: string
   ) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [section]: {
-        ...prevFormData[section],
-        [name]: file,
-      },
-    }))
     const storage = getStorage()
     const storageRef = ref(storage, `${fileType}/${uuidv4()}_${file.name}`)
-    try {
-      await uploadBytes(storageRef, file)
-      const downloadURL = await getDownloadURL(storageRef)
-      console.log('File uploaded successfully. Download URL:', downloadURL)
-      setFormData((prevFormData) => ({
+
+    await uploadBytes(storageRef, file)
+    const downloadURL = await getDownloadURL(storageRef)
+
+    setFormData((prevFormData) => {
+      const sectionData = prevFormData[section]
+      if (typeof sectionData === 'object') {
+        return {
+          ...prevFormData,
+          [section]: {
+            ...sectionData,
+            [name]: downloadURL,
+          },
+        }
+      } else {
+        return formData
+      }
+    })
+  }
+
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value
+    setSelectedOption(selectedValue)
+    setFormData((prevFormData) => {
+      return {
         ...prevFormData,
-        [section]: {
-          ...prevFormData[section],
-          [name]: downloadURL,
-        },
-      }))
-    } catch (error) {
-      console.error('Error uploading file:', error)
-      console.log(error)
+        ['clientId']: selectedValue,
+      }
+    })
+  }
+
+  const handleAttributeMedal = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (medalsData) {
+      const selectedValue = e.target.value
+      const selectedMedal = medalsData.find(
+        (medal) => medal.id === selectedValue
+      )
+      setAttributedMedal(selectedMedal)
+      setFormData((prevFormData) => {
+        return {
+          ...prevFormData,
+          ['medalId']: selectedValue,
+        }
+      })
     }
   }
 
@@ -180,17 +231,102 @@ const FormPlace = () => {
     setStep(getInput.length)
   }, [getInput])
 
+  useEffect(() => {
+    const fetchClients = async () => {
+      interface ClientData {
+        id: string
+        client?: {
+          company?: {
+            name?: string
+          }
+        }
+        company?: {
+          name?: string
+        }
+      }
+      try {
+        const querySnapshot = await getDocs(collection(db, 'clients'))
+        const clientData: ClientData[] = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...(doc.data() as Omit<ClientData, 'id'>),
+        }))
+
+        const clientPackageData = clientData
+          .map((item) => {
+            if (item.client?.company?.name) {
+              return { id: item.id, name: item.client.company.name } // Si "client" et "company.name" existent
+            } else if (item.company?.name) {
+              return { id: item.id, name: item.company.name } // Si "company.name" existe directement;
+            }
+            return undefined
+          })
+          .filter(
+            (item): item is { id: string; name: string } => item !== undefined
+          ) //Ce filtre assure à TypeScript que le tableau résultant ne contient que des objets conformes au type { id: string, name: string }.
+
+        setClientIdAndName(clientPackageData)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+    void fetchClients()
+  }, [])
+
+  useEffect(() => {
+    interface Medal {
+      id: string
+
+      medal: {
+        description: {
+          standard: {
+            fr: string
+          }
+        }
+        name: {
+          fr: string
+        }
+        image: string
+      }
+    }
+    const fecthMedal = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'medals'))
+        const medalData: Medal[] = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...(doc.data() as Omit<Medal, 'id'>),
+        }))
+        const medalPackageData = medalData.map((item) => {
+          return {
+            id: item.id,
+            name: item.medal.name.fr,
+            image: item.medal.image,
+            description: item.medal.description.standard.fr,
+          }
+        })
+        setMedalsData(medalPackageData)
+      } catch (error) {
+        console.log('Error in fetching medals', error)
+      }
+    }
+    void fecthMedal()
+  }, [])
   //useEffect(() => {
   //VERIFIER SI USER.ROLE === 'SUPERADMIN' sinon redirection page dashboard
   //}, [])
 
-  console.log('FormData image:', { ...formData })
+  console.log('FormData:', { ...formData })
 
   return (
     <>
       <Form
-        title={'Formulaire Lieu'}
-        icon={PlaceIcon}
+        clientIdAndName={clientIdAndName && clientIdAndName}
+        handleSelect={handleSelect}
+        selectedOption={selectedOption}
+        medalsData={medalsData}
+        attributedMedal={attributedMedal}
+        handleAttributeMedal={handleAttributeMedal}
+        title={title}
+        icon={<PlaceIcon />}
         handleArrowLeft={handleArrowLeft}
         getInput={getInput}
         currentStep={currentStep}

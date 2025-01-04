@@ -10,7 +10,7 @@ const LayoutAuth: FC = () => {
   return (
     <>
       <div id="layout-auth">
-        <CoreHeader />
+        <CoreHeader toggleMenu={null} />
         <main>
           <section id="auth-info">
             <div>

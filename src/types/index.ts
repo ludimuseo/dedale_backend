@@ -24,7 +24,7 @@ export interface User {
   role: UserRole | null
   email: string | null
   emailVerified: boolean
-  displayName: string | null
+  pseudo: string | null
   photoURL: string | null
 }
 
@@ -32,7 +32,6 @@ export interface User {
 export enum Theme {
   DARK = 'DARK',
   LIGHT = 'LIGHT',
-  CUSTOM = 'CUSTOM',
   SYSTEM = 'SYSTEM',
 }
 
@@ -76,6 +75,7 @@ export interface GetInputConfigType {
 
 export type T = Record<
   string,
+  | string
   | Address
   | Compagny
   | Contact
@@ -131,7 +131,15 @@ interface Standard {
 interface Falc {
   fr: string
   en: string
-  isValidate?: boolean
+  falcCertified: string
+  userId: string
+  statut: CertifiedTxt
+}
+interface CertifiedTxt {
+  isValidate: boolean
+  isCertified: boolean
+  certifiedDate: Date
+  isCorrected: boolean
 }
 interface Description {
   standard: Standard
@@ -209,7 +217,14 @@ export interface PlaceType {
     falc: {
       fr: string
       en: string
-      isValidate: boolean
+      falcCertified: string
+      userId: string
+      statut: {
+        isValidate: boolean
+        isCertified: boolean
+        certifiedDate: Date
+        isCorrected: boolean
+      }
     }
   }
   audio: {
@@ -225,5 +240,258 @@ export interface PlaceType {
   status: {
     isActive: boolean
     isPublished: boolean
+  }
+}
+
+/* JOURNEY */
+export interface JourneyType {
+  placeId: string
+  medalId: string
+  content: {
+    image: string[]
+    type: string
+    duration: number
+  }
+  address: {
+    address: string
+    postal: string
+    city: string
+    country: string
+  }
+  name: {
+    fr: string
+    en: string
+  }
+  coords: {
+    lat: number
+    lon: number
+    isLocationRequired: boolean
+  }
+  description: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+      falcCertified: string
+      userId: string
+      statut: {
+        isValidate: boolean
+        isCertified: boolean
+        certifiedDate: Date
+        isCorrected: boolean
+      }
+    }
+  }
+  audio: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+    }
+  }
+  status: {
+    isActive: boolean
+    isPublished: boolean
+  }
+}
+
+export interface StepType {
+  journeyId: string
+  medalId: string
+  content: {
+    image: string[]
+    type: string
+  }
+  address: {
+    address: string
+    postal: string
+    city: string
+    country: string
+  }
+  name: {
+    fr: string
+    en: string
+  }
+  coords: {
+    lat: number
+    lon: number
+    isLocationRequired: boolean
+  }
+  description: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+      falcCertified: string
+      userId: string
+      statut: {
+        isValidate: boolean
+        isCertified: boolean
+        certifiedDate: Date
+        isCorrected: boolean
+      }
+    }
+  }
+  audio: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+    }
+  }
+  stage: {
+    stepNumber: number
+  }
+  status: {
+    isActive: boolean
+    isPublished: boolean
+  }
+}
+
+export interface PieceType {
+  stepId: string
+  medalId: string
+  content: {
+    image: string[]
+    type: string
+  }
+  name: {
+    fr: string
+    en: string
+  }
+  coords: {
+    lat: number
+    lon: number
+    isLocationRequired: boolean
+  }
+  description: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+      falcCertified: string
+      userId: string
+      statut: {
+        isValidate: boolean
+        isCertified: boolean
+        certifiedDate: Date
+        isCorrected: boolean
+      }
+    }
+  }
+  audio: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+    }
+  }
+  status: {
+    isActive: boolean
+    isPublished: boolean
+  }
+}
+
+export interface GameType {
+  pieceId: string
+  content: {
+    image: string[]
+    level: string
+    type: string
+  }
+  name: {
+    fr: string
+    en: string
+  }
+  description: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+      falcCertified: string
+      userId: string
+      statut: {
+        isValidate: boolean
+        isCertified: boolean
+        certifiedDate: Date
+        isCorrected: boolean
+      }
+    }
+  }
+  audio: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+    }
+  }
+  question: {
+    standard: {
+      fr: string
+      en: string
+    }
+    falc: {
+      fr: string
+      en: string
+      certifiedTxt: string
+    }
+  }
+  response: {
+    responseTrue: {
+      fr: string
+      en: string
+      certifiedTxt: string
+    }
+    response1: {
+      fr: string
+      en: string
+      certifiedTxt: string
+    }
+    response2: {
+      fr: string
+      en: string
+      certifiedTxt: string
+    }
+  }
+  explanation: {
+    responseTrue: {
+      fr: string
+      en: string
+      certifiedTxt: string
+    }
+    response1: {
+      fr: string
+      en: string
+      certifiedTxt: string
+    }
+    response2: {
+      fr: string
+      en: string
+      certifiedTxt: string
+    }
   }
 }

@@ -1,5 +1,5 @@
-import '@style/root.scss'
 import '@service/i18n'
+import '@style/root.scss'
 
 import { ThemeProvider } from '@context/index'
 import { persistor, store } from '@service/redux'

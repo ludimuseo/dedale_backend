@@ -4,20 +4,17 @@ import { Navigate } from 'react-router'
 
 import type { State, User } from '@/types'
 
-type RouteAuthProps = PropsWithChildren & {
+interface RouteAuthProps {
   role: User['role'] | null | undefined
 }
 
-const RouteAuth = ({ role, children }: RouteAuthProps) => {
+const RouteAuth = ({ role, children }: PropsWithChildren<RouteAuthProps>) => {
   const isLogged: boolean = useAppSelector(
     (state: State) => state.auth.isLogged
   )
   console.info('User role: ', role)
-  if (isLogged) {
-    return children
-  } else {
-    return <Navigate to={{ pathname: '/auth/signin' }} replace />
-  }
+  if (isLogged) return children
+  else return <Navigate to={{ pathname: '/auth/signin' }} replace />
 }
 
 export default RouteAuth

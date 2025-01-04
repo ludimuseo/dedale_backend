@@ -36,8 +36,20 @@
     "auth_signin": "Sign In Back-Office",
     "dashboard": "Dashboard",
     "user": "User",
-    "user_profile": "User Profil",
-    "user_settings": "User Settings"
+    "user_create": "Create User",
+    "user_profile": "My Profile",
+    "user_settings": "Account Settings"
+  },
+  "success": {
+    "signin": "You are now logged in"
+  },
+  "error": {
+    "4XX": "An error occurred. Please try again.",
+    "5XX": "An error occurred. Please contact an administrator."
+  },
+  "warning": {
+    "auth": "You are currently logged in as user {{user}}.",
+    "guest": "You are not logged in."
   },
   "text": {
     "current_language": "Current Language",
