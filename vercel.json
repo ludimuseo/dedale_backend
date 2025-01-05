@@ -1,10 +1,5 @@
-{
-  "scripts": {
-    "build": "react-scripts build"
-  }
-
   "version": 2,
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/(.*)", "destination": "/" }
   ]
 }
