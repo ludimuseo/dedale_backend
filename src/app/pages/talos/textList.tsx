@@ -2,8 +2,6 @@ import { collection, getDocs, query, where } from 'firebase/firestore'
 import React, { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
-import { Envelope } from '@/app/components/ui/icons/Envelope'
-import { Pencil } from '@/app/components/ui/icons/Pencil'
 import { db } from '@/firebase/firebase'
 import { GameType, JourneyType, PieceType, PlaceType, StepType } from '@/types'
 
@@ -119,11 +117,12 @@ const TextList: FC = () => {
         <table className="table">
           <thead>
             <tr>
-              <th className="text-xl">#</th>
-              <th className="text-xl">LIEU</th>
-              <th className="text-xl">ACTIONS</th>
-              <th className="text-xl">MODIFIER</th>
-              <th className="text-xl">ENVOYER</th>
+              <th className="text-3xl">#</th>
+              <th className="text-3xl">LIEU</th>
+              <th className="text-3xl">COMPLETION</th>
+              <th className="text-3xl">ACTIONS</th>
+              <th className="flex justify-center text-3xl">MODIFIER</th>
+              <th className="text-3xl">ENVOYER</th>
             </tr>
           </thead>
           <tbody>
@@ -132,38 +131,75 @@ const TextList: FC = () => {
                 <tr className="bg-base-300">
                   <th>{index + 1}</th>
                   <td>
-                    <h2
-                      className="cursor-pointer hover:underline"
+                    <h1
+                      className="cursor-pointer text-3xl hover:underline"
                       onClick={() => {
                         handleNavigate(place)
                       }}>
                       {`Lieu: `}
                       {place.name.fr}
-                    </h2>
+                    </h1>
                   </td>
                   <td>
+                    <progress
+                      className="progress progress-success w-56"
+                      value="40"
+                      max="100"></progress>
+                  </td>
+
+                  <td className="group relative">
                     <button
                       className="btn btn-primary"
                       onClick={() => void fetchJourneys(place.id)}>
-                      Voir les parcours
+                      ↓ Voir les parcours
                     </button>
+                    <div
+                      role="tooltip"
+                      aria-label="Afficher les parcours"
+                      className="absolute bottom-full left-1/2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-yellow-300 px-3 py-1 text-sm text-black shadow-lg group-hover:block">
+                      Afficher les parcours
+                    </div>
                   </td>
 
-                  <td className="">
-                    <Pencil />
+                  <td
+                    className="group relative"
+                    onClick={() => {
+                      handleNavigate(place)
+                    }}>
+                    <img
+                      src="/src/assets/imgs/talos/crayon.svg"
+                      alt="crayon"
+                      className="mx-auto h-[60px] w-[200px]"
+                    />
+                    <div
+                      role="tooltip"
+                      aria-label="Afficher les parcours"
+                      className="absolute bottom-full left-1/2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-yellow-300 px-3 py-1 text-sm text-black shadow-lg group-hover:block">
+                      Modifier {place.name.fr}
+                    </div>
                   </td>
-                  <td className="">
-                    <Envelope />
+                  <td className="group relative">
+                    <img
+                      src="/src/assets/imgs/talos/enveloppe.svg"
+                      alt="crayon"
+                      className="mx-auto h-[60px] w-[200px]"
+                    />
+                    <div
+                      role="tooltip"
+                      aria-label="Afficher les parcours"
+                      className="absolute bottom-full left-1/2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-yellow-300 px-3 py-1 text-sm text-black shadow-lg group-hover:block">
+                      Envoyer le texte {place.name.fr}
+                    </div>
                   </td>
                 </tr>
                 {activePlaceId === place.id &&
                   journeys.map((journey) => (
                     <React.Fragment key={journey.id}>
                       <tr className="bg-base-200">
-                        <th>〰</th>
+                        <th>&#12336;</th>
                         <td>
                           <h3
-                            className="cursor-pointer hover:underline"
+                            className="cursor-pointer text-2xl hover:underline"
                             onClick={() => {
                               alert(journey.name.fr)
                             }}>
@@ -172,27 +208,41 @@ const TextList: FC = () => {
                           </h3>
                         </td>
                         <td>
+                          <progress
+                            className="progress progress-success w-56"
+                            value="40"
+                            max="100"></progress>
+                        </td>
+                        <td>
                           <button
                             className="btn btn-success btn-sm"
                             onClick={() => void fetchSteps(journey.id)}>
-                            Voir les indices
+                            ↓ Voir les indices
                           </button>
                         </td>
                         <td className="">
-                          <Pencil />
+                          <img
+                            src="/src/assets/imgs/talos/crayon.svg"
+                            alt="crayon"
+                            className="mx-auto h-[60px] w-[200px]"
+                          />
                         </td>
                         <td className="">
-                          <Envelope />
+                          <img
+                            src="/src/assets/imgs/talos/enveloppe.svg"
+                            alt="crayon"
+                            className="mx-auto h-[60px] w-[200px]"
+                          />
                         </td>
                       </tr>
                       {activeJourneyId === journey.id &&
                         steps.map((step) => (
                           <React.Fragment key={step.id}>
                             <tr className="bg-base-100" key={step.id}>
-                              <th>👉</th>
+                              <th>&#128073;</th>
                               <td>
                                 <h4
-                                  className="cursor-pointer hover:underline"
+                                  className="cursor-pointer text-xl hover:underline"
                                   onClick={() => {
                                     alert(step.name.fr)
                                   }}>
@@ -201,27 +251,41 @@ const TextList: FC = () => {
                                 </h4>
                               </td>
                               <td>
+                                <progress
+                                  className="progress progress-success w-56"
+                                  value="40"
+                                  max="100"></progress>
+                              </td>
+                              <td>
                                 <button
                                   className="btn btn-sm"
                                   onClick={() => void fetchPieces(step.id)}>
-                                  Voir l'oeuvre
+                                  ↓ Voir l'oeuvre
                                 </button>
                               </td>
                               <td className="">
-                                <Pencil />
+                                <img
+                                  src="/src/assets/imgs/talos/crayon.svg"
+                                  alt="crayon"
+                                  className="mx-auto h-[60px] w-[200px]"
+                                />
                               </td>
                               <td className="">
-                                <Envelope />
+                                <img
+                                  src="/src/assets/imgs/talos/enveloppe.svg"
+                                  alt="crayon"
+                                  className="mx-auto h-[60px] w-[200px]"
+                                />
                               </td>
                             </tr>
                             {activeStepId === step.id &&
                               pieces.map((piece) => (
                                 <React.Fragment key={piece.id}>
                                   <tr className="bg-base-100" key={step.id}>
-                                    <th>🖼️</th>
+                                    <th>&#128444;&#65039;</th>
                                     <td>
                                       <h4
-                                        className="cursor-pointer hover:underline"
+                                        className="cursor-pointer text-xl hover:underline"
                                         onClick={() => {
                                           alert(piece.name.fr)
                                         }}>
@@ -230,19 +294,33 @@ const TextList: FC = () => {
                                       </h4>
                                     </td>
                                     <td>
+                                      <progress
+                                        className="progress progress-success w-56"
+                                        value="40"
+                                        max="100"></progress>
+                                    </td>
+                                    <td>
                                       <button
                                         className="btn btn-sm"
                                         onClick={() =>
                                           void fetchGames(piece.id)
                                         }>
-                                        Voir le quiz
+                                        ↓ Voir le quiz
                                       </button>
                                     </td>
                                     <td className="">
-                                      <Pencil />
+                                      <img
+                                        src="/src/assets/imgs/talos/crayon.svg"
+                                        alt="crayon"
+                                        className="mx-auto h-[60px] w-[200px]"
+                                      />
                                     </td>
                                     <td className="">
-                                      <Envelope />
+                                      <img
+                                        src="/src/assets/imgs/talos/enveloppe.svg"
+                                        alt="crayon"
+                                        className="mx-auto h-[60px] w-[200px]"
+                                      />
                                     </td>
                                   </tr>
                                   {activePieceId === piece.id &&
@@ -254,7 +332,7 @@ const TextList: FC = () => {
                                           <th>;</th>
                                           <td>
                                             <h4
-                                              className="cursor-pointer hover:underline"
+                                              className="cursor-pointer text-xl hover:underline"
                                               onClick={() => {
                                                 alert(game.name.fr)
                                               }}>
@@ -262,12 +340,26 @@ const TextList: FC = () => {
                                               {game.name.fr}
                                             </h4>
                                           </td>
+                                          <td>
+                                            <progress
+                                              className="progress progress-success w-56"
+                                              value="40"
+                                              max="100"></progress>
+                                          </td>
                                           <td></td>
                                           <td className="">
-                                            <Pencil />
+                                            <img
+                                              src="/src/assets/imgs/talos/crayon.svg"
+                                              alt="crayon"
+                                              className="mx-auto h-[60px] w-[200px]"
+                                            />
                                           </td>
                                           <td className="">
-                                            <Envelope />
+                                            <img
+                                              src="/src/assets/imgs/talos/enveloppe.svg"
+                                              alt="crayon"
+                                              className="mx-auto h-[60px] w-[200px]"
+                                            />
                                           </td>
                                         </tr>
                                       </React.Fragment>

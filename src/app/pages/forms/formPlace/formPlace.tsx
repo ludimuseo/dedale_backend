@@ -12,9 +12,10 @@ import Form from '../form'
 import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
 
 const FormPlace = () => {
+  const title = 'Formulaire Lieu'
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
-  const [idAndDocName, setIdAndDocName] = useState<
+  const [clientIdAndName, setClientIdAndName] = useState<
     { id: string; name: string }[] | undefined
   >([])
   const [medalsData, setMedalsData] = useState<
@@ -61,7 +62,6 @@ const FormPlace = () => {
       falc: {
         en: '',
         fr: '',
-        isValidate: false,
       },
       standard: {
         en: '',
@@ -201,7 +201,6 @@ const FormPlace = () => {
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value
     setSelectedOption(selectedValue)
-
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
@@ -233,7 +232,7 @@ const FormPlace = () => {
   }, [getInput])
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchClients = async () => {
       interface ClientData {
         id: string
         client?: {
@@ -265,12 +264,12 @@ const FormPlace = () => {
             (item): item is { id: string; name: string } => item !== undefined
           ) //Ce filtre assure à TypeScript que le tableau résultant ne contient que des objets conformes au type { id: string, name: string }.
 
-        setIdAndDocName(clientPackageData)
+        setClientIdAndName(clientPackageData)
       } catch (error) {
         console.error('Error fetching data:', error)
       }
     }
-    void fetchData()
+    void fetchClients()
   }, [])
 
   useEffect(() => {
@@ -320,13 +319,13 @@ const FormPlace = () => {
   return (
     <>
       <Form
-        idAndDocName={idAndDocName && idAndDocName}
+        clientIdAndName={clientIdAndName && clientIdAndName}
         handleSelect={handleSelect}
         selectedOption={selectedOption}
         medalsData={medalsData}
         attributedMedal={attributedMedal}
         handleAttributeMedal={handleAttributeMedal}
-        title={'Formulaire Lieu'}
+        title={title}
         icon={<PlaceIcon />}
         handleArrowLeft={handleArrowLeft}
         getInput={getInput}

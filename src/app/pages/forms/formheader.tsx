@@ -1,6 +1,8 @@
+import { ReactElement } from 'react'
+
 import { ArrowLeftIcon } from '@/app/components'
 interface HeaderProps {
-  icon: React.JSX.Element
+  icon: ReactElement<SVGElement>
   title: string
   handleSubmit: () => void
 }

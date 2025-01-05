@@ -47,6 +47,13 @@ const routes: RouteObject[] = [
             },
             path: '/textList',
           },
+          {
+            async lazy() {
+              const { TalosHome } = await import('@/app/pages/talos/talosHome')
+              return { Component: TalosHome }
+            },
+            path: '/talos',
+          },
           // {
           //   async lazy() {
           //     const { TalosInterface } = await import('@/app/pages/talos/TalosInterface.tsx')

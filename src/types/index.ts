@@ -140,15 +140,6 @@ interface CertifiedTxt {
   isCertified: boolean
   certifiedDate: Date
   isCorrected: boolean
-  falcCertified: string
-  userId: string
-  statut: CertifiedTxt
-}
-interface CertifiedTxt {
-  isValidate: boolean
-  isCertified: boolean
-  certifiedDate: Date
-  isCorrected: boolean
 }
 interface Description {
   standard: Standard
