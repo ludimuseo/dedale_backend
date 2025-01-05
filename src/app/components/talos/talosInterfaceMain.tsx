@@ -36,44 +36,95 @@ interface TalosInterfaceMainProps {
 
 const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
   // const [buttonGroups, setButtonGroups] = useState<string[]>([]) // Liste des groupes visibles
-  const [activeTextId, setActiveTextId] = useState<string | null>(null) // Texte actif
-  const [inputVisible, setInputVisible] = useState(false) // Gère l'affichage du champ d'entrée
-  const [textColor, setTextColor] = useState('') // Couleur du texte
+  const [activeTextId, setActiveTextId] = useState<boolean>(false) // clipboard actif
+  //const [textColor, setTextColor] = useState('') // Couleur du texte
 
-  const [correctedText, setCorrectedText] = useState<string[]>([])
   const [newSentence, setNewSentence] = useState<string[]>([])
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const [hoveredIndexCorrectedText, setHoveredIndexCorrectedText] = useState<
+    number | null
+  >(null)
+  const [clickedIndex, setClickedIndex] = useState<number | null>(null)
+  const [visibleSentences] = useState<string[]>(
+    formData?.description.falc.fr.split(/(?<=[.!?])\s+/) ?? []
+  )
 
-  const sentences = formData?.description.falc.fr.split(/(?<=[.!?])\s+/)
-  const sentencesData = sentences?.map((item: string, index: number) => {
+  const sentencesData = visibleSentences.map((item: string, index: number) => {
     return (
       <div
         className={`mb-2 cursor-pointer rounded-lg p-2 text-xl text-sky-950 hover:bg-slate-200`}
         key={index}
-        onClick={() => {
-          handleSentence(item)
+        onMouseOver={() => {
+          handleMouseOver(index)
+        }}
+        onMouseLeave={() => {
+          handleMouseLeave()
         }}>
         {item}
+        {hoveredIndex === index && (
+          <div className="ml-auto flex w-32 flex-row rounded-xl border-2 bg-slate-200 pl-2 pr-3">
+            <div
+              onClick={() => {
+                handleSentenceClick(item, index)
+              }}
+              className={`transition-transform duration-200 ease-in-out ${
+                clickedIndex === index ? 'scale-90' : 'hover:scale-110'
+              }`}>
+              <img
+                src="/src/assets/imgs/talos/coche-valide.svg"
+                alt="crayon"
+                className="h-[40px] w-[200px]"
+              />
+            </div>
+            <div
+              className={`transition-transform duration-200 ease-in-out ${
+                clickedIndex === index ? 'scale-90' : 'hover:scale-110'
+              }`}>
+              <img
+                src="/src/assets/imgs/talos/crayon.svg"
+                alt="crayon"
+                className="ml-1 h-[40px] w-[200px]"
+              />
+            </div>
+            <div
+              className={`transition-transform duration-200 ease-in-out ${
+                clickedIndex === index ? 'scale-90' : 'hover:scale-110'
+              }`}>
+              <img
+                src="/src/assets/imgs/talos/coche-faux.svg"
+                alt="crayon"
+                className="ml-2 h-[40px] w-[200px]"
+              />
+            </div>
+          </div>
+        )}
       </div>
     )
   })
 
-  const handleSentence = (item: string) => {
-    setNewSentence((prevSentence) => [...prevSentence, item])
-    addNewSentence(newSentence)
+  const handleMouseOver = (index: number) => {
+    setHoveredIndex(index)
+    setActiveTextId(true)
   }
 
-  const addNewSentence = (newSentence: string[]) => {
-    setCorrectedText((prevText) => [...prevText, ...newSentence])
+  const handleMouseOverCorrectedText = (index: number) => {
+    setHoveredIndexCorrectedText(index)
   }
 
-  const handleTextClick = () => {
-    // Ajoute un groupe de boutons uniquement si ce n'est pas déjà visible
-    // if (!buttonGroups.includes(textId)) {
-    //     setButtonGroups((prev) => [...prev, textId])
-    // }
-    setActiveTextId('test') // Définit le texte actif
-    setInputVisible(false) // Réinitialise le champ d'entrée
-    setTextColor('') // Réinitialise la couleur du texte
+  const handleMouseLeave = () => {
+    setHoveredIndex(null)
+    setHoveredIndexCorrectedText(null)
+  }
+
+  const handleSentenceClick = (sentence: string, index: number) => {
+    setNewSentence((prev) => [...prev, sentence])
+    setClickedIndex(index)
+  }
+
+  const handleDeleteText = (index: number) => {
+    setNewSentence((prevSentences) =>
+      prevSentences.filter((_, i) => i !== index)
+    )
   }
 
   return (
@@ -117,10 +168,8 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
             <MainContent
               formData={formData}
               sentencesData={sentencesData}
-              inputVisible={inputVisible}
-              textColor={textColor}
+              //textColor={textColor}
               activeTextId={activeTextId} // Passe l'ID du texte actif
-              onTextClick={handleTextClick} // Gère les clics sur les textes
             />
           </div>
 
@@ -128,20 +177,43 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
           {activeTextId && (
             <div className="w-1/2 pl-4">
               <div className="mt-4 h-auto max-h-[600px] min-h-[419px] rounded-md border-2 border-black bg-white p-6 shadow-2xl">
-                <h2 className="mb-4 text-lg font-bold text-[#0a184d]">
+                <h2 className="mb-4 text-xl font-bold text-[#0a184d]">
                   Je corrige et je vérifie :
                 </h2>
                 <>
-                  {correctedText.length > 0 ? (
-                    correctedText.map((item: string, index: number) => (
-                      <div
-                        className="mb-2 cursor-pointer rounded-lg p-2 hover:bg-slate-200"
-                        key={index}
-                        onClick={() => {
-                          handleSentence(item)
-                        }}>
-                        {item}
-                      </div>
+                  {newSentence.length > 0 ? (
+                    newSentence.map((item: string, index: number) => (
+                      <>
+                        <div
+                          className="mb-2 flex cursor-pointer flex-row rounded-lg p-2 hover:bg-slate-200"
+                          key={index}
+                          onMouseOver={() => {
+                            handleMouseOverCorrectedText(index)
+                          }}
+                          onMouseLeave={() => {
+                            handleMouseLeave()
+                          }}>
+                          <textarea
+                            className="textarea textarea-ghost textarea-xs w-full max-w-xl"
+                            style={{ fontSize: '22px' }}>
+                            {item}
+                          </textarea>
+                          {hoveredIndexCorrectedText === index && (
+                            <div className="border-1 ml-auto w-12 rounded-xl p-2">
+                              <div
+                                onClick={() => {
+                                  handleDeleteText(index)
+                                }}>
+                                <img
+                                  src="/src/assets/imgs/talos/coche-faux.svg"
+                                  alt="crayon"
+                                  className="h-[25px] w-[200px]"
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </>
                     ))
                   ) : (
                     <p className="italic text-gray-500">
@@ -153,44 +225,6 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
             </div>
           )}
         </div>
-
-        {/* Vertical Button Groups */}
-        {/* <div className="ml-4 flex flex-col space-y-4">
-                    {buttonGroups.map((textId, index) => (
-                        <VerticalButtonGroup
-                            key={index}
-                            buttons={[
-                                {
-                                    iconSrc: checkIcon,
-                                    altText: `Texte vert pour ${textId}`,
-                                    bgColor: 'bg-green-400',
-                                    onClick: () => {
-                                        setTextColor('text-green-600')
-                                        setInputVisible(false)
-                                    },
-                                },
-                                {
-                                    iconSrc: pencilIcon,
-                                    altText: `Champ de texte pour ${textId}`,
-                                    bgColor: 'bg-blue-400',
-                                    onClick: () => {
-                                        setInputVisible(true)
-                                        setTextColor('')
-                                    },
-                                },
-                                {
-                                    iconSrc: crossIcon,
-                                    altText: `Texte rouge pour ${textId}`,
-                                    bgColor: 'bg-red-400',
-                                    onClick: () => {
-                                        setTextColor('text-red-600')
-                                        setInputVisible(false)
-                                    },
-                                },
-                            ]}
-                        />
-                    ))}
-                </div> */}
 
         {/* Right Sidebar Buttons */}
         <div className="flex w-1/6 flex-col items-center space-y-4 p-4">

@@ -7,7 +7,13 @@ interface HeaderProps {
   imageIcon: string // Chemin de l'icône d'image
   zoomIconLess: string // Chemin de l'icône de zoom
   zoomIconMore: string // Chemin de l'icône de recherche
-  formData: PlaceType | JourneyType | StepType | PieceType | GameType
+  formData:
+    | PlaceType
+    | JourneyType
+    | StepType
+    | PieceType
+    | GameType
+    | undefined
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -26,11 +32,11 @@ const Header: React.FC<HeaderProps> = ({
 
       {/* Title */}
       <div className="ml-4 flex-1">
-        <span className="font-semibold text-[#0a184d]">
+        <span className="font-bold text-[#0a184d]">
           Parcours : Animal ou humain ? &gt;{' '}
-          <a href="#" className="underline hover:text-blue-600">
-            {formData.name.fr}
-          </a>
+          <span className="font-bold hover:text-blue-600">
+            {formData?.name.fr}
+          </span>
         </span>
       </div>
 

@@ -6,7 +6,7 @@ interface MainContentProps {
   onTextClick: () => void // Fonction appelée au clic sur un texte
   inputVisible?: boolean
   textColor?: string // Optionnel : Couleur du texte
-  activeTextId?: string | null
+  activeTextId?: boolean
   formData:
     | PlaceType
     | JourneyType
