@@ -15,12 +15,9 @@ const TalosInterface = () => {
   const { formData } = state
 
   return (
-    <>
-      <div>TALOS interface</div>
-      <div>
-        <TalosInterfaceMain formData={formData} />
-      </div>
-    </>
+    <div>
+      <TalosInterfaceMain formData={formData} />
+    </div>
   )
 }
 

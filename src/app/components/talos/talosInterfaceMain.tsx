@@ -6,10 +6,7 @@ import { GameType, JourneyType, PieceType, PlaceType, StepType } from '@/types'
 
 import ajoutTexteIcon from '../../../assets/imgs/talos/ajout-texte.svg'
 import backIcon from '../../../assets/imgs/talos/arrow-left.svg'
-//import crossIcon from '../../../assets/imgs/talos/coche-faux.svg'
 import cocheValideIcon from '../../../assets/imgs/talos/coche-valide.svg'
-//import checkIcon from '../../../assets/imgs/talos/coche-valide-2.svg'
-//import pencilIcon from '../../../assets/imgs/talos/crayon.svg'
 import dicteeIcon from '../../../assets/imgs/talos/dictee.svg'
 import grasIcon from '../../../assets/imgs/talos/gras.svg'
 import imageIcon from '../../../assets/imgs/talos/image.svg'
@@ -22,7 +19,6 @@ import {
 import ButtonWithIcon from './buttonWithIcon'
 import Header from './header'
 import MainContent from './mainContent'
-//import VerticalButtonGroup from './verticalButtonGroup'
 
 interface TalosInterfaceMainProps {
   formData:
@@ -35,10 +31,8 @@ interface TalosInterfaceMainProps {
 }
 
 const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
-  // const [buttonGroups, setButtonGroups] = useState<string[]>([]) // Liste des groupes visibles
   const [activeTextId, setActiveTextId] = useState<boolean>(false) // clipboard actif
   //const [textColor, setTextColor] = useState('') // Couleur du texte
-
   const [newSentence, setNewSentence] = useState<string[]>([])
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [hoveredIndexCorrectedText, setHoveredIndexCorrectedText] = useState<
@@ -128,8 +122,7 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
   }
 
   return (
-    <div className="min-h-screen bg-blue-50 p-4 font-sans">
-      {/* Header Navigation */}
+    <div className="min-h-screen bg-blue-50 font-sans">
       <Header
         formData={formData}
         backIcon={backIcon}
@@ -138,9 +131,9 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
         zoomIconMore={zoomIconMore}
       />
 
-      <div className="flex items-start gap-4">
+      <div className="flex items-start space-x-4">
         {/* Left Sidebar Buttons */}
-        <div className="flex flex-col items-center space-y-4 p-4">
+        <div className="flex flex-col space-y-4 p-4">
           <ButtonWithIcon
             text="Imprimer"
             iconSrc={imprimerIcon}
@@ -227,7 +220,7 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
         </div>
 
         {/* Right Sidebar Buttons */}
-        <div className="flex w-1/6 flex-col items-center space-y-4 p-4">
+        <div className="flex flex-col items-center space-y-4 p-4">
           <ButtonWithIcon
             text="Relire le texte"
             iconSrc={relectureIcon}
