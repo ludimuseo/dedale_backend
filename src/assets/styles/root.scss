@@ -36,6 +36,10 @@ $headerHeight: 6rem;
 $sidebarWidth: 15rem;
 $switchCheckboxSize: 1.8rem;
 
+:root {
+  --headerHeight: #{$headerHeight};
+}
+
 /* // Layouts */
 #layout-auth,
 #layout-default {
