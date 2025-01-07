@@ -59,7 +59,7 @@ const ChangeTheme: FC = () => {
         <div className="divider divider-horizontal m-0"></div>
 
         <label className="flex cursor-pointer gap-2">
-          <i>&#x1F31E;</i>
+          <i>&#x1F31C;</i>
           <input
             className="toggle"
             type="checkbox"
@@ -69,7 +69,7 @@ const ChangeTheme: FC = () => {
             onChange={handleSwitchDark}
             disabled={theme === Theme.SYSTEM}
           />
-          <i>&#x1F31C;</i>
+          <i>&#x1F31E;</i>
         </label>
       </div>
     </>

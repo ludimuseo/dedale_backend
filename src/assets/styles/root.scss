@@ -41,7 +41,7 @@ $switchCheckboxSize: 1.8rem;
 #layout-default {
   @apply flex h-full;
   header {
-    @apply h-[#{$headerHeight}] w-full border-b;
+    @apply h-[#{$headerHeight}] w-full;
   }
 }
 #layout-auth {
@@ -56,9 +56,6 @@ $switchCheckboxSize: 1.8rem;
       }
       &#auth-info {
         @apply max-lg:hidden;
-        // img.show-on-sidebar {
-        //   @apply hidden;
-        // }
         figure {
           @apply pb-4;
         }

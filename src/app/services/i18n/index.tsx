@@ -8,7 +8,8 @@ const options: InitOptions = {
     loadPath: '/src/app/services/i18n/{{lng}}/{{ns}}.json',
   },
   cleanCode: true,
-  debug: process.env.NODE_ENV !== 'production',
+  debug: true,
+  // debug: process.env.NODE_ENV !== 'production',
   detection: {
     lookupLocalStorage: 'lang',
     order: ['localStorage', 'navigator'],
