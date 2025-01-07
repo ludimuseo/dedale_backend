@@ -83,7 +83,7 @@ $switchCheckboxSize: 1.8rem;
 
   > #inner-content {
     @apply flex flex-row;
-    @apply h-full w-full bg-white;
+    @apply h-full w-full bg-gray-100 dark:bg-slate-800;
     @apply overflow-hidden;
 
     > aside#sidebar {
