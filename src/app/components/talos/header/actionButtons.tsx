@@ -9,8 +9,7 @@ const ActionButtons = ({ imageIcon, image }: ActionButtonsProps) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   return (
-    <div className="flex space-x-4">
-      <span className="flex items-center text-xl">Image:</span>
+    <div>
       <button
         className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow"
         onClick={() => {

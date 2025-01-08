@@ -28,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({
   const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <div className="flex items-center justify-between rounded-md bg-red-100 px-4 py-2 shadow-md">
+    <div className="flex flex-row items-center rounded-md bg-red-100 px-4 py-2 shadow-md">
       <button className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow hover:bg-gray-100">
         <img
           src={backIcon}
@@ -62,7 +62,9 @@ const Header: React.FC<HeaderProps> = ({
           </div>
         )}
       </div>
-      <ActionButtons imageIcon={imageIcon} image={formData?.content.image} />
+      <div>
+        <ActionButtons imageIcon={imageIcon} image={formData?.content.image} />
+      </div>
     </div>
   )
 }
