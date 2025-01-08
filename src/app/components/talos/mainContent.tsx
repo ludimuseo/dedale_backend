@@ -3,8 +3,6 @@ import React, { ReactElement } from 'react'
 import { GameType, JourneyType, PieceType, PlaceType, StepType } from '@/types'
 
 interface MainContentProps {
-  textColor?: string // Optionnel : Couleur du texte
-  activeTextId?: boolean
   formData:
     | PlaceType
     | JourneyType

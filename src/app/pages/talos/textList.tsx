@@ -113,7 +113,7 @@ const TextList: FC = () => {
 
   return (
     <div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto p-4">
         <table className="table">
           <thead>
             <tr>
