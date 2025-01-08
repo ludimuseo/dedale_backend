@@ -26,11 +26,11 @@ interface TalosInterfaceMainProps {
     | undefined
 }
 
-type ColoredType = Record<string, { color: string }>
-
 const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
   const [activeTextId, setActiveTextId] = useState<boolean>(false) // clipboard actif
-  const [coloredSentence, setColoredSentence] = useState<ColoredType[]>([])
+  const [coloredSentence, setColoredSentence] = useState<
+    Record<number, string>
+  >([])
   const [newSentence, setNewSentence] = useState<string[]>([])
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [hoveredIndexCorrectedText, setHoveredIndexCorrectedText] = useState<
@@ -45,7 +45,7 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
   const sentencesData = visibleSentences.map((item: string, index: number) => {
     return (
       <div
-        className={`mb-2 cursor-pointer rounded-lg p-2 text-xl text-sky-950 hover:bg-slate-200 ${JSON.stringify(coloredSentence[index]?.color) || 'bg-transparent'}`}
+        className={`mb-2 cursor-pointer rounded-lg p-2 text-xl text-sky-950 hover:bg-slate-200 ${coloredSentence[index] || 'bg-transparent'}`}
         key={index}
         onMouseOver={() => {
           handleMouseOver(index)
@@ -122,7 +122,7 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
     //colorer la phrase
     setColoredSentence((prev) => ({
       ...prev,
-      [indexToString]: { color: 'bg-green-100' },
+      [indexToString]: 'bg-green-100',
     }))
   }
 
@@ -133,7 +133,7 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
     //colorer la phrase
     setColoredSentence((prev) => ({
       ...prev,
-      [indexToString]: { color: 'bg-blue-200' },
+      [indexToString]: 'bg-blue-200',
     }))
   }
 
@@ -142,7 +142,7 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
     //colorer la phrase
     setColoredSentence((prev) => ({
       ...prev,
-      [indexToString]: { color: 'bg-red-200' },
+      [indexToString]: 'bg-red-200',
     }))
   }
 
