@@ -3,18 +3,32 @@
 @use '@style/variables/globals' as global;
 
 :root {
-  color-scheme: light;
+  // color-scheme: light;
 
   --color-white: #{color.$white};
   --color-black: #{color.$black};
 
-  --color-primary: #{color.$primary};
+  --color-white4: #{color.$white4};
+  --color-whiteCream: #{color.$whiteCream};
+
+  --color-lightBlue: #{color.$lightBlue};
+  --color-darkBlue: #{color.$darkBlue};
+  --color-darkBlue2: #{color.$darkBlue2};
+
+  --color-darkGunmetal: #{color.$darkGunmetal};
+  --color-antiFlashWhite: #{color.$antiFlashWhite};
+
+  --color-primary: #{color.$darkBlue};
   --color-secondary: #{color.$secondary};
   --color-tertiary: #{color.$tertiary};
+
+  --color-text: #{color.$darkBlue};
 
   &[data-theme='system'][data-is-dark='true'],
   &[data-theme='dark'] {
     color-scheme: dark;
+
+    --color-text: #{color.$white};
   }
 }
 
@@ -32,8 +46,13 @@ body,
 }
 
 body {
-  /* // Use primary colors + transition for 300ms on change  */
-  @apply bg-primary text-primary transition-[background-color,color] duration-300;
+  @apply text-default transition-[color] duration-300;
+}
+
+header,
+main,
+aside {
+  @apply transition-[background-color] duration-300;
 }
 
 main {

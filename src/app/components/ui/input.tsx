@@ -18,8 +18,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     }
 
     useEffect(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-      setIconProps(icon?.props.children?.props)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      setIconProps(icon?.props)
     }, [icon])
 
     return (

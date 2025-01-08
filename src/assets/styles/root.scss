@@ -15,7 +15,10 @@
 */
 @use 'sass:meta';
 
-// @use '@style/mixins';
+// @include meta.load-css('@style/mixins');
+// @function colorMix($color, $blendColor, $percentage) {
+//   @return color-mix(in srgb, $color, $blendColor $percentage);
+// }
 
 @tailwind base;
 @layer base {
@@ -39,7 +42,7 @@ $switchCheckboxSize: 1.8rem;
 /* // Layouts */
 #layout-auth,
 #layout-default {
-  @apply flex h-full;
+  @apply flex h-full bg-white dark:bg-[var(--color-darkBlue2)];
   header {
     @apply h-[#{$headerHeight}] w-full;
   }
@@ -76,14 +79,25 @@ $switchCheckboxSize: 1.8rem;
 
   > #inner-content {
     @apply flex flex-row;
-    @apply h-full w-full bg-white;
+
+    // background-color: colorMix(var(--color-darkBlue), white, 50%);
+    // bg-[var(--color-white4)] dark:bg-[var(--color-darkBlue)];
+    // background-color: colorMix(var(--color-lightBlue), white, 50%);
+    // background-color: color-mix(in srgb, var(--color-darkBlue), white 50%);
+    // @apply bg-[var(--color-lightBlue)] dark:bg-[var(--color-darkBlue)];
+    @apply h-full w-full;
     @apply overflow-hidden;
+
+    > header {
+      @apply shadow-lg;
+    }
 
     > aside#sidebar {
       @apply w-[#{$sidebarWidth}] h-full bg-primary p-3;
     }
 
     > main.content {
+      @apply bg-[var(--color-antiFlashWhite)] dark:bg-[var(--color-darkGunmetal)];
       @apply flex-1 overflow-x-auto overflow-y-scroll;
     }
   }
@@ -102,5 +116,5 @@ $switchCheckboxSize: 1.8rem;
 
 #change-language,
 #change-theme {
-  @apply flex items-center justify-between p-0;
+  @apply flex items-center justify-between;
 }

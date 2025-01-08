@@ -11,7 +11,7 @@ const ChangeLanguage: FC = () => {
   return (
     <>
       <div id="change-language">
-        <label className="swap swap-rotate w-full py-1">
+        <label className="swap swap-rotate w-full">
           <input
             type="checkbox"
             checked={i18n.language === 'fr'}
