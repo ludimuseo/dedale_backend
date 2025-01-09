@@ -1,12 +1,21 @@
 import { useLocation } from 'react-router'
 
 import TalosInterfaceMain from '@/app/components/talos/talosInterfaceMain'
-import { GameType, JourneyType, PieceType, PlaceType, StepType } from '@/types'
+import {
+  EntityWithId,
+  GameType,
+  JourneyType,
+  PieceType,
+  PlaceType,
+  StepType,
+} from '@/types'
 
-type FormData = PlaceType | JourneyType | StepType | PieceType | GameType
+type FormData = EntityWithId<
+  PlaceType | JourneyType | StepType | PieceType | GameType
+>
 
 interface LocationState {
-  formData?: FormData
+  formData: FormData
 }
 
 const TalosInterface = () => {
