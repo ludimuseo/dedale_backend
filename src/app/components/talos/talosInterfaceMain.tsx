@@ -45,6 +45,8 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
   >(null)
   const [clickedIndex, setClickedIndex] = useState<number | null>(null)
   const [showProofReading, setShowProofReading] = useState(false)
+  const [isConfirmSubmitFalcText, setIsConfirmSubmitFalcText] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
 
   const [visibleSentences] = useState<string[]>(
     formData.description.falc.fr.split(/(?<=[.!?])\s+/)
@@ -218,24 +220,29 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
     }
   }
 
+  const handleConfirmSubmitText = () => {
+    setIsConfirmSubmitFalcText(true)
+  }
+
   const handleValidate = async () => {
+    setIsConfirmSubmitFalcText(false)
+    setIsSuccess(true)
     const id = formData.id
     const collection: string = formData.collection
+    const falcCertified: string[] = falcText
     const newStatut = {
       isValidate: false,
       isCertified: true,
-      certifiedDate: new Date(), // Date actuelle
+      certifiedDate: new Date(),
       isCorrected: false,
     }
     try {
       const placeRef = doc(db, collection, id)
 
       await updateDoc(placeRef, {
-        'description.falc.falcCertified': true,
+        'description.falc.falcCertified': falcCertified,
         'description.falc.statut': newStatut,
       })
-
-      alert('Texte envoyé')
     } catch (error) {
       console.error('Erreur de la soumission des données', error)
     }
@@ -349,10 +356,91 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
             validateText={validateText}
             cocheValideIcon={cocheValideIcon}
             handleProofReading={handleProofReading}
-            handleValidate={void handleValidate}
+            handleConfirmSubmitText={() => {
+              handleConfirmSubmitText()
+            }}
             showProofReading={showProofReading}
           />
         </div>
+        {isConfirmSubmitFalcText && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+            role="dialog"
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description">
+            <div className="w-full max-w-sm rounded-lg bg-white p-6 shadow-lg">
+              <h2
+                id="modal-title"
+                className="mb-4 text-xl font-semibold text-gray-800">
+                Envoyer
+              </h2>
+              <p id="modal-description" className="mb-6 text-sm text-gray-600">
+                Êtes-vous sûr de vouloir envoyer le texte?
+              </p>
+              <div className="flex justify-end gap-4">
+                <button
+                  onClick={() => {
+                    setIsConfirmSubmitFalcText(false)
+                  }}
+                  className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600 focus:ring focus:ring-red-300 focus:ring-opacity-50"
+                  aria-label="Abandonner">
+                  Abandonner
+                </button>
+                <button
+                  onClick={() => void handleValidate()}
+                  className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                  aria-label="Confirmer">
+                  Confirmer
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {isSuccess && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+            role="dialog"
+            aria-labelledby="success-modal-title"
+            aria-describedby="success-modal-description">
+            <div className="w-full max-w-sm rounded-lg bg-white p-6 shadow-lg">
+              <div className="flex flex-col items-center">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+                  <svg
+                    className="h-6 w-6 text-green-600"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                <h2
+                  id="success-modal-title"
+                  className="mb-2 text-xl font-semibold text-gray-800">
+                  Merci !
+                </h2>
+                <p
+                  id="success-modal-description"
+                  className="mb-6 text-center text-sm text-gray-600">
+                  Votre texte a été envoyé avec succès.
+                </p>
+                <button
+                  onClick={() => {
+                    setIsSuccess(false)
+                  }}
+                  className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600 focus:ring focus:ring-green-300 focus:ring-opacity-50"
+                  aria-label="Fermer">
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   )

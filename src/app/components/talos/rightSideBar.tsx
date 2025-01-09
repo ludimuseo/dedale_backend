@@ -4,7 +4,7 @@ interface RightSideBarProps {
   relectureIcon: string
   cocheValideIcon: string
   handleProofReading: () => void
-  handleValidate?: () => void
+  handleConfirmSubmitText: () => void
   showProofReading: boolean
   validateText: boolean
 }
@@ -12,7 +12,7 @@ const RightSideBar = ({
   relectureIcon,
   cocheValideIcon,
   handleProofReading,
-  handleValidate,
+  handleConfirmSubmitText,
   showProofReading,
   validateText,
 }: RightSideBarProps) => {
@@ -27,7 +27,7 @@ const RightSideBar = ({
       {validateText && (
         <ButtonWithIcon
           text="Valider le texte"
-          handleClick={void handleValidate}
+          handleClick={handleConfirmSubmitText}
           iconSrc={cocheValideIcon}
           altText="Valider le texte"
         />
