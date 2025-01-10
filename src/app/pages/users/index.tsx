@@ -1,4 +1,5 @@
 import { type FC } from 'react'
+import { useNavigate } from 'react-router'
 
 import DataTable from '@/app/components/ui/dataTable'
 import { useFetch } from '@/app/hooks/useFetch'
@@ -14,6 +15,8 @@ const Users: FC = () => {
   const { data, isLoading, error } = useFetch<User[]>(
     'https://jsonplaceholder.typicode.com/users'
   )
+  const navigate = useNavigate()
+
   if (error) return <p>Erreur : {error}</p>
 
   const columns = [
@@ -26,8 +29,12 @@ const Users: FC = () => {
   const actions = [
     {
       type: 'edit',
-      onClick: (id: string) => {
-        console.log(`edit ${id}`)
+      onClick: async (id: string) => {
+        try {
+          await navigate(`/users/${id}`)
+        } catch (error) {
+          console.error('Error during navigation:', error)
+        }
       },
     },
     {
