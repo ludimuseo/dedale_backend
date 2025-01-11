@@ -7,9 +7,20 @@ interface ActionButtonsProps {
 
 const ActionButtons = ({ imageIcon, image }: ActionButtonsProps) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <div>
+    <div className="flex flex-row items-center">
+      <span
+        className="mr-4 font-inclusive text-blue-950"
+        onMouseEnter={() => {
+          setIsHovered(true)
+        }}
+        onMouseLeave={() => {
+          setIsHovered(false)
+        }}>
+        👉 Apercu Image
+      </span>
       <button
         className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow"
         onClick={() => {
@@ -21,12 +32,7 @@ const ActionButtons = ({ imageIcon, image }: ActionButtonsProps) => {
           className="h-10 w-10 rounded-full"
         />
       </button>
-      <div
-        role="tooltip"
-        aria-label="Cliquez pour afficher"
-        className="absolute bottom-full left-1/2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-yellow-300 px-3 py-1 text-sm text-black shadow-lg group-hover:block">
-        Cliquez pour afficher
-      </div>
+
       {selectedImage && (
         <div className="modal modal-open" role="dialog">
           <div className="modal-box relative">
@@ -45,7 +51,15 @@ const ActionButtons = ({ imageIcon, image }: ActionButtonsProps) => {
           </div>
         </div>
       )}
-
+      {isHovered && image && (
+        <div className="w-128 absolute left-40 top-10 mt-2 rounded-md border-4 border-sky-950 bg-black shadow-md">
+          <img
+            src={image[0]}
+            alt="Aperçu"
+            className="h-auto w-full rounded-md"
+          />
+        </div>
+      )}
       {/* <button className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow hover:bg-gray-100">
                 <img src={zoomIconLess} alt="rechercher" className="h-10 w-10" />
             </button>

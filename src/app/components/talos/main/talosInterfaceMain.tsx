@@ -3,6 +3,14 @@ import 'daisyui/dist/full.css'
 import { doc, updateDoc } from 'firebase/firestore'
 import { useState } from 'react'
 
+import backIcon from '@/assets/imgs/talos/arrow-left.svg'
+import cocheValideIcon from '@/assets/imgs/talos/coche-valide.svg'
+import imageIcon from '@/assets/imgs/talos/image.svg'
+import relectureIcon from '@/assets/imgs/Talos/relecture.svg'
+import {
+  default as zoomIconLess,
+  default as zoomIconMore,
+} from '@/assets/imgs/talos/zoom-moins.svg'
 import { db } from '@/firebase/firebase'
 import {
   EntityWithId,
@@ -13,17 +21,12 @@ import {
   StepType,
 } from '@/types'
 
-import backIcon from '../../../assets/imgs/talos/arrow-left.svg'
-import cocheValideIcon from '../../../assets/imgs/talos/coche-valide.svg'
-import imageIcon from '../../../assets/imgs/talos/image.svg'
-import relectureIcon from '../../../assets/imgs/talos/relecture.svg'
-import {
-  default as zoomIconLess,
-  default as zoomIconMore,
-} from '../../../assets/imgs/talos/zoom-moins.svg'
-import Header from './header/header'
-import MainContent from './mainContent'
-import RightSideBar from './rightSideBar'
+import Header from '../header/header'
+import ConfirmModal from '../modals/confirmModal'
+import SuccessModal from '../modals/successModal'
+import RightSideBar from '../rightSideBar'
+import LeftClipboard from './leftClipboard'
+import RightClipboard from './rightClipboard'
 
 interface TalosInterfaceMainProps {
   formData: EntityWithId<
@@ -262,95 +265,24 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
         <div className="flex items-start space-x-4">
           {/* Main Content SECTION GAUCHE */}
           <div className="ml-8 flex flex-grow">
-            <div
-              className={
-                activeTextId ? 'w-1/2 border-r border-gray-300 pr-4' : 'w-full'
-              }>
-              {showProofReading && (
-                <>
-                  <div className="mt-4 h-auto rounded-md border-2 border-black bg-white p-6 shadow-2xl">
-                    <h2 className="mb-4 text-2xl font-bold text-[#0a184d]">
-                      Je relis :
-                    </h2>
-                    {
-                      <div className="space-y-4">
-                        {falcText.map((sentence: string, index: number) => {
-                          return (
-                            <div key={index}>
-                              <p className="text-xl text-sky-950">{sentence}</p>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    }
-                  </div>
-                </>
-              )}
-              {!showProofReading && (
-                <MainContent
-                  formData={formData}
-                  sentencesData={sentencesData}
-                />
-              )}
-            </div>
-
+            <LeftClipboard
+              isLeftClipboardShowed={activeTextId}
+              showProofReading={showProofReading}
+              falcText={falcText}
+              formData={formData}
+              sentencesData={sentencesData}
+            />
             {/* SECTION DROITE */}
-            {activeTextId && (
-              <div className="w-1/2 pl-4">
-                <div className="mt-4 h-auto max-h-[600px] min-h-[419px] rounded-md border-2 border-black bg-white p-6 shadow-2xl">
-                  <h2 className="mb-4 text-xl font-bold text-[#0a184d]">
-                    Je corrige et je vérifie :
-                  </h2>
-                  <>
-                    {newSentence.length > 0 ? (
-                      newSentence.map((item: string, index: number) => (
-                        <>
-                          <div
-                            className="mb-2 flex cursor-pointer flex-row rounded-lg p-2 hover:bg-slate-200"
-                            key={index}
-                            onMouseOver={() => {
-                              handleMouseOverCorrectedText(index)
-                            }}
-                            onMouseLeave={() => {
-                              handleMouseLeave()
-                            }}>
-                            <textarea
-                              onChange={(e) => {
-                                handleChangeText(index, e)
-                              }}
-                              value={newSentence[index]}
-                              className="textarea textarea-ghost textarea-xs w-full max-w-xl"
-                              style={{ fontSize: '22px' }}>
-                              {item}
-                            </textarea>
-                            {hoveredIndexCorrectedText === index && (
-                              <div className="border-1 ml-auto w-12 rounded-xl p-2">
-                                <div
-                                  onClick={() => {
-                                    handleDeleteText(index)
-                                  }}>
-                                  <img
-                                    src="/src/assets/imgs/talos/coche-faux.svg"
-                                    alt="supprimer"
-                                    className="h-[25px] w-[200px]"
-                                  />
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </>
-                      ))
-                    ) : (
-                      <p className="italic text-gray-500">
-                        Cliquez sur texte de à gauche pour le modifier ...
-                      </p>
-                    )}
-                  </>
-                </div>
-              </div>
-            )}
+            <RightClipboard
+              activeTextId={activeTextId}
+              newSentence={newSentence}
+              handleMouseOverCorrectedText={handleMouseOverCorrectedText}
+              handleMouseLeave={handleMouseLeave}
+              handleChangeText={handleChangeText}
+              hoveredIndexCorrectedText={hoveredIndexCorrectedText}
+              handleDeleteText={handleDeleteText}
+            />
           </div>
-
           <RightSideBar
             relectureIcon={relectureIcon}
             validateText={validateText}
@@ -363,84 +295,12 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
           />
         </div>
         {isConfirmSubmitFalcText && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-            role="dialog"
-            aria-labelledby="modal-title"
-            aria-describedby="modal-description">
-            <div className="w-full max-w-sm rounded-lg bg-white p-6 shadow-lg">
-              <h2
-                id="modal-title"
-                className="mb-4 text-xl font-semibold text-gray-800">
-                Envoyer
-              </h2>
-              <p id="modal-description" className="mb-6 text-sm text-gray-600">
-                Êtes-vous sûr de vouloir envoyer le texte?
-              </p>
-              <div className="flex justify-end gap-4">
-                <button
-                  onClick={() => {
-                    setIsConfirmSubmitFalcText(false)
-                  }}
-                  className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600 focus:ring focus:ring-red-300 focus:ring-opacity-50"
-                  aria-label="Abandonner">
-                  Abandonner
-                </button>
-                <button
-                  onClick={() => void handleValidate()}
-                  className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
-                  aria-label="Confirmer">
-                  Confirmer
-                </button>
-              </div>
-            </div>
-          </div>
+          <ConfirmModal
+            setIsConfirmSubmitFalcText={setIsConfirmSubmitFalcText}
+            handleValidate={() => void handleValidate()}
+          />
         )}
-        {isSuccess && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-            role="dialog"
-            aria-labelledby="success-modal-title"
-            aria-describedby="success-modal-description">
-            <div className="w-full max-w-sm rounded-lg bg-white p-6 shadow-lg">
-              <div className="flex flex-col items-center">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                  <svg
-                    className="h-6 w-6 text-green-600"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}>
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <h2
-                  id="success-modal-title"
-                  className="mb-2 text-xl font-semibold text-gray-800">
-                  Merci !
-                </h2>
-                <p
-                  id="success-modal-description"
-                  className="mb-6 text-center text-sm text-gray-600">
-                  Votre texte a été envoyé avec succès.
-                </p>
-                <button
-                  onClick={() => {
-                    setIsSuccess(false)
-                  }}
-                  className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600 focus:ring focus:ring-green-300 focus:ring-opacity-50"
-                  aria-label="Fermer">
-                  OK
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        {isSuccess && <SuccessModal setIsSuccess={setIsSuccess} />}
       </div>
     </>
   )

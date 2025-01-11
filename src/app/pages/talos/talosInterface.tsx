@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router'
 
-import TalosInterfaceMain from '@/app/components/talos/talosInterfaceMain'
+import TalosInterfaceMain from '@/app/components/talos/main/talosInterfaceMain'
 import {
   EntityWithId,
   GameType,
