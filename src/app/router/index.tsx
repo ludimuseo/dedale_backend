@@ -54,13 +54,15 @@ const routes: RouteObject[] = [
             },
             path: '/talos',
           },
-          // {
-          //   async lazy() {
-          //     const { TalosInterface } = await import('@/app/pages/talos/TalosInterface.tsx')
-          //     return { Component: TalosInterface }
-          //   },
-          //   path: '/interface',
-          // },
+          {
+            async lazy() {
+              const { TalosInterface } = await import(
+                '@/app/pages/talos/talosInterface.tsx'
+              )
+              return { Component: TalosInterface }
+            },
+            path: '/interface',
+          },
           {
             async lazy() {
               const { UserCreate } = await import('@/app/pages/user/create')

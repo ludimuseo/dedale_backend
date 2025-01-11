@@ -38,6 +38,9 @@ export default {
   plugins: [tailwind3dtransforms, typography, daisyui],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['"Inclusive Sans"', 'sans-serif'],
+      },
       backgroundColor: {
         //
         // primary: 'var(--color-primary)',
@@ -53,6 +56,7 @@ export default {
       },
     },
     fontFamily: {
+      inclusive: ['"Inclusive Sans"', 'sans-serif'],
       satoshi: ['Satoshi', 'sans-serif'],
     },
   },
