@@ -11,26 +11,31 @@ const Dashboard: FC = () => {
           className="card w-96 cursor-pointer bg-base-100 shadow-xl"
           onClick={() => void navigate('/form')}>
           <figure>
-            <img src="/src/assets/imgs/ludi_couv_applimobile.jpg" alt="Shoes" />
+            <img
+              src="/src/assets/imgs/ludi_couv_applimobile.jpg"
+              alt="Formulaires"
+            />
           </figure>
           <div className="card-body">
             <h2 className="card-title">CREATION DE PARCOURS</h2>
-            <p>Créer les parcours et jeux pas à pas.</p>
+            <p className="font-inclusive">
+              Créer les parcours et jeux pas à pas.
+            </p>
           </div>
         </div>
 
         <div
-          className="card w-96 cursor-pointer bg-base-100 p-2 shadow-xl"
+          className="card w-96 cursor-pointer bg-base-100 shadow-xl"
           onClick={() => void navigate('/talos')}>
           <figure>
             <img
               src="/src/assets/imgs/Talos/logo-talos-fond-blanc.svg"
-              alt="Shoes"
+              alt="Talos"
             />
           </figure>
           <div className="card-body">
             <h2 className="card-title">INTERFACE TALOS</h2>
-            <p>
+            <p className="font-inclusive">
               Correction et lecture de texte.
               <br /> Validation de texte FALC
             </p>

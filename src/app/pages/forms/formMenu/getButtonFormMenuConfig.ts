@@ -13,7 +13,7 @@ export const getButtonFormMenuConfig: FormMenu[] = [
     title: 'Client',
     description: 'Creer un client: entreprise, association, particulier',
     alt: 'formulaire client',
-    image: '/src/assets/imgs/formMenu/icone-lieu.png',
+    image: '/src/assets/imgs/formMenu/icone-utilisateur.png',
     route: '/form/client',
   },
   {
@@ -48,14 +48,14 @@ export const getButtonFormMenuConfig: FormMenu[] = [
   //     image: "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
   //     route: '/form/piece',
   // },
-  // {
-  //     id: "5",
-  //     title: "Jeu",
-  //     description: "Creer le quiz de l'étape en ayant l'oeuvre comme thème",
-  //     alt: "formulaire jeu",
-  //     image: "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
-  //     route: '/form/game',
-  // },
+  {
+    id: '5',
+    title: 'Jeu',
+    description: "Creer le quiz de l'étape en ayant l'oeuvre comme thème",
+    alt: 'formulaire jeu',
+    image: '/src/assets/imgs/formMenu/icone-jeux.png',
+    route: '/form/game',
+  },
   // {
   //     id: "6",
   //     title: "Médaille",

@@ -12,18 +12,20 @@ const FormMenu: FC = () => {
     <div className="flex flex-wrap">
       {menu.map((item) => {
         return (
-          <div className="card w-96 bg-base-100 shadow-xl">
-            <figure className="p-2">
+          <div className="card w-96 border-2 bg-base-100 shadow-xl">
+            <figure className="p-4">
               <img src={item.image} alt={item.alt} />
             </figure>
             <hr className="mt-2 border-gray-300" />
             <div className="card-body">
-              <h2 className="card-title">{item.title}</h2>
-              <p>{item.description}</p>
+              <h2 className="card-title font-inclusive text-3xl">
+                {item.title}
+              </h2>
+              <p className="font-inclusive">{item.description}</p>
               <div className="card-actions justify-end">
                 <button
                   onClick={() => void navigate(item.route)}
-                  className="btn btn-primary">
+                  className="btn btn-primary font-inclusive">
                   Accéder
                 </button>
               </div>
