@@ -9,7 +9,7 @@ const Dashboard: FC = () => {
       <div className="flex min-h-full flex-row items-center justify-center">
         <div
           className="card w-96 cursor-pointer bg-base-100 shadow-xl"
-          onClick={() => void navigate('/')}>
+          onClick={() => void navigate('/form')}>
           <figure>
             <img src="/src/assets/imgs/ludi_couv_applimobile.jpg" alt="Shoes" />
           </figure>
