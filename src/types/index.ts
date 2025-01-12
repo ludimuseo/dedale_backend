@@ -90,6 +90,7 @@ export type T = Record<
   | Falc
   | Audio
   | Content
+  | Stage
 >
 
 interface Contact {
@@ -160,7 +161,11 @@ interface Audio {
 }
 interface Content {
   image: string[]
-  type: string
+  type?: string
+}
+
+interface Stage {
+  stepNumber: number
 }
 
 /* CLIENT */
@@ -309,7 +314,6 @@ export interface StepType {
   medalId: string
   content: {
     image: string[]
-    type: string
   }
   address: {
     address: string
