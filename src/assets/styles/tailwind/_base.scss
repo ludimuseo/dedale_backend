@@ -3,7 +3,7 @@
 @use '@style/variables/globals' as global;
 
 :root {
-  // color-scheme: light;
+  color-scheme: light;
 
   --color-white: #{color.$white};
   --color-black: #{color.$black};
@@ -22,12 +22,14 @@
   --color-secondary: #{color.$secondary};
   --color-tertiary: #{color.$tertiary};
 
+  --color-background: #{color.$white};
   --color-text: #{color.$darkBlue};
 
   &[data-theme='system'][data-is-dark='true'],
   &[data-theme='dark'] {
     color-scheme: dark;
 
+    --color-background: #{color.$darkBlue2};
     --color-text: #{color.$white};
   }
 }

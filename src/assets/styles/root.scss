@@ -42,13 +42,13 @@ $switchCheckboxSize: 1.8rem;
 /* // Layouts */
 #layout-auth,
 #layout-default {
-  @apply flex h-full bg-white dark:bg-[var(--color-darkBlue2)];
+  @apply flex h-full flex-col bg-default;
   header {
     @apply h-[#{$headerHeight}] w-full;
   }
 }
 #layout-auth {
-  @apply flex-col;
+  // @apply flex-col;
   > main {
     @apply flex flex-1 flex-row;
     > section {
@@ -71,22 +71,14 @@ $switchCheckboxSize: 1.8rem;
 }
 
 #layout-default {
-  @apply flex-col;
+  // @apply flex-col;
 
   #sidebar-control {
     @apply px-0 lg:hidden;
   }
 
   > #inner-content {
-    @apply flex flex-row;
-
-    // background-color: colorMix(var(--color-darkBlue), white, 50%);
-    // bg-[var(--color-white4)] dark:bg-[var(--color-darkBlue)];
-    // background-color: colorMix(var(--color-lightBlue), white, 50%);
-    // background-color: color-mix(in srgb, var(--color-darkBlue), white 50%);
-    // @apply bg-[var(--color-lightBlue)] dark:bg-[var(--color-darkBlue)];
-    @apply h-full w-full;
-    @apply overflow-hidden;
+    @apply flex h-full w-full flex-row overflow-hidden;
 
     > header {
       @apply shadow-lg;

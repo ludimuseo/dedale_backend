@@ -34,7 +34,7 @@ export default {
     //   },
     // ],
   },
-  darkMode: ['selector', '[data-theme="dark"]'],
+  darkMode: ['selector', '[data-is-dark="true"]'],
   plugins: [tailwind3dtransforms, typography, daisyui],
   theme: {
     extend: {
@@ -42,6 +42,7 @@ export default {
         sans: ['"Inclusive Sans"', 'sans-serif'],
       },
       backgroundColor: {
+        default: 'var(--color-background)',
         //
         // primary: 'var(--color-primary)',
         // secondary: 'var(--color-secondary)',
@@ -49,10 +50,6 @@ export default {
       },
       textColor: {
         default: 'var(--color-text)',
-        //
-        // primary: 'var(--color-primary)',
-        // secondary: 'var(--color-secondary)',
-        // tertiary: 'var(--color-tertiary)',
       },
     },
     fontFamily: {
