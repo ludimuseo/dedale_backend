@@ -191,7 +191,7 @@ const TextList: FC = () => {
                       handleNavigate(place)
                     }}>
                     <img
-                      src="/src/assets/imgs/talos/crayon.svg"
+                      src="/src/assets/imgs/Talos/crayon.svg"
                       alt="crayon"
                       className="mx-auto h-[60px] w-[200px]"
                     />
@@ -204,7 +204,7 @@ const TextList: FC = () => {
                   </td>
                   <td className="group relative">
                     <img
-                      src="/src/assets/imgs/talos/enveloppe.svg"
+                      src="/src/assets/imgs/Talos/enveloppe.svg"
                       alt="crayon"
                       className="mx-auto h-[60px] w-[200px]"
                     />
@@ -246,14 +246,14 @@ const TextList: FC = () => {
                         </td>
                         <td className="">
                           <img
-                            src="/src/assets/imgs/talos/crayon.svg"
+                            src="/src/assets/imgs/Talos/crayon.svg"
                             alt="crayon"
                             className="mx-auto h-[60px] w-[200px]"
                           />
                         </td>
                         <td className="">
                           <img
-                            src="/src/assets/imgs/talos/enveloppe.svg"
+                            src="/src/assets/imgs/Talos/enveloppe.svg"
                             alt="crayon"
                             className="mx-auto h-[60px] w-[200px]"
                           />
@@ -289,14 +289,14 @@ const TextList: FC = () => {
                               </td>
                               <td className="">
                                 <img
-                                  src="/src/assets/imgs/talos/crayon.svg"
+                                  src="/src/assets/imgs/Talos/crayon.svg"
                                   alt="crayon"
                                   className="mx-auto h-[60px] w-[200px]"
                                 />
                               </td>
                               <td className="">
                                 <img
-                                  src="/src/assets/imgs/talos/enveloppe.svg"
+                                  src="/src/assets/imgs/Talos/enveloppe.svg"
                                   alt="crayon"
                                   className="mx-auto h-[60px] w-[200px]"
                                 />
@@ -334,14 +334,14 @@ const TextList: FC = () => {
                                     </td>
                                     <td className="">
                                       <img
-                                        src="/src/assets/imgs/talos/crayon.svg"
+                                        src="/src/assets/imgs/Talos/crayon.svg"
                                         alt="crayon"
                                         className="mx-auto h-[60px] w-[200px]"
                                       />
                                     </td>
                                     <td className="">
                                       <img
-                                        src="/src/assets/imgs/talos/enveloppe.svg"
+                                        src="/src/assets/imgs/Talos/enveloppe.svg"
                                         alt="crayon"
                                         className="mx-auto h-[60px] w-[200px]"
                                       />
@@ -373,14 +373,14 @@ const TextList: FC = () => {
                                           <td></td>
                                           <td className="">
                                             <img
-                                              src="/src/assets/imgs/talos/crayon.svg"
+                                              src="/src/assets/imgs/Talos/crayon.svg"
                                               alt="crayon"
                                               className="mx-auto h-[60px] w-[200px]"
                                             />
                                           </td>
                                           <td className="">
                                             <img
-                                              src="/src/assets/imgs/talos/enveloppe.svg"
+                                              src="/src/assets/imgs/Talos/enveloppe.svg"
                                               alt="crayon"
                                               className="mx-auto h-[60px] w-[200px]"
                                             />
