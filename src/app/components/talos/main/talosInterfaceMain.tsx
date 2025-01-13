@@ -3,14 +3,14 @@ import 'daisyui/dist/full.css'
 import { doc, updateDoc } from 'firebase/firestore'
 import { useState } from 'react'
 
-import backIcon from '@/assets/imgs/talos/arrow-left.svg'
-import cocheValideIcon from '@/assets/imgs/talos/coche-valide.svg'
-import imageIcon from '@/assets/imgs/talos/image.svg'
+import backIcon from '@/assets/imgs/Talos/arrow-left.svg'
+import cocheValideIcon from '@/assets/imgs/Talos/coche-valide.svg'
+import imageIcon from '@/assets/imgs/Talos/image.svg'
 import relectureIcon from '@/assets/imgs/Talos/relecture.svg'
 import {
   default as zoomIconLess,
   default as zoomIconMore,
-} from '@/assets/imgs/talos/zoom-moins.svg'
+} from '@/assets/imgs/Talos/zoom-moins.svg'
 import { db } from '@/firebase/firebase'
 import {
   EntityWithId,
@@ -77,7 +77,7 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
                 clickedIndex === index ? 'scale-90' : 'hover:scale-110'
               }`}>
               <img
-                src="/src/assets/imgs/talos/coche-valide.svg"
+                src="/src/assets/imgs/Talos/coche-valide.svg"
                 alt="crayon"
                 className="h-[40px] w-[200px]"
               />
@@ -90,7 +90,7 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
                 clickedIndex === index ? 'scale-90' : 'hover:scale-110'
               }`}>
               <img
-                src="/src/assets/imgs/talos/crayon.svg"
+                src="/src/assets/imgs/Talos/crayon.svg"
                 alt="crayon"
                 className="ml-1 h-[40px] w-[200px]"
               />
@@ -103,7 +103,7 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
                 clickedIndex === index ? 'scale-90' : 'hover:scale-110'
               }`}>
               <img
-                src="/src/assets/imgs/talos/coche-faux.svg"
+                src="/src/assets/imgs/Talos/coche-faux.svg"
                 alt="crayon"
                 className="ml-2 h-[40px] w-[200px]"
               />

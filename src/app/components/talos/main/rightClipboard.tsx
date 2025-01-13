@@ -57,7 +57,7 @@ const RightClipboard = ({
                               handleDeleteText(index)
                             }}>
                             <img
-                              src="/src/assets/imgs/talos/coche-faux.svg"
+                              src="/src/assets/imgs/Talos/coche-faux.svg"
                               alt="supprimer"
                               className="h-[25px] w-[200px]"
                             />
