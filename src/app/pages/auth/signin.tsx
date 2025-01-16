@@ -99,7 +99,7 @@ const AuthSignIn: FC = () => {
           }
         />
         {/* Button Submit */}
-        <button type="submit" className="btn--primary">
+        <button type="submit" className="btn btn-primary mt-8">
           {t('button.signin')}&nbsp;
           {showLoader && <span className="loading loading-spinner"></span>}
         </button>

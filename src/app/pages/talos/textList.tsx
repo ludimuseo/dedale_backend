@@ -3,14 +3,31 @@ import React, { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { db } from '@/firebase/firebase'
-import { GameType, JourneyType, PieceType, PlaceType, StepType } from '@/types'
+import {
+  EntityWithId,
+  GameType,
+  JourneyType,
+  PieceType,
+  PlaceType,
+  StepType,
+} from '@/types'
 
 const TextList: FC = () => {
-  const [places, setPlaces] = useState<(PlaceType & { id: string })[]>([])
-  const [journeys, setJourneys] = useState<(JourneyType & { id: string })[]>([])
-  const [steps, setSteps] = useState<(StepType & { id: string })[]>([])
-  const [pieces, setPieces] = useState<(PieceType & { id: string })[]>([])
-  const [games, setGames] = useState<(GameType & { id: string })[]>([])
+  const [places, setPlaces] = useState<
+    (PlaceType & { id: string; collection: string })[]
+  >([])
+  const [journeys, setJourneys] = useState<
+    (JourneyType & { id: string; collection: string })[]
+  >([])
+  const [steps, setSteps] = useState<
+    (StepType & { id: string; collection: string })[]
+  >([])
+  const [pieces, setPieces] = useState<
+    (PieceType & { id: string; collection: string })[]
+  >([])
+  const [games, setGames] = useState<
+    (GameType & { id: string; collection: string })[]
+  >([])
   const [activePlaceId, setActivePlaceId] = useState<string | null>(null)
   const [activeJourneyId, setActiveJourneyId] = useState<string | null>(null)
   const [activeStepId, setActiveStepId] = useState<string | null>(null)
@@ -18,7 +35,9 @@ const TextList: FC = () => {
   const navigate = useNavigate()
 
   const handleNavigate = (
-    formData: PlaceType | JourneyType | StepType | PieceType | GameType
+    formData: EntityWithId<
+      PlaceType | JourneyType | StepType | PieceType | GameType
+    >
   ) => {
     void navigate('/interface', { state: { formData: formData } })
   }
@@ -29,6 +48,7 @@ const TextList: FC = () => {
         const querySnapshot = await getDocs(collection(db, 'places'))
         const placeData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
+          collection: 'places',
           ...(doc.data().place as PlaceType),
         }))
         setPlaces(placeData)
@@ -48,6 +68,7 @@ const TextList: FC = () => {
       const querySnapshot = await getDocs(q)
       const journeyData = querySnapshot.docs.map((doc) => ({
         id: doc.id,
+        collection: 'journeys',
         ...(doc.data().journey as JourneyType),
       }))
       setJourneys(journeyData)
@@ -66,12 +87,13 @@ const TextList: FC = () => {
       const querySnapshot = await getDocs(q)
       const stepData = querySnapshot.docs.map((doc) => ({
         id: doc.id,
+        collection: 'steps',
         ...(doc.data().step as StepType),
       }))
       setSteps(stepData)
       setActiveJourneyId(journeyId)
     } catch (error) {
-      console.error('Error fetching journeys:', error)
+      console.error('Error fetching steps:', error)
     }
   }
 
@@ -84,12 +106,13 @@ const TextList: FC = () => {
       const querySnapshot = await getDocs(q)
       const pieceData = querySnapshot.docs.map((doc) => ({
         id: doc.id,
+        collection: 'pieces',
         ...(doc.data().piece as PieceType),
       }))
       setPieces(pieceData)
       setActiveStepId(stepId)
     } catch (error) {
-      console.error('Error fetching journeys:', error)
+      console.error('Error fetching pieces:', error)
     }
   }
 
@@ -102,18 +125,19 @@ const TextList: FC = () => {
       const querySnapshot = await getDocs(q)
       const gameData = querySnapshot.docs.map((doc) => ({
         id: doc.id,
+        collection: 'games',
         ...(doc.data().game as GameType),
       }))
       setGames(gameData)
       setActivePieceId(pieceId)
     } catch (error) {
-      console.error('Error fetching journeys:', error)
+      console.error('Error fetching games:', error)
     }
   }
 
   return (
     <div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto p-4">
         <table className="table">
           <thead>
             <tr>
@@ -167,7 +191,7 @@ const TextList: FC = () => {
                       handleNavigate(place)
                     }}>
                     <img
-                      src="/src/assets/imgs/talos/crayon.svg"
+                      src="/src/assets/imgs/Talos/crayon.svg"
                       alt="crayon"
                       className="mx-auto h-[60px] w-[200px]"
                     />
@@ -180,7 +204,7 @@ const TextList: FC = () => {
                   </td>
                   <td className="group relative">
                     <img
-                      src="/src/assets/imgs/talos/enveloppe.svg"
+                      src="/src/assets/imgs/Talos/enveloppe.svg"
                       alt="crayon"
                       className="mx-auto h-[60px] w-[200px]"
                     />
@@ -201,7 +225,7 @@ const TextList: FC = () => {
                           <h3
                             className="cursor-pointer text-2xl hover:underline"
                             onClick={() => {
-                              alert(journey.name.fr)
+                              handleNavigate(journey)
                             }}>
                             {`Parcours: `}
                             {journey.name.fr}
@@ -222,14 +246,14 @@ const TextList: FC = () => {
                         </td>
                         <td className="">
                           <img
-                            src="/src/assets/imgs/talos/crayon.svg"
+                            src="/src/assets/imgs/Talos/crayon.svg"
                             alt="crayon"
                             className="mx-auto h-[60px] w-[200px]"
                           />
                         </td>
                         <td className="">
                           <img
-                            src="/src/assets/imgs/talos/enveloppe.svg"
+                            src="/src/assets/imgs/Talos/enveloppe.svg"
                             alt="crayon"
                             className="mx-auto h-[60px] w-[200px]"
                           />
@@ -244,7 +268,7 @@ const TextList: FC = () => {
                                 <h4
                                   className="cursor-pointer text-xl hover:underline"
                                   onClick={() => {
-                                    alert(step.name.fr)
+                                    handleNavigate(journey)
                                   }}>
                                   {`Etape : `}
                                   {step.name.fr}
@@ -265,14 +289,14 @@ const TextList: FC = () => {
                               </td>
                               <td className="">
                                 <img
-                                  src="/src/assets/imgs/talos/crayon.svg"
+                                  src="/src/assets/imgs/Talos/crayon.svg"
                                   alt="crayon"
                                   className="mx-auto h-[60px] w-[200px]"
                                 />
                               </td>
                               <td className="">
                                 <img
-                                  src="/src/assets/imgs/talos/enveloppe.svg"
+                                  src="/src/assets/imgs/Talos/enveloppe.svg"
                                   alt="crayon"
                                   className="mx-auto h-[60px] w-[200px]"
                                 />
@@ -287,7 +311,7 @@ const TextList: FC = () => {
                                       <h4
                                         className="cursor-pointer text-xl hover:underline"
                                         onClick={() => {
-                                          alert(piece.name.fr)
+                                          handleNavigate(piece)
                                         }}>
                                         {`Oeuvre: `}
                                         {piece.name.fr}
@@ -310,14 +334,14 @@ const TextList: FC = () => {
                                     </td>
                                     <td className="">
                                       <img
-                                        src="/src/assets/imgs/talos/crayon.svg"
+                                        src="/src/assets/imgs/Talos/crayon.svg"
                                         alt="crayon"
                                         className="mx-auto h-[60px] w-[200px]"
                                       />
                                     </td>
                                     <td className="">
                                       <img
-                                        src="/src/assets/imgs/talos/enveloppe.svg"
+                                        src="/src/assets/imgs/Talos/enveloppe.svg"
                                         alt="crayon"
                                         className="mx-auto h-[60px] w-[200px]"
                                       />
@@ -334,7 +358,7 @@ const TextList: FC = () => {
                                             <h4
                                               className="cursor-pointer text-xl hover:underline"
                                               onClick={() => {
-                                                alert(game.name.fr)
+                                                handleNavigate(game)
                                               }}>
                                               {`Jeu: `}
                                               {game.name.fr}
@@ -349,14 +373,14 @@ const TextList: FC = () => {
                                           <td></td>
                                           <td className="">
                                             <img
-                                              src="/src/assets/imgs/talos/crayon.svg"
+                                              src="/src/assets/imgs/Talos/crayon.svg"
                                               alt="crayon"
                                               className="mx-auto h-[60px] w-[200px]"
                                             />
                                           </td>
                                           <td className="">
                                             <img
-                                              src="/src/assets/imgs/talos/enveloppe.svg"
+                                              src="/src/assets/imgs/Talos/enveloppe.svg"
                                               alt="crayon"
                                               className="mx-auto h-[60px] w-[200px]"
                                             />

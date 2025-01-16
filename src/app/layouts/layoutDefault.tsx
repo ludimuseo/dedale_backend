@@ -1,4 +1,4 @@
-import { CloseIcon, HamburgerIcon } from '@component/index'
+// import { CloseIcon, HamburgerIcon } from '@component/index'
 import type { FC } from 'react'
 import { Outlet } from 'react-router'
 
@@ -12,16 +12,15 @@ const LayoutDefault: FC = () => {
         <CoreHeader
           toggleMenu={
             <>
+              {/*
               <label
                 id="sidebar-control"
                 className="btn btn-ghost swap swap-rotate">
-                {/* this hidden checkbox controls the state */}
                 <input type="checkbox" />
-                {/* close icon */}
                 <CloseIcon className="swap-off" />
-                {/* hamburger icon */}
                 <HamburgerIcon className="swap-on" />
               </label>
+              */}
             </>
           }
         />

@@ -71,6 +71,9 @@ export interface GetInputConfigType {
   type?: string
 }
 
+/* TYPE FOR TALOS */
+export type EntityWithId<T> = T & { id: string; collection: string }
+
 /* TYPE GENERIQUE */
 
 export type T = Record<
