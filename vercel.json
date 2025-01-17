@@ -1,5 +1,19 @@
 {
   "version": 2,
+  "builds": [
+    {
+      "src": "src/app/router/**/*.ts",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "src/app/router/**/*.tsx",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "public/**/*",
+      "use": "@vercel/static"
+    }
+  ],
   "routes": [
     {
       "src": "/(.*)",
