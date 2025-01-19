@@ -2,11 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "src/app/router/**/*.ts",
+      "src": "src/app/router/index.ts",
       "use": "@vercel/node"
     },
     {
-      "src": "src/app/router/**/*.tsx",
+      "src": "src/app/router/index.tsx",
       "use": "@vercel/node"
     },
     {
@@ -17,7 +17,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/src/app/$1"
+      "dest": "/api/$1"
     }
   ]
 }
