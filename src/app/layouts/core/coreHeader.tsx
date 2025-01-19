@@ -3,10 +3,10 @@ import { useAppDispatch, useAppSelector } from '@hook/index'
 import { signOut, StateAuth } from '@service/redux/slices/reducerAuth'
 import { type FC, ReactElement, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { NavLink } from 'react-router'
+import { NavLink, useNavigate } from 'react-router-dom'
 
-import type { State } from '@/types'
 import placeholderAvatar from '/placeholder-avatar.webp'
+import type { State } from '@/types'
 
 interface HeaderProps {
   toggleMenu: ReactElement<HTMLElement> | null
@@ -18,6 +18,7 @@ const CoreHeader: FC<HeaderProps> = ({ toggleMenu }) => {
     (state: State) => state.auth
   )
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const modalSignOut = useRef<HTMLDialogElement>(null)
   const handleModalSignOut = () => {
     if (modalSignOut.current) {
@@ -102,6 +103,12 @@ const CoreHeader: FC<HeaderProps> = ({ toggleMenu }) => {
                   </li>
                 </ul>
               </div>
+              {/* BOUTON FAQ à DROITE DU PROFIL */}
+              <button
+                onClick={() => void navigate('/faq')}
+                className="btn btn-ghost">
+                FAQ
+              </button>
               <dialog
                 id="modal-signout"
                 className="modal flex justify-center"
