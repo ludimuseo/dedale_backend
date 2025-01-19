@@ -12,7 +12,7 @@ import Form from '../form'
 import { getInputStepConfig } from './configStep/getInputTextStepConfig'
 
 const FormStep: FC = () => {
-  const title = 'Formulaire Lieu'
+  const title = 'Formulaire Etape'
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
   const [clientIdAndName, setClientIdAndName] = useState<
@@ -61,6 +61,14 @@ const FormStep: FC = () => {
       falc: {
         en: '',
         fr: '',
+        falcCertified: '',
+        userId: '',
+        status: {
+          isValidate: false,
+          isCertified: false,
+          certifiedDate: null,
+          isCorrected: false,
+        },
       },
       standard: {
         en: '',

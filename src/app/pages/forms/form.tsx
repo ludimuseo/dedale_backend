@@ -54,6 +54,18 @@ interface FormProps {
     section: string,
     name: string
   ) => void
+  handleResponseChange?: <
+    S extends keyof T,
+    M extends keyof T[S],
+    L extends keyof T[S][M],
+    F extends keyof T[S][M][L],
+  >(
+    section: S,
+    name: M,
+    mode: L,
+    language: F,
+    event: T[S][M][L][F]
+  ) => void
   handleSelect?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handlePlaceSelect?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   selectedOption?: string
@@ -83,6 +95,7 @@ const Form = ({
   handleFileUpload,
   handleSelect,
   handlePlaceSelect,
+  handleResponseChange,
   selectedOption,
   selectedPlaceOption,
 }: FormProps) => {
@@ -213,6 +226,15 @@ const Form = ({
             handleFileUpload={(file, fileType, section, name) =>
               handleFileUpload?.(file, fileType, section, name)
             }
+            handleResponseChange={(
+              section: string,
+              name: string,
+              mode: string,
+              language: string,
+              value: string
+            ) => {
+              handleResponseChange?.(section, name, mode, language, value)
+            }}
           />
           <FormFooter
             message={message}

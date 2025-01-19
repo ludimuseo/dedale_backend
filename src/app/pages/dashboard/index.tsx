@@ -12,11 +12,13 @@ const Dashboard: FC = () => {
           onClick={() => void navigate('/form')}>
           <figure>
             <img
-              src="/src/assets/imgs/ludi_couv_applimobile.jpg"
+              src="/src/assets/imgs/formMenu/dedale-mobile.svg"
               alt="Formulaires"
+              className="aspect-video scale-75"
             />
           </figure>
-          <div className="card-body">
+          <hr className="mt-2 border-gray-300" />
+          <div className="card-body rounded-xl bg-sky-50">
             <h2 className="card-title">CREATION DE PARCOURS</h2>
             <p className="font-inclusive">
               Créer les parcours et jeux pas à pas.
@@ -29,16 +31,15 @@ const Dashboard: FC = () => {
           onClick={() => void navigate('/talos')}>
           <figure>
             <img
-              src="/src/assets/imgs/Talos/logo-talos-fond-blanc.svg"
+              src="/src/assets/imgs/talos-backoffice.svg"
               alt="Talos"
+              className="aspect-video scale-75"
             />
           </figure>
-          <div className="card-body">
+          <hr className="mt-2 border-gray-300" />
+          <div className="card-body rounded-xl bg-sky-50">
             <h2 className="card-title">INTERFACE TALOS</h2>
-            <p className="font-inclusive">
-              Correction et lecture de texte.
-              <br /> Validation de texte FALC
-            </p>
+            <p className="font-inclusive">Correction et lecture de texte.</p>
           </div>
         </div>
       </div>
