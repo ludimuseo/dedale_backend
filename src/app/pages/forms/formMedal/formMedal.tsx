@@ -248,6 +248,37 @@ const FormMedal: FC = () => {
 
   return (
     <>
+      <div>
+        <label htmlFor="my_modal_6" className="btn">
+          Choisir le Client
+        </label>
+
+        <input type="checkbox" id="my_modal_6" className="modal-toggle" />
+        <div className="modal" role="dialog">
+          <div className="modal-box">
+            <h3 className="text-lg font-bold">Sélection</h3>
+
+            <p className="py-2">Sélection du Client lié au Lieu</p>
+
+            <select
+              value={selectedOption}
+              onChange={handleSelect}
+              className="select select-bordered select-xs w-full max-w-xs">
+              <option>Choisir le Client</option>
+              {/* {clientIdAndName?.map(({ id, name }, index) => (
+                  <option key={index} value={id}>
+                    {name}
+                  </option>
+                ))} */}
+            </select>
+            <div className="modal-action">
+              <label htmlFor="my_modal_6" className="btn">
+                Fermer
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
       <Form
         clientIdAndName={clientIdAndName && clientIdAndName}
         handleSelect={handleSelect}
