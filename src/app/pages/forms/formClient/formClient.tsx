@@ -1,6 +1,6 @@
 import { UserIcon } from '@component/index'
 import { addDoc, collection } from 'firebase/firestore'
-import { type FormEvent, MouseEvent, useEffect, useState } from 'react'
+import { FC, type FormEvent, MouseEvent, useEffect, useState } from 'react'
 
 import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
@@ -9,7 +9,7 @@ import { MessageType, T } from '@/types'
 import Form from '../form'
 import { getInputClientConfig } from './configClient/getInputClientConfig'
 
-const FormClient = () => {
+const FormClient: FC = () => {
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
   const [message, setMessage] = useState<MessageType>({
@@ -134,4 +134,4 @@ const FormClient = () => {
   )
 }
 
-export default FormClient
+export { FormClient }

@@ -1,18 +1,18 @@
-import { PlaceIcon } from '@component/index'
 import { addDoc, collection, getDocs } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
+import { PlaceIcon } from '@/app/components'
 import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
 import { MessageType, T } from '@/types'
 
 import Form from '../form'
-import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
+import { getInputGameConfig } from './configGame/getInputTextGameConfig'
 
-const FormPlace: FC = () => {
-  const title = 'Formulaire Lieu'
+const FormGame: FC = () => {
+  const title = 'Formulaire Jeu'
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
   const [clientIdAndName, setClientIdAndName] = useState<
@@ -31,14 +31,7 @@ const FormPlace: FC = () => {
     result: false,
   })
   const [formData, setFormData] = useState<T>({
-    clientId: '',
-    medalId: '',
-    address: {
-      address: '',
-      city: '',
-      country: '',
-      postal: '',
-    },
+    pieceId: '',
     audio: {
       falc: {
         en: '',
@@ -52,20 +45,94 @@ const FormPlace: FC = () => {
     content: {
       image: [],
       type: '',
+      level: '',
     },
-    coords: {
-      isLocationRequired: false,
-      lat: 0,
-      lon: 0,
-    },
-    description: {
+    question: {
       falc: {
         en: '',
         fr: '',
+        falcCertified: '',
+        userId: '',
+        status: {
+          isValidate: false,
+          isCertified: false,
+          certifiedDate: null,
+          isCorrected: false,
+        },
       },
       standard: {
         en: '',
         fr: '',
+      },
+    },
+    response: {
+      responseTrue: {
+        standard: {
+          fr: '',
+          en: '',
+        },
+        falc: {
+          fr: '',
+          en: '',
+          falcCertified: '',
+        },
+      },
+      response1: {
+        standard: {
+          fr: '',
+          en: '',
+        },
+        falc: {
+          fr: '',
+          en: '',
+          falcCertified: '',
+        },
+      },
+      response2: {
+        standard: {
+          fr: '',
+          en: '',
+        },
+        falc: {
+          fr: '',
+          en: '',
+          falcCertified: '',
+        },
+      },
+    },
+    explanation: {
+      responseTrue: {
+        standard: {
+          fr: '',
+          en: '',
+        },
+        falc: {
+          fr: '',
+          en: '',
+          falcCertified: '',
+        },
+      },
+      response1: {
+        standard: {
+          fr: '',
+          en: '',
+        },
+        falc: {
+          fr: '',
+          en: '',
+          falcCertified: '',
+        },
+      },
+      response2: {
+        standard: {
+          fr: '',
+          en: '',
+        },
+        falc: {
+          fr: '',
+          en: '',
+          falcCertified: '',
+        },
       },
     },
     name: {
@@ -73,7 +140,7 @@ const FormPlace: FC = () => {
       fr: '',
     },
     status: {
-      isActive: false, //ACTIVER/DESACTIVER LE CLIENT
+      isActive: false, //ACTIVER/DESACTIVER
       isPublished: false,
     },
   })
@@ -170,6 +237,44 @@ const FormPlace: FC = () => {
     })
   }
 
+  //changement des donnees avec une profondeur en plus
+  const handleResponseChange = <
+    S extends keyof T,
+    M extends keyof T[S],
+    L extends keyof T[S][M],
+    F extends keyof T[S][M][L],
+  >(
+    section: S,
+    name: M,
+    mode: L,
+    language: F,
+    value: T[S][M][L][F]
+  ) => {
+    setFormData((prevFormData) => {
+      const sectionData = prevFormData[section]
+      const nameData = sectionData[name] as T[M]
+      const modeData = sectionData[name][mode] as T
+
+      if (typeof sectionData === 'object' && typeof nameData === 'object') {
+        return {
+          ...prevFormData,
+          [section]: {
+            ...sectionData,
+            [name]: {
+              ...nameData,
+              [mode]: {
+                ...modeData,
+                [language]: value,
+              },
+            },
+          },
+        }
+      } else {
+        return formData
+      }
+    })
+  }
+
   const handleFileUpload = async (
     file: File,
     fileType: string,
@@ -225,7 +330,7 @@ const FormPlace: FC = () => {
     }
   }
 
-  const getInput = getInputPlaceConfig
+  const getInput = getInputGameConfig
 
   useEffect(() => {
     setStep(getInput.length)
@@ -316,6 +421,22 @@ const FormPlace: FC = () => {
 
   console.log('FormData:', { ...formData })
 
+  // const updateNestedData = <S extends keyof T>(
+  //   section: S,
+  //   path: string[], // ['audio', 'standard', 'en']
+  //   value: string
+  // ) => {
+  //   setFormData((prev) => {
+  //     const updatedData = { ...prev }
+  //     let current = updatedData[section]
+  //     for (let i = 0;i < path.length - 1;i++) {
+  //       current = current[path[i]]
+  //     }
+  //     current[path[path.length - 1]] = value
+  //     return updatedData
+  //   })
+  // }
+
   return (
     <>
       <Form
@@ -342,6 +463,9 @@ const FormPlace: FC = () => {
         handleChange={(section, mode, langaue, value) => {
           handleChange(section, mode, langaue, value)
         }}
+        handleResponseChange={(section, name, mode, language, value) => {
+          handleResponseChange(section, name, mode, language, value)
+        }}
         handleEdit={handleEditPlace}
         handlePrevStep={handlePrevStep}
         handleNextStep={handleNextStep}
@@ -351,4 +475,4 @@ const FormPlace: FC = () => {
   )
 }
 
-export { FormPlace }
+export { FormGame }
