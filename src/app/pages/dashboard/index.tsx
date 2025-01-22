@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { type FC } from 'react'
 import { useNavigate } from 'react-router'
 
@@ -7,7 +8,10 @@ const Dashboard: FC = () => {
   return (
     <>
       <div className="flex min-h-full flex-row items-center justify-center">
-        <div
+        <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.3, ease: 'linear' }}
           className="card w-96 cursor-pointer bg-base-100 shadow-xl"
           onClick={() => void navigate('/')}>
           <figure>
@@ -17,9 +21,12 @@ const Dashboard: FC = () => {
             <h2 className="card-title">CREATION DE PARCOURS</h2>
             <p>Créer les parcours et jeux pas à pas.</p>
           </div>
-        </div>
+        </motion.div>
 
-        <div
+        <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.5, ease: 'linear' }}
           className="card w-96 cursor-pointer bg-base-100 p-2 shadow-xl"
           onClick={() => void navigate('/talos')}>
           <figure>
@@ -35,7 +42,7 @@ const Dashboard: FC = () => {
               <br /> Validation de texte FALC
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </>
   )
