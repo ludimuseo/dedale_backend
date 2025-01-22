@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { FC } from 'react'
 import { useNavigate } from 'react-router'
 
@@ -9,11 +10,15 @@ const FormMenu: FC = () => {
   const menu = getButtonFormMenuConfig
 
   return (
-    <div className="flex flex-wrap">
+    <motion.div
+      className="flex flex-wrap"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, delay: 0.3, ease: 'easeInOut' }}>
       {menu.map((item) => {
         return (
           <div
-            className="card w-96 cursor-pointer border-2 bg-base-100 shadow-xl"
+            className="transition-duration-500 card w-96 translate-x-0 translate-y-0 cursor-pointer border-2 bg-base-100 shadow-xl transition-transform ease-in-out hover:-translate-x-2 hover:-translate-y-2"
             onClick={() => void navigate(item.route)}>
             <figure className="p-4">
               <img src={item.image} alt={item.alt} />
@@ -28,7 +33,7 @@ const FormMenu: FC = () => {
           </div>
         )
       })}
-    </div>
+    </motion.div>
   )
 }
 
