@@ -131,18 +131,19 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
 
         {/* Bouton Voir tous les textes */}
         <motion.div className="group relative mt-10">
-          <div
-            className="relative flex w-48 cursor-pointer flex-col items-center rounded-lg border-2 border-transparent bg-white px-6 py-4 text-lg text-[#0a184d] transition-all duration-300 hover:scale-150 hover:border-[#0a184d] hover:bg-gray-100"
+          <a
+            className="relative flex w-48 cursor-pointer flex-col items-center rounded-lg px-6 py-4 text-lg text-[#0a184d] transition-all duration-300 hover:bg-gray-100"
             onClick={handleNavigateTextList}>
             <span
               className="mb-2 inline whitespace-nowrap font-semibold"
               id="view-all-texts-button">
               Voir tous les textes
             </span>
-            <div className="absolute bottom-0 left-1/2 flex h-10 w-10 -translate-x-1/2 translate-y-1/2 transform items-center justify-center rounded-full border-2 border-[#0a184d] bg-white text-[#0a184d]">
+            <span className="flex h-[68px] w-[68px] transform items-center justify-center rounded-full border-2 border-[#0a184d] bg-white text-[#0a184d]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
+                className="h-10 w-10"
+                stroke="#0a184d"
                 viewBox="0 0 24 24"
                 fill="currentColor">
                 <path
@@ -151,8 +152,8 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
                   clipRule="evenodd"
                 />
               </svg>
-            </div>
-          </div>
+            </span>
+          </a>
 
           {/* Infobulle pour le bouton "Voir tous les textes" */}
           <div
