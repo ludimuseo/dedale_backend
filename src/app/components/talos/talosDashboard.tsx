@@ -94,7 +94,7 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
           <motion.div className="group relative mt-10">
             {/* Conteneur parent avec la classe `group` */}
             <a
-              className="flex w-48 flex-col items-center rounded-lg px-6 py-4 text-lg text-[#0a184d] hover:border-[#0a184d] hover:transition-all hover:duration-300 hover:ease-in-out"
+              className="flex w-48 flex-col items-center rounded-lg px-6 py-4 text-lg text-[#0a184d]"
               aria-label="Ajouter un correcteur"
               aria-labelledby="add-corrector-button">
               <span
@@ -103,7 +103,7 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
                 Ajouter un correcteur
               </span>
 
-              <span className="flex h-[68px] w-[68px] transform items-center justify-center rounded-full border-2 border-[#0a184d] bg-white text-[#0a184d] transition-all duration-300">
+              <span className="flex h-[68px] w-[68px] transform items-center justify-center rounded-full border-2 border-[#0a184d] bg-white text-[#0a184d] shadow-xl transition-all duration-300">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-10 w-10"
@@ -132,14 +132,14 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
         {/* Bouton Voir tous les textes */}
         <motion.div className="group relative mt-10">
           <a
-            className="relative flex w-48 cursor-pointer flex-col items-center rounded-lg px-6 py-4 text-lg text-[#0a184d] transition-all duration-300 hover:bg-gray-100"
+            className="relative flex w-48 cursor-pointer flex-col items-center rounded-lg px-6 py-4 text-lg text-[#0a184d] transition-all duration-300 ease-in-out"
             onClick={handleNavigateTextList}>
             <span
               className="mb-2 inline whitespace-nowrap font-semibold"
               id="view-all-texts-button">
               Voir tous les textes
             </span>
-            <span className="flex h-[68px] w-[68px] transform items-center justify-center rounded-full border-2 border-[#0a184d] bg-white text-[#0a184d]">
+            <span className="flex h-[68px] w-[68px] transform items-center justify-center rounded-full border-2 border-[#0a184d] bg-white text-[#0a184d] shadow-xl">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-10 w-10"
