@@ -1,5 +1,5 @@
-import { collection, getDocs, query, where } from 'firebase/firestore'
-import React, { FC, useEffect, useState } from 'react'
+import { collection, getDocs /* query, where */ } from 'firebase/firestore'
+import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { db } from '@/firebase/firebase'
@@ -16,23 +16,27 @@ const TextList: FC = () => {
   const [places, setPlaces] = useState<
     (PlaceType & { id: string; collection: string })[]
   >([])
-  const [journeys, setJourneys] = useState<
-    (JourneyType & { id: string; collection: string })[]
-  >([])
-  const [steps, setSteps] = useState<
-    (StepType & { id: string; collection: string })[]
-  >([])
-  const [pieces, setPieces] = useState<
-    (PieceType & { id: string; collection: string })[]
-  >([])
-  const [games, setGames] = useState<
-    (GameType & { id: string; collection: string })[]
-  >([])
-  const [activePlaceId, setActivePlaceId] = useState<string | null>(null)
-  const [activeJourneyId, setActiveJourneyId] = useState<string | null>(null)
-  const [activeStepId, setActiveStepId] = useState<string | null>(null)
-  const [activePieceId, setActivePieceId] = useState<string | null>(null)
+  // const [journeys, setJourneys] = useState<
+  //   (JourneyType & { id: string; collection: string })[]
+  // >([])
+  // const [steps, setSteps] = useState<
+  //   (StepType & { id: string; collection: string })[]
+  // >([])
+  // const [pieces, setPieces] = useState<
+  //   (PieceType & { id: string; collection: string })[]
+  // >([])
+  // const [games, setGames] = useState<
+  //   (GameType & { id: string; collection: string })[]
+  // >([])
+  //const [activePlaceId, setActivePlaceId] = useState<string | null>(null)
+  //const [activeJourneyId, setActiveJourneyId] = useState<string | null>(null)
+  //const [activeStepId, setActiveStepId] = useState<string | null>(null)
+  //const [activePieceId, setActivePieceId] = useState<string | null>(null)
+  //const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  //const [isHovered, setIsHovered] = useState(false)
   const navigate = useNavigate()
+
+  // const showTab = false
 
   const handleNavigate = (
     formData: EntityWithId<
@@ -59,94 +63,97 @@ const TextList: FC = () => {
     void fetchPlaces()
   }, [])
 
-  const fetchJourneys = async (placeId: string) => {
-    try {
-      const q = query(
-        collection(db, 'journeys'),
-        where('journey.placeID', '==', placeId)
-      )
-      const querySnapshot = await getDocs(q)
-      const journeyData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        collection: 'journeys',
-        ...(doc.data().journey as JourneyType),
-      }))
-      setJourneys(journeyData)
-      setActivePlaceId(placeId)
-    } catch (error) {
-      console.error('Error fetching journeys:', error)
-    }
-  }
+  // const fetchJourneys = async (placeId: string) => {
+  //   try {
+  //     const q = query(
+  //       collection(db, 'journeys'),
+  //       where('journey.placeID', '==', placeId)
+  //     )
+  //     const querySnapshot = await getDocs(q)
+  //     const journeyData = querySnapshot.docs.map((doc) => ({
+  //       id: doc.id,
+  //       collection: 'journeys',
+  //       ...(doc.data().journey as JourneyType),
+  //     }))
+  //     setJourneys(journeyData)
+  //     setActivePlaceId(placeId)
+  //   } catch (error) {
+  //     console.error('Error fetching journeys:', error)
+  //   }
+  // }
 
-  const fetchSteps = async (journeyId: string) => {
-    try {
-      const q = query(
-        collection(db, 'steps'),
-        where('step.journeyID', '==', journeyId)
-      )
-      const querySnapshot = await getDocs(q)
-      const stepData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        collection: 'steps',
-        ...(doc.data().step as StepType),
-      }))
-      setSteps(stepData)
-      setActiveJourneyId(journeyId)
-    } catch (error) {
-      console.error('Error fetching steps:', error)
-    }
-  }
+  // const fetchSteps = async (journeyId: string) => {
+  //   try {
+  //     const q = query(
+  //       collection(db, 'steps'),
+  //       where('step.journeyID', '==', journeyId)
+  //     )
+  //     const querySnapshot = await getDocs(q)
+  //     const stepData = querySnapshot.docs.map((doc) => ({
+  //       id: doc.id,
+  //       collection: 'steps',
+  //       ...(doc.data().step as StepType),
+  //     }))
+  //     setSteps(stepData)
+  //     setActiveJourneyId(journeyId)
+  //   } catch (error) {
+  //     console.error('Error fetching steps:', error)
+  //   }
+  // }
 
-  const fetchPieces = async (stepId: string) => {
-    try {
-      const q = query(
-        collection(db, 'pieces'),
-        where('piece.stepID', '==', stepId)
-      )
-      const querySnapshot = await getDocs(q)
-      const pieceData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        collection: 'pieces',
-        ...(doc.data().piece as PieceType),
-      }))
-      setPieces(pieceData)
-      setActiveStepId(stepId)
-    } catch (error) {
-      console.error('Error fetching pieces:', error)
-    }
-  }
+  // const fetchPieces = async (stepId: string) => {
+  //   try {
+  //     const q = query(
+  //       collection(db, 'pieces'),
+  //       where('piece.stepID', '==', stepId)
+  //     )
+  //     const querySnapshot = await getDocs(q)
+  //     const pieceData = querySnapshot.docs.map((doc) => ({
+  //       id: doc.id,
+  //       collection: 'pieces',
+  //       ...(doc.data().piece as PieceType),
+  //     }))
+  //     setPieces(pieceData)
+  //     setActiveStepId(stepId)
+  //   } catch (error) {
+  //     console.error('Error fetching pieces:', error)
+  //   }
+  // }
 
-  const fetchGames = async (pieceId: string) => {
-    try {
-      const q = query(
-        collection(db, 'games'),
-        where('game.pieceID', '==', pieceId)
-      )
-      const querySnapshot = await getDocs(q)
-      const gameData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        collection: 'games',
-        ...(doc.data().game as GameType),
-      }))
-      setGames(gameData)
-      setActivePieceId(pieceId)
-    } catch (error) {
-      console.error('Error fetching games:', error)
-    }
-  }
+  // const fetchGames = async (pieceId: string) => {
+  //   try {
+  //     const q = query(
+  //       collection(db, 'games'),
+  //       where('game.pieceID', '==', pieceId)
+  //     )
+  //     const querySnapshot = await getDocs(q)
+  //     const gameData = querySnapshot.docs.map((doc) => ({
+  //       id: doc.id,
+  //       collection: 'games',
+  //       ...(doc.data().game as GameType),
+  //     }))
+  //     setGames(gameData)
+  //     setActivePieceId(pieceId)
+  //   } catch (error) {
+  //     console.error('Error fetching games:', error)
+  //   }
+  //}
 
   return (
     <div>
-      <div className="overflow-x-auto p-4">
+      <div className="navbar mb-6 rounded-xl bg-base-100">
+        <span className="ml-2 font-inclusive text-3xl">Liste des textes</span>
+      </div>
+      {/* {showTab && <div className="overflow-x-auto p-4">
         <table className="table">
           <thead>
             <tr>
-              <th className="text-3xl">#</th>
-              <th className="text-3xl">LIEU</th>
-              <th className="text-3xl">COMPLETION</th>
-              <th className="text-3xl">ACTIONS</th>
-              <th className="flex justify-center text-3xl">MODIFIER</th>
-              <th className="text-3xl">ENVOYER</th>
+              <th className="text-2xl">#</th>
+              <th className="text-2xl">LIEU</th>
+              <th className="text-2xl">COMPLETION</th>
+              <th className="text-2xl">ACTIONS</th>
+              <th className="flex justify-center text-2xl">MODIFIER</th>
+              <th className="text-2xl">ENVOYER</th>
             </tr>
           </thead>
           <tbody>
@@ -396,6 +403,87 @@ const TextList: FC = () => {
                   ))}
               </React.Fragment>
             ))}
+          </tbody>
+        </table>
+      </div>} */}
+      <div className="overflow-x-auto">
+        <table className="table">
+          {/* head */}
+          <thead>
+            <tr>
+              {/* <th>
+                <label>
+                  <input type="checkbox" className="checkbox" />
+                </label>
+              </th> */}
+              <th className="text-2xl">Texte</th>
+              <th className="text-2xl">Résumé</th>
+              <th className="text-2xl">Correcteur</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {places.map((place) => {
+              return (
+                <>
+                  {/* <th>
+                <label>
+                  <input type="checkbox" className="checkbox" />
+                </label>
+              </th> */}
+
+                  <tr>
+                    <td>
+                      <div className="flex items-center gap-3 p-2">
+                        <div className="avatar">
+                          <div className="mask mask-squircle h-16 w-16">
+                            <img
+                              src={place.content.image[0]}
+                              alt={place.name.fr}
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="font-inclusive text-xl font-bold">
+                            {place.name.fr}
+                          </div>
+                          <div className="font-inclusive text-sm opacity-50">
+                            Complet
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span className="font-inclusive text-lg">
+                        {place.description.falc.fr.length > 20
+                          ? place.description.falc.fr.slice(0, 100)
+                          : place.description.falc.fr}
+                        ...
+                      </span>
+                    </td>
+
+                    <td className="font-inclusive text-lg">Jhon Doe</td>
+
+                    <th>
+                      <button
+                        className="btn-xl btn btn-circle btn-ghost font-inclusive text-lg"
+                        onClick={() => {
+                          handleNavigate(place)
+                        }}>
+                        {' '}
+                        <img
+                          src="/src/assets/imgs/talos/crayon.svg"
+                          alt="crayon"
+                          className="mx-auto h-[40px] w-[80px]"
+                        />
+                      </button>
+                    </th>
+                  </tr>
+
+                  <hr className="mt-2 w-full border-gray-300" />
+                </>
+              )
+            })}
           </tbody>
         </table>
       </div>
