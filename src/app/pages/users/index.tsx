@@ -14,9 +14,18 @@ import DataTable from '@/app/components/ui/dataTable'
 import { db } from '@/firebase/firebase'
 import { ClientType } from '@/types'
 
+interface ClientFormatType {
+  id: string
+  name: string
+  contact: string
+  email: string
+  phone: string
+}
+
 const Users: FC = () => {
   const navigate = useNavigate()
-  const [users, setUsers] = useState<ClientType[]>([])
+  const [users, setUsers] = useState<ClientFormatType[]>([])
+  const [filteredUsers, setFilteredUsers] = useState<ClientFormatType[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(0)
 
@@ -74,6 +83,7 @@ const Users: FC = () => {
         collection: 'clients',
         ...(doc.data().client as ClientType),
       }))
+      setFilteredUsers(formatData(usersData))
       setUsers(formatData(usersData))
     } catch (error) {
       console.error('Error fetching clients:', error)
@@ -93,6 +103,22 @@ const Users: FC = () => {
       setCurrentPage(prevIndex)
       void fetchUsers(prevIndex)
     }
+  }
+
+  const search = (searchTerm: string) => {
+    if (!searchTerm.trim()) {
+      setFilteredUsers(users)
+      return
+    }
+    const lowerCasedTerm = searchTerm.toLowerCase()
+
+    const filteredData = [...users].filter((user) => {
+      return (
+        user.name.toLowerCase().includes(lowerCasedTerm) ||
+        user.email.toLowerCase().includes(lowerCasedTerm)
+      )
+    })
+    setFilteredUsers(filteredData)
   }
 
   useEffect(() => {
@@ -136,7 +162,7 @@ const Users: FC = () => {
       <h2 className="mb-5">Users</h2>
       <DataTable
         columns={columns}
-        data={users}
+        data={filteredUsers}
         actions={actions}
         isLoading={isLoading}
         nextPage={nextPage}
@@ -144,6 +170,7 @@ const Users: FC = () => {
         disableNext={users.length < pageSize} // Disable "Next" if fewer items than pageSize
         disablePrevious={currentPage === 0}
         currentPage={currentPage} // Disable "Previous" on the first page
+        search={search}
       />
     </div>
   )

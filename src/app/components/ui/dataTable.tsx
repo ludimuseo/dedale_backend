@@ -4,6 +4,7 @@ import React from 'react'
 
 import { PlaceIcon } from './icons/PlaceIcon'
 import Pagination from './pagination'
+import SearchInput from './searchInput'
 
 interface Column {
   header: string
@@ -27,6 +28,7 @@ interface DataTableProps {
   disablePrevious: boolean
   disableNext: boolean
   currentPage: number
+  search?: () => void
 }
 
 const DataTable: React.FC<DataTableProps> = ({
@@ -39,6 +41,7 @@ const DataTable: React.FC<DataTableProps> = ({
   disablePrevious,
   disableNext,
   currentPage,
+  search,
 }) => {
   if (!columns || !data) {
     return <div>Invalid data or columns</div>
@@ -57,8 +60,10 @@ const DataTable: React.FC<DataTableProps> = ({
   const tableHeadStyle = {
     boxShadow: '0 0px 2px 0 rgb(0 0 0 / 0.05)',
   }
+
   return (
     <div className="relative">
+      {search && <SearchInput onSearch={search} />}
       <div
         style={tableContainerStyle}
         className="w-100 select-text overflow-auto">
