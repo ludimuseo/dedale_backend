@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion'
+
 interface RightClipboard {
   activeTextId: boolean
   newSentence: string[]
@@ -23,7 +25,11 @@ const RightClipboard = ({
   return (
     <>
       {activeTextId && (
-        <div className="w-1/2 pl-4">
+        <motion.div
+          animate={{ translateY: 0 }}
+          initial={{ translateY: 100 }}
+          transition={{ duration: 0.3, ease: 'linear' }}
+          className="w-1/2 pl-4">
           <div className="mt-4 h-auto max-h-[600px] min-h-[419px] rounded-md border-2 border-black bg-white p-6 shadow-2xl">
             <h2 className="mb-4 text-xl font-bold text-[#0a184d]">
               Je corrige et je vérifie :
@@ -33,7 +39,7 @@ const RightClipboard = ({
                 newSentence.map((item: string, index: number) => (
                   <>
                     <div
-                      className="mb-2 flex cursor-pointer flex-row rounded-lg p-2 hover:bg-slate-200"
+                      className="mb-2 flex cursor-pointer flex-row rounded-lg p-2 hover:bg-slate-200 hover:transition-all hover:duration-300 hover:ease-in-out"
                       key={index}
                       onMouseOver={() => {
                         handleMouseOverCorrectedText(index)
@@ -74,7 +80,7 @@ const RightClipboard = ({
               )}
             </>
           </div>
-        </div>
+        </motion.div>
       )}
     </>
   )

@@ -1,43 +1,32 @@
-import { PlaceIcon } from '@component/index'
 import { addDoc, collection, getDocs } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
+import { PlaceIcon } from '@/app/components'
 import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
 import { MessageType, T } from '@/types'
 
 import Form from '../form'
-import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
+import { getInputMedalConfig } from './configMedal/getInputMedalConfig'
 
-const FormPlace: FC = () => {
-  const title = 'Formulaire Lieu'
+const FormMedal: FC = () => {
+  const title = 'Formulaire Médaille'
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
   const [clientIdAndName, setClientIdAndName] = useState<
     { id: string; name: string }[] | undefined
   >([])
-  const [medalsData, setMedalsData] = useState<
-    | { id: string; name: string; image: string; description: string }[]
-    | undefined
-  >([])
   const [selectedOption, setSelectedOption] = useState('')
-  const [attributedMedal, setAttributedMedal] = useState<
-    { id: string; name: string; image: string; description: string } | undefined
-  >()
   const [message, setMessage] = useState<MessageType>({
     info: '',
     result: false,
   })
   const [formData, setFormData] = useState<T>({
-    clientId: '',
-    medalId: '',
-    address: {
-      address: '',
-      city: '',
-      country: '',
-      postal: '',
+    name: {
+      en: '',
+      fr: '',
     },
     audio: {
       falc: {
@@ -51,30 +40,24 @@ const FormPlace: FC = () => {
     },
     content: {
       image: [],
-      type: '',
-    },
-    coords: {
-      isLocationRequired: false,
-      lat: 0,
-      lon: 0,
     },
     description: {
-      falc: {
-        en: '',
-        fr: '',
-      },
       standard: {
         en: '',
         fr: '',
       },
-    },
-    name: {
-      en: '',
-      fr: '',
-    },
-    status: {
-      isActive: false, //ACTIVER/DESACTIVER LE CLIENT
-      isPublished: false,
+      falc: {
+        en: '',
+        fr: '',
+        falcCertified: '',
+        userId: '',
+        status: {
+          isValidate: false,
+          isCertified: false,
+          certifiedDate: null,
+          isCorrected: false,
+        },
+      },
     },
   })
 
@@ -170,6 +153,7 @@ const FormPlace: FC = () => {
     })
   }
 
+  //telecharger image et son
   const handleFileUpload = async (
     file: File,
     fileType: string,
@@ -209,23 +193,7 @@ const FormPlace: FC = () => {
     })
   }
 
-  const handleAttributeMedal = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (medalsData) {
-      const selectedValue = e.target.value
-      const selectedMedal = medalsData.find(
-        (medal) => medal.id === selectedValue
-      )
-      setAttributedMedal(selectedMedal)
-      setFormData((prevFormData) => {
-        return {
-          ...prevFormData,
-          ['medalId']: selectedValue,
-        }
-      })
-    }
-  }
-
-  const getInput = getInputPlaceConfig
+  const getInput = getInputMedalConfig
 
   useEffect(() => {
     setStep(getInput.length)
@@ -272,44 +240,6 @@ const FormPlace: FC = () => {
     void fetchClients()
   }, [])
 
-  useEffect(() => {
-    interface Medal {
-      id: string
-
-      medal: {
-        description: {
-          standard: {
-            fr: string
-          }
-        }
-        name: {
-          fr: string
-        }
-        image: string
-      }
-    }
-    const fecthMedal = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, 'medals'))
-        const medalData: Medal[] = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...(doc.data() as Omit<Medal, 'id'>),
-        }))
-        const medalPackageData = medalData.map((item) => {
-          return {
-            id: item.id,
-            name: item.medal.name.fr,
-            image: item.medal.image,
-            description: item.medal.description.standard.fr,
-          }
-        })
-        setMedalsData(medalPackageData)
-      } catch (error) {
-        console.log('Error in fetching medals', error)
-      }
-    }
-    void fecthMedal()
-  }, [])
   //useEffect(() => {
   //VERIFIER SI USER.ROLE === 'SUPERADMIN' sinon redirection page dashboard
   //}, [])
@@ -318,13 +248,41 @@ const FormPlace: FC = () => {
 
   return (
     <>
+      <div>
+        <label htmlFor="my_modal_6" className="btn">
+          Choisir le Client
+        </label>
+
+        <input type="checkbox" id="my_modal_6" className="modal-toggle" />
+        <div className="modal" role="dialog">
+          <div className="modal-box">
+            <h3 className="text-lg font-bold">Sélection</h3>
+
+            <p className="py-2">Sélection du Client lié au Lieu</p>
+
+            <select
+              value={selectedOption}
+              onChange={handleSelect}
+              className="select select-bordered select-xs w-full max-w-xs">
+              <option>Choisir le Client</option>
+              {/* {clientIdAndName?.map(({ id, name }, index) => (
+                  <option key={index} value={id}>
+                    {name}
+                  </option>
+                ))} */}
+            </select>
+            <div className="modal-action">
+              <label htmlFor="my_modal_6" className="btn">
+                Fermer
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
       <Form
         clientIdAndName={clientIdAndName && clientIdAndName}
         handleSelect={handleSelect}
         selectedOption={selectedOption}
-        medalsData={medalsData}
-        attributedMedal={attributedMedal}
-        handleAttributeMedal={handleAttributeMedal}
         title={title}
         icon={<PlaceIcon />}
         handleArrowLeft={handleArrowLeft}
@@ -351,4 +309,4 @@ const FormPlace: FC = () => {
   )
 }
 
-export { FormPlace }
+export { FormMedal }

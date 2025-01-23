@@ -1,18 +1,18 @@
-import { PlaceIcon } from '@component/index'
 import { addDoc, collection, getDocs } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
+import { PlaceIcon } from '@/app/components'
 import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
 import { MessageType, T } from '@/types'
 
 import Form from '../form'
-import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
+import { getInputStepConfig } from './configStep/getInputTextStepConfig'
 
-const FormPlace: FC = () => {
-  const title = 'Formulaire Lieu'
+const FormStep: FC = () => {
+  const title = 'Formulaire Etape'
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
   const [clientIdAndName, setClientIdAndName] = useState<
@@ -31,7 +31,7 @@ const FormPlace: FC = () => {
     result: false,
   })
   const [formData, setFormData] = useState<T>({
-    clientId: '',
+    journeyId: '',
     medalId: '',
     address: {
       address: '',
@@ -51,7 +51,6 @@ const FormPlace: FC = () => {
     },
     content: {
       image: [],
-      type: '',
     },
     coords: {
       isLocationRequired: false,
@@ -62,6 +61,14 @@ const FormPlace: FC = () => {
       falc: {
         en: '',
         fr: '',
+        falcCertified: '',
+        userId: '',
+        status: {
+          isValidate: false,
+          isCertified: false,
+          certifiedDate: null,
+          isCorrected: false,
+        },
       },
       standard: {
         en: '',
@@ -72,8 +79,11 @@ const FormPlace: FC = () => {
       en: '',
       fr: '',
     },
+    stage: {
+      stepNumber: 0,
+    },
     status: {
-      isActive: false, //ACTIVER/DESACTIVER LE CLIENT
+      isActive: false, //ACTIVER/DESACTIVER
       isPublished: false,
     },
   })
@@ -225,7 +235,7 @@ const FormPlace: FC = () => {
     }
   }
 
-  const getInput = getInputPlaceConfig
+  const getInput = getInputStepConfig
 
   useEffect(() => {
     setStep(getInput.length)
@@ -351,4 +361,4 @@ const FormPlace: FC = () => {
   )
 }
 
-export { FormPlace }
+export { FormStep }

@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from 'framer-motion'
 import { ReactElement } from 'react'
 
 import {
@@ -38,29 +39,43 @@ const LeftClipboard = ({
             ? 'w-1/2 border-r border-gray-300 pr-4'
             : 'w-full'
         }>
-        {showProofReading && (
-          <>
-            <div className="mt-4 h-auto rounded-md border-2 border-black bg-white p-6 shadow-2xl">
-              <h2 className="mb-4 text-2xl font-bold text-[#0a184d]">
-                Je relis :
-              </h2>
-              {
-                <div className="space-y-4">
-                  {falcText.map((sentence: string, index: number) => {
-                    return (
-                      <div key={index}>
-                        <p className="text-xl text-sky-950">{sentence}</p>
-                      </div>
-                    )
-                  })}
-                </div>
-              }
-            </div>
-          </>
-        )}
-        {!showProofReading && (
-          <MainContent formData={formData} sentencesData={sentencesData} />
-        )}
+        <AnimatePresence>
+          {showProofReading && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, ease: 'linear' }}
+                className="mt-4 h-auto rounded-md border-2 border-black bg-white p-6 shadow-2xl">
+                <h2 className="mb-4 text-2xl font-bold text-[#0a184d]">
+                  Je relis :
+                </h2>
+                {
+                  <div className="space-y-4">
+                    {falcText.map((sentence: string, index: number) => {
+                      return (
+                        <motion.div
+                          key={index}
+                          animate={{ opacity: 1 }}
+                          initial={{ opacity: 0 }}
+                          transition={{
+                            duration: 0.3,
+                            delay: 0.3 + index * 0.3,
+                            ease: 'linear',
+                          }}>
+                          <p className="text-xl text-sky-950">{sentence}</p>
+                        </motion.div>
+                      )
+                    })}
+                  </div>
+                }
+              </motion.div>
+            </>
+          )}
+          {!showProofReading && (
+            <MainContent formData={formData} sentencesData={sentencesData} />
+          )}
+        </AnimatePresence>
       </div>
     </>
   )
