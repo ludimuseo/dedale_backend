@@ -1,8 +1,7 @@
-import {motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router'
 
 import { DashboardConfig } from '@/app/pages/dashboard/getDashbordConfig'
-
 
 interface DashboardMenuType {
   menu: DashboardConfig[]
@@ -15,9 +14,13 @@ export default function DashboardMenu({ menu }: DashboardMenuType) {
       {menu.map((item, index) => {
         return (
           <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3, delay: index * 0.4, ease: 'easeInOut' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: 0.2,
+              delay: index * 0.4,
+              ease: 'easeInOut',
+            }}
             key={item.id}
             className="card w-96 cursor-pointer bg-base-100 shadow-xl"
             aria-label={item.ariaLabel}

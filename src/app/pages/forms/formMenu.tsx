@@ -18,9 +18,9 @@ const FormMenu: FC = () => {
       {menu.map((item) => {
         return (
           <div
-            className="transition-duration-500 card w-96 translate-x-0 translate-y-0 cursor-pointer border-2 bg-base-100 shadow-xl transition-transform ease-in-out hover:-translate-x-2 hover:-translate-y-2"
+            className="transition-duration-500 mr-18 card w-64 translate-x-0 translate-y-0 cursor-pointer border-2 bg-base-100 shadow-xl transition-transform ease-in-out hover:-translate-x-2 hover:-translate-y-2"
             onClick={() => void navigate(item.route)}>
-            <figure className="p-4">
+            <figure className="p-6">
               <img src={item.image} alt={item.alt} />
             </figure>
             <hr className="mt-2 border-gray-300" />
