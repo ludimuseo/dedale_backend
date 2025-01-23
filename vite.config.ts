@@ -43,4 +43,11 @@ export default defineConfig({
       },
     ],
   },
+  build: {
+    outDir: 'dist/client', // Définit le répertoire de sortie pour le build
+    emptyOutDir: true, // Nettoie le répertoire de build avant chaque build
+    rollupOptions: {
+      input: './index.html', // Fichier d'entrée principal
+    },
+  },
 })
