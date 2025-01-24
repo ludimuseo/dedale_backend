@@ -56,7 +56,7 @@ const UserCreate: FC = () => {
     }
   }
 
-  const associateClientId = (id: string, name: string) => {
+  const associateClientId = (name: string) => {
     setClientName(name)
   }
 
@@ -143,7 +143,7 @@ const UserCreate: FC = () => {
                         key={item.id}
                         className="cursor-pointer hover:underline"
                         onClick={() => {
-                          associateClientId(item.id, item.name)
+                          associateClientId(item.name)
                         }}>
                         {' '}
                         {item.name}
