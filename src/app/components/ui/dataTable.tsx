@@ -90,7 +90,23 @@ const DataTable: React.FC<DataTableProps> = ({
               data.map((row, rowIndex) => (
                 <tr key={row.id || rowIndex}>
                   {columns.map((col, colIndex) => (
-                    <td key={colIndex}>{row[col.accessor]}</td>
+                    <td key={colIndex}>
+                      {col.accessor !== 'isActive' && row[col.accessor]}
+                      {col.accessor === 'isActive' && row[col.accessor] ? (
+                        <div className="rounded-full p-1 text-green-400">
+                          <div className="size-2 rounded-full bg-current"></div>
+                        </div>
+                      ) : (
+                        ''
+                      )}
+                      {col.accessor === 'isActive' && !row[col.accessor] ? (
+                        <div className="rounded-full p-1 text-gray-500">
+                          <div className="size-2 rounded-full bg-current"></div>
+                        </div>
+                      ) : (
+                        ''
+                      )}
+                    </td>
                   ))}
                   {actions && actions.length > 0 && (
                     <td className="sticky right-0 flex min-w-40 border-l-2 border-gray-100 bg-white">
