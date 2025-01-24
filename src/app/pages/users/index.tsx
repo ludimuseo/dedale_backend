@@ -35,11 +35,12 @@ const Users: FC = () => {
 
   const formatData = (data: ClientType[]) => {
     return data.map((el) => ({
+      isActive: el.isActive,
       id: el.id,
-      name: el.company.name || 'Nom non défini',
-      contact: el.contact.name || 'Non spécifié',
-      email: el.contact.email || 'Non spécifié',
-      phone: el.contact.tel || 'Non spécifié',
+      name: el.company.name || '',
+      contact: el.contact.name || '',
+      email: el.contact.email || '',
+      phone: el.contact.tel || '',
     }))
   }
 
@@ -83,6 +84,7 @@ const Users: FC = () => {
         collection: 'clients',
         ...(doc.data().client as ClientType),
       }))
+      console.log(formatData(usersData))
       setFilteredUsers(formatData(usersData))
       setUsers(formatData(usersData))
     } catch (error) {
@@ -126,6 +128,7 @@ const Users: FC = () => {
   }, [])
 
   const columns = [
+    { header: '', accessor: 'isActive' },
     { header: 'Entreprise ou société', accessor: 'name' },
     { header: 'Contact', accessor: 'contact' },
     { header: 'Email', accessor: 'email' },
@@ -158,7 +161,7 @@ const Users: FC = () => {
   ]
 
   return (
-    <div>
+    <div className="container mx-auto">
       <h2 className="mb-5">Users</h2>
       <DataTable
         columns={columns}
