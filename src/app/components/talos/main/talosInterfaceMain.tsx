@@ -1,6 +1,7 @@
 import 'daisyui/dist/full.css'
 
 import { doc, updateDoc } from 'firebase/firestore'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 
 import backIcon from '@/assets/imgs/Talos/arrow-left.svg'
@@ -57,8 +58,11 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
 
   const sentencesData = visibleSentences.map((item: string, index: number) => {
     return (
-      <div
-        className={`mb-2 cursor-pointer rounded-lg p-2 text-xl text-sky-950 hover:bg-slate-200 ${coloredSentence[index] || 'bg-transparent'}`}
+      <motion.div
+        animate={{ opacity: 1 }}
+        initial={{ opacity: 0 }}
+        transition={{ duration: 0.6, delay: index * 0.3, ease: 'linear' }}
+        className={`mb-2 cursor-pointer rounded-lg p-2 text-xl text-sky-950 ${coloredSentence[index] || 'bg-transparent'} hover:bg-slate-200 hover:transition-all hover:duration-300 hover:ease-in-out`}
         key={index}
         onMouseOver={() => {
           handleMouseOver(index)
@@ -66,51 +70,58 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
         onMouseLeave={() => {
           handleMouseLeave()
         }}>
-        {item}
-        {hoveredIndex === index && (
-          <div className="ml-auto flex w-32 flex-row rounded-xl border-2 bg-slate-200 pl-2 pr-3">
-            <div
-              onClick={() => {
-                handleSentenceClick(item, index)
-              }}
-              className={`transition-transform duration-200 ease-in-out ${
-                clickedIndex === index ? 'scale-90' : 'hover:scale-110'
-              }`}>
-              <img
-                src="/src/assets/imgs/Talos/coche-valide.svg"
-                alt="crayon"
-                className="h-[40px] w-[200px]"
-              />
-            </div>
-            <div
-              onClick={() => {
-                handleModifSentenceClick(item, index)
-              }}
-              className={`transition-transform duration-200 ease-in-out ${
-                clickedIndex === index ? 'scale-90' : 'hover:scale-110'
-              }`}>
-              <img
-                src="/src/assets/imgs/Talos/crayon.svg"
-                alt="crayon"
-                className="ml-1 h-[40px] w-[200px]"
-              />
-            </div>
-            <div
-              onClick={() => {
-                handleDeleteSentenceClick(index)
-              }}
-              className={`transition-transform duration-200 ease-in-out ${
-                clickedIndex === index ? 'scale-90' : 'hover:scale-110'
-              }`}>
-              <img
-                src="/src/assets/imgs/Talos/coche-faux.svg"
-                alt="crayon"
-                className="ml-2 h-[40px] w-[200px]"
-              />
-            </div>
-          </div>
-        )}
-      </div>
+        <p>{item}</p>
+        <AnimatePresence mode="popLayout">
+          {hoveredIndex === index && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3, ease: 'linear' }}
+              className="ml-auto flex w-32 flex-row rounded-xl border-2 bg-slate-200 pl-2 pr-3"
+              key="buttons">
+              <div
+                onClick={() => {
+                  handleSentenceClick(item, index)
+                }}
+                className={`transition-transform duration-200 ease-in-out ${
+                  clickedIndex === index ? 'scale-90' : 'hover:scale-110'
+                }`}>
+                <img
+                  src="/src/assets/imgs/Talos/coche-valide.svg"
+                  alt="crayon"
+                  className="h-[40px] w-[200px]"
+                />
+              </div>
+              <div
+                onClick={() => {
+                  handleModifSentenceClick(item, index)
+                }}
+                className={`transition-transform duration-200 ease-in-out ${
+                  clickedIndex === index ? 'scale-90' : 'hover:scale-110'
+                }`}>
+                <img
+                  src="/src/assets/imgs/Talos/crayon.svg"
+                  alt="crayon"
+                  className="ml-1 h-[40px] w-[200px]"
+                />
+              </div>
+              <div
+                onClick={() => {
+                  handleDeleteSentenceClick(index)
+                }}
+                className={`transition-transform duration-200 ease-in-out ${
+                  clickedIndex === index ? 'scale-90' : 'hover:scale-110'
+                }`}>
+                <img
+                  src="/src/assets/imgs/Talos/coche-faux.svg"
+                  alt="crayon"
+                  className="ml-2 h-[40px] w-[200px]"
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
     )
   })
 

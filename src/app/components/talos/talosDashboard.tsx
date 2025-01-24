@@ -2,6 +2,7 @@
 // Dynamic component that changes the homepage based on the user's role.
 import 'daisyui/dist/full.css'
 
+import { motion } from 'framer-motion'
 import React from 'react'
 import { useNavigate } from 'react-router'
 
@@ -29,7 +30,10 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
       </header>
 
       <main className="mb-20 mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-        <div
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.3, ease: 'linear' }}
           className="dashboard-item shadow-extra-dark card flex h-[300px] w-[300px] transform cursor-pointer flex-col items-center gap-4 rounded-lg bg-[#f4fdff] p-4 transition-transform hover:scale-125 hover:border-4 hover:border-[#0a184d] hover:font-bold hover:shadow-2xl"
           tabIndex={0}
           aria-labelledby="text-to-correct-card-title">
@@ -43,10 +47,13 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
             id="text-to-correct-card-title">
             Textes à corriger
           </p>
-        </div>
+        </motion.div>
 
-        <div
-          className="dashboard-item shadow-extra-dark card flex h-[300px] w-[300px] transform flex-col items-center gap-4 rounded-lg bg-[#0a184d] p-4 transition-transform hover:scale-125 hover:font-bold hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,1),_0_10px_10px_-5px_rgba(0,0,0,0.2),_inset_0_0_0_8px_#ffffff]"
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.6, ease: 'linear' }}
+          className="dashboard-item shadow-extra-dark card flex h-[300px] w-[300px] transform cursor-pointer flex-col items-center gap-4 rounded-lg bg-[#0a184d] p-4 transition-transform hover:scale-125 hover:font-bold hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,1),_0_10px_10px_-5px_rgba(0,0,0,0.2),_inset_0_0_0_8px_#ffffff]"
           tabIndex={0}
           aria-labelledby="text-to-correct-in-progress-card-title">
           <img
@@ -59,10 +66,13 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
             id="text-to-correct-in-progress-card-title">
             Textes en cours de correction
           </p>
-        </div>
+        </motion.div>
 
-        <div
-          className="dashboard-item shadow-extra-dark card flex h-[300px] w-[300px] transform flex-col items-center gap-4 rounded-lg bg-[#f4fdff] p-4 transition-transform hover:scale-125 hover:border-4 hover:border-[#0a184d] hover:font-bold hover:shadow-2xl"
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.9, ease: 'linear' }}
+          className="dashboard-item shadow-extra-dark card flex h-[300px] w-[300px] transform cursor-pointer flex-col items-center gap-4 rounded-lg bg-[#f4fdff] p-4 transition-transform hover:scale-125 hover:border-4 hover:border-[#0a184d] hover:font-bold hover:shadow-2xl"
           tabIndex={0}
           aria-labelledby="text-validate-and-send-card-title">
           <img
@@ -75,16 +85,16 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
             id="text-validate-and-send-card-title">
             Textes validés et envoyés
           </p>
-        </div>
+        </motion.div>
       </main>
 
       {/* Section des boutons */}
       <div className="mt-12 flex w-full justify-around gap-4">
         {isReferent && (
-          <div className="group relative mt-10">
+          <motion.div className="group relative mt-10">
             {/* Conteneur parent avec la classe `group` */}
-            <button
-              className="relative flex w-48 flex-col items-center rounded-lg border-2 border-transparent bg-white px-6 py-4 text-lg text-[#0a184d] transition-all duration-300 hover:border-[#0a184d] hover:bg-gray-100"
+            <a
+              className="flex w-48 flex-col items-center rounded-lg px-6 py-4 text-lg text-[#0a184d]"
               aria-label="Ajouter un correcteur"
               aria-labelledby="add-corrector-button">
               <span
@@ -93,10 +103,12 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
                 Ajouter un correcteur
               </span>
 
-              <div className="absolute bottom-0 left-1/2 flex h-10 w-10 -translate-x-1/2 translate-y-1/2 transform items-center justify-center rounded-full border-2 border-[#0a184d] bg-white text-[#0a184d]">
+              <span className="flex h-[68px] w-[68px] transform items-center justify-center rounded-full border-2 border-[#0a184d] bg-white text-[#0a184d] shadow-xl transition-all duration-300">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
+                  className="h-10 w-10"
+                  stroke="#0a184d"
+                  stroke-width="3"
                   viewBox="0 0 24 24"
                   fill="currentColor">
                   <path
@@ -105,8 +117,8 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
                     clipRule="evenodd"
                   />
                 </svg>
-              </div>
-            </button>
+              </span>
+            </a>
             {/* Infobulle */}
             <div
               role="tooltip"
@@ -114,23 +126,24 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
               className="absolute bottom-full left-1/2 mb-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 text-sm text-white shadow-lg group-hover:block">
               Ajouter un correcteur
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* Bouton Voir tous les textes */}
-        <div className="group relative mt-10">
-          <div
-            className="relative flex w-48 cursor-pointer flex-col items-center rounded-lg border-2 border-transparent bg-white px-6 py-4 text-lg text-[#0a184d] transition-all duration-300 hover:border-[#0a184d] hover:bg-gray-100"
+        <motion.div className="group relative mt-10">
+          <a
+            className="relative flex w-48 cursor-pointer flex-col items-center rounded-lg px-6 py-4 text-lg text-[#0a184d] transition-all duration-300 ease-in-out"
             onClick={handleNavigateTextList}>
             <span
               className="mb-2 inline whitespace-nowrap font-semibold"
               id="view-all-texts-button">
               Voir tous les textes
             </span>
-            <div className="absolute bottom-0 left-1/2 flex h-10 w-10 -translate-x-1/2 translate-y-1/2 transform items-center justify-center rounded-full border-2 border-[#0a184d] bg-white text-[#0a184d]">
+            <span className="flex h-[68px] w-[68px] transform items-center justify-center rounded-full border-2 border-[#0a184d] bg-white text-[#0a184d] shadow-xl">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
+                className="h-10 w-10"
+                stroke="#0a184d"
                 viewBox="0 0 24 24"
                 fill="currentColor">
                 <path
@@ -139,8 +152,8 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
                   clipRule="evenodd"
                 />
               </svg>
-            </div>
-          </div>
+            </span>
+          </a>
 
           {/* Infobulle pour le bouton "Voir tous les textes" */}
           <div
@@ -149,7 +162,7 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
             className="absolute bottom-full left-1/2 mb-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 text-sm text-white shadow-lg group-hover:block">
             Voir tous les textes
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   )

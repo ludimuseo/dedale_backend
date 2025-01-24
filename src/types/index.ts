@@ -90,6 +90,9 @@ export type T = Record<
   | Falc
   | Audio
   | Content
+  | Stage
+  | Response
+  | Explanation
 >
 
 interface Contact {
@@ -131,17 +134,18 @@ interface Standard {
   fr: string
   en: string
 }
+
 interface Falc {
   fr: string
   en: string
-  falcCertified: string
-  userId: string
-  statut: CertifiedTxt
+  falcCertified?: string
+  userId?: string
+  status?: CertifiedTxt
 }
 interface CertifiedTxt {
   isValidate: boolean
   isCertified: boolean
-  certifiedDate: Date
+  certifiedDate: Date | null
   isCorrected: boolean
 }
 interface Description {
@@ -156,11 +160,47 @@ interface Audio {
   falc: {
     fr: string
     en: string
+    falcCertified?: string
+    userId?: string
   }
 }
 interface Content {
   image: string[]
-  type: string
+  type?: string
+  level?: string
+}
+
+interface Response {
+  responseTrue: {
+    standard: Standard
+    falc: Falc
+  }
+  response1: {
+    standard: Standard
+    falc: Falc
+  }
+  response2: {
+    standard: Standard
+    falc: Falc
+  }
+}
+
+interface Explanation {
+  responseTrue: {
+    standard: Standard
+    falc: Falc
+  }
+  response1: {
+    standard: Standard
+    falc: Falc
+  }
+  response2: {
+    standard: Standard
+    falc: Falc
+  }
+}
+interface Stage {
+  stepNumber: number
 }
 
 /* CLIENT */
@@ -309,7 +349,6 @@ export interface StepType {
   medalId: string
   content: {
     image: string[]
-    type: string
   }
   address: {
     address: string
@@ -460,26 +499,45 @@ export interface GameType {
     falc: {
       fr: string
       en: string
-      certifiedTxt: string
+      certifiedTxt: boolean
     }
   }
   response: {
     responseTrue: {
-      fr: string
-      en: string
-      certifiedTxt: string
+      standard: {
+        fr: string
+        en: string
+      }
+      falc: {
+        fr: string
+        en: string
+        certifiedTxt: boolean
+      }
     }
     response1: {
-      fr: string
-      en: string
-      certifiedTxt: string
+      standard: {
+        fr: string
+        en: string
+      }
+      falc: {
+        fr: string
+        en: string
+        certifiedTxt: string
+      }
     }
     response2: {
-      fr: string
-      en: string
-      certifiedTxt: string
+      standard: {
+        fr: string
+        en: string
+      }
+      falc: {
+        fr: string
+        en: string
+        certifiedTxt: string
+      }
     }
   }
+
   explanation: {
     responseTrue: {
       fr: string

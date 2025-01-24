@@ -26,6 +26,18 @@ interface TextAreaType {
     name: K,
     event: T[S][K]
   ) => void
+  handleResponseChange?: <
+    S extends keyof T,
+    M extends keyof T[S],
+    L extends keyof T[S][M],
+    F extends keyof T[S][M][L],
+  >(
+    section: S,
+    name: M,
+    mode: L,
+    language: F,
+    event: T[S][M][L][F]
+  ) => void
 }
 export default function TextArea({
   id,
@@ -40,16 +52,18 @@ export default function TextArea({
   rightSideVisible,
   handleChange,
   handleInputChange,
+  handleResponseChange,
 }: TextAreaType) {
   return (
     <div
       className={
         rightSideVisible
-          ? 'border-stroke shadow-defaul dark:bg-boxdark mt-2 flex w-1/2 flex-col rounded-lg border bg-sky-100 p-2'
+          ? 'border-stroke shadow-defaul dark:bg-boxdark mt-1 flex w-1/3 flex-col rounded-lg border bg-sky-100 p-2'
           : 'mt-2 flex flex-col'
       }
       key={id}>
       <span>{label}</span>
+
       <textarea
         key={id}
         id={id}
@@ -58,11 +72,15 @@ export default function TextArea({
         placeholder={placeholder}
         rows={rows}
         value={
-          mode
-            ? formData[section][mode as keyof T[keyof T]][
-                language ? language : 'fr'
-              ]
-            : formData[section][name as keyof T[keyof T]]
+          section === 'response'
+            ? formData[section][name as keyof T[keyof T]][
+                mode as keyof T[keyof T[keyof T]]
+              ][language ? language : 'fr']
+            : mode
+              ? formData[section][mode as keyof T[keyof T]][
+                  language ? language : 'fr'
+                ]
+              : formData[section][name as keyof T[keyof T]]
         }
         onChange={(e) => {
           if (mode) {
@@ -71,6 +89,14 @@ export default function TextArea({
               mode as keyof T[keyof T],
               language as T[keyof T][keyof T[keyof T]],
               e.target.value as T[keyof T][keyof T[keyof T[keyof T]]]
+            )
+          } else if (section === 'response' || section === 'explanation') {
+            handleResponseChange?.(
+              section,
+              name as keyof T[keyof T],
+              mode as T[keyof T][keyof T[keyof T]],
+              language as T[keyof T][keyof T[keyof T[keyof T]]],
+              e.target.value as T[keyof T][keyof T[keyof T[keyof T[keyof T]]]]
             )
           } else {
             handleInputChange(
