@@ -60,7 +60,7 @@ const Pagination: React.FC<PaginationProps> = ({
             type="button"
             disabled={disableNext}
             onClick={handleNextClick}
-            className={`${disableNext ? 'cursor-not-allowed opacity-40' : 'hover:bg-gray-50'}relative -ml-px inline-flex items-center rounded-r-md bg-white px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10`}>
+            className={`${disableNext ? 'cursor-not-allowed opacity-40' : 'hover:bg-gray-50'} relative -ml-px inline-flex items-center rounded-r-md bg-white px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10`}>
             <span className="sr-only">Next</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
