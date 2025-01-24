@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router'
 
 import { DashboardConfig } from '@/app/pages/dashboard/getDashbordConfig'
+import { MENU } from '@/enums/icons'
 
 interface DashboardMenuType {
   menu: DashboardConfig[]
@@ -26,12 +27,8 @@ export default function DashboardMenu({ menu }: DashboardMenuType) {
             aria-label={item.ariaLabel}
             tabIndex={index}
             onClick={() => void navigate(item.route)}>
-            <figure>
-              <img
-                src={item.image}
-                alt={item.imageAlt}
-                className="aspect-video scale-75"
-              />
+            <figure className="aspect-video scale-75 p-4">
+              {MENU[item.image]}
             </figure>
             <hr className="mt-2 border-gray-300" />
             <div className="card-body rounded-xl bg-sky-50 dark:bg-sky-950">
