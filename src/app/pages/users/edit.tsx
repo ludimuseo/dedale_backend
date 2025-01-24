@@ -1,41 +1,66 @@
+import { doc, getDoc } from 'firebase/firestore'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 
-import { useFetch } from '@/app/hooks/useFetch'
+import { Input } from '@/app/components'
+import { db } from '@/firebase/firebase'
+import { ClientType } from '@/types'
 
-interface User {
-  username: string
-  name: string
-  email: string
-  phone: string
+const fetchUserById = async (userId: string) => {
+  try {
+    const userDocRef = doc(db, 'clients', userId)
+    const userDoc = await getDoc(userDocRef)
+
+    if (userDoc.exists()) {
+      const userData = userDoc.data().client as ClientType
+      return userData
+    } else {
+      console.warn(`Le document avec l'ID ${userId} n'existe pas.`)
+      return null
+    }
+  } catch (error) {
+    console.error('Error fetching user:', error)
+    return null
+  }
 }
 
 const UsersEdit: FC = () => {
   const { id } = useParams()
-  const { data, isLoading } = useFetch<User>(
-    id ? `https://jsonplaceholder.typicode.com/users/${id}` : ''
-  )
-
-  const [formData, setFormData] = useState<User | null>(null)
+  const [data, setData] = useState<ClientType | null>(null)
+  const [formData, setFormData] = useState<ClientType | null>(null)
   const [isModified, setIsModified] = useState(false)
 
   useEffect(() => {
-    if (data) {
-      setFormData(data)
+    const fetchUser = async () => {
+      const user = await fetchUserById(id)
+      setData(user)
+      setFormData(JSON.parse(JSON.stringify(user)) as ClientType)
     }
-  }, [data])
+
+    void fetchUser()
+  }, [id])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (formData) {
-      const { name, value } = e.target
-      const updatedFormData = { ...formData, [name]: value }
-      setFormData(updatedFormData)
+    const { name, type, value, checked } = e.target
+    console.log(name, type, value, checked)
 
-      const isFormModified = Object.keys(updatedFormData).some(
-        (key) => updatedFormData[key as keyof User] !== data[key as keyof User]
-      )
-      setIsModified(isFormModified)
+    const newValue = type === 'checkbox' ? checked : value
+
+    const keys = name.split('.')
+
+    const updatedData = { ...formData }
+    let temp: Record<string, unknown> = updatedData
+
+    for (let i = 0; i < keys.length - 1; i++) {
+      temp = temp[keys[i]]
     }
+    temp[keys[keys.length - 1]] = newValue
+
+    setFormData(updatedData)
+
+    const isEqual = (a: string, b: string) =>
+      JSON.stringify(a) === JSON.stringify(b)
+    setIsModified(!isEqual(updatedData, data))
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -50,8 +75,8 @@ const UsersEdit: FC = () => {
 
   return (
     <>
-      {!isLoading ? (
-        <div>
+      {formData && (
+        <div className="container mx-auto">
           <div className="breadcrumbs mb-5 text-sm">
             <ul>
               <li>
@@ -64,75 +89,191 @@ const UsersEdit: FC = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="flex gap-2">
-            <label className="form-control w-full">
-              <div className="label">
-                <span className="label-text">
-                  Nom de l'entreprise ou société
-                </span>
-              </div>
+            <div className="flex justify-between">
+              <h2 className="mb-5">{formData.company.name}</h2>
               <input
-                type="text"
-                name="name"
-                id="companyName"
-                placeholder="Type here"
-                className="input input-bordered w-full"
-                required
-                value={formData?.name}
+                type="checkbox"
+                name="isActive"
                 onChange={handleChange}
-                aria-describedby="companyNameHelp"
+                checked={formData.isActive || false}
+                className="toggle toggle-success ml-auto"
               />
-            </label>
+            </div>
 
-            <label className="form-control w-full">
-              <div className="label">
-                <span className="label-text">Contact</span>
-              </div>
-              <input
-                type="text"
-                name="username"
-                id="contact"
-                placeholder="Type here"
-                className="input input-bordered w-full"
-                required
-                value={formData?.username}
-                onChange={handleChange}
-                aria-describedby="contactHelp"
-              />
-            </label>
+            <div className="card mx-0 bg-base-100 shadow-sm">
+              <div className="card-body">
+                <h2 className="card-title">Entreprise</h2>
+                <div className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6">
+                  <div className="sm:col-span-6">
+                    <Input
+                      insideForm
+                      uid="companyName"
+                      name="company.name"
+                      placeholder=""
+                      label="Nom"
+                      errors={[]}
+                      value={formData.company.name || ''}
+                      onChange={handleChange}
+                      className="input input-bordered w-full"
+                    />
+                  </div>
 
-            <label className="form-control w-full">
-              <div className="label">
-                <span className="label-text">Email</span>
-              </div>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="example@domain.com"
-                className="input input-bordered w-full"
-                required
-                value={formData?.email}
-                onChange={handleChange}
-                aria-describedby="emailHelp"
-              />
-            </label>
+                  <div className="sm:col-span-3">
+                    <Input
+                      insideForm
+                      uid="siret"
+                      name="company.siret"
+                      placeholder=""
+                      label="Siret"
+                      errors={[]}
+                      value={formData.company.siret || ''}
+                      onChange={handleChange}
+                      className="input input-bordered w-full"
+                    />
+                  </div>
 
-            <label className="form-control w-full">
-              <div className="label">
-                <span className="label-text">Téléphone</span>
+                  <div className="sm:col-span-3">
+                    <Input
+                      insideForm
+                      uid="siret"
+                      name="company.tva"
+                      placeholder=""
+                      label="Tva"
+                      errors={[]}
+                      value={formData.company.tva || ''}
+                      onChange={handleChange}
+                      className="input input-bordered w-full"
+                    />
+                  </div>
+                </div>
               </div>
-              <input
-                type="tel"
-                name="phone"
-                id="phone"
-                placeholder="0123456789"
-                className="input input-bordered w-full"
-                required
-                value={formData?.phone}
-                onChange={handleChange}
-                aria-describedby="phoneHelp"
-              />
-            </label>
+            </div>
+
+            <div className="card mx-0 bg-base-100 shadow-md">
+              <div className="card-body">
+                <h2 className="card-title">Contact</h2>
+                <div className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6">
+                  <div className="sm:col-span-3">
+                    <Input
+                      insideForm
+                      uid="contactName"
+                      name="contact.name"
+                      placeholder=""
+                      label="Nom"
+                      errors={[]}
+                      value={formData.contact.name || ''}
+                      onChange={handleChange}
+                      className="input input-bordered w-full"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-3">
+                    <Input
+                      insideForm
+                      uid="contactEmail"
+                      name="contact.email"
+                      placeholder=""
+                      label="Email"
+                      errors={[]}
+                      value={formData.contact.email || ''}
+                      onChange={handleChange}
+                      className="input input-bordered w-full"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-3">
+                    <Input
+                      insideForm
+                      uid="contactEmail"
+                      name="contact.email"
+                      placeholder=""
+                      label="Téléphone"
+                      errors={[]}
+                      value={formData.contact.tel || ''}
+                      onChange={handleChange}
+                      className="input input-bordered w-full"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-3">
+                    <Input
+                      insideForm
+                      uid="contactNote"
+                      name="contact.note"
+                      placeholder=""
+                      label="Note"
+                      errors={[]}
+                      value={formData.contact.note || ''}
+                      onChange={handleChange}
+                      className="input input-bordered w-full"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="card mx-0 bg-base-100 shadow-md">
+              <div className="card-body">
+                <h2 className="card-title">Adresse</h2>
+                <div className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-6">
+                  <div className="sm:col-span-3">
+                    <Input
+                      insideForm
+                      uid="addressAddress"
+                      name="address.address"
+                      placeholder=""
+                      label="Adresse"
+                      errors={[]}
+                      value={formData.address.address || ''}
+                      onChange={handleChange}
+                      className="input input-bordered w-full"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-3">
+                    <Input
+                      insideForm
+                      uid="addressPostal"
+                      name="address.postal"
+                      placeholder=""
+                      label="Code Postal"
+                      errors={[]}
+                      value={formData.address.postal || ''}
+                      onChange={handleChange}
+                      className="input input-bordered w-full"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-3">
+                    <Input
+                      insideForm
+                      uid="addressCity"
+                      name="address.city"
+                      placeholder=""
+                      label="Ville"
+                      errors={[]}
+                      value={formData.address.city || ''}
+                      onChange={handleChange}
+                      className="input input-bordered w-full"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-3">
+                    <Input
+                      insideForm
+                      uid="addressCountry"
+                      name="address.country"
+                      placeholder=""
+                      label="Pays"
+                      errors={[]}
+                      value={formData.address.country || ''}
+                      onChange={handleChange}
+                      className="input input-bordered w-full"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div className="mt-5 flex justify-end gap-2">
               <button
@@ -151,8 +292,6 @@ const UsersEdit: FC = () => {
             </div>
           </form>
         </div>
-      ) : (
-        <span className="loading loading-spinner loading-lg"></span>
       )}
     </>
   )
