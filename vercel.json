@@ -2,7 +2,6 @@
   "version": 2,
   "builds": [
     {
-
       "src": "src/app/router/index.ts",
       "use": "@vercel/node"
     },
@@ -19,7 +18,6 @@
     {
       "src": "/(.*)",
       "dest": "/src/app/$1"
-
     }
   ]
 }

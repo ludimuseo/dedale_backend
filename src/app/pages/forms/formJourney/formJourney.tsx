@@ -68,7 +68,7 @@ const FormJourney: FC = () => {
         fr: '',
         falcCertified: '',
         userId: '',
-        statut: {
+        status: {
           isValidate: false,
           isCertified: false,
           certifiedDate: new Date(),
