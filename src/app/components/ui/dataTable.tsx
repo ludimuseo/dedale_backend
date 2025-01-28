@@ -63,7 +63,11 @@ const DataTable: React.FC<DataTableProps> = ({
 
   return (
     <div className="relative">
-      {search && <SearchInput onSearch={search} />}
+      {search && (
+        <div className="mb-5 flex">
+          <SearchInput onSearch={search} />
+        </div>
+      )}
       <div
         style={tableContainerStyle}
         className="w-100 select-text overflow-auto">

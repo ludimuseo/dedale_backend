@@ -8,7 +8,7 @@ const SearchInput = forwardRef<
     onSearch(e.target.value)
   }
   return (
-    <div className="mb-5 flex justify-end">
+    <>
       <label className="input input-bordered flex items-center gap-2">
         <input
           onChange={handleOnchange}
@@ -29,7 +29,7 @@ const SearchInput = forwardRef<
           />
         </svg>
       </label>
-    </div>
+    </>
   )
 })
 
