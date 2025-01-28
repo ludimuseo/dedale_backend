@@ -1,10 +1,34 @@
-import { doc, getDoc } from 'firebase/firestore'
+import { addDoc, collection, doc, getDoc } from 'firebase/firestore'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
+import { z } from 'zod'
 
 import { Input } from '@/app/components'
 import { db } from '@/firebase/firebase'
 import { ClientType } from '@/types'
+
+const ClientSchema = z.object({
+  isActive: z.boolean(),
+  company: z.object({
+    name: z.string().min(1, "Le nom de l'entreprise est requis."),
+    siret: z
+      .string()
+      .regex(/^\d+$/, 'Le SIRET doit contenir uniquement des chiffres.'),
+    tva: z.string().optional(),
+  }),
+  contact: z.object({
+    name: z.string().min(1, 'Le nom du contact est requis.'),
+    email: z.string().email('Email invalide.'),
+    tel: z.string().min(10, 'Numéro de téléphone invalide.'),
+    note: z.string().optional(),
+  }),
+  address: z.object({
+    address: z.string().min(1, "L'adresse est requise."),
+    postal: z.string().regex(/^\d{5}$/, 'Code postal invalide.'),
+    city: z.string().min(1, 'La ville est requise.'),
+    country: z.string().min(1, 'Le pays est requis.'),
+  }),
+})
 
 const fetchUserById = async (userId: string) => {
   try {
@@ -25,24 +49,28 @@ const fetchUserById = async (userId: string) => {
 }
 
 const UsersEdit: FC = () => {
-  const { id } = useParams()
+  const { id, type } = useParams()
   const [data, setData] = useState<ClientType | null>(null)
   const [formData, setFormData] = useState<ClientType | null>(null)
   const [isModified, setIsModified] = useState(false)
+  const [errors, setErrors] = useState<Record<string, string[] | undefined>>({})
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const user = await fetchUserById(id)
-      setData(user)
-      setFormData(JSON.parse(JSON.stringify(user)) as ClientType)
-    }
+    if (type === 'edit' && id) {
+      const fetchUser = async () => {
+        const user = await fetchUserById(id)
+        setData(user)
+        setFormData(JSON.parse(JSON.stringify(user)) as ClientType)
+      }
 
-    void fetchUser()
-  }, [id])
+      void fetchUser()
+    } else {
+      newForm()
+    }
+  }, [id, type])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, type, value, checked } = e.target
-    console.log(name, type, value, checked)
 
     const newValue = type === 'checkbox' ? checked : value
 
@@ -65,12 +93,71 @@ const UsersEdit: FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log('Form submitted!')
+    if (!formData) return
+
+    const result = ClientSchema.safeParse(formData)
+    if (!result.success) {
+      const fieldErrors = {}
+      result.error.issues.forEach((issue) => {
+        const path = issue.path.join('.')
+        fieldErrors[path] = [issue.message]
+      })
+      setErrors(fieldErrors)
+    }
+
+    if (type === 'edit' && id) {
+      editUser()
+    } else {
+      createUser()
+        .then(() => {
+          console.log('user created')
+        })
+        .catch(() => {
+          console.error('user creation error')
+        })
+    }
+  }
+
+  const createUser = async () => {
+    try {
+      const docRef = await addDoc(collection(db, 'clients'), formData)
+      console.log('doc created => ', docRef)
+      return docRef
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const editUser = () => {
+    console.log('edit user')
   }
 
   const resetForm = () => {
     setFormData(data)
     setIsModified(false)
+  }
+
+  const newForm = () => {
+    setFormData({
+      isActive: false,
+      company: {
+        name: '',
+        siret: '',
+        tva: '',
+      },
+      contact: {
+        name: '',
+        email: '',
+        tel: '',
+        note: '',
+      },
+      address: {
+        address: '',
+        postal: '',
+        city: '',
+        country: '',
+      },
+    })
   }
 
   return (
@@ -111,7 +198,7 @@ const UsersEdit: FC = () => {
                       name="company.name"
                       placeholder=""
                       label="Nom"
-                      errors={[]}
+                      errors={errors['company.name'] ?? []}
                       value={formData.company.name || ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
@@ -125,7 +212,7 @@ const UsersEdit: FC = () => {
                       name="company.siret"
                       placeholder=""
                       label="Siret"
-                      errors={[]}
+                      errors={errors['company.siret'] ?? []}
                       value={formData.company.siret || ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
@@ -139,7 +226,7 @@ const UsersEdit: FC = () => {
                       name="company.tva"
                       placeholder=""
                       label="Tva"
-                      errors={[]}
+                      errors={errors['company.tva'] ?? []}
                       value={formData.company.tva || ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
@@ -160,7 +247,7 @@ const UsersEdit: FC = () => {
                       name="contact.name"
                       placeholder=""
                       label="Nom"
-                      errors={[]}
+                      errors={errors['company.name'] ?? []}
                       value={formData.contact.name || ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
@@ -174,7 +261,7 @@ const UsersEdit: FC = () => {
                       name="contact.email"
                       placeholder=""
                       label="Email"
-                      errors={[]}
+                      errors={errors['contact.email'] ?? []}
                       value={formData.contact.email || ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
@@ -188,7 +275,7 @@ const UsersEdit: FC = () => {
                       name="contact.email"
                       placeholder=""
                       label="Téléphone"
-                      errors={[]}
+                      errors={errors['contact.tel'] ?? []}
                       value={formData.contact.tel || ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
@@ -202,7 +289,7 @@ const UsersEdit: FC = () => {
                       name="contact.note"
                       placeholder=""
                       label="Note"
-                      errors={[]}
+                      errors={errors['contact.note'] ?? []}
                       value={formData.contact.note || ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
@@ -223,7 +310,7 @@ const UsersEdit: FC = () => {
                       name="address.address"
                       placeholder=""
                       label="Adresse"
-                      errors={[]}
+                      errors={errors['address.address'] ?? []}
                       value={formData.address.address || ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
@@ -237,7 +324,7 @@ const UsersEdit: FC = () => {
                       name="address.postal"
                       placeholder=""
                       label="Code Postal"
-                      errors={[]}
+                      errors={errors['address.postal'] ?? []}
                       value={formData.address.postal || ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
@@ -251,7 +338,7 @@ const UsersEdit: FC = () => {
                       name="address.city"
                       placeholder=""
                       label="Ville"
-                      errors={[]}
+                      errors={errors['address.city'] ?? []}
                       value={formData.address.city || ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
@@ -265,7 +352,7 @@ const UsersEdit: FC = () => {
                       name="address.country"
                       placeholder=""
                       label="Pays"
-                      errors={[]}
+                      errors={errors['address.country'] ?? []}
                       value={formData.address.country || ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
