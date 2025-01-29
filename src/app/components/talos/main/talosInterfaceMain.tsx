@@ -62,7 +62,7 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
         animate={{ opacity: 1 }}
         initial={{ opacity: 0 }}
         transition={{ duration: 0.6, delay: index * 0.3, ease: 'linear' }}
-        className={`mb-2 cursor-pointer rounded-lg p-2 text-xl text-sky-950 ${coloredSentence[index] || 'bg-transparent'} hover:bg-slate-200 hover:transition-all hover:duration-300 hover:ease-in-out`}
+        className={`mb-2 cursor-pointer rounded-lg p-2 font-inclusive text-2xl text-sky-950 ${coloredSentence[index] || 'bg-transparent'} hover:bg-slate-100 hover:transition-all hover:duration-300 hover:ease-in-out`}
         key={index}
         onMouseOver={() => {
           handleMouseOver(index)
@@ -88,10 +88,11 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
                 }`}>
                 <img
                   src="/src/assets/imgs/Talos/coche-valide.svg"
-                  alt="crayon"
+                  alt="suggestion"
                   className="h-[40px] w-[200px]"
                 />
               </div>
+
               <div
                 onClick={() => {
                   handleModifSentenceClick(item, index)
@@ -101,7 +102,7 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
                 }`}>
                 <img
                   src="/src/assets/imgs/Talos/crayon.svg"
-                  alt="crayon"
+                  alt="modifier"
                   className="ml-1 h-[40px] w-[200px]"
                 />
               </div>
@@ -114,7 +115,7 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
                 }`}>
                 <img
                   src="/src/assets/imgs/Talos/coche-faux.svg"
-                  alt="crayon"
+                  alt="supprimer"
                   className="ml-2 h-[40px] w-[200px]"
                 />
               </div>

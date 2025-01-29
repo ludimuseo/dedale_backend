@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({
   formData,
 }) => {
   return (
-    <div className="flex flex-row items-center rounded-md bg-red-100 px-4 py-2 shadow-md">
+    <div className="navbar flex flex-row items-center rounded-md bg-red-100 px-4 py-2 shadow-md">
       <button className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow hover:bg-gray-100">
         <img
           src={backIcon}

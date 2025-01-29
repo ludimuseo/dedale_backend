@@ -14,22 +14,22 @@ const ActionButtons = ({ imageIcon, image }: ActionButtonsProps) => {
       <span
         className="mr-4 font-inclusive text-blue-950"
         onMouseEnter={() => {
-          setIsHovered(true)
+          setIsHovered(false)
         }}
         onMouseLeave={() => {
           setIsHovered(false)
         }}>
-        👉 Apercu Image
+        Image 👉
       </span>
       <button
-        className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow"
+        className="btn btn-circle btn-lg flex h-10 w-10 items-center justify-center rounded-full bg-white shadow"
         onClick={() => {
           setSelectedImage(image ? image[0] : imageIcon)
         }}>
         <img
           src={image ? image[0] : imageIcon}
           alt="Image"
-          className="h-10 w-10 rounded-full"
+          className="h-16 w-16 rounded-full"
         />
       </button>
 

@@ -24,7 +24,7 @@ const MainContent: React.FC<MainContentProps> = ({ sentencesData }) => {
       {sentencesData && (
         <>
           <h2 className="mb-4 text-2xl font-bold text-primary">Je lis :</h2>
-          <div className="space-y-4">{sentencesData}</div>
+          <div className="space-y-4 text-2xl">{sentencesData}</div>
         </>
       )}
     </motion.div>
