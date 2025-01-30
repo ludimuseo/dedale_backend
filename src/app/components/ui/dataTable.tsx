@@ -2,6 +2,8 @@ import '@/assets/styles/root.scss'
 
 import React from 'react'
 
+import { ClientType } from '@/types'
+
 import { PlaceIcon } from './icons/PlaceIcon'
 import Pagination from './pagination'
 import SearchInput from './searchInput'
@@ -54,6 +56,13 @@ const DataTable: React.FC<DataTableProps> = ({
 
   const columnsWithActions = actions ? [...columns, actionColumn] : columns
 
+  const getNestedValue = (obj: ClientType, path: string): unknown => {
+    return path.split('.').reduce((acc, key) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      return acc[key] ? acc[key] : ''
+    }, obj)
+  }
+
   const tableContainerStyle = {
     maxHeight: 'calc(80vh - var(--headerHeight))',
   }
@@ -95,7 +104,8 @@ const DataTable: React.FC<DataTableProps> = ({
                 <tr key={row.id || rowIndex}>
                   {columns.map((col, colIndex) => (
                     <td key={colIndex}>
-                      {col.accessor !== 'isActive' && row[col.accessor]}
+                      {col.accessor !== 'isActive' &&
+                        getNestedValue(row, col.accessor)}
                       {col.accessor === 'isActive' && row[col.accessor] ? (
                         <div className="rounded-full p-1 text-green-400">
                           <div className="size-2 rounded-full bg-current"></div>
