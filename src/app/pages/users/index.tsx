@@ -33,17 +33,6 @@ const Users: FC = () => {
 
   const pageSize = 10 // Number of items per page
 
-  const formatData = (data: ClientType[]) => {
-    return data.map((el) => ({
-      isActive: el.isActive,
-      id: el.id,
-      name: el.company.name || '',
-      contact: el.contact.name || '',
-      email: el.contact.email || '',
-      phone: el.contact.tel || '',
-    }))
-  }
-
   const fetchUsers = async (pageIndex: number) => {
     setIsLoading(true)
 
@@ -84,9 +73,8 @@ const Users: FC = () => {
         collection: 'clients',
         ...(doc.data().client as ClientType),
       }))
-      console.log(formatData(usersData))
-      setFilteredUsers(formatData(usersData))
-      setUsers(formatData(usersData))
+      setFilteredUsers(usersData)
+      setUsers(usersData)
     } catch (error) {
       console.error('Error fetching clients:', error)
     } finally {
@@ -114,13 +102,17 @@ const Users: FC = () => {
     }
     const lowerCasedTerm = searchTerm.toLowerCase()
 
-    const filteredData = [...users].filter((user) => {
+    const filteredData = [...users].filter((user: ClientType) => {
       return (
-        user.name.toLowerCase().includes(lowerCasedTerm) ||
-        user.email.toLowerCase().includes(lowerCasedTerm)
+        user.company.name.toLowerCase().includes(lowerCasedTerm) ||
+        user.contact.email.toLowerCase().includes(lowerCasedTerm)
       )
     })
     setFilteredUsers(filteredData)
+  }
+
+  const handleCreationClick = () => {
+    void navigate('/users/create')
   }
 
   useEffect(() => {
@@ -129,10 +121,10 @@ const Users: FC = () => {
 
   const columns = [
     { header: '', accessor: 'isActive' },
-    { header: 'Entreprise ou société', accessor: 'name' },
-    { header: 'Contact', accessor: 'contact' },
-    { header: 'Email', accessor: 'email' },
-    { header: 'Téléphone', accessor: 'phone' },
+    { header: 'Entreprise ou société', accessor: 'company.name' },
+    { header: 'Contact', accessor: 'contact.name' },
+    { header: 'Email', accessor: 'contact.email' },
+    { header: 'Téléphone', accessor: 'contact.tel' },
   ]
 
   const actions = [
@@ -140,7 +132,7 @@ const Users: FC = () => {
       type: 'edit',
       onClick: async (id: string) => {
         try {
-          await navigate(`/users/${id}`)
+          await navigate(`/users/edit/${id}`)
         } catch (error) {
           console.error('Error during navigation:', error)
         }
@@ -161,8 +153,15 @@ const Users: FC = () => {
   ]
 
   return (
-    <div className="container mx-auto">
-      <h2 className="mb-5">Users</h2>
+    <div className="container mx-auto mt-5">
+      <div className="flex justify-between align-middle">
+        <h2>Users</h2>
+        <button
+          onClick={handleCreationClick}
+          className="btn btn-outline btn-primary">
+          Nouveau
+        </button>
+      </div>
       <DataTable
         columns={columns}
         data={filteredUsers}
