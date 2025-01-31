@@ -153,7 +153,7 @@ const routes: RouteObject[] = [
               const { UsersEdit } = await import('@/app/pages/users/edit')
               return { Component: UsersEdit }
             },
-            path: '/users/:type/:id?',
+            path: '/users/:id',
           },
         ],
         element: (

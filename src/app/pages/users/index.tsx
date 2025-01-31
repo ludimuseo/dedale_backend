@@ -112,7 +112,7 @@ const Users: FC = () => {
   }
 
   const handleCreationClick = () => {
-    void navigate('/users/create')
+    void navigate('/form/client')
   }
 
   useEffect(() => {
@@ -132,7 +132,7 @@ const Users: FC = () => {
       type: 'edit',
       onClick: async (id: string) => {
         try {
-          await navigate(`/users/edit/${id}`)
+          await navigate(`/users/${id}`)
         } catch (error) {
           console.error('Error during navigation:', error)
         }

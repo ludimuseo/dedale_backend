@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore'
+import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { z } from 'zod'
@@ -68,7 +68,7 @@ const UsersEdit: FC = () => {
   })
 
   useEffect(() => {
-    if (type === 'edit' && id) {
+    if (id) {
       const fetchUser = async () => {
         const user = await fetchUserById(id)
         setData(user)
@@ -76,8 +76,6 @@ const UsersEdit: FC = () => {
       }
 
       void fetchUser()
-    } else {
-      newForm()
     }
   }, [id, type])
 
@@ -117,29 +115,7 @@ const UsersEdit: FC = () => {
       setErrors(fieldErrors)
     }
 
-    if (type === 'edit' && id) {
-      void editUser(id)
-    } else {
-      void createUser()
-    }
-  }
-
-  const createUser = async () => {
-    try {
-      await addDoc(collection(db, 'clients'), formData)
-      setAlert({
-        isActive: true,
-        message: 'La client a été crée',
-        type: 'success',
-      })
-    } catch (error) {
-      setAlert({
-        isActive: true,
-        message: 'Erreur lors de la création du client',
-        type: 'error',
-      })
-      console.error(error)
-    }
+    void editUser(id)
   }
 
   const editUser = async (userId: string) => {
@@ -168,29 +144,6 @@ const UsersEdit: FC = () => {
   const resetForm = () => {
     setFormData(data)
     setIsModified(false)
-  }
-
-  const newForm = () => {
-    setFormData({
-      isActive: false,
-      company: {
-        name: '',
-        siret: '',
-        tva: '',
-      },
-      contact: {
-        name: '',
-        email: '',
-        tel: '',
-        note: '',
-      },
-      address: {
-        address: '',
-        postal: '',
-        city: '',
-        country: '',
-      },
-    })
   }
 
   return (
@@ -223,7 +176,7 @@ const UsersEdit: FC = () => {
                 type="checkbox"
                 name="isActive"
                 onChange={handleChange}
-                checked={formData.isActive || false}
+                checked={formData.status.isActive || false}
                 className="toggle toggle-success ml-auto"
               />
             </div>
