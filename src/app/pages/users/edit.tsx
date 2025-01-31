@@ -1,9 +1,10 @@
-import { addDoc, collection, doc, getDoc } from 'firebase/firestore'
+import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { z } from 'zod'
 
 import { Input } from '@/app/components'
+import Alert from '@/app/components/ui/alert'
 import { db } from '@/firebase/firebase'
 import { ClientType } from '@/types'
 
@@ -48,12 +49,23 @@ const fetchUserById = async (userId: string) => {
   }
 }
 
+interface AlertProps {
+  isActive: boolean
+  message: string
+  type?: Alert
+  close?: () => void
+}
+
 const UsersEdit: FC = () => {
   const { id, type } = useParams()
   const [data, setData] = useState<ClientType | null>(null)
   const [formData, setFormData] = useState<ClientType | null>(null)
   const [isModified, setIsModified] = useState(false)
   const [errors, setErrors] = useState<Record<string, string[] | undefined>>({})
+  const [alert, setAlert] = useState<AlertProps>({
+    isActive: false,
+    message: '',
+  })
 
   useEffect(() => {
     if (type === 'edit' && id) {
@@ -106,30 +118,51 @@ const UsersEdit: FC = () => {
     }
 
     if (type === 'edit' && id) {
-      editUser()
+      void editUser(id)
     } else {
-      createUser()
-        .then(() => {
-          console.log('user created')
-        })
-        .catch(() => {
-          console.error('user creation error')
-        })
+      void createUser()
     }
   }
 
   const createUser = async () => {
     try {
-      const docRef = await addDoc(collection(db, 'clients'), formData)
-      console.log('doc created => ', docRef)
-      return docRef
+      await addDoc(collection(db, 'clients'), formData)
+      setAlert({
+        isActive: true,
+        message: 'La client a été crée',
+        type: 'success',
+      })
     } catch (error) {
+      setAlert({
+        isActive: true,
+        message: 'Erreur lors de la création du client',
+        type: 'error',
+      })
       console.error(error)
     }
   }
 
-  const editUser = () => {
-    console.log('edit user')
+  const editUser = async (userId: string) => {
+    try {
+      const userRef = doc(db, 'clients', userId)
+      await updateDoc(userRef, formData)
+
+      setAlert({
+        isActive: true,
+        message: 'Le client a été mis à jour',
+        type: 'success',
+      })
+
+      console.log('doc updated => ', userRef)
+    } catch (error) {
+      setAlert({
+        isActive: true,
+        message: 'Erreur lors de la mise à jour du client',
+        type: 'error',
+      })
+
+      console.error(error)
+    }
   }
 
   const resetForm = () => {
@@ -163,7 +196,15 @@ const UsersEdit: FC = () => {
   return (
     <>
       {formData && (
-        <div className="container mx-auto">
+        <div className="container relative mx-auto">
+          <Alert
+            close={() => {
+              setAlert((prev) => ({ ...prev, isActive: false }))
+            }}
+            isActive={alert.isActive}
+            message={alert.message}
+            type={alert.type}
+          />
           <div className="breadcrumbs mb-5 text-sm">
             <ul>
               <li>
