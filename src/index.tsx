@@ -3,6 +3,7 @@ import '@style/root.scss'
 
 import { ThemeProvider } from '@context/index'
 import { persistor, store } from '@service/redux'
+import { MotionConfig } from 'framer-motion'
 import { SnackbarProvider } from 'notistack'
 import { StrictMode, Suspense } from 'react'
 import { createRoot, Root } from 'react-dom/client'
@@ -21,7 +22,9 @@ root.render(
         <PersistGate loading={null} persistor={persistor}>
           <ThemeProvider>
             <Suspense fallback={<div>Loading...</div>}>
-              <RouterProvider router={router} />
+              <MotionConfig reducedMotion="user">
+                <RouterProvider router={router} />
+              </MotionConfig>
             </Suspense>
           </ThemeProvider>
         </PersistGate>

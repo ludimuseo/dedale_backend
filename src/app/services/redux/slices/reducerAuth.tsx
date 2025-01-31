@@ -7,10 +7,13 @@ export interface StateAuth {
   token: string | null
   user: User | null
 }
-const initialState: StateAuth = {
-  isLogged: false,
-  token: null,
-  user: null,
+
+const initialState = (): StateAuth => {
+  return {
+    isLogged: false,
+    token: null,
+    user: null,
+  }
 }
 
 export const sliceAuth = createSlice({

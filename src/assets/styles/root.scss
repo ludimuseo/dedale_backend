@@ -15,7 +15,10 @@
 */
 @use 'sass:meta';
 
-// @use '@style/mixins';
+// @include meta.load-css('@style/mixins');
+// @function colorMix($color, $blendColor, $percentage) {
+//   @return color-mix(in srgb, $color, $blendColor $percentage);
+// }
 
 @tailwind base;
 @layer base {
@@ -43,13 +46,13 @@ $switchCheckboxSize: 1.8rem;
 /* // Layouts */
 #layout-auth,
 #layout-default {
-  @apply flex h-full;
+  @apply flex h-full flex-col bg-default;
   header {
-    @apply h-[#{$headerHeight}] w-full border-b;
+    @apply h-[#{$headerHeight}] w-full;
   }
 }
 #layout-auth {
-  @apply flex-col;
+  // @apply flex-col;
   > main {
     @apply flex flex-1 flex-row;
     > section {
@@ -60,9 +63,6 @@ $switchCheckboxSize: 1.8rem;
       }
       &#auth-info {
         @apply max-lg:hidden;
-        // img.show-on-sidebar {
-        //   @apply hidden;
-        // }
         figure {
           @apply pb-4;
         }
@@ -75,7 +75,7 @@ $switchCheckboxSize: 1.8rem;
 }
 
 #layout-default {
-  @apply flex-col;
+  // @apply flex-col;
 
   #sidebar-control {
     @apply px-0 lg:hidden;
@@ -91,6 +91,7 @@ $switchCheckboxSize: 1.8rem;
     }
 
     > main.content {
+      @apply bg-[var(--color-antiFlashWhite)] dark:bg-[var(--color-darkGunmetal)];
       @apply flex-1 overflow-x-auto overflow-y-scroll;
     }
   }
@@ -109,5 +110,5 @@ $switchCheckboxSize: 1.8rem;
 
 #change-language,
 #change-theme {
-  @apply flex items-center justify-between p-0;
+  @apply flex items-center justify-between;
 }

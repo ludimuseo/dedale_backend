@@ -1,5 +1,23 @@
+{
   "version": 2,
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+  "builds": [
+    {
+      "src": "src/app/router/index.ts",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "src/app/router/index.tsx",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "public/**/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/src/app/$1"
+    }
   ]
 }

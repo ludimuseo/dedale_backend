@@ -1,4 +1,10 @@
 Options -MultiViews
 RewriteEngine On
+
+# If 'http' force redirect to 'https'
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+
+# Read all routes requests leads to 'index.html'
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.html [QSA,L]

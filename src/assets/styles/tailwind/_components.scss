@@ -18,6 +18,17 @@
   }
 }
 
+ul.menu {
+  @apply m-0 p-1.5;
+  li {
+    @apply mx-0 py-1;
+    a,
+    button {
+      @apply block text-center;
+    }
+  }
+}
+
 form > .btn {
   &--primary {
     @apply my-8 w-full capitalize;

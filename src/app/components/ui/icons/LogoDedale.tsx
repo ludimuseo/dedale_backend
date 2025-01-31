@@ -12,7 +12,7 @@ type LogoDedaleProps = ComponentProps<'img'> & {
 
 const LogoDedale = ({ width }: LogoDedaleProps) => {
   const { isDark }: StateTheme = useAppSelector((state: State) => state.theme)
-  const imgData: string = isDark ? logoDedaleLight : logoDedaleDark
+  const imgData: string = isDark ? logoDedaleDark : logoDedaleLight
   return (
     <>
       <figure>

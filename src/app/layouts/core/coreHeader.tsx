@@ -5,8 +5,8 @@ import { type FC, ReactElement, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router'
 
-import type { State } from '@/types'
 import placeholderAvatar from '/placeholder-avatar.webp'
+import type { State } from '@/types'
 
 interface HeaderProps {
   toggleMenu: ReactElement<HTMLElement> | null
@@ -66,7 +66,7 @@ const CoreHeader: FC<HeaderProps> = ({ toggleMenu }) => {
                 </object>
                 <ul
                   tabIndex={0}
-                  className="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow">
+                  className="menu dropdown-content z-[1] w-52 rounded-box border bg-base-100 shadow">
                   <li>
                     {/* User Profile Page */}
                     <NavLink to={{ pathname: '/user/profile' }}>

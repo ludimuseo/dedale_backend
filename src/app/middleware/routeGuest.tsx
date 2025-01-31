@@ -4,12 +4,9 @@ import { Navigate } from 'react-router'
 
 import type { State } from '@/types'
 
-type RouteGuestProps = PropsWithChildren
+const RouteGuest = ({ children }: PropsWithChildren) => {
+  const { isLogged } = useAppSelector((state: State) => state.auth)
 
-const RouteGuest = ({ children }: RouteGuestProps) => {
-  const isLogged: boolean = useAppSelector(
-    (state: State) => state.auth.isLogged
-  )
   if (!isLogged) return children
   else return <Navigate to={{ pathname: '/' }} replace />
 }
