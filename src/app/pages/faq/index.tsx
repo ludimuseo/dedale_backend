@@ -55,7 +55,7 @@ const faqSections = [
   {
     _id: '64b2g9h2i8j9k3l4m5n6o8p0',
     categoryId: '64a1f9e2f8a9c2b3e4d5f6g7',
-    title: 'Comment ajouter du Contenu ?',
+    title: 'Ajouter du Contenu',
     description: 'Découvrez comment ajouter du contenu à vos parcours.',
     tags: [{ label: 'contenu', color: 'bg-purple-200 text-purple-800' }],
     contents: [

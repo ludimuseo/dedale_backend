@@ -26,7 +26,7 @@ const FaqCategories: React.FC<FaqCategoriesProps> = ({
 }) => {
   return (
     // Conteneur principal des catégories
-    <aside className="h-full w-60 overflow-y-auto rounded-lg bg-primary p-4 text-white">
+    <aside className="w-quarter h-full overflow-y-auto rounded-lg bg-primary p-4 text-white">
       {/* Liste des catégories */}
       <ul className="space-y-2">
         {categories.map((cat) => (
