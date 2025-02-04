@@ -22,6 +22,7 @@ import {
   StepType,
 } from '@/types'
 
+import AiValidationIcon from '../../ui/icons/AiValidation'
 import Header from '../header/header'
 import ConfirmModal from '../modals/confirmModal'
 import SuccessModal from '../modals/successModal'
@@ -83,14 +84,15 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
                 onClick={() => {
                   handleSentenceClick(item, index)
                 }}
-                className={`transition-transform duration-200 ease-in-out ${
+                className={`mt-1 transition-transform duration-200 ease-in-out ${
                   clickedIndex === index ? 'scale-90' : 'hover:scale-110'
                 }`}>
-                <img
+                {/* <img
                   src="/src/assets/imgs/Talos/coche-valide.svg"
                   alt="suggestion"
                   className="h-[40px] w-[200px]"
-                />
+                /> */}
+                <AiValidationIcon />
               </div>
 
               <div

@@ -1,5 +1,8 @@
 import { useState } from 'react'
 
+import DictationIcon from '../../ui/icons/DictationIcon'
+import { PrintIcon } from '../../ui/icons/PrintIcon'
+
 interface ActionButtonsProps {
   imageIcon: string
   image: string[] | undefined
@@ -11,18 +14,8 @@ const ActionButtons = ({ imageIcon, image }: ActionButtonsProps) => {
 
   return (
     <div className="flex flex-row items-center">
-      <span
-        className="mr-4 font-inclusive text-blue-950"
-        onMouseEnter={() => {
-          setIsHovered(false)
-        }}
-        onMouseLeave={() => {
-          setIsHovered(false)
-        }}>
-        Image 👉
-      </span>
       <button
-        className="btn btn-circle btn-lg flex h-10 w-10 items-center justify-center rounded-full bg-white shadow"
+        className="group btn btn-circle btn-lg relative flex h-10 w-10 items-center justify-center rounded-full bg-white shadow"
         onClick={() => {
           setSelectedImage(image ? image[0] : imageIcon)
         }}>
@@ -31,6 +24,22 @@ const ActionButtons = ({ imageIcon, image }: ActionButtonsProps) => {
           alt="Image"
           className="h-16 w-16 rounded-full"
         />
+        <span
+          className="mr-4 font-inclusive text-blue-950"
+          onMouseEnter={() => {
+            setIsHovered(false)
+          }}
+          onMouseLeave={() => {
+            setIsHovered(false)
+          }}>
+          {/* Image */}
+        </span>
+        <div
+          role="tooltip"
+          aria-label="Ajouter un correcteur"
+          className="absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 text-sm text-white shadow-lg group-hover:block">
+          Afficher
+        </div>
       </button>
 
       {selectedImage && (
@@ -52,7 +61,7 @@ const ActionButtons = ({ imageIcon, image }: ActionButtonsProps) => {
         </div>
       )}
       {isHovered && image && (
-        <div className="w-128 absolute left-40 top-10 mt-2 rounded-md border-4 border-sky-950 bg-black shadow-md">
+        <div className="w-128 group absolute left-40 top-10 mt-2 rounded-md border-4 border-sky-950 bg-black shadow-md">
           <img
             src={image[0]}
             alt="Aperçu"
@@ -60,12 +69,36 @@ const ActionButtons = ({ imageIcon, image }: ActionButtonsProps) => {
           />
         </div>
       )}
-      {/* <button className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow hover:bg-gray-100">
-                <img src={zoomIconLess} alt="rechercher" className="h-10 w-10" />
-            </button>
-            <button className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow hover:bg-gray-100">
-                <img src={zoomIconMore} alt="zoomer" className="h-10 w-10" />
-            </button> */}
+      {/* IMPRIMER */}
+      <button className="group btn btn-square btn-ghost btn-lg relative ml-4">
+        <PrintIcon />
+        <div
+          role="tooltip"
+          aria-label="Ajouter un correcteur"
+          className="absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 text-sm text-white shadow-lg group-hover:block">
+          Imprimer
+        </div>
+      </button>
+
+      {/* DICTEE */}
+      <button className="group btn btn-square btn-ghost btn-lg relative ml-4">
+        <DictationIcon />
+        <div
+          role="tooltip"
+          aria-label="Ajouter un correcteur"
+          className="absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 text-sm text-white shadow-lg group-hover:block">
+          Dictée
+        </div>
+      </button>
+
+      {/* RECHERCHE */}
+      <div className="form-control ml-20">
+        <input
+          type="text"
+          placeholder="🔎 Dictionnaire"
+          className="input input-bordered input-primary w-full max-w-xs"
+        />
+      </div>
     </div>
   )
 }
