@@ -24,8 +24,7 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
     <div className="p-6">
       <header className="mt-0 text-center">
         <h1 className="text-2xl font-semibold text-[#0a184d]">
-          Bonjour {userName}, vous êtes sur le tableau de bord de correction des
-          textes.
+          Bonjour, vous êtes sur le tableau de bord de correction des textes.
         </h1>
       </header>
 
@@ -93,7 +92,7 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
         {isReferent && (
           <motion.div className="group relative mt-10">
             {/* Conteneur parent avec la classe `group` */}
-            <a
+            <div
               className="flex w-48 flex-col items-center rounded-lg px-6 py-4 text-lg text-[#0a184d]"
               aria-label="Ajouter un correcteur"
               aria-labelledby="add-corrector-button">
@@ -102,23 +101,24 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
                 id="add-corrector-button">
                 Ajouter un correcteur
               </span>
-
-              <span className="flex h-[68px] w-[68px] transform items-center justify-center rounded-full border-2 border-[#0a184d] bg-white text-[#0a184d] shadow-xl transition-all duration-300">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-10 w-10"
-                  stroke="#0a184d"
-                  stroke-width="3"
-                  viewBox="0 0 24 24"
-                  fill="currentColor">
-                  <path
-                    fillRule="evenodd"
-                    d="M12 4a1 1 0 011 1v6h6a1 1 0 110 2h-6v6a1 1 0 11-2 0v-6h-6a1 1 0 110-2h6V5a1 1 0 011-1z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </span>
-            </a>
+              <button className="btn btn-circle btn-lg hover:shadow-xl">
+                <span className="flex h-[60px] w-[60px] transform items-center justify-center rounded-full border-2 border-[#0a184d] bg-white text-[#0a184d] shadow-xl transition-all duration-300">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-10 w-10"
+                    stroke="#0a184d"
+                    stroke-width="3"
+                    viewBox="0 0 24 24"
+                    fill="currentColor">
+                    <path
+                      fillRule="evenodd"
+                      d="M12 4a1 1 0 011 1v6h6a1 1 0 110 2h-6v6a1 1 0 11-2 0v-6h-6a1 1 0 110-2h6V5a1 1 0 011-1z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
+              </button>
+            </div>
             {/* Infobulle */}
             <div
               role="tooltip"
@@ -131,7 +131,7 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
 
         {/* Bouton Voir tous les textes */}
         <motion.div className="group relative mt-10">
-          <a
+          <div
             className="relative flex w-48 cursor-pointer flex-col items-center rounded-lg px-6 py-4 text-lg text-[#0a184d] transition-all duration-300 ease-in-out"
             onClick={handleNavigateTextList}>
             <span
@@ -139,21 +139,23 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
               id="view-all-texts-button">
               Voir tous les textes
             </span>
-            <span className="flex h-[68px] w-[68px] transform items-center justify-center rounded-full border-2 border-[#0a184d] bg-white text-[#0a184d] shadow-xl">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-10 w-10"
-                stroke="#0a184d"
-                viewBox="0 0 24 24"
-                fill="currentColor">
-                <path
-                  fillRule="evenodd"
-                  d="M13.293 16.707a1 1 0 010-1.414L16.586 12H4a1 1 0 110-2h12.586l-3.293-3.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </span>
-          </a>
+            <button className="btn btn-circle btn-lg hover:shadow-xl">
+              <span className="flex h-[60px] w-[60px] transform items-center justify-center rounded-full border-2 border-[#0a184d] bg-white text-[#0a184d] shadow-xl">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-10 w-10"
+                  stroke="#0a184d"
+                  viewBox="0 0 24 24"
+                  fill="currentColor">
+                  <path
+                    fillRule="evenodd"
+                    d="M13.293 16.707a1 1 0 010-1.414L16.586 12H4a1 1 0 110-2h12.586l-3.293-3.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </span>
+            </button>
+          </div>
 
           {/* Infobulle pour le bouton "Voir tous les textes" */}
           <div
