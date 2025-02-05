@@ -1,5 +1,6 @@
 import '@service/i18n'
 import '@style/root.scss'
+import 'regenerator-runtime/runtime'
 
 import { ThemeProvider } from '@context/index'
 import { persistor, store } from '@service/redux'
