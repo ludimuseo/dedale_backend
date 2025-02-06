@@ -2,8 +2,6 @@ import '@/assets/styles/root.scss'
 
 import React from 'react'
 
-import { ClientType } from '@/types'
-
 import { PlaceIcon } from './icons/PlaceIcon'
 import Pagination from './pagination'
 import SearchInput from './searchInput'
@@ -56,10 +54,12 @@ const DataTable: React.FC<DataTableProps> = ({
 
   const columnsWithActions = actions ? [...columns, actionColumn] : columns
 
-  const getNestedValue = (obj: ClientType, path: string): unknown => {
-    return path.split('.').reduce((acc, key) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return acc[key] ? acc[key] : ''
+  const getNestedValue = (obj: unknown, path: string): unknown => {
+    return path.split('.').reduce((acc: unknown, key: string) => {
+      if (acc && typeof acc === 'object' && key in acc) {
+        return (acc as Record<string, unknown>)[key]
+      }
+      return ''
     }, obj)
   }
 
@@ -101,11 +101,11 @@ const DataTable: React.FC<DataTableProps> = ({
           <tbody>
             {!isLoading ? (
               data.map((row, rowIndex) => (
-                <tr key={row.id || rowIndex}>
+                <tr key={typeof row.id === 'string' ? row.id : rowIndex}>
                   {columns.map((col, colIndex) => (
                     <td key={colIndex}>
                       {col.accessor !== 'isActive' &&
-                        getNestedValue(row, col.accessor)}
+                        (getNestedValue(row, col.accessor) as React.ReactNode)}
                       {col.accessor === 'isActive' && row[col.accessor] ? (
                         <div className="rounded-full p-1 text-green-400">
                           <div className="size-2 rounded-full bg-current"></div>
