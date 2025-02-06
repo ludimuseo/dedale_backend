@@ -77,6 +77,13 @@ const routes: RouteObject[] = [
             },
             path: '/interface',
           },
+          {
+            async lazy() {
+              const { Users } = await import('@/app/pages/users/index.tsx')
+              return { Component: Users }
+            },
+            path: '/clientsList',
+          },
           //FORMULAIRES
           {
             async lazy() {
