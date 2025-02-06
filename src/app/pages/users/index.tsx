@@ -14,18 +14,12 @@ import DataTable from '@/app/components/ui/dataTable'
 import { db } from '@/firebase/firebase'
 import { ClientType } from '@/types'
 
-interface ClientFormatType {
-  id: string
-  name: string
-  contact: string
-  email: string
-  phone: string
-}
-
 const Users: FC = () => {
   const navigate = useNavigate()
-  const [users, setUsers] = useState<ClientFormatType[]>([])
-  const [filteredUsers, setFilteredUsers] = useState<ClientFormatType[]>([])
+  const [users, setUsers] = useState<ClientType[]>([])
+  const [filteredUsers, setFilteredUsers] = useState<Record<string, unknown>[]>(
+    []
+  )
   const [isLoading, setIsLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(0)
 
@@ -73,7 +67,11 @@ const Users: FC = () => {
         collection: 'clients',
         ...(doc.data().client as ClientType),
       }))
-      setFilteredUsers(usersData)
+      setFilteredUsers(
+        usersData.map((user) => ({
+          ...user,
+        }))
+      )
       setUsers(usersData)
     } catch (error) {
       console.error('Error fetching clients:', error)
@@ -96,13 +94,14 @@ const Users: FC = () => {
   }
 
   const search = (searchTerm: string) => {
+    const tempUsers = users.map((user) => ({ ...user }))
     if (!searchTerm.trim()) {
-      setFilteredUsers(users)
+      setFilteredUsers(tempUsers)
       return
     }
     const lowerCasedTerm = searchTerm.toLowerCase()
 
-    const filteredData = [...users].filter((user: ClientType) => {
+    const filteredData = tempUsers.filter((user: ClientType) => {
       return (
         user.company.name.toLowerCase().includes(lowerCasedTerm) ||
         user.contact.email.toLowerCase().includes(lowerCasedTerm)
@@ -127,7 +126,14 @@ const Users: FC = () => {
     { header: 'Téléphone', accessor: 'contact.tel' },
   ]
 
-  const actions = [
+  type ActionType = 'edit' | 'location' | 'delete'
+
+  interface Action {
+    type: ActionType
+    onClick: (id: string) => Promise<void> | void
+  }
+
+  const actions: Action[] = [
     {
       type: 'edit',
       onClick: async (id: string) => {
