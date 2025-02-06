@@ -15,7 +15,7 @@ type ActionType = 'edit' | 'location' | 'delete'
 
 interface Action {
   type: ActionType
-  onClick: (id: string | number) => void
+  onClick: (id: unknown) => void
 }
 
 interface DataTableProps {
