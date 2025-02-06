@@ -205,6 +205,7 @@ interface Stage {
 
 /* CLIENT */
 export interface ClientType {
+  isActive: boolean
   company: {
     name: string
     siret: string

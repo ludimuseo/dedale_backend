@@ -126,14 +126,7 @@ const Users: FC = () => {
     { header: 'Téléphone', accessor: 'contact.tel' },
   ]
 
-  type ActionType = 'edit' | 'location' | 'delete'
-
-  interface Action {
-    type: ActionType
-    onClick: (id: string) => Promise<void> | void
-  }
-
-  const actions: Action[] = [
+  const actions = [
     {
       type: 'edit',
       onClick: async (id: string) => {
@@ -171,14 +164,14 @@ const Users: FC = () => {
       <DataTable
         columns={columns}
         data={filteredUsers}
-        actions={actions}
+        actions={actions as []}
         isLoading={isLoading}
         nextPage={nextPage}
         previousPage={previousPage}
         disableNext={users.length < pageSize} // Disable "Next" if fewer items than pageSize
         disablePrevious={currentPage === 0}
         currentPage={currentPage} // Disable "Previous" on the first page
-        search={search}
+        search={void search}
       />
     </div>
   )

@@ -15,7 +15,7 @@ type ActionType = 'edit' | 'location' | 'delete'
 
 interface Action {
   type: ActionType
-  onClick: (id: unknown) => void
+  onClick: (id: string) => Promise<void> | void
 }
 
 interface DataTableProps {
@@ -129,7 +129,7 @@ const DataTable: React.FC<DataTableProps> = ({
                           <button
                             key={actionIndex}
                             onClick={() => {
-                              action.onClick(row.id)
+                              void action.onClick(row.id as string)
                             }}
                             className="focus:shadow-outline group mr-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-700 transition-colors duration-150 hover:bg-gray-200">
                             {action.type === 'edit' && (
