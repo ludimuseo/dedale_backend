@@ -1,4 +1,4 @@
-import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import { doc, getDoc } from 'firebase/firestore'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { z } from 'zod'
@@ -90,36 +90,35 @@ const UsersEdit: FC = () => {
     let temp: Record<string, unknown> = updatedData
 
     for (let i = 0; i < keys.length - 1; i++) {
-      temp = temp[keys[i]]
+      temp = temp[keys[i]] as Record<string, unknown>
     }
     temp[keys[keys.length - 1]] = newValue
 
-    setFormData(updatedData)
+    setFormData(updatedData as ClientType)
 
-    const isEqual = (a: string, b: string) =>
-      JSON.stringify(a) === JSON.stringify(b)
-    setIsModified(!isEqual(updatedData, data))
+    setIsModified(JSON.stringify(updatedData) !== JSON.stringify(data))
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (!id) return
     e.preventDefault()
     if (!formData) return
 
     const result = ClientSchema.safeParse(formData)
     if (!result.success) {
-      const fieldErrors = {}
+      const fieldErrors: Record<string, string[]> = {}
       result.error.issues.forEach((issue) => {
         const path = issue.path.join('.')
         fieldErrors[path] = [issue.message]
       })
       setErrors(fieldErrors)
     }
-
-    void editUser(id)
+    editUser(id)
   }
 
-  const editUser = async (userId: string) => {
-    try {
+  const editUser = (userId: string) => {
+    console.log('todo', userId)
+    /* try {
       const userRef = doc(db, 'clients', userId)
       await updateDoc(userRef, formData)
 
@@ -138,7 +137,7 @@ const UsersEdit: FC = () => {
       })
 
       console.error(error)
-    }
+    } */
   }
 
   const resetForm = () => {
@@ -176,7 +175,7 @@ const UsersEdit: FC = () => {
                 type="checkbox"
                 name="isActive"
                 onChange={handleChange}
-                checked={formData.status.isActive || false}
+                checked={formData.isActive || false}
                 className="toggle toggle-success ml-auto"
               />
             </div>

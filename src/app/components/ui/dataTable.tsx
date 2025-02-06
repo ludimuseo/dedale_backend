@@ -23,8 +23,8 @@ interface DataTableProps {
   data: Record<string, unknown>[] | null
   isLoading: boolean
   actions?: Action[]
-  previousPage?: () => void
-  nextPage?: () => void
+  previousPage: () => void
+  nextPage: () => void
   disablePrevious: boolean
   disableNext: boolean
   currentPage: number
