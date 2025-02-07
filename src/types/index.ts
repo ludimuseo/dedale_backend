@@ -1,3 +1,4 @@
+import type { StateAlert } from '@service/redux/slices/reducerAlert'
 import type { StateAuth } from '@service/redux/slices/reducerAuth'
 import type { StateTheme } from '@service/redux/slices/reducerTheme'
 import type {
@@ -10,6 +11,7 @@ import type {
 export interface State {
   auth: StateAuth
   theme: StateTheme
+  alert: StateAlert
 }
 
 /* USER */

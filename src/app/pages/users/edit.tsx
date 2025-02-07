@@ -49,23 +49,12 @@ const fetchUserById = async (userId: string) => {
   }
 }
 
-interface AlertProps {
-  isActive: boolean
-  message: string
-  type?: Alert
-  close?: () => void
-}
-
 const UsersEdit: FC = () => {
   const { id, type } = useParams()
   const [data, setData] = useState<ClientType | null>(null)
   const [formData, setFormData] = useState<ClientType | null>(null)
   const [isModified, setIsModified] = useState(false)
   const [errors, setErrors] = useState<Record<string, string[] | undefined>>({})
-  const [alert, setAlert] = useState<AlertProps>({
-    isActive: false,
-    message: '',
-  })
 
   useEffect(() => {
     if (id) {
@@ -149,14 +138,7 @@ const UsersEdit: FC = () => {
     <>
       {formData && (
         <div className="container relative mx-auto">
-          <Alert
-            close={() => {
-              setAlert((prev) => ({ ...prev, isActive: false }))
-            }}
-            isActive={alert.isActive}
-            message={alert.message}
-            type={alert.type}
-          />
+          <Alert />
           <div className="breadcrumbs mb-5 text-sm">
             <ul>
               <li>
