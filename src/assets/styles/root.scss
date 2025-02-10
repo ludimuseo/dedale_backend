@@ -39,6 +39,10 @@ $headerHeight: 6rem;
 $sidebarWidth: 15rem;
 $switchCheckboxSize: 1.8rem;
 
+:root {
+  --headerHeight: #{$headerHeight};
+}
+
 /* // Layouts */
 #layout-auth,
 #layout-default {
@@ -78,11 +82,9 @@ $switchCheckboxSize: 1.8rem;
   }
 
   > #inner-content {
-    @apply flex h-full w-full flex-row overflow-hidden;
-
-    > header {
-      @apply shadow-lg;
-    }
+    @apply flex flex-row;
+    @apply h-full w-full bg-gray-100 dark:bg-slate-800;
+    @apply overflow-hidden;
 
     > aside#sidebar {
       @apply w-[#{$sidebarWidth}] h-full bg-primary p-3;

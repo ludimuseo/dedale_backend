@@ -19,6 +19,16 @@ export const getDashboardConfig: DashboardConfig[] = [
     route: '/form',
   },
   {
+    id: '2',
+    title: 'LISTES',
+    ariaLabel: 'CONSULTER LES CLIENTS',
+    subTitle: 'Accéder a la liste des clients',
+    image: 'DEDALE_MOBILE',
+    imageAlt: 'Liste clients',
+    route: '/clientsList',
+  },
+
+  {
     id: '1',
     title: 'INTERFACE TALOS',
     ariaLabel: "Accéder à l'interface Talos",
