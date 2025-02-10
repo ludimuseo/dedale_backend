@@ -77,6 +77,13 @@ const routes: RouteObject[] = [
             },
             path: '/interface',
           },
+          {
+            async lazy() {
+              const { Users } = await import('@/app/pages/users/index.tsx')
+              return { Component: Users }
+            },
+            path: '/clientsList',
+          },
           //FORMULAIRES
           {
             async lazy() {
@@ -140,6 +147,20 @@ const routes: RouteObject[] = [
               return { Component: FormMedal }
             },
             path: '/form/medal',
+          },
+          {
+            async lazy() {
+              const { Users } = await import('@/app/pages/users')
+              return { Component: Users }
+            },
+            path: '/users',
+          },
+          {
+            async lazy() {
+              const { UsersEdit } = await import('@/app/pages/users/edit')
+              return { Component: UsersEdit }
+            },
+            path: '/users/:id',
           },
         ],
         element: (
