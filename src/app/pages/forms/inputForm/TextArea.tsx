@@ -75,11 +75,9 @@ export default function TextArea({
           section === 'response'
             ? formData[section][name as keyof T[keyof T]][
                 mode as keyof T[keyof T[keyof T]]
-              ][language ? language : 'fr']
+              ][language ?? 'fr']
             : mode
-              ? formData[section][mode as keyof T[keyof T]][
-                  language ? language : 'fr'
-                ]
+              ? formData[section][mode as keyof T[keyof T]][language ?? 'fr']
               : formData[section][name as keyof T[keyof T]]
         }
         onChange={(e) => {

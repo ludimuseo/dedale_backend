@@ -253,18 +253,24 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
       certifiedDate: new Date(),
       isCorrected: false,
     }
+
+    if (!formData.id || !formData.collection) {
+      console.error('ID ou collection manquant', formData)
+      return
+    }
+
     try {
       const placeRef = doc(db, collection, id)
 
       await updateDoc(placeRef, {
-        'description.falc.falcCertified': falcCertified,
-        'description.falc.statut': newStatut,
+        'description.falc.falcCertified': falcCertified.join('\n'),
+        'description.falc.status': newStatut,
       })
     } catch (error) {
       console.error('Erreur de la soumission des données', error)
     }
   }
-
+  console.log('formData.id: ', formData.id, 'collection: ', formData.collection)
   return (
     <>
       <Header

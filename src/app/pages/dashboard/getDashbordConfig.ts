@@ -5,6 +5,7 @@ export interface DashboardConfig {
   subTitle: string
   image: string
   imageAlt: string
+  role: string[]
   route: string
 }
 
@@ -16,6 +17,7 @@ export const getDashboardConfig: DashboardConfig[] = [
     subTitle: 'Créer les parcours et jeux pas à pas.',
     image: 'DEDALE_MOBILE',
     imageAlt: 'Formulaires',
+    role: ['OWNER', 'ADMIN', 'SUPERADMIN', 'DEVELOPPER'],
     route: '/form',
   },
   {
@@ -35,6 +37,7 @@ export const getDashboardConfig: DashboardConfig[] = [
     subTitle: 'Correction et lecture de texte.',
     image: 'TALOS',
     imageAlt: 'Talos',
+    role: ['OWNER', 'SUPERADMIN', 'DEVELOPPER', 'REFERENT', 'CORRECTOR'],
     route: '/talos',
   },
 ]
