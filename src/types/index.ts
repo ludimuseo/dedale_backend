@@ -23,7 +23,7 @@ export enum UserRole {
 
 export interface User {
   uid: string
-  role: UserRole | null
+  role: string | null
   email: string | null
   emailVerified: boolean
   pseudo: string | null

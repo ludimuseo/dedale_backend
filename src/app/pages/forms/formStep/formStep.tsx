@@ -110,7 +110,7 @@ const FormStep: FC = () => {
   ) => {
     event.preventDefault()
     try {
-      const docRef = await addDoc(collection(db, 'places'), { ...formData })
+      const docRef = await addDoc(collection(db, 'steps'), { ...formData })
       const id = docRef.id
       if (id) {
         setMessage(() => ({
