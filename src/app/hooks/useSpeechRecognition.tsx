@@ -10,6 +10,7 @@ interface UseSpeechToTextReturn {
   isListening: boolean
   startListening: () => void
   stopListening: () => void
+  reset: () => void
 }
 const useSpeechRecognition = ({
   lang = 'fr-FR',
@@ -20,8 +21,8 @@ const useSpeechRecognition = ({
   const recognitionRef = useRef<SpeechRecognition | null>(null)
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const SpeechRecognition =
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       window.SpeechRecognition || window.webkitSpeechRecognition
 
     if (
@@ -57,8 +58,13 @@ const useSpeechRecognition = ({
 
   const startListening = () => {
     if (recognitionRef.current) {
-      setText('') // Clear previous text
       recognitionRef.current.start()
+    }
+  }
+
+  const reset = () => {
+    if (recognitionRef.current) {
+      setText('') // Clear previous text
     }
   }
 
@@ -68,7 +74,7 @@ const useSpeechRecognition = ({
     }
   }
 
-  return { text, isListening, startListening, stopListening }
+  return { text, isListening, startListening, stopListening, reset }
 }
 
 export { useSpeechRecognition }
