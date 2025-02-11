@@ -95,7 +95,7 @@ const FormPiece: FC = () => {
   ) => {
     event.preventDefault()
     try {
-      const docRef = await addDoc(collection(db, 'places'), { ...formData })
+      const docRef = await addDoc(collection(db, 'pieces'), { ...formData })
       const id = docRef.id
       if (id) {
         setMessage(() => ({

@@ -57,14 +57,14 @@ const TextList: FC = () => {
         // const querySnapshot = await getDocs(collection(db, 'places'))
         const q = query(
           collection(db, 'places'),
-          where('place.name.fr', '==', 'On bouge à Limoges !')
+          where('clientId', '==', 'rHkYsm0B5EKnI9H8gC3y')
         )
         const querySnapshot = await getDocs(q)
 
         const placeData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           collection: 'places',
-          ...(doc.data().place as PlaceType),
+          ...(doc.data() as PlaceType),
         }))
         setPlaces(placeData)
       } catch (error) {
