@@ -25,8 +25,9 @@ export const getDashboardConfig: DashboardConfig[] = [
     title: 'LISTES',
     ariaLabel: 'CONSULTER LES CLIENTS',
     subTitle: 'Accéder a la liste des clients',
-    image: 'DEDALE_MOBILE',
+    image: 'LISTS',
     imageAlt: 'Liste clients',
+    role: ['OWNER', 'ADMIN', 'SUPERADMIN', 'DEVELOPPER'],
     route: '/clientsList',
   },
 
