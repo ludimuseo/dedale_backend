@@ -1,4 +1,9 @@
-import { collection, getDocs /* query, where */ } from 'firebase/firestore'
+import {
+  collection,
+  getDocs /* query, where */,
+  query,
+  where,
+} from 'firebase/firestore'
 import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
@@ -49,11 +54,17 @@ const TextList: FC = () => {
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'places'))
+        // const querySnapshot = await getDocs(collection(db, 'places'))
+        const q = query(
+          collection(db, 'places'),
+          where('clientId', '==', 'rHkYsm0B5EKnI9H8gC3y')
+        )
+        const querySnapshot = await getDocs(q)
+
         const placeData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           collection: 'places',
-          ...(doc.data().place as PlaceType),
+          ...(doc.data() as PlaceType),
         }))
         setPlaces(placeData)
       } catch (error) {
@@ -144,7 +155,8 @@ const TextList: FC = () => {
       <div className="navbar mb-6 rounded-xl bg-base-100">
         <span className="ml-2 font-inclusive text-3xl">Liste des textes</span>
       </div>
-      {/* {showTab && <div className="overflow-x-auto p-4">
+      <div>
+        {/* {showTab && <div className="overflow-x-auto p-4">
         <table className="table">
           <thead>
             <tr>
@@ -406,6 +418,7 @@ const TextList: FC = () => {
           </tbody>
         </table>
       </div>} */}
+      </div>
       <div className="overflow-x-auto">
         <table className="table">
           {/* head */}
@@ -416,10 +429,10 @@ const TextList: FC = () => {
                   <input type="checkbox" className="checkbox" />
                 </label>
               </th> */}
-              <th className="text-2xl">Texte</th>
-              <th className="text-2xl">Résumé</th>
-              <th className="text-2xl">Correcteur</th>
-              <th></th>
+              <th className="text-xl">Texte</th>
+              <th className="text-xl">Résumé</th>
+              <th className="text-xl">Correcteur</th>
+              <th className="text-xl">Modifier</th>
             </tr>
           </thead>
           <tbody>
@@ -462,7 +475,7 @@ const TextList: FC = () => {
                       </span>
                     </td>
 
-                    <td className="font-inclusive text-lg">Jhon Doe</td>
+                    <td className="font-inclusive text-lg">Quentin</td>
 
                     <th>
                       <button
