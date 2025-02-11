@@ -5,8 +5,8 @@ import { type FC, ReactElement, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router'
 
-import type { State } from '@/types'
 import placeholderAvatar from '/placeholder-avatar.webp'
+import type { State } from '@/types'
 
 interface HeaderProps {
   toggleMenu: ReactElement<HTMLElement> | null

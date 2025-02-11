@@ -14,6 +14,7 @@ const Dashboard: FC = () => {
       </header>
       <main>
         <DashboardMenu menu={menu} />
+        {/* <Users /> */}
       </main>
     </>
   )
