@@ -12,7 +12,7 @@ interface DashboardMenuType {
 
 export default function DashboardMenu({ menu, auth }: DashboardMenuType) {
   const navigate = useNavigate()
-  const userRole = auth.user?.role
+  const userRole = auth.user?.role ?? 'CORRECTOR'
 
   return (
     <div className="flex min-h-full flex-row items-center justify-center">
