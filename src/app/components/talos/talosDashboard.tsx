@@ -6,6 +6,10 @@ import { motion } from 'framer-motion'
 import React from 'react'
 import { useNavigate } from 'react-router'
 
+import { CheckdTextIcon } from '../ui/icons/CheckedTextIcon'
+import { InProgressIcon } from '../ui/icons/InProgressIcon'
+import { ToCorrectIcon } from '../ui/icons/ToCorrectIcon'
+
 interface TalosDashboardProps {
   role: 'referent' | 'corrector'
   userName: string
@@ -36,11 +40,7 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
           className="dashboard-item shadow-extra-dark card flex h-[300px] w-[300px] transform cursor-pointer flex-col items-center gap-4 rounded-lg bg-[#f4fdff] p-4 transition-transform hover:scale-125 hover:border-4 hover:border-[#0a184d] hover:font-bold hover:shadow-2xl"
           tabIndex={0}
           aria-labelledby="text-to-correct-card-title">
-          <img
-            src="/src/assets/imgs/Talos/acorriger.svg"
-            alt="Texte à corriger"
-            className="mx-auto mb-4 ml-[15px] h-[200px] w-[200px]"
-          />
+          <ToCorrectIcon />
           <p
             className="text-center text-lg text-[#0a184d]"
             id="text-to-correct-card-title">
@@ -55,11 +55,7 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
           className="dashboard-item shadow-extra-dark card flex h-[300px] w-[300px] transform cursor-pointer flex-col items-center gap-4 rounded-lg bg-[#0a184d] p-4 transition-transform hover:scale-125 hover:font-bold hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,1),_0_10px_10px_-5px_rgba(0,0,0,0.2),_inset_0_0_0_8px_#ffffff]"
           tabIndex={0}
           aria-labelledby="text-to-correct-in-progress-card-title">
-          <img
-            src="/src/assets/imgs/Talos/en-cours-blanc.svg"
-            alt="Textes en cours de correction"
-            className="mx-auto mb-4 ml-[55px] h-[200px] w-[200px]"
-          />
+          <InProgressIcon />
           <p
             className="text-center text-lg text-[#ffffff]"
             id="text-to-correct-in-progress-card-title">
@@ -74,11 +70,7 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
           className="dashboard-item shadow-extra-dark card flex h-[300px] w-[300px] transform cursor-pointer flex-col items-center gap-4 rounded-lg bg-[#f4fdff] p-4 transition-transform hover:scale-125 hover:border-4 hover:border-[#0a184d] hover:font-bold hover:shadow-2xl"
           tabIndex={0}
           aria-labelledby="text-validate-and-send-card-title">
-          <img
-            src="/src/assets/imgs/Talos/valide-texte.svg"
-            alt="Textes validés et envoyés"
-            className="mx-auto mb-4 ml-[35px] h-[200px] w-[200px]"
-          />
+          <CheckdTextIcon />
           <p
             className="text-center text-lg text-[#0a184d]"
             id="text-validate-and-send-card-title">
