@@ -23,6 +23,7 @@ import {
 } from '@/types'
 
 import AiValidationIcon from '../../ui/icons/AiValidation'
+import { PencilIcon } from '../../ui/icons/PencilIcon'
 import Header from '../header/header'
 import ConfirmModal from '../modals/confirmModal'
 import SuccessModal from '../modals/successModal'
@@ -87,11 +88,6 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
                 className={`mt-1 transition-transform duration-200 ease-in-out ${
                   clickedIndex === index ? 'scale-90' : 'hover:scale-110'
                 }`}>
-                {/* <img
-                  src="/src/assets/imgs/Talos/coche-valide.svg"
-                  alt="suggestion"
-                  className="h-[40px] w-[200px]"
-                /> */}
                 <AiValidationIcon />
               </div>
 
@@ -102,11 +98,7 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
                 className={`transition-transform duration-200 ease-in-out ${
                   clickedIndex === index ? 'scale-90' : 'hover:scale-110'
                 }`}>
-                <img
-                  src="/src/assets/imgs/Talos/crayon.svg"
-                  alt="modifier"
-                  className="ml-1 h-[40px] w-[200px]"
-                />
+                <PencilIcon />
               </div>
               <div
                 onClick={() => {
@@ -115,11 +107,11 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
                 className={`transition-transform duration-200 ease-in-out ${
                   clickedIndex === index ? 'scale-90' : 'hover:scale-110'
                 }`}>
-                <img
+                {/* <img
                   src="/src/assets/imgs/Talos/coche-faux.svg"
                   alt="supprimer"
                   className="ml-2 h-[40px] w-[200px]"
-                />
+                /> */}
               </div>
             </motion.div>
           )}
