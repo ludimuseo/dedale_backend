@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import DictationIcon from '../../ui/icons/DictationIcon'
 import { PrintIcon } from '../../ui/icons/PrintIcon'
+import { DictionaryButton } from './dictionaryButton'
 
 interface ActionButtonsProps {
   imageIcon: string
@@ -92,13 +93,14 @@ const ActionButtons = ({ imageIcon, image }: ActionButtonsProps) => {
       </button>
 
       {/* RECHERCHE */}
-      <div className="form-control ml-20">
+      {/* <div className="form-control ml-20">
         <input
           type="text"
           placeholder="🔎 Dictionnaire"
           className="input input-bordered input-primary w-full max-w-xs"
         />
-      </div>
+      </div> */}
+      <DictionaryButton />
     </div>
   )
 }
