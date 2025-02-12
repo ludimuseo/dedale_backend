@@ -1,26 +1,44 @@
+import { useAppDispatch, useAppSelector } from '@hook/index'
+
+import {
+  clearWord,
+  StateDictionnary,
+} from '@/app/services/redux/slices/reducerDictionary'
+import { State } from '@/types'
+
 interface DefinitionTooltipProps {
-  word: string
-  position: { x: number; y: number } | null
+  children: React.ReactNode
 }
 
-const DefinitionTooltip: React.FC<DefinitionTooltipProps> = ({
-  word,
-  position,
-}) => {
-  if (!position) return null
+type tooltipDefinition = string | null
+
+const DefinitionTooltip: React.FC<DefinitionTooltipProps> = ({ children }) => {
+  const dispatch = useAppDispatch()
+  const {
+    // selectedWord,
+    definition,
+    // position,
+    loading,
+    error,
+  }: StateDictionnary = useAppSelector((state: State) => state.dictionary)
+
+  // if (!selectedWord || !position) return null
+
+  let tooltipDefinition: tooltipDefinition
+  if (loading) {
+    tooltipDefinition = 'Chargement...'
+  } else if (error) {
+    tooltipDefinition = 'Impossible de charger la definition'
+  } else {
+    tooltipDefinition = definition
+  }
 
   return (
     <div
-      style={{
-        position: 'absolute',
-        top: position.y + 10,
-        left: position.x + 10,
-        backgroundColor: 'white',
-        padding: '10px',
-        borderRadius: '5px',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
-      }}>
-      <strong>{word}</strong>: {}
+      className="tooltip tooltip-open"
+      data-tip={tooltipDefinition}
+      onClick={() => dispatch(clearWord())}>
+      {children}
     </div>
   )
 }
