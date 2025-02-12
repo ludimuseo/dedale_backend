@@ -22,8 +22,8 @@ import {
   StepType,
 } from '@/types'
 
-import AiValidationIcon from '../../ui/icons/AiValidation'
-import { PencilIcon } from '../../ui/icons/PencilIcon'
+import { PenIcon } from '../../ui/icons/PenIcon'
+import { WrongCheck } from '../../ui/icons/WrongCheck'
 import Header from '../header/header'
 import ConfirmModal from '../modals/confirmModal'
 import SuccessModal from '../modals/successModal'
@@ -79,17 +79,16 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3, ease: 'linear' }}
-              className="ml-auto flex w-32 flex-row rounded-xl border-2 bg-slate-200 pl-2 pr-3"
+              className="ml-auto flex w-32 flex-row rounded-xl border-2 bg-slate-200 p-1 pl-2 pr-3"
               key="buttons">
-              <div
+              {/* <div
                 onClick={() => {
                   handleSentenceClick(item, index)
                 }}
-                className={`mt-1 transition-transform duration-200 ease-in-out ${
-                  clickedIndex === index ? 'scale-90' : 'hover:scale-110'
-                }`}>
+                className={`transition-transform duration-200 ease-in-out ${clickedIndex === index ? 'scale-90' : 'hover:scale-110'
+                  }`}>
                 <AiValidationIcon />
-              </div>
+              </div> */}
 
               <div
                 onClick={() => {
@@ -98,20 +97,16 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
                 className={`transition-transform duration-200 ease-in-out ${
                   clickedIndex === index ? 'scale-90' : 'hover:scale-110'
                 }`}>
-                <PencilIcon />
+                <PenIcon size={32} color="blue" />
               </div>
               <div
                 onClick={() => {
                   handleDeleteSentenceClick(index)
                 }}
-                className={`transition-transform duration-200 ease-in-out ${
+                className={`ml-1 transition-transform duration-200 ease-in-out ${
                   clickedIndex === index ? 'scale-90' : 'hover:scale-110'
                 }`}>
-                {/* <img
-                  src="/src/assets/imgs/Talos/coche-faux.svg"
-                  alt="supprimer"
-                  className="ml-2 h-[40px] w-[200px]"
-                /> */}
+                <WrongCheck className="h-8 w-8" />
               </div>
             </motion.div>
           )}
@@ -134,26 +129,26 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
     setHoveredIndexCorrectedText(null)
   }
 
-  const handleSentenceClick = (sentence: string, index: number) => {
-    const indexToString: string = index.toString()
-    setNewSentence((prev) => [...prev, sentence])
-    setClickedIndex(index)
-    //colorer la phrase
-    setColoredSentence((prev) => ({
-      ...prev,
-      [indexToString]: 'bg-green-100',
-    }))
+  // const handleSentenceClick = (sentence: string, index: number) => {
+  //   const indexToString: string = index.toString()
+  //   setNewSentence((prev) => [...prev, sentence])
+  //   setClickedIndex(index)
+  //   //colorer la phrase
+  //   setColoredSentence((prev) => ({
+  //     ...prev,
+  //     [indexToString]: 'bg-green-100',
+  //   }))
 
-    //ajout au state falc
-    setFalcText((prev) => {
-      const updated = [...prev]
-      updated[index] = sentence
-      return updated
-    })
+  //   //ajout au state falc
+  //   setFalcText((prev) => {
+  //     const updated = [...prev]
+  //     updated[index] = sentence
+  //     return updated
+  //   })
 
-    //enlever le bouton de validatio (relecture obligatoire)
-    setValidateText(false)
-  }
+  //   //enlever le bouton de validatio (relecture obligatoire)
+  //   setValidateText(false)
+  // }
 
   const handleModifSentenceClick = (sentence: string, index: number) => {
     const indexToString: string = index.toString()
@@ -218,7 +213,7 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
   }
 
   const handleGoBack = () => {
-    history.back()
+    alert('Retour en arriere bientot disponible :-)')
   }
 
   const handleProofReading = () => {
@@ -262,7 +257,6 @@ const TalosInterfaceMain = ({ formData }: TalosInterfaceMainProps) => {
       console.error('Erreur de la soumission des données', error)
     }
   }
-  console.log('formData.id: ', formData.id, 'collection: ', formData.collection)
   return (
     <>
       <Header
