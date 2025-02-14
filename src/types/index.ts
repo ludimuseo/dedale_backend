@@ -20,28 +20,33 @@ export enum UserRole {
   CONTRIBUTOR = 'CONTRIBUTOR',
 }
 
-export export interface User {
-  id: string;
-  pseudo: string;
-  name: string;
-  firstname: string;
-  email: string;
-  role: UserRole;
-  token: string;
-  password: string;
+export interface User {
+  id: string
+  pseudo: string
+  name: string
+  firstname: string
+  email: string
+  role: UserRole
+  token: string
+  password: string
 }
 
-/* WORDPASS */
-export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/* EMAIL & PASSWORD VALIDATION */
+export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+/* Function to generate a secure password */
+export const generateSecurePassword = (): string => {
+  return crypto.randomUUID().slice(0, 8)
+}
+
+/* USER SETTINGS */
 export interface UserSettings {
-  isContrast: boolean;
-  isFalc: boolean;
-  avatar: string;
-  language: string;
-  isTutorial: boolean;
+  isContrast: boolean
+  isFalc: boolean
+  avatar: string
+  language: string
+  isTutorial: boolean
 }
-
 
 /* THEME */
 export enum Theme {
