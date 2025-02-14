@@ -20,28 +20,27 @@ export enum UserRole {
   CONTRIBUTOR = 'CONTRIBUTOR',
 }
 
-export export interface User {
-  id: string;
-  pseudo: string;
-  name: string;
-  firstname: string;
-  email: string;
-  role: UserRole;
-  token: string;
-  password: string;
+export interface User {
+  id: string
+  pseudo: string
+  name: string
+  firstname: string
+  email: string
+  role: UserRole
+  token: string
+  password: string
 }
 
 /* WORDPASS */
-export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export interface UserSettings {
-  isContrast: boolean;
-  isFalc: boolean;
-  avatar: string;
-  language: string;
-  isTutorial: boolean;
+  isContrast: boolean
+  isFalc: boolean
+  avatar: string
+  language: string
+  isTutorial: boolean
 }
-
 
 /* THEME */
 export enum Theme {
