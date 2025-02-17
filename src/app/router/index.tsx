@@ -1,10 +1,11 @@
 import { createBrowserRouter, Navigate, type RouteObject } from 'react-router'
 
-import LayoutAuth from '@/app/layouts/layoutAuth'
-import LayoutDefault from '@/app/layouts/layoutDefault'
-import RouteAuth from '@/app/middleware/routeAuth'
-import RouteGuest from '@/app/middleware/routeGuest'
-import PageError from '@/app/pages/pageError'
+import LayoutAuth from '@/app/layouts/LayoutAuth'
+import LayoutDefault from '@/app/layouts/LayoutDefault'
+import RouteAuth from '@/app/middleware/RouteAuth'
+import RouteGuest from '@/app/middleware/RouteGuest'
+
+import PageError from '../pages/PageError'
 
 const routes: RouteObject[] = [
   {
@@ -14,56 +15,56 @@ const routes: RouteObject[] = [
         children: [
           {
             async lazy() {
-              const { Dashboard } = await import('@/app/pages/dashboard')
+              const { Dashboard } = await import('@/app/pages/dashboard/Index')
               return { Component: Dashboard }
             },
             path: '/',
           },
           {
             async lazy() {
-              const { User } = await import('@/app/pages/user')
+              const { User } = await import('@/app/pages/user/Index')
               return { Component: User }
             },
             path: '/user',
           },
           {
             async lazy() {
-              const { UserProfile } = await import('@/app/pages/user/profile')
+              const { UserProfile } = await import('@/app/pages/user/Profile')
               return { Component: UserProfile }
             },
             path: '/user/profile',
           },
           {
             async lazy() {
-              const { UserSettings } = await import('@/app/pages/user/settings')
+              const { UserSettings } = await import('@/app/pages/user/Settings')
               return { Component: UserSettings }
             },
             path: '/user/settings',
           },
           {
             async lazy() {
-              const { UserCreate } = await import('@/app/pages/user/create')
+              const { UserCreate } = await import('@/app/pages/user/Create')
               return { Component: UserCreate }
             },
             path: '/user/create',
           },
           {
             async lazy() {
-              const { FormMenu } = await import('@/app/pages/forms/formMenu')
+              const { FormMenu } = await import('@/app/pages/forms/FormMenu')
               return { Component: FormMenu }
             },
             path: '/form',
           },
           {
             async lazy() {
-              const { TextList } = await import('@/app/pages/talos/textList')
+              const { TextList } = await import('@/app/pages/talos/TextList')
               return { Component: TextList }
             },
             path: '/textList',
           },
           {
             async lazy() {
-              const { TalosHome } = await import('@/app/pages/talos/talosHome')
+              const { TalosHome } = await import('@/app/pages/talos/TalosHome')
               return { Component: TalosHome }
             },
             path: '/talos',
@@ -71,7 +72,7 @@ const routes: RouteObject[] = [
           {
             async lazy() {
               const { TalosInterface } = await import(
-                '@/app/pages/talos/talosInterface.tsx'
+                '@/app/pages/talos/TalosInterface'
               )
               return { Component: TalosInterface }
             },
@@ -79,7 +80,7 @@ const routes: RouteObject[] = [
           },
           {
             async lazy() {
-              const { Users } = await import('@/app/pages/users/index.tsx')
+              const { Users } = await import('@/app/pages/users/Index')
               return { Component: Users }
             },
             path: '/clientsList',
@@ -88,7 +89,7 @@ const routes: RouteObject[] = [
           {
             async lazy() {
               const { FormClient } = await import(
-                '@/app/pages/forms/formClient/formClient'
+                '@/app/pages/forms/formClient/FormClient'
               )
               return { Component: FormClient }
             },
@@ -97,7 +98,7 @@ const routes: RouteObject[] = [
           {
             async lazy() {
               const { FormPlace } = await import(
-                '@/app/pages/forms/formPlace/formPlace'
+                '@/app/pages/forms/formPlace/FormPlace'
               )
               return { Component: FormPlace }
             },
@@ -106,7 +107,7 @@ const routes: RouteObject[] = [
           {
             async lazy() {
               const { FormJourney } = await import(
-                '@/app/pages/forms/formJourney/formJourney'
+                '@/app/pages/forms/formJourney/FormJourney'
               )
               return { Component: FormJourney }
             },
@@ -115,7 +116,7 @@ const routes: RouteObject[] = [
           {
             async lazy() {
               const { FormStep } = await import(
-                '@/app/pages/forms/formStep/formStep'
+                '@/app/pages/forms/formStep/FormStep'
               )
               return { Component: FormStep }
             },
@@ -124,7 +125,7 @@ const routes: RouteObject[] = [
           {
             async lazy() {
               const { FormPiece } = await import(
-                '@/app/pages/forms/formPiece/formPiece'
+                '@/app/pages/forms/formPiece/FormPiece'
               )
               return { Component: FormPiece }
             },
@@ -133,7 +134,7 @@ const routes: RouteObject[] = [
           {
             async lazy() {
               const { FormGame } = await import(
-                '@/app/pages/forms/formGame/formGame'
+                '@/app/pages/forms/formGame/FormGame'
               )
               return { Component: FormGame }
             },
@@ -142,7 +143,7 @@ const routes: RouteObject[] = [
           {
             async lazy() {
               const { FormMedal } = await import(
-                '@/app/pages/forms/formMedal/formMedal'
+                '@/app/pages/forms/formMedal/FormMedal'
               )
               return { Component: FormMedal }
             },
@@ -150,14 +151,14 @@ const routes: RouteObject[] = [
           },
           {
             async lazy() {
-              const { Users } = await import('@/app/pages/users')
+              const { Users } = await import('@/app/pages/users/Index')
               return { Component: Users }
             },
             path: '/users',
           },
           {
             async lazy() {
-              const { UsersEdit } = await import('@/app/pages/users/edit')
+              const { UsersEdit } = await import('@/app/pages/users/Edit')
               return { Component: UsersEdit }
             },
             path: '/users/:id',
@@ -178,7 +179,7 @@ const routes: RouteObject[] = [
           },
           {
             async lazy() {
-              const { AuthSignIn } = await import('@/app/pages/auth/signin')
+              const { AuthSignIn } = await import('@/app/pages/auth/Signin')
               return { Component: AuthSignIn }
             },
             path: '/auth/signin',

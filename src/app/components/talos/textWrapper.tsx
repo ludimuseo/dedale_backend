@@ -8,7 +8,7 @@ import {
 } from '@service/redux/slices/reducerDictionary'
 import { ThunkDispatch } from 'redux-thunk'
 
-import { DefinitionTooltip } from './definitionTooltip'
+import { DefinitionTooltip } from './DefinitionTooltip'
 
 interface TextWrapperProps {
   text: string

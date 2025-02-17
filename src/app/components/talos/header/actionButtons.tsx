@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import DictationIcon from '../../ui/icons/DictationIcon'
 import { PrintIcon } from '../../ui/icons/PrintIcon'
-import { DictionaryButton } from './dictionaryButton'
+import { DictionaryButton } from './DictionaryButton'
 
 interface ActionButtonsProps {
   imageIcon: string

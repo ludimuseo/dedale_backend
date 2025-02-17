@@ -10,7 +10,7 @@ import {
 import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
-import DataTable from '@/app/components/ui/dataTable'
+import DataTable from '@/app/components/ui/DataTable'
 import { db } from '@/firebase/firebase'
 import { ClientType } from '@/types'
 

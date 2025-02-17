@@ -2,7 +2,7 @@ import React from 'react'
 
 import { GameType, JourneyType, PieceType, PlaceType, StepType } from '@/types'
 
-import ActionButtons from './actionButtons'
+import ActionButtons from './ActionButtons'
 
 interface HeaderProps {
   handleGoBack: () => void

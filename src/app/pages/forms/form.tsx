@@ -5,8 +5,8 @@ import { GetInputConfigType, MessageType, T } from '@/types'
 
 import FormFooter from './formFooter'
 import FormHeader from './formheader'
-import InputArea from './inputArea'
-import Timeline from './timeline'
+import InputArea from './InputArea'
+import Timeline from './Timeline'
 
 interface FormProps {
   clientIdAndName?: { id: string; name: string }[] | undefined

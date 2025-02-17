@@ -8,7 +8,7 @@ import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
 import { MessageType, PlaceType, T } from '@/types'
 
-import Form from '../form'
+import Form from '../Form'
 import { getInputJourneyConfig } from './configJourney/getInputJourneyConfig'
 
 const FormJourney: FC = () => {

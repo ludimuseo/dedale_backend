@@ -267,7 +267,7 @@ export interface PlaceType {
       en: string
       falcCertified: string
       userId: string
-      statut: {
+      status: {
         isValidate: boolean
         isCertified: boolean
         certifiedDate: Date
@@ -325,7 +325,7 @@ export interface JourneyType {
       en: string
       falcCertified: string
       userId: string
-      statut: {
+      status: {
         isValidate: boolean
         isCertified: boolean
         certifiedDate: Date
@@ -380,7 +380,7 @@ export interface StepType {
       en: string
       falcCertified: string
       userId: string
-      statut: {
+      status: {
         isValidate: boolean
         isCertified: boolean
         certifiedDate: Date
@@ -433,7 +433,7 @@ export interface PieceType {
       en: string
       falcCertified: string
       userId: string
-      statut: {
+      status: {
         isValidate: boolean
         isCertified: boolean
         certifiedDate: Date
@@ -478,7 +478,7 @@ export interface GameType {
       en: string
       falcCertified: string
       userId: string
-      statut: {
+      status: {
         isValidate: boolean
         isCertified: boolean
         certifiedDate: Date

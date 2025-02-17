@@ -2,6 +2,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore'
 import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import { CheckIcon } from '@/app/components/ui/icons/CheckIcon'
 import { PencilIcon } from '@/app/components/ui/icons/PencilIcon' // Import de l'icône
 import { db } from '@/firebase/firebase'
 import {
@@ -129,29 +130,52 @@ const TextList: FC = () => {
           {places.map((place) => (
             <article
               key={place.id}
-              className="rounded-lg bg-gray-50 p-4 shadow-sm">
+              className={`rounded-lg bg-gray-50 p-4 shadow-sm`}>
               <h3 className="mb-2 text-2xl font-medium">{place.name.fr}</h3>
+
               <p className="mb-4 text-gray-700">
                 {place.description.falc.fr.length > 100
-                  ? `${place.description.falc.fr.slice(0, 100)}...`
+                  ? `${place.description.falc.fr.slice(0, 150)}...`
                   : place.description.falc.fr}
               </p>
+
+              {/* IMAGE */}
               <div className="flex gap-4">
+                <div className="avatar">
+                  <div className="w-14 rounded-xl">
+                    <img src={place.content.image[0]} />
+                  </div>
+                </div>
+
                 <button
                   onClick={() => void fetchJourneys(place.id)}
                   className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
                   aria-label={`Voir les parcours pour ${place.name.fr}`}>
                   Voir les Parcours
                 </button>
-                <button
-                  onClick={() => {
-                    handleNavigate(place)
-                  }}
-                  className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-                  aria-label={`Modifier ${place.name.fr}`}>
-                  <PencilIcon />
-                  <span>Modifier</span>
-                </button>
+                {place.description.falc.status.isCertified ? (
+                  <button
+                    className="flex items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-white"
+                    aria-label={`Texte validé pour ${place.name.fr}`}>
+                    <CheckIcon className="h-8 w-8" />
+                    <span>TEXTE VALIDÉ</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      handleNavigate(place)
+                    }}
+                    className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+                    aria-label={`Corriger ${place.name.fr}`}>
+                    <PencilIcon />
+                    <span>Corriger</span>
+                  </button>
+                )}
+                {/* <button
+                  className="btn-disabled flex items-center">
+                  <img className="rounded-lg" src={place.content.image[0]} alt={place.name.fr} />
+
+                </button> */}
               </div>
 
               {/* Liste des Parcours */}
@@ -172,22 +196,37 @@ const TextList: FC = () => {
                         <h5 className="mb-2 text-lg font-medium">
                           {journey.name.fr}
                         </h5>
+                        {/* IMAGE */}
                         <div className="flex gap-4">
+                          <div className="avatar">
+                            <div className="w-14 rounded-xl">
+                              <img src={journey.content.image[0]} />
+                            </div>
+                          </div>
                           <button
                             onClick={() => void fetchSteps(journey.id)}
                             className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
                             aria-label={`Voir les étapes pour ${journey.name.fr}`}>
                             Voir les Étapes
                           </button>
-                          <button
-                            onClick={() => {
-                              handleNavigate(journey)
-                            }}
-                            className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-                            aria-label={`Modifier ${journey.name.fr}`}>
-                            <PencilIcon />
-                            <span>Modifier</span>
-                          </button>
+                          {journey.description.falc.status.isCertified ? (
+                            <button
+                              className="flex items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-white"
+                              aria-label={`Texte validé pour ${journey.name.fr}`}>
+                              <CheckIcon className="h-8 w-8" />
+                              <span>TEXTE VALIDÉ</span>
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                handleNavigate(journey)
+                              }}
+                              className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+                              aria-label={`Corriger ${journey.name.fr}`}>
+                              <PencilIcon />
+                              <span>Corriger</span>
+                            </button>
+                          )}
                         </div>
 
                         {/* Liste des Étapes */}
@@ -209,21 +248,36 @@ const TextList: FC = () => {
                                     {step.name.fr}
                                   </h6>
                                   <div className="flex gap-4">
+                                    <div className="avatar">
+                                      <div className="w-14 rounded-xl">
+                                        <img src={step.content.image[0]} />
+                                      </div>
+                                    </div>
                                     <button
                                       onClick={() => void fetchPieces(step.id)}
                                       className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
                                       aria-label={`Voir les œuvres pour ${step.name.fr}`}>
                                       Voir les Œuvres
                                     </button>
-                                    <button
-                                      onClick={() => {
-                                        handleNavigate(step)
-                                      }}
-                                      className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-                                      aria-label={`Modifier ${step.name.fr}`}>
-                                      <PencilIcon />
-                                      <span>Modifier</span>
-                                    </button>
+                                    {step.description.falc.status
+                                      .isCertified ? (
+                                      <button
+                                        className="flex items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-white"
+                                        aria-label={`Texte validé pour ${step.name.fr}`}>
+                                        <CheckIcon className="h-8 w-8" />
+                                        <span>TEXTE VALIDÉ</span>
+                                      </button>
+                                    ) : (
+                                      <button
+                                        onClick={() => {
+                                          handleNavigate(step)
+                                        }}
+                                        className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+                                        aria-label={`Corriger ${step.name.fr}`}>
+                                        <PencilIcon />
+                                        <span>Corriger</span>
+                                      </button>
+                                    )}
                                   </div>
 
                                   {/* Liste des Œuvres */}
@@ -244,15 +298,37 @@ const TextList: FC = () => {
                                             <h6 className="mb-2 text-sm font-medium">
                                               {piece.name.fr}
                                             </h6>
-                                            <button
-                                              onClick={() => {
-                                                handleNavigate(piece)
-                                              }}
-                                              className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-                                              aria-label={`Modifier ${piece.name.fr}`}>
-                                              <PencilIcon />
-                                              <span>Modifier</span>
-                                            </button>
+                                            {/* IMAGE */}
+                                            <div className="flex gap-4">
+                                              <div className="avatar">
+                                                <div className="w-14 rounded-xl">
+                                                  <img
+                                                    src={
+                                                      journey.content.image[0]
+                                                    }
+                                                  />
+                                                </div>
+                                              </div>
+                                              {piece.description.falc.status
+                                                .isCertified ? (
+                                                <button
+                                                  className="flex items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-white"
+                                                  aria-label={`Texte validé pour ${piece.name.fr}`}>
+                                                  <CheckIcon className="h-8 w-8" />
+                                                  <span>TEXTE VALIDÉ</span>
+                                                </button>
+                                              ) : (
+                                                <button
+                                                  onClick={() => {
+                                                    handleNavigate(piece)
+                                                  }}
+                                                  className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+                                                  aria-label={`Corriger ${place.name.fr}`}>
+                                                  <PencilIcon />
+                                                  <span>Corriger</span>
+                                                </button>
+                                              )}
+                                            </div>
                                           </article>
                                         ))}
                                       </div>

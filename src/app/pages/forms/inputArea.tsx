@@ -4,7 +4,7 @@ import successImage from '@/assets/imgs/minos-reussi.png'
 import { GetInputConfigType, MessageType, T } from '@/types'
 
 //import Option from './inputForm/Option'
-import TextArea from './inputForm/TextArea'
+import TextArea from './InputForm/TextArea'
 
 interface InputAreaProps {
   message: MessageType
