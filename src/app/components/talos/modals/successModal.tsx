@@ -1,3 +1,5 @@
+import { SuccessIcon } from '../../ui/icons/SuccessIcon'
+
 interface IsSetIsSuccessType {
   setIsSuccess: (isSuccess: boolean) => void
 }
@@ -12,7 +14,7 @@ const SuccessModal = ({ setIsSuccess }: IsSetIsSuccessType) => {
       <div className="w-full max-w-sm rounded-lg bg-white p-6 shadow-lg">
         <div className="flex flex-col items-center">
           <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-            <svg
+            {/* <svg
               className="h-6 w-6 text-green-600"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -24,7 +26,8 @@ const SuccessModal = ({ setIsSuccess }: IsSetIsSuccessType) => {
                 strokeLinejoin="round"
                 d="M5 13l4 4L19 7"
               />
-            </svg>
+            </svg> */}
+            <SuccessIcon />
           </div>
           <h2
             id="success-modal-title"

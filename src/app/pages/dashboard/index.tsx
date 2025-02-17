@@ -1,6 +1,6 @@
 import { type FC } from 'react'
 
-import DashboardMenu from '@/app/components/dashboard/dashboardMenu'
+import DashboardMenu from '@/app/components/Dashboard/DashboardMenu'
 import { useAppSelector } from '@/app/hooks'
 import { State } from '@/types'
 

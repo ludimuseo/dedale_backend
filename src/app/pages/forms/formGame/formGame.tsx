@@ -8,7 +8,7 @@ import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
 import { MessageType, T } from '@/types'
 
-import Form from '../form'
+import Form from '../Form'
 import { getInputGameConfig } from './configGame/getInputTextGameConfig'
 
 const FormGame: FC = () => {

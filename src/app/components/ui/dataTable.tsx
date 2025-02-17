@@ -3,8 +3,8 @@ import '@/assets/styles/root.scss'
 import React from 'react'
 
 import { PlaceIcon } from './icons/PlaceIcon'
-import Pagination from './pagination'
-import SearchInput from './searchInput'
+import Pagination from './Pagination'
+import SearchInput from './SearchInput'
 
 interface Column {
   header: string

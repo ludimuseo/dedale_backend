@@ -24,12 +24,12 @@ import {
 
 import { PenIcon } from '../../ui/icons/PenIcon'
 import { WrongCheck } from '../../ui/icons/WrongCheck'
-import Header from '../header/header'
-import ConfirmModal from '../modals/confirmModal'
-import SuccessModal from '../modals/successModal'
-import RightSideBar from '../rightSideBar'
-import LeftClipboard from './leftClipboard'
-import RightClipboard from './rightClipboard'
+import Header from '../Header/Header'
+import ConfirmModal from '../modals/ConfirmModal'
+import SuccessModal from '../modals/SuccessModal'
+import RightSideBar from '../RightSideBar'
+import LeftClipboard from './LeftClipboard'
+import RightClipboard from './RightClipboard'
 
 interface TalosInterfaceMainProps {
   formData: EntityWithId<

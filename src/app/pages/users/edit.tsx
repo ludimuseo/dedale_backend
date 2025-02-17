@@ -4,7 +4,7 @@ import { useParams } from 'react-router'
 import { z } from 'zod'
 
 import { Input } from '@/app/components'
-import Alert from '@/app/components/ui/alert'
+import Alert from '@/app/components/ui/Alert'
 import { db } from '@/firebase/firebase'
 import { ClientType } from '@/types'
 

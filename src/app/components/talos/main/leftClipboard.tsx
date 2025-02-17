@@ -10,7 +10,7 @@ import {
   StepType,
 } from '@/types'
 
-import MainContent from './mainContent'
+import MainContent from './MainContent'
 
 interface LeftClipboard {
   isLeftClipboardShowed: boolean

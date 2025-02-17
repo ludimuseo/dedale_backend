@@ -1,4 +1,4 @@
-import ButtonWithIcon from './buttonWithIcon'
+import ButtonWithIcon from './ButtonWithIcon'
 
 interface RightSideBarProps {
   relectureIcon: string

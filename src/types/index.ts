@@ -1,5 +1,6 @@
 import type { StateAlert } from '@service/redux/slices/reducerAlert'
 import type { StateAuth } from '@service/redux/slices/reducerAuth'
+import type { StateDictionnary } from '@service/redux/slices/reducerDictionary'
 import type { StateTheme } from '@service/redux/slices/reducerTheme'
 import type {
   ComponentProps,
@@ -12,6 +13,7 @@ export interface State {
   auth: StateAuth
   theme: StateTheme
   alert: StateAlert
+  dictionary: StateDictionnary
 }
 
 /* USER */
@@ -265,7 +267,7 @@ export interface PlaceType {
       en: string
       falcCertified: string
       userId: string
-      statut: {
+      status: {
         isValidate: boolean
         isCertified: boolean
         certifiedDate: Date
@@ -323,7 +325,7 @@ export interface JourneyType {
       en: string
       falcCertified: string
       userId: string
-      statut: {
+      status: {
         isValidate: boolean
         isCertified: boolean
         certifiedDate: Date
@@ -378,7 +380,7 @@ export interface StepType {
       en: string
       falcCertified: string
       userId: string
-      statut: {
+      status: {
         isValidate: boolean
         isCertified: boolean
         certifiedDate: Date
@@ -431,7 +433,7 @@ export interface PieceType {
       en: string
       falcCertified: string
       userId: string
-      statut: {
+      status: {
         isValidate: boolean
         isCertified: boolean
         certifiedDate: Date
@@ -476,7 +478,7 @@ export interface GameType {
       en: string
       falcCertified: string
       userId: string
-      statut: {
+      status: {
         isValidate: boolean
         isCertified: boolean
         certifiedDate: Date
