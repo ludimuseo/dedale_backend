@@ -69,7 +69,7 @@ const ChangeTheme: FC = () => {
             onChange={handleSwitchDark}
             disabled={theme === Theme.SYSTEM}
           />
-          <i>&#x1F31C;</i>
+          <i>&#x1F31A;</i>
         </label>
       </div>
     </>

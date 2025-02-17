@@ -26,7 +26,7 @@ const FormFooter = ({
   icon,
 }: FormFooterProps) => {
   return (
-    <div className="dark:border-strokedark dark:bg-boxdark mt-5 flex flex-col rounded-sm bg-white px-20">
+    <div className="dark:border-strokedark dark:bg-boxdark mt-5 flex flex-col rounded-sm px-20">
       <div className="flex flex-row justify-center">
         {message.result ? (
           <>
@@ -64,7 +64,6 @@ const FormFooter = ({
               onClick={(event) => {
                 handleSubmit(event)
               }}>
-              {/*Add void because Promise-returning function provided to attribute where a void return was expected  */}
               VALIDER
             </button>
           </div>

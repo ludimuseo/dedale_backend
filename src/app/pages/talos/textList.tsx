@@ -1,35 +1,48 @@
 import { collection, getDocs, query, where } from 'firebase/firestore'
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import { PencilIcon } from '@/app/components/ui/icons/PencilIcon' // Import de l'icône
 import { db } from '@/firebase/firebase'
-import { GameType, JourneyType, PieceType, PlaceType, StepType } from '@/types'
+import {
+  EntityWithId,
+  JourneyType,
+  PieceType,
+  PlaceType,
+  StepType,
+} from '@/types'
 
 const TextList: FC = () => {
-  const [places, setPlaces] = useState<(PlaceType & { id: string })[]>([])
-  const [journeys, setJourneys] = useState<(JourneyType & { id: string })[]>([])
-  const [steps, setSteps] = useState<(StepType & { id: string })[]>([])
-  const [pieces, setPieces] = useState<(PieceType & { id: string })[]>([])
-  const [games, setGames] = useState<(GameType & { id: string })[]>([])
+  const [places, setPlaces] = useState<
+    (PlaceType & { id: string; collection: string })[]
+  >([])
+  const [journeys, setJourneys] = useState<
+    (JourneyType & { id: string; collection: string })[]
+  >([])
+  const [steps, setSteps] = useState<
+    (StepType & { id: string; collection: string })[]
+  >([])
+  const [pieces, setPieces] = useState<
+    (PieceType & { id: string; collection: string })[]
+  >([])
   const [activePlaceId, setActivePlaceId] = useState<string | null>(null)
   const [activeJourneyId, setActiveJourneyId] = useState<string | null>(null)
   const [activeStepId, setActiveStepId] = useState<string | null>(null)
-  const [activePieceId, setActivePieceId] = useState<string | null>(null)
   const navigate = useNavigate()
 
-  const handleNavigate = (
-    formData: PlaceType | JourneyType | StepType | PieceType | GameType
-  ) => {
-    void navigate('/interface', { state: { formData: formData } })
-  }
-
+  // Fetch places on component mount
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'places'))
+        const q = query(
+          collection(db, 'places'),
+          where('clientId', '==', 'rHkYsm0B5EKnI9H8gC3y')
+        )
+        const querySnapshot = await getDocs(q)
         const placeData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
-          ...(doc.data().place as PlaceType),
+          collection: 'places',
+          ...(doc.data() as PlaceType),
         }))
         setPlaces(placeData)
       } catch (error) {
@@ -39,16 +52,18 @@ const TextList: FC = () => {
     void fetchPlaces()
   }, [])
 
+  // Fetch journeys for a specific place
   const fetchJourneys = async (placeId: string) => {
     try {
       const q = query(
         collection(db, 'journeys'),
-        where('journey.placeID', '==', placeId)
+        where('placeId', '==', placeId)
       )
       const querySnapshot = await getDocs(q)
       const journeyData = querySnapshot.docs.map((doc) => ({
         id: doc.id,
-        ...(doc.data().journey as JourneyType),
+        collection: 'journeys',
+        ...(doc.data() as JourneyType),
       }))
       setJourneys(journeyData)
       setActivePlaceId(placeId)
@@ -57,324 +72,206 @@ const TextList: FC = () => {
     }
   }
 
+  // Fetch steps for a specific journey
   const fetchSteps = async (journeyId: string) => {
     try {
       const q = query(
         collection(db, 'steps'),
-        where('step.journeyID', '==', journeyId)
+        where('journeyId', '==', journeyId)
       )
       const querySnapshot = await getDocs(q)
       const stepData = querySnapshot.docs.map((doc) => ({
         id: doc.id,
-        ...(doc.data().step as StepType),
+        collection: 'steps',
+        ...(doc.data() as StepType),
       }))
       setSteps(stepData)
       setActiveJourneyId(journeyId)
     } catch (error) {
-      console.error('Error fetching journeys:', error)
+      console.error('Error fetching steps:', error)
     }
   }
 
+  // Fetch pieces for a specific step
   const fetchPieces = async (stepId: string) => {
     try {
-      const q = query(
-        collection(db, 'pieces'),
-        where('piece.stepID', '==', stepId)
-      )
+      const q = query(collection(db, 'pieces'), where('stepId', '==', stepId))
       const querySnapshot = await getDocs(q)
       const pieceData = querySnapshot.docs.map((doc) => ({
         id: doc.id,
-        ...(doc.data().piece as PieceType),
+        collection: 'pieces',
+        ...(doc.data() as PieceType),
       }))
       setPieces(pieceData)
       setActiveStepId(stepId)
     } catch (error) {
-      console.error('Error fetching journeys:', error)
+      console.error('Error fetching pieces:', error)
     }
   }
 
-  const fetchGames = async (pieceId: string) => {
-    try {
-      const q = query(
-        collection(db, 'games'),
-        where('game.pieceID', '==', pieceId)
-      )
-      const querySnapshot = await getDocs(q)
-      const gameData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...(doc.data().game as GameType),
-      }))
-      setGames(gameData)
-      setActivePieceId(pieceId)
-    } catch (error) {
-      console.error('Error fetching journeys:', error)
-    }
+  // Navigate to the edit page
+  const handleNavigate = (
+    formData: EntityWithId<PlaceType | JourneyType | StepType | PieceType>
+  ) => {
+    void navigate('/interface', { state: { formData } })
   }
 
   return (
-    <div>
-      <div className="overflow-x-auto">
-        <table className="table">
-          <thead>
-            <tr>
-              <th className="text-3xl">#</th>
-              <th className="text-3xl">LIEU</th>
-              <th className="text-3xl">COMPLETION</th>
-              <th className="text-3xl">ACTIONS</th>
-              <th className="flex justify-center text-3xl">MODIFIER</th>
-              <th className="text-3xl">ENVOYER</th>
-            </tr>
-          </thead>
-          <tbody>
-            {places.map((place, index) => (
-              <React.Fragment key={place.id}>
-                <tr className="bg-base-300">
-                  <th>{index + 1}</th>
-                  <td>
-                    <h1
-                      className="cursor-pointer text-3xl hover:underline"
-                      onClick={() => {
-                        handleNavigate(place)
-                      }}>
-                      {`Lieu: `}
-                      {place.name.fr}
-                    </h1>
-                  </td>
-                  <td>
-                    <progress
-                      className="progress progress-success w-56"
-                      value="40"
-                      max="100"></progress>
-                  </td>
+    <div className="bg-white p-6 text-gray-900">
+      <h1 className="mb-8 text-4xl font-bold">Liste des Textes</h1>
 
-                  <td className="group relative">
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => void fetchJourneys(place.id)}>
-                      ↓ Voir les parcours
-                    </button>
-                    <div
-                      role="tooltip"
-                      aria-label="Afficher les parcours"
-                      className="absolute bottom-full left-1/2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-yellow-300 px-3 py-1 text-sm text-black shadow-lg group-hover:block">
-                      Afficher les parcours
-                    </div>
-                  </td>
+      {/* Liste des Lieux */}
+      <section aria-labelledby="places-heading">
+        <h2 id="places-heading" className="mb-6 text-3xl font-semibold">
+          Lieux
+        </h2>
+        <div className="space-y-4">
+          {places.map((place) => (
+            <article
+              key={place.id}
+              className="rounded-lg bg-gray-50 p-4 shadow-sm">
+              <h3 className="mb-2 text-2xl font-medium">{place.name.fr}</h3>
+              <p className="mb-4 text-gray-700">
+                {place.description.falc.fr.length > 100
+                  ? `${place.description.falc.fr.slice(0, 100)}...`
+                  : place.description.falc.fr}
+              </p>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => void fetchJourneys(place.id)}
+                  className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                  aria-label={`Voir les parcours pour ${place.name.fr}`}>
+                  Voir les Parcours
+                </button>
+                <button
+                  onClick={() => {
+                    handleNavigate(place)
+                  }}
+                  className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+                  aria-label={`Modifier ${place.name.fr}`}>
+                  <PencilIcon />
+                  <span>Modifier</span>
+                </button>
+              </div>
 
-                  <td
-                    className="group relative"
-                    onClick={() => {
-                      handleNavigate(place)
-                    }}>
-                    <img
-                      src="/src/assets/imgs/talos/crayon.svg"
-                      alt="crayon"
-                      className="mx-auto h-[60px] w-[200px]"
-                    />
-                    <div
-                      role="tooltip"
-                      aria-label="Afficher les parcours"
-                      className="absolute bottom-full left-1/2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-yellow-300 px-3 py-1 text-sm text-black shadow-lg group-hover:block">
-                      Modifier {place.name.fr}
-                    </div>
-                  </td>
-                  <td className="group relative">
-                    <img
-                      src="/src/assets/imgs/talos/enveloppe.svg"
-                      alt="crayon"
-                      className="mx-auto h-[60px] w-[200px]"
-                    />
-                    <div
-                      role="tooltip"
-                      aria-label="Afficher les parcours"
-                      className="absolute bottom-full left-1/2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-yellow-300 px-3 py-1 text-sm text-black shadow-lg group-hover:block">
-                      Envoyer le texte {place.name.fr}
-                    </div>
-                  </td>
-                </tr>
-                {activePlaceId === place.id &&
-                  journeys.map((journey) => (
-                    <React.Fragment key={journey.id}>
-                      <tr className="bg-base-200">
-                        <th>&#12336;</th>
-                        <td>
-                          <h3
-                            className="cursor-pointer text-2xl hover:underline"
-                            onClick={() => {
-                              alert(journey.name.fr)
-                            }}>
-                            {`Parcours: `}
-                            {journey.name.fr}
-                          </h3>
-                        </td>
-                        <td>
-                          <progress
-                            className="progress progress-success w-56"
-                            value="40"
-                            max="100"></progress>
-                        </td>
-                        <td>
+              {/* Liste des Parcours */}
+              {activePlaceId === place.id && (
+                <section
+                  aria-labelledby={`journeys-${place.id}-heading`}
+                  className="mt-4">
+                  <h4
+                    id={`journeys-${place.id}-heading`}
+                    className="mb-4 text-xl font-semibold">
+                    Parcours
+                  </h4>
+                  <div className="space-y-4">
+                    {journeys.map((journey) => (
+                      <article
+                        key={journey.id}
+                        className="rounded-lg bg-white p-4 shadow-sm">
+                        <h5 className="mb-2 text-lg font-medium">
+                          {journey.name.fr}
+                        </h5>
+                        <div className="flex gap-4">
                           <button
-                            className="btn btn-success btn-sm"
-                            onClick={() => void fetchSteps(journey.id)}>
-                            ↓ Voir les indices
+                            onClick={() => void fetchSteps(journey.id)}
+                            className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                            aria-label={`Voir les étapes pour ${journey.name.fr}`}>
+                            Voir les Étapes
                           </button>
-                        </td>
-                        <td className="">
-                          <img
-                            src="/src/assets/imgs/talos/crayon.svg"
-                            alt="crayon"
-                            className="mx-auto h-[60px] w-[200px]"
-                          />
-                        </td>
-                        <td className="">
-                          <img
-                            src="/src/assets/imgs/talos/enveloppe.svg"
-                            alt="crayon"
-                            className="mx-auto h-[60px] w-[200px]"
-                          />
-                        </td>
-                      </tr>
-                      {activeJourneyId === journey.id &&
-                        steps.map((step) => (
-                          <React.Fragment key={step.id}>
-                            <tr className="bg-base-100" key={step.id}>
-                              <th>&#128073;</th>
-                              <td>
-                                <h4
-                                  className="cursor-pointer text-xl hover:underline"
-                                  onClick={() => {
-                                    alert(step.name.fr)
-                                  }}>
-                                  {`Etape : `}
-                                  {step.name.fr}
-                                </h4>
-                              </td>
-                              <td>
-                                <progress
-                                  className="progress progress-success w-56"
-                                  value="40"
-                                  max="100"></progress>
-                              </td>
-                              <td>
-                                <button
-                                  className="btn btn-sm"
-                                  onClick={() => void fetchPieces(step.id)}>
-                                  ↓ Voir l'oeuvre
-                                </button>
-                              </td>
-                              <td className="">
-                                <img
-                                  src="/src/assets/imgs/talos/crayon.svg"
-                                  alt="crayon"
-                                  className="mx-auto h-[60px] w-[200px]"
-                                />
-                              </td>
-                              <td className="">
-                                <img
-                                  src="/src/assets/imgs/talos/enveloppe.svg"
-                                  alt="crayon"
-                                  className="mx-auto h-[60px] w-[200px]"
-                                />
-                              </td>
-                            </tr>
-                            {activeStepId === step.id &&
-                              pieces.map((piece) => (
-                                <React.Fragment key={piece.id}>
-                                  <tr className="bg-base-100" key={step.id}>
-                                    <th>&#128444;&#65039;</th>
-                                    <td>
-                                      <h4
-                                        className="cursor-pointer text-xl hover:underline"
-                                        onClick={() => {
-                                          alert(piece.name.fr)
-                                        }}>
-                                        {`Oeuvre: `}
-                                        {piece.name.fr}
-                                      </h4>
-                                    </td>
-                                    <td>
-                                      <progress
-                                        className="progress progress-success w-56"
-                                        value="40"
-                                        max="100"></progress>
-                                    </td>
-                                    <td>
-                                      <button
-                                        className="btn btn-sm"
-                                        onClick={() =>
-                                          void fetchGames(piece.id)
-                                        }>
-                                        ↓ Voir le quiz
-                                      </button>
-                                    </td>
-                                    <td className="">
-                                      <img
-                                        src="/src/assets/imgs/talos/crayon.svg"
-                                        alt="crayon"
-                                        className="mx-auto h-[60px] w-[200px]"
-                                      />
-                                    </td>
-                                    <td className="">
-                                      <img
-                                        src="/src/assets/imgs/talos/enveloppe.svg"
-                                        alt="crayon"
-                                        className="mx-auto h-[60px] w-[200px]"
-                                      />
-                                    </td>
-                                  </tr>
-                                  {activePieceId === piece.id &&
-                                    games.map((game) => (
-                                      <React.Fragment key={game.id}>
-                                        <tr
-                                          className="bg-base-100"
-                                          key={game.id}>
-                                          <th>;</th>
-                                          <td>
-                                            <h4
-                                              className="cursor-pointer text-xl hover:underline"
+                          <button
+                            onClick={() => {
+                              handleNavigate(journey)
+                            }}
+                            className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+                            aria-label={`Modifier ${journey.name.fr}`}>
+                            <PencilIcon />
+                            <span>Modifier</span>
+                          </button>
+                        </div>
+
+                        {/* Liste des Étapes */}
+                        {activeJourneyId === journey.id && (
+                          <section
+                            aria-labelledby={`steps-${journey.id}-heading`}
+                            className="mt-4">
+                            <h6
+                              id={`steps-${journey.id}-heading`}
+                              className="mb-4 text-lg font-semibold">
+                              Étapes
+                            </h6>
+                            <div className="space-y-4">
+                              {steps.map((step) => (
+                                <article
+                                  key={step.id}
+                                  className="rounded-lg bg-gray-50 p-4 shadow-sm">
+                                  <h6 className="text-md mb-2 font-medium">
+                                    {step.name.fr}
+                                  </h6>
+                                  <div className="flex gap-4">
+                                    <button
+                                      onClick={() => void fetchPieces(step.id)}
+                                      className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                                      aria-label={`Voir les œuvres pour ${step.name.fr}`}>
+                                      Voir les Œuvres
+                                    </button>
+                                    <button
+                                      onClick={() => {
+                                        handleNavigate(step)
+                                      }}
+                                      className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+                                      aria-label={`Modifier ${step.name.fr}`}>
+                                      <PencilIcon />
+                                      <span>Modifier</span>
+                                    </button>
+                                  </div>
+
+                                  {/* Liste des Œuvres */}
+                                  {activeStepId === step.id && (
+                                    <section
+                                      aria-labelledby={`pieces-${step.id}-heading`}
+                                      className="mt-4">
+                                      <h6
+                                        id={`pieces-${step.id}-heading`}
+                                        className="text-md mb-4 font-semibold">
+                                        Œuvres
+                                      </h6>
+                                      <div className="space-y-4">
+                                        {pieces.map((piece) => (
+                                          <article
+                                            key={piece.id}
+                                            className="rounded-lg bg-white p-4 shadow-sm">
+                                            <h6 className="mb-2 text-sm font-medium">
+                                              {piece.name.fr}
+                                            </h6>
+                                            <button
                                               onClick={() => {
-                                                alert(game.name.fr)
-                                              }}>
-                                              {`Jeu: `}
-                                              {game.name.fr}
-                                            </h4>
-                                          </td>
-                                          <td>
-                                            <progress
-                                              className="progress progress-success w-56"
-                                              value="40"
-                                              max="100"></progress>
-                                          </td>
-                                          <td></td>
-                                          <td className="">
-                                            <img
-                                              src="/src/assets/imgs/talos/crayon.svg"
-                                              alt="crayon"
-                                              className="mx-auto h-[60px] w-[200px]"
-                                            />
-                                          </td>
-                                          <td className="">
-                                            <img
-                                              src="/src/assets/imgs/talos/enveloppe.svg"
-                                              alt="crayon"
-                                              className="mx-auto h-[60px] w-[200px]"
-                                            />
-                                          </td>
-                                        </tr>
-                                      </React.Fragment>
-                                    ))}
-                                </React.Fragment>
+                                                handleNavigate(piece)
+                                              }}
+                                              className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+                                              aria-label={`Modifier ${piece.name.fr}`}>
+                                              <PencilIcon />
+                                              <span>Modifier</span>
+                                            </button>
+                                          </article>
+                                        ))}
+                                      </div>
+                                    </section>
+                                  )}
+                                </article>
                               ))}
-                          </React.Fragment>
-                        ))}
-                    </React.Fragment>
-                  ))}
-              </React.Fragment>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                            </div>
+                          </section>
+                        )}
+                      </article>
+                    ))}
+                  </div>
+                </section>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
     </div>
   )
 }

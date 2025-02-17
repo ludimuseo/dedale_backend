@@ -1,11 +1,20 @@
+import translationEn from '@service/i18n/en/translation.json'
+import translationFr from '@service/i18n/fr/translation.json'
 import i18n, { type InitOptions } from 'i18next'
-import detector from 'i18next-browser-languagedetector'
-import backend from 'i18next-http-backend'
+import LanguageDetector from 'i18next-browser-languagedetector'
+import Backend from 'i18next-http-backend'
 import { initReactI18next } from 'react-i18next'
 
 const options: InitOptions = {
-  backend: {
-    loadPath: '/src/app/services/i18n/{{lng}}/{{ns}}.json',
+  resources: {
+    en: {
+      name: 'English',
+      translation: translationEn,
+    },
+    fr: {
+      name: 'Français',
+      translation: translationFr,
+    },
   },
   cleanCode: true,
   debug: process.env.NODE_ENV !== 'production',
@@ -13,6 +22,7 @@ const options: InitOptions = {
     lookupLocalStorage: 'lang',
     order: ['localStorage', 'navigator'],
   },
+  lng: 'fr',
   fallbackLng: 'fr',
   interpolation: {
     escapeValue: false,
@@ -23,7 +33,7 @@ const options: InitOptions = {
 }
 
 export default await i18n
-  .use(backend)
-  .use(detector)
+  .use(Backend)
+  .use(LanguageDetector)
   .use(initReactI18next)
   .init(options)

@@ -1,42 +1,23 @@
 import { type FC } from 'react'
-import { useNavigate } from 'react-router'
+
+import DashboardMenu from '@/app/components/dashboard/dashboardMenu'
+import { useAppSelector } from '@/app/hooks'
+import { State } from '@/types'
+
+import { getDashboardConfig } from './getDashbordConfig'
 
 const Dashboard: FC = () => {
-  const navigate = useNavigate()
-
+  const menu = getDashboardConfig
+  const auth = useAppSelector((state: State) => state.auth)
+  console.log('auth: ', auth)
   return (
     <>
-      <div className="flex min-h-full flex-row items-center justify-center">
-        <div
-          className="card w-96 cursor-pointer bg-base-100 shadow-xl"
-          onClick={() => void navigate('/')}>
-          <figure>
-            <img src="/src/assets/imgs/ludi_couv_applimobile.jpg" alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">CREATION DE PARCOURS</h2>
-            <p>Créer les parcours et jeux pas à pas.</p>
-          </div>
-        </div>
-
-        <div
-          className="card w-96 cursor-pointer bg-base-100 p-2 shadow-xl"
-          onClick={() => void navigate('/talos')}>
-          <figure>
-            <img
-              src="/src/assets/imgs/Talos/logo-talos-fond-blanc.svg"
-              alt="Shoes"
-            />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">INTERFACE TALOS</h2>
-            <p>
-              Correction et lecture de texte.
-              <br /> Validation de texte FALC
-            </p>
-          </div>
-        </div>
-      </div>
+      <header>
+        <h1 className="text-center font-inclusive text-3xl">Dashboard</h1>
+      </header>
+      <main>
+        <DashboardMenu menu={menu} auth={auth} />
+      </main>
     </>
   )
 }

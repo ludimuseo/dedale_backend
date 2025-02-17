@@ -44,7 +44,8 @@ const AuthSignIn: FC = () => {
           const docRef = doc(db, 'users', user.uid)
           const docSnapshot = await getDoc(docRef)
           const customData = docSnapshot.data()
-          console.info(customData)
+          console.info('CUSTOMDATA', customData)
+
           // Dispatch to User Store
           dispatch(
             signIn({
@@ -52,7 +53,7 @@ const AuthSignIn: FC = () => {
               emailVerified: user.emailVerified,
               photoURL: user.photoURL,
               pseudo: String(customData?.pseudo),
-              role: null,
+              role: String(customData?.role),
               uid: user.uid,
             } satisfies User)
           )
@@ -99,7 +100,7 @@ const AuthSignIn: FC = () => {
           }
         />
         {/* Button Submit */}
-        <button type="submit" className="btn--primary">
+        <button type="submit" className="btn btn-primary mt-8">
           {t('button.signin')}&nbsp;
           {showLoader && <span className="loading loading-spinner"></span>}
         </button>

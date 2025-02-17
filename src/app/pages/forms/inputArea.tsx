@@ -35,6 +35,18 @@ interface InputAreaProps {
     language: L,
     event: T[S][M][L]
   ) => void
+  handleResponseChange: <
+    S extends keyof T,
+    M extends keyof T[S],
+    L extends keyof T[S][M],
+    F extends keyof T[S][M][L],
+  >(
+    section: S,
+    name: M,
+    mode: L,
+    language: F,
+    event: T[S][M][L][F]
+  ) => void
 }
 
 const InputArea = ({

@@ -1,7 +1,7 @@
 import { PlaceIcon } from '@component/index'
 import { addDoc, collection, getDocs } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
-import { FormEvent, MouseEvent, useEffect, useState } from 'react'
+import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import { handleArrowLeft } from '@/app/services/utils'
@@ -11,7 +11,7 @@ import { MessageType, T } from '@/types'
 import Form from '../form'
 import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
 
-const FormPlace = () => {
+const FormPlace: FC = () => {
   const title = 'Formulaire Lieu'
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
@@ -351,4 +351,4 @@ const FormPlace = () => {
   )
 }
 
-export default FormPlace
+export { FormPlace }

@@ -2,16 +2,14 @@ import { useAppSelector } from '@hook/index'
 import type { PropsWithChildren } from 'react'
 import { Navigate } from 'react-router'
 
-import type { State, User } from '@/types'
+import type { State, UserRole } from '@/types'
 
 interface RouteAuthProps {
-  role: User['role'] | null | undefined
+  role: UserRole | null
 }
 
 const RouteAuth = ({ role, children }: PropsWithChildren<RouteAuthProps>) => {
-  const isLogged: boolean = useAppSelector(
-    (state: State) => state.auth.isLogged
-  )
+  const { isLogged } = useAppSelector((state: State) => state.auth)
   console.info('User role: ', role)
   if (isLogged) return children
   else return <Navigate to={{ pathname: '/auth/signin' }} replace />

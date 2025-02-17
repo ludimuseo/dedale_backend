@@ -1,7 +1,7 @@
 import { JourneyIcon } from '@component/index'
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
-import { FormEvent, MouseEvent, useEffect, useState } from 'react'
+import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import { handleArrowLeft } from '@/app/services/utils'
@@ -11,7 +11,7 @@ import { MessageType, PlaceType, T } from '@/types'
 import Form from '../form'
 import { getInputJourneyConfig } from './configJourney/getInputJourneyConfig'
 
-const FormJourney = () => {
+const FormJourney: FC = () => {
   const title = 'Formulaire Parcours'
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
@@ -68,7 +68,7 @@ const FormJourney = () => {
         fr: '',
         falcCertified: '',
         userId: '',
-        statut: {
+        status: {
           isValidate: false,
           isCertified: false,
           certifiedDate: new Date(),
@@ -112,7 +112,7 @@ const FormJourney = () => {
   ) => {
     event.preventDefault()
     try {
-      const docRef = await addDoc(collection(db, 'places'), { ...formData })
+      const docRef = await addDoc(collection(db, 'journeys'), { ...formData })
       const id = docRef.id
       if (id) {
         setMessage(() => ({
@@ -397,4 +397,4 @@ const FormJourney = () => {
   )
 }
 
-export default FormJourney
+export { FormJourney }
