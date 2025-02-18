@@ -22,7 +22,7 @@ export default defineConfig({
       ansiColors: true,
       logStats: process.env.NODE_ENV !== 'production',
       cache: process.env.NODE_ENV === 'production',
-      cacheLocation: '/public/cache',
+      cacheLocation: 'cache',
     }),
     react(),
   ],
