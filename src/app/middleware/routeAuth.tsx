@@ -1,4 +1,4 @@
-import { useAppSelector } from '@hook/index'
+import { useAppSelector } from '@hook'
 import type { PropsWithChildren } from 'react'
 import { Navigate } from 'react-router'
 

@@ -1,4 +1,4 @@
-import { useAppSelector } from '@hook/index'
+import { useAppSelector } from '@hook'
 import { StateTheme } from '@service/redux/slices/reducerTheme'
 import type { ComponentProps } from 'react'
 

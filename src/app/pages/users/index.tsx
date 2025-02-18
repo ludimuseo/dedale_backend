@@ -116,7 +116,7 @@ const Users: FC = () => {
 
   useEffect(() => {
     void fetchUsers(0)
-  }, [])
+  }, [fetchUsers])
 
   const columns = [
     { header: '', accessor: 'isActive' },

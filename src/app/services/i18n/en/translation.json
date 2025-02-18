@@ -41,7 +41,8 @@
     "user_settings": "Account Settings"
   },
   "success": {
-    "signin": "You are now logged in"
+    "signin": "You are now logged in",
+    "signout": "You are now logged out"
   },
   "error": {
     "4XX": "An error occurred. Please try again.",

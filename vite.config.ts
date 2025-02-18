@@ -1,6 +1,7 @@
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -16,7 +17,15 @@ export default defineConfig({
       'top-level-await': true,
     },
   },
-  plugins: [react()],
+  plugins: [
+    ViteImageOptimizer({
+      ansiColors: true,
+      logStats: process.env.NODE_ENV !== 'production',
+      cache: process.env.NODE_ENV === 'production',
+      cacheLocation: '/public/cache',
+    }),
+    react(),
+  ],
   resolve: {
     alias: [
       { find: '@', replacement: resolve(__dirname, 'src') },

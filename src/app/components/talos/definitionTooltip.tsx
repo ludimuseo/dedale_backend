@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@hook/index'
+import { useAppDispatch, useAppSelector } from '@hook'
 
 import {
   clearWord,

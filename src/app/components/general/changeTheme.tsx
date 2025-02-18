@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '@hook/index'
+import { useAppDispatch, useAppSelector } from '@hook'
 import {
   changeTheme,
   type StateTheme,
@@ -10,6 +10,7 @@ import { State, Theme } from '@/types'
 const ChangeTheme: FC = () => {
   const darkCheckbox = useRef<HTMLInputElement>(null)
   const dispatch = useAppDispatch()
+
   const { theme, isDark }: StateTheme = useAppSelector(
     (state: State) => state.theme
   )
@@ -19,14 +20,14 @@ const ChangeTheme: FC = () => {
     else dispatch(changeTheme(Theme.LIGHT))
   }
 
-  const handleSwitchSystem = ({ target }: ChangeEvent) => {
+  const handleSwitchSystem = ({ target }: ChangeEvent): void => {
     if ('checked' in target) {
       if (target.checked) dispatch(changeTheme(Theme.SYSTEM))
       else switchDarkLight(isDark)
     }
   }
 
-  const handleSwitchDark = ({ target }: ChangeEvent) => {
+  const handleSwitchDark = ({ target }: ChangeEvent): void => {
     if ('checked' in target) {
       const checked = Boolean(target.checked)
       switchDarkLight(checked)
@@ -59,6 +60,7 @@ const ChangeTheme: FC = () => {
         <div className="divider divider-horizontal m-0"></div>
 
         <label className="flex cursor-pointer gap-2">
+          {/* 🌞 */}
           <i>&#x1F31E;</i>
           <input
             className="toggle"
@@ -69,6 +71,7 @@ const ChangeTheme: FC = () => {
             onChange={handleSwitchDark}
             disabled={theme === Theme.SYSTEM}
           />
+          {/* 🌚 */}
           <i>&#x1F31A;</i>
         </label>
       </div>

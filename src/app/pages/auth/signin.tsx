@@ -1,5 +1,5 @@
 import { EnvelopeIcon, Input, LockIcon } from '@component/index'
-import { useAppDispatch, useInput, useNotification } from '@hook/index'
+import { useAppDispatch, useInput, useNotification } from '@hook'
 import { signIn } from '@service/redux/slices/reducerAuth'
 import { signInWithEmailAndPassword, type UserCredential } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
@@ -13,7 +13,7 @@ import type { User } from '@/types'
 const AuthSignIn: FC = () => {
   const { t } = useTranslation()
   const navigate: NavigateFunction = useNavigate()
-  const { push } = useNotification()
+  const { notify } = useNotification()
   const dispatch = useAppDispatch()
   const emailRef = useRef<HTMLInputElement>(null)
   const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -26,18 +26,15 @@ const AuthSignIn: FC = () => {
     emailRef.current?.focus()
   }, [])
 
+  const execute = async () => {
+    setShowLoader(true)
+    // FIREBASE LOGIN ATTEMPT
+    return await signInWithEmailAndPassword(auth, email.value, password.value)
+  }
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!email.errors.length && !password.errors.length) {
-      const execute = async () => {
-        setShowLoader(true)
-        // FIREBASE LOGIN ATTEMPT
-        return await signInWithEmailAndPassword(
-          auth,
-          email.value,
-          password.value
-        )
-      }
       execute()
         .then(async ({ user }: UserCredential) => {
           // Firestore database
@@ -58,10 +55,11 @@ const AuthSignIn: FC = () => {
             } satisfies User)
           )
           void navigate('/', { replace: true })
+          notify(t('success.signin'), { type: 'success' })
         })
         .catch((err: unknown) => {
           console.error(err)
-          push(t('error.4XX'), { type: 'error' })
+          notify(t('error.4XX'), { type: 'error' })
         })
         .finally(() => {
           setShowLoader(false)

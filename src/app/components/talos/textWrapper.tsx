@@ -1,4 +1,4 @@
-import { useAppDispatch } from '@hook/index'
+import { useAppDispatch } from '@hook'
 import { UnknownAction } from '@reduxjs/toolkit'
 import type { RootState } from '@service/redux'
 import {

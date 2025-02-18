@@ -17,4 +17,5 @@ const CoreSidebar: FC = () => {
     </>
   )
 }
+
 export default CoreSidebar

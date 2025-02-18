@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next'
 
 const ChangeLanguage: FC = () => {
   const { t, i18n } = useTranslation()
-  const changeLanguage = async ({ target }: ChangeEvent<HTMLInputElement>) => {
+  const changeLanguage = async ({
+    target,
+  }: ChangeEvent<HTMLInputElement>): Promise<void> => {
     if ('checked' in target) {
       await i18n.changeLanguage(target.checked ? 'fr' : 'en')
     }
