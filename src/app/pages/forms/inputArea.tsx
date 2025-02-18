@@ -1,6 +1,6 @@
+import successImage from '@img/minos-reussi.png'
 import { FormEvent, MouseEvent, useState } from 'react'
 
-import successImage from '@/assets/imgs/minos-reussi.png'
 import { GetInputConfigType, MessageType, T } from '@/types'
 
 //import Option from './inputForm/Option'

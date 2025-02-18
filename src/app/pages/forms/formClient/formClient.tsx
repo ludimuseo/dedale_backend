@@ -1,4 +1,4 @@
-import { UserIcon } from '@component/index'
+import { UserIcon } from '@component'
 import { addDoc, collection } from 'firebase/firestore'
 import { FC, type FormEvent, MouseEvent, useEffect, useState } from 'react'
 

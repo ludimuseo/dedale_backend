@@ -1,4 +1,4 @@
-import { LogoDedale } from '@component/index'
+import { LogoDedale } from '@component'
 import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router'

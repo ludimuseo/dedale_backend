@@ -1,12 +1,12 @@
 import { ChangeLanguage, ChangeTheme } from '@component'
 import { useAppDispatch, useAppSelector } from '@hook'
+import placeholderAvatar from '@img/placeholder-avatar.webp'
 import { signOut, StateAuth } from '@service/redux/slices/reducerAuth'
 import { type FC, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router'
 
 import type { State } from '@/types'
-import placeholderAvatar from '/placeholder-avatar.webp'
 
 const DisplayBlockUserMenu: FC = () => {
   const { t } = useTranslation()

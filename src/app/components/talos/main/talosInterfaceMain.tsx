@@ -1,17 +1,17 @@
 import 'daisyui/dist/full.css'
 
+import backIcon from '@img/Talos/arrow-left.svg'
+import cocheValideIcon from '@img/Talos/coche-valide.svg'
+import imageIcon from '@img/Talos/image.svg'
+import relectureIcon from '@img/Talos/relecture.svg'
+import {
+  default as zoomIconLess,
+  default as zoomIconMore,
+} from '@img/Talos/zoom-moins.svg'
 import { doc, updateDoc } from 'firebase/firestore'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 
-import backIcon from '@/assets/imgs/Talos/arrow-left.svg'
-import cocheValideIcon from '@/assets/imgs/Talos/coche-valide.svg'
-import imageIcon from '@/assets/imgs/Talos/image.svg'
-import relectureIcon from '@/assets/imgs/Talos/relecture.svg'
-import {
-  default as zoomIconLess,
-  default as zoomIconMore,
-} from '@/assets/imgs/Talos/zoom-moins.svg'
 import { db } from '@/firebase/firebase'
 import {
   EntityWithId,

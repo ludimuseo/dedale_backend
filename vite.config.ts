@@ -1,10 +1,12 @@
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
+import { imagetools } from 'vite-imagetools'
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
 
 // https://vite.dev/config/
 export default defineConfig({
+  html: {},
   css: {
     preprocessorOptions: {
       scss: {
@@ -18,11 +20,15 @@ export default defineConfig({
     },
   },
   plugins: [
+    imagetools(),
     ViteImageOptimizer({
       ansiColors: true,
-      logStats: process.env.NODE_ENV !== 'production',
+      logStats: true,
       cache: process.env.NODE_ENV === 'production',
       cacheLocation: 'cache',
+      png: { quality: 80 },
+      jpeg: { quality: 80 },
+      webp: { quality: 80 },
     }),
     react(),
   ],

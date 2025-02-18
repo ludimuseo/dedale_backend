@@ -1,4 +1,4 @@
-import { JourneyIcon } from '@component/index'
+import { JourneyIcon } from '@component'
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'

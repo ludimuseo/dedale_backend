@@ -1,4 +1,4 @@
-import { PlaceIcon } from '@component/index'
+import { PlaceIcon } from '@component'
 import { addDoc, collection, getDocs } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'

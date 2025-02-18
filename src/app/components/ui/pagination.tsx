@@ -1,4 +1,4 @@
-import '@/assets/styles/root.scss'
+import '@style/root.scss'
 
 import React from 'react'
 

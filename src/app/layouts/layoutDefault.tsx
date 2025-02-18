@@ -1,4 +1,4 @@
-// import { CloseIcon, HamburgerIcon } from '@component/index'
+// import { CloseIcon, HamburgerIcon } from '@component'
 import type { FC } from 'react'
 import { Outlet } from 'react-router'
 

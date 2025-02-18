@@ -1,4 +1,4 @@
-import { MuseumIcon } from '@component/index'
+import { MuseumIcon } from '@component'
 import React, { FormEvent, MouseEvent } from 'react'
 
 import { GetInputConfigType, MessageType, T } from '@/types'

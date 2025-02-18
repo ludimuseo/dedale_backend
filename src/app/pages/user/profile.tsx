@@ -1,4 +1,4 @@
-import { Card } from '@component/index'
+import { Card } from '@component'
 import type { FC } from 'react'
 
 const UserProfile: FC = () => {

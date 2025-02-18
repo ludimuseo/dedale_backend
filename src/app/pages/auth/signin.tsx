@@ -1,4 +1,4 @@
-import { EnvelopeIcon, Input, LockIcon } from '@component/index'
+import { EnvelopeIcon, Input, LockIcon } from '@component'
 import { useAppDispatch, useInput, useNotification } from '@hook'
 import { signIn } from '@service/redux/slices/reducerAuth'
 import { signInWithEmailAndPassword, type UserCredential } from 'firebase/auth'
