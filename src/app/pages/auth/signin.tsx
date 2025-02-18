@@ -41,7 +41,6 @@ const AuthSignIn: FC = () => {
           const docRef = doc(db, 'users', user.uid)
           const docSnapshot = await getDoc(docRef)
           const customData = docSnapshot.data()
-          console.info('CUSTOMDATA', customData)
 
           // Dispatch to User Store
           dispatch(
@@ -57,8 +56,7 @@ const AuthSignIn: FC = () => {
           void navigate('/', { replace: true })
           notify(t('success.signin'), { type: 'success' })
         })
-        .catch((err: unknown) => {
-          console.error(err)
+        .catch(() => {
           notify(t('error.4XX'), { type: 'error' })
         })
         .finally(() => {

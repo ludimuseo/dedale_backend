@@ -1,4 +1,4 @@
-import { DisplayBlockUserMenu, LogoDedale } from '@component'
+import { BlockUserMenu, LogoDedale } from '@component'
 import { type FC, ReactElement } from 'react'
 import { NavLink } from 'react-router'
 
@@ -20,7 +20,7 @@ const CoreHeader: FC<HeaderProps> = ({ toggleMenu }) => {
         </div>
         <div className="navbar-center"></div>
         <div className="navbar-end">
-          <DisplayBlockUserMenu />
+          <BlockUserMenu />
         </div>
       </header>
     </>

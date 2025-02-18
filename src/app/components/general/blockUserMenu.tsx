@@ -1,6 +1,5 @@
-import { ChangeLanguage, ChangeTheme } from '@component'
-import { useAppDispatch, useAppSelector } from '@hook'
-import placeholderAvatar from '@img/placeholder-avatar.webp'
+import { BlockAvatar, ChangeLanguage, ChangeTheme } from '@component'
+import { useAppDispatch, useAppSelector, useNotification } from '@hook'
 import { signOut, StateAuth } from '@service/redux/slices/reducerAuth'
 import { type FC, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,8 +7,9 @@ import { NavLink } from 'react-router'
 
 import type { State } from '@/types'
 
-const DisplayBlockUserMenu: FC = () => {
+const BlockUserMenu: FC = () => {
   const { t } = useTranslation()
+  const { notify } = useNotification()
   const dispatch = useAppDispatch()
   const { isLogged, user }: StateAuth = useAppSelector(
     (state: State) => state.auth
@@ -28,25 +28,13 @@ const DisplayBlockUserMenu: FC = () => {
             <em>{user.email}</em>
           </div>
 
-          {/* Dropdown Menu */}
           <div className="dropdown dropdown-end dropdown-hover">
-            {/* Avatar */}
-            {/* USER AVATAR */}
-            <object
+            <BlockAvatar
+              alt="user avatar"
               className="avatar rounded-full"
-              data={user.photoURL ?? ''}
-              type="image/webp"
-              width={48}
-              height={48}>
-              {/* PLACEHOLDER IMAGE */}
-              <img
-                className="rounded-full"
-                src={placeholderAvatar}
-                alt=""
-                width={48}
-                height={48}
-              />
-            </object>
+              url={user.photoURL}
+              size={48}
+            />
             <ul
               tabIndex={0}
               className="menu dropdown-content z-[1] w-52 rounded-box border bg-base-100 shadow">
@@ -93,12 +81,16 @@ const DisplayBlockUserMenu: FC = () => {
               <form method="dialog">
                 {/* if there is a button in form, it will close the modal */}
                 <button className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">
+                  {/* ✕ */}
                   <i>&#x2715;</i>
                 </button>
               </form>
               <p className="py-4">{t('question.proceed')}</p>
               <button
-                onClick={() => dispatch(signOut())}
+                onClick={() => {
+                  dispatch(signOut())
+                  notify(t('success.signout'), { type: 'success' })
+                }}
                 className="font-bold uppercase text-red-500">
                 {t('button.accept')}
               </button>
@@ -110,4 +102,4 @@ const DisplayBlockUserMenu: FC = () => {
   )
 }
 
-export { DisplayBlockUserMenu }
+export { BlockUserMenu }

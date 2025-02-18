@@ -1,7 +1,8 @@
 // Barrel File
+export { BlockAvatar } from '@component/general/blockAvatar'
+export { BlockUserMenu } from '@component/general/blockUserMenu'
 export { ChangeLanguage } from '@component/general/changeLanguage'
 export { ChangeTheme } from '@component/general/changeTheme'
-export { DisplayBlockUserMenu } from '@component/general/displayBlockUserMenu'
 export { Card } from '@component/ui/card'
 export { ArrowLeftIcon } from '@component/ui/icons/ArrowLeftIcon'
 export { CircleIcon } from '@component/ui/icons/CircleIcon'
