@@ -32,4 +32,8 @@ dist-ssr
 
 .yarn
 
+# React Router
+.react-router
+build
+
 tmp

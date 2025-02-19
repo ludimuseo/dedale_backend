@@ -4,8 +4,7 @@ import LayoutAuth from '@/app/layouts/LayoutAuth'
 import LayoutDefault from '@/app/layouts/LayoutDefault'
 import RouteAuth from '@/app/middleware/RouteAuth'
 import RouteGuest from '@/app/middleware/RouteGuest'
-
-import PageError from '../pages/PageError'
+import PageError from '@/app/pages/PageError'
 
 const routes: RouteObject[] = [
   {
@@ -15,14 +14,14 @@ const routes: RouteObject[] = [
         children: [
           {
             async lazy() {
-              const { Dashboard } = await import('@/app/pages/dashboard/Index')
+              const { Dashboard } = await import('@/app/pages/dashboard')
               return { Component: Dashboard }
             },
             path: '/',
           },
           {
             async lazy() {
-              const { User } = await import('@/app/pages/user/Index')
+              const { User } = await import('@/app/pages/user')
               return { Component: User }
             },
             path: '/user',
@@ -80,7 +79,7 @@ const routes: RouteObject[] = [
           },
           {
             async lazy() {
-              const { Users } = await import('@/app/pages/users/Index')
+              const { Users } = await import('@/app/pages/users')
               return { Component: Users }
             },
             path: '/clientsList',
@@ -89,7 +88,7 @@ const routes: RouteObject[] = [
           {
             async lazy() {
               const { FormClient } = await import(
-                '@/app/pages/forms/formClient/FormClient'
+                '@/app/pages/forms/FormClient'
               )
               return { Component: FormClient }
             },
@@ -97,9 +96,7 @@ const routes: RouteObject[] = [
           },
           {
             async lazy() {
-              const { FormPlace } = await import(
-                '@/app/pages/forms/formPlace/FormPlace'
-              )
+              const { FormPlace } = await import('@/app/pages/forms/FormPlace')
               return { Component: FormPlace }
             },
             path: '/form/place',
@@ -107,7 +104,7 @@ const routes: RouteObject[] = [
           {
             async lazy() {
               const { FormJourney } = await import(
-                '@/app/pages/forms/formJourney/FormJourney'
+                '@/app/pages/forms/FormJourney'
               )
               return { Component: FormJourney }
             },
@@ -115,43 +112,35 @@ const routes: RouteObject[] = [
           },
           {
             async lazy() {
-              const { FormStep } = await import(
-                '@/app/pages/forms/formStep/FormStep'
-              )
+              const { FormStep } = await import('@/app/pages/forms/FormStep')
               return { Component: FormStep }
             },
             path: '/form/step',
           },
           {
             async lazy() {
-              const { FormPiece } = await import(
-                '@/app/pages/forms/formPiece/FormPiece'
-              )
+              const { FormPiece } = await import('@/app/pages/forms/FormPiece')
               return { Component: FormPiece }
             },
             path: '/form/piece',
           },
           {
             async lazy() {
-              const { FormGame } = await import(
-                '@/app/pages/forms/formGame/FormGame'
-              )
+              const { FormGame } = await import('@/app/pages/forms/FormGame')
               return { Component: FormGame }
             },
             path: '/form/game',
           },
           {
             async lazy() {
-              const { FormMedal } = await import(
-                '@/app/pages/forms/formMedal/FormMedal'
-              )
+              const { FormMedal } = await import('@/app/pages/forms/FormMedal')
               return { Component: FormMedal }
             },
             path: '/form/medal',
           },
           {
             async lazy() {
-              const { Users } = await import('@/app/pages/users/Index')
+              const { Users } = await import('@/app/pages/users')
               return { Component: Users }
             },
             path: '/users',

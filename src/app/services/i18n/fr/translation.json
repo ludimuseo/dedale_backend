@@ -41,7 +41,8 @@
     "user_settings": "Paramètres Compte"
   },
   "success": {
-    "signin": "Vous êtes maintenant connecté"
+    "signin": "Vous êtes maintenant connecté",
+    "signout": "Vous êtes maintenant déconnecté"
   },
   "error": {
     "4XX": "Une erreur est survenue. Veuillez réessayer.",

@@ -1,4 +1,4 @@
-import ButtonWithIcon from './ButtonWithIcon'
+import { ButtonWithIcon } from './ButtonWithIcon'
 
 interface Props {
   imprimerIcon: string
@@ -38,4 +38,5 @@ const LeftSideBar = ({
   )
 }
 
-export default LeftSideBar
+export { LeftSideBar }
+// #! File not used

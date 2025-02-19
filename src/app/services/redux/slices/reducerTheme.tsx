@@ -7,16 +7,7 @@ export interface StateTheme {
   theme: Theme
 }
 
-// const onChangeTheme = ({ matches }: MediaQueryListEvent) => {
-//   console.info(matches)
-// }
-
 const initialState = (): StateTheme => {
-  // const matchMedia: MediaQueryList = window.matchMedia(
-  //   '(prefers-color-scheme: dark)'
-  // )
-  // matchMedia.removeEventListener('change', onChangeTheme)
-  // matchMedia.addEventListener('change', onChangeTheme)
   return {
     isDark: false,
     theme: Theme.SYSTEM,
