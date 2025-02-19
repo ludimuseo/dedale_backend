@@ -44,4 +44,4 @@ const DictationIcon = ({ ...props }: SvgProps) => {
   )
 }
 
-export default DictationIcon
+export { DictationIcon }

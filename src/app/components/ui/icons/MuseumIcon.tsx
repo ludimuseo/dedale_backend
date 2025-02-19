@@ -11,7 +11,7 @@ const MuseumIcon = ({ ...props }: SvgProps) => {
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
         xmlns="http://www.w3.org/2000/svg"
         {...props}>
         <path d="M2 10h20M12 2l10 8H2l10-8z" />

@@ -7,7 +7,7 @@ import {
   query,
   startAfter,
 } from 'firebase/firestore'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import DataTable from '@/app/components/ui/DataTable'
@@ -114,9 +114,9 @@ const Users: FC = () => {
     void navigate('/form/client')
   }
 
-  useEffect(() => {
-    void fetchUsers(0)
-  }, [])
+  // useEffect(() => {
+  //   void fetchUsers(0)
+  // }, [fetchUsers])
 
   const columns = [
     { header: '', accessor: 'isActive' },

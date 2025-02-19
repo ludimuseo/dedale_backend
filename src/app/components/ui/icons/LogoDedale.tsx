@@ -1,9 +1,9 @@
-import { useAppSelector } from '@hook/index'
+import { useAppSelector } from '@hook'
+import logoDedaleDark from '@img/logoDedale_dark.webp'
+import logoDedaleLight from '@img/logoDedale_light.webp'
 import { StateTheme } from '@service/redux/slices/reducerTheme'
 import type { ComponentProps } from 'react'
 
-import logoDedaleDark from '@/assets/imgs/logoDedale_dark.webp'
-import logoDedaleLight from '@/assets/imgs/logoDedale_light.webp'
 import type { State } from '@/types'
 
 type LogoDedaleProps = ComponentProps<'img'> & {

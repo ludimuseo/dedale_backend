@@ -21,6 +21,8 @@ export default tseslint.config(
       ecmaVersion: 2020,
       globals: globals.browser,
       parserOptions: {
+        sourceType: 'module',
+        ecmaVersion: 'latest',
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
@@ -28,14 +30,13 @@ export default tseslint.config(
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
-      'simple-import-sort': simpleImportSort,
       'prettier': eslintPrettierPlugin,
+      'simple-import-sort': simpleImportSort,
     },
     rules: {
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
       'sort-vars': ['error', { ignoreCase: false }],
-
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': [
         'warn',

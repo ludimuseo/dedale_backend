@@ -12,6 +12,7 @@
       true,
       {
         "ignoreAtRules": [
+          "apply",
           "extends",
           "include",
           "tailwind",

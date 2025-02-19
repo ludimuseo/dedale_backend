@@ -22,9 +22,9 @@ export const sliceAuth = createSlice({
   reducers: {
     signIn: (state, action: PayloadAction<User>) => {
       state.isLogged = true
+      // #! TODO: Generate a token and sync it with session
       state.token = ''
       state.user = action.payload
-      console.info(action.payload)
     },
     signOut: (state) => {
       state.isLogged = false
