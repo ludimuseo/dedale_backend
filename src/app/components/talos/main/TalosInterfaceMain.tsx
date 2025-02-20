@@ -55,7 +55,7 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
   const [isSuccess, setIsSuccess] = useState(false)
 
   const [visibleSentences] = useState<string[]>(
-    formData.description.falc.fr.split(/(?<=[.!?])\s+/)
+    formData.description.falc.fr.split(/(?<=[.!?:])\s+/)
   )
 
   const sentencesData = visibleSentences.map((item: string, index: number) => {
