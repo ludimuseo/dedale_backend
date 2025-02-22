@@ -66,7 +66,7 @@ const RightClipboard: FC<RightClipboardProps> = ({
                               handleDeleteText(index)
                             }}
                             className="transition-transform duration-200 ease-in-out hover:scale-110"
-                            aria-label="supprimer">
+                            aria-label="supprimer le texte">
                             <WrongCheck className="h-8 w-8" />
                           </div>
                         </div>
