@@ -86,7 +86,7 @@ const TextList: FC = () => {
         collection: 'steps',
         ...(doc.data() as StepType),
       }))
-      setSteps(stepData)
+      setSteps(stepData.sort((a, b) => a.stage.stepNumber - b.stage.stepNumber))
       setActiveJourneyId(journeyId)
     } catch (error) {
       console.error('Error fetching steps:', error)
@@ -123,7 +123,9 @@ const TextList: FC = () => {
 
       {/* Liste des Lieux */}
       <section aria-labelledby="places-heading">
-        <h2 id="places-heading" className="mb-6 text-3xl font-semibold">
+        <h2
+          id="places-heading"
+          className="mb-6 font-inclusive text-3xl font-semibold">
           Lieux
         </h2>
         <div className="space-y-4">
@@ -131,7 +133,9 @@ const TextList: FC = () => {
             <article
               key={place.id}
               className={`rounded-lg bg-gray-50 p-4 shadow-sm`}>
-              <h3 className="mb-2 text-2xl font-medium">{place.name.fr}</h3>
+              <h3 className="mb-2 font-inclusive text-2xl font-medium">
+                {place.name.fr}
+              </h3>
 
               <p className="mb-4 text-gray-700">
                 {place.description.falc.fr.length > 100
@@ -142,14 +146,14 @@ const TextList: FC = () => {
               {/* IMAGE */}
               <div className="flex gap-4">
                 <div className="avatar">
-                  <div className="w-14 rounded-xl">
+                  <div className="w-14 rounded-xl font-inclusive">
                     <img src={place.content.image[0]} />
                   </div>
                 </div>
 
                 <button
                   onClick={() => void fetchJourneys(place.id)}
-                  className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                  className="rounded-lg bg-blue-600 px-4 py-2 font-inclusive text-white hover:bg-blue-700"
                   aria-label={`Voir les parcours pour ${place.name.fr}`}>
                   Voir les Parcours
                 </button>
@@ -158,14 +162,14 @@ const TextList: FC = () => {
                     className="flex items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-white"
                     aria-label={`Texte validé pour ${place.name.fr}`}>
                     <CheckIcon className="h-8 w-8" />
-                    <span>TEXTE VALIDÉ</span>
+                    <span className="font-inclusive">Texte validé</span>
                   </button>
                 ) : (
                   <button
                     onClick={() => {
                       handleNavigate(place)
                     }}
-                    className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+                    className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 font-inclusive text-white hover:bg-green-700"
                     aria-label={`Corriger ${place.name.fr}`}>
                     <PencilIcon />
                     <span>Corriger</span>
@@ -185,7 +189,7 @@ const TextList: FC = () => {
                   className="mt-4">
                   <h4
                     id={`journeys-${place.id}-heading`}
-                    className="mb-4 text-xl font-semibold">
+                    className="mb-4 font-inclusive text-xl font-semibold">
                     Parcours
                   </h4>
                   <div className="space-y-4">
@@ -193,7 +197,7 @@ const TextList: FC = () => {
                       <article
                         key={journey.id}
                         className="rounded-lg bg-white p-4 shadow-sm">
-                        <h5 className="mb-2 text-lg font-medium">
+                        <h5 className="mb-2 font-inclusive text-lg font-medium">
                           {journey.name.fr}
                         </h5>
                         {/* IMAGE */}
@@ -205,7 +209,7 @@ const TextList: FC = () => {
                           </div>
                           <button
                             onClick={() => void fetchSteps(journey.id)}
-                            className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                            className="rounded-lg bg-blue-600 px-4 py-2 font-inclusive text-white hover:bg-blue-700"
                             aria-label={`Voir les étapes pour ${journey.name.fr}`}>
                             Voir les Étapes
                           </button>
@@ -214,17 +218,19 @@ const TextList: FC = () => {
                               className="flex items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-white"
                               aria-label={`Texte validé pour ${journey.name.fr}`}>
                               <CheckIcon className="h-8 w-8" />
-                              <span>TEXTE VALIDÉ</span>
+                              <span className="font-inclusive">
+                                Texte validé
+                              </span>
                             </button>
                           ) : (
                             <button
                               onClick={() => {
                                 handleNavigate(journey)
                               }}
-                              className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+                              className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 font-inclusive text-white hover:bg-green-700"
                               aria-label={`Corriger ${journey.name.fr}`}>
                               <PencilIcon />
-                              <span>Corriger</span>
+                              <span className="font-inclusive">Corriger</span>
                             </button>
                           )}
                         </div>
@@ -236,7 +242,7 @@ const TextList: FC = () => {
                             className="mt-4">
                             <h6
                               id={`steps-${journey.id}-heading`}
-                              className="mb-4 text-lg font-semibold">
+                              className="mb-4 font-inclusive text-lg font-semibold">
                               Étapes
                             </h6>
                             <div className="space-y-4">
@@ -244,7 +250,8 @@ const TextList: FC = () => {
                                 <article
                                   key={step.id}
                                   className="rounded-lg bg-gray-50 p-4 shadow-sm">
-                                  <h6 className="text-md mb-2 font-medium">
+                                  <h6 className="text-md mb-2 font-inclusive font-medium">
+                                    Etape n° {step.stage.stepNumber} :{' '}
                                     {step.name.fr}
                                   </h6>
                                   <div className="flex gap-4">
@@ -255,7 +262,7 @@ const TextList: FC = () => {
                                     </div>
                                     <button
                                       onClick={() => void fetchPieces(step.id)}
-                                      className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                                      className="rounded-lg bg-blue-600 px-4 py-2 font-inclusive text-white hover:bg-blue-700"
                                       aria-label={`Voir les œuvres pour ${step.name.fr}`}>
                                       Voir les Œuvres
                                     </button>
@@ -265,7 +272,9 @@ const TextList: FC = () => {
                                         className="flex items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-white"
                                         aria-label={`Texte validé pour ${step.name.fr}`}>
                                         <CheckIcon className="h-8 w-8" />
-                                        <span>TEXTE VALIDÉ</span>
+                                        <span className="font-inclusive">
+                                          Texte validé
+                                        </span>
                                       </button>
                                     ) : (
                                       <button
@@ -275,7 +284,9 @@ const TextList: FC = () => {
                                         className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
                                         aria-label={`Corriger ${step.name.fr}`}>
                                         <PencilIcon />
-                                        <span>Corriger</span>
+                                        <span className="font-inclusive">
+                                          Corriger
+                                        </span>
                                       </button>
                                     )}
                                   </div>
@@ -287,7 +298,7 @@ const TextList: FC = () => {
                                       className="mt-4">
                                       <h6
                                         id={`pieces-${step.id}-heading`}
-                                        className="text-md mb-4 font-semibold">
+                                        className="text-md mb-4 font-inclusive font-semibold">
                                         Œuvres
                                       </h6>
                                       <div className="space-y-4">
@@ -295,7 +306,7 @@ const TextList: FC = () => {
                                           <article
                                             key={piece.id}
                                             className="rounded-lg bg-white p-4 shadow-sm">
-                                            <h6 className="mb-2 text-sm font-medium">
+                                            <h6 className="mb-2 font-inclusive text-sm font-medium">
                                               {piece.name.fr}
                                             </h6>
                                             {/* IMAGE */}
@@ -315,7 +326,9 @@ const TextList: FC = () => {
                                                   className="flex items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-white"
                                                   aria-label={`Texte validé pour ${piece.name.fr}`}>
                                                   <CheckIcon className="h-8 w-8" />
-                                                  <span>TEXTE VALIDÉ</span>
+                                                  <span className="font-inclusive">
+                                                    Texte validé
+                                                  </span>
                                                 </button>
                                               ) : (
                                                 <button
@@ -325,7 +338,9 @@ const TextList: FC = () => {
                                                   className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
                                                   aria-label={`Corriger ${place.name.fr}`}>
                                                   <PencilIcon />
-                                                  <span>Corriger</span>
+                                                  <span className="font-inclusive">
+                                                    Corriger
+                                                  </span>
                                                 </button>
                                               )}
                                             </div>
