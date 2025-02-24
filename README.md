@@ -1,4 +1,4 @@
-🚀 [BackOffice]
+# 🚀 [BackOffice]
 
 📝 **Description**  
 Le Backoffice de l'application mobile Dedale est une plateforme web dédiée à la
@@ -17,6 +17,8 @@ d'intérêt.
 > [_Ludi Museo_](https://www.ludimuseo.fr/lassociation/) (French URL)
 
 [UrlPj]: https://github.com/ludimuseo/dedale_backend/
+
+---
 
 ## Team! 🥇
 
@@ -44,12 +46,16 @@ d'intérêt.
 [User09]: https://github.com/fred2541/
 [User10]: https://github.com/ananas122/
 
+---
+
 ## 🛠️ Stack & Outils
 
 ![React](https://img.shields.io/badge/-React-61DAFB?logo=react&logoColor=white&style=flat)  
 ![Firebase](https://img.shields.io/badge/-Firebase-FFCA28?logo=firebase&logoColor=white&style=flat)  
 ![Tailwind CSS](https://img.shields.io/badge/-TailwindCSS-38B2AC?logo=tailwind-css&logoColor=white&style=flat)  
 ![Git](https://img.shields.io/badge/-Git-F05032?logo=git&logoColor=white&style=flat)
+
+---
 
 ## Install
 
