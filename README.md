@@ -1,8 +1,15 @@
-# Project Dédale > [BackOffice]
+🚀 [BackOffice]
 
-## Description
+📝 **Description**  
+Le Backoffice de l'application mobile Dedale est une plateforme web dédiée à la
+gestion et à l'administration des parcours ainsi qu'à la consultation des
+statistiques de fréquentation des lieux. Cet outil centralisé permet aux
+administrateurs et aux gestionnaires de créer, modifier, et organiser des
+parcours interactifs, tout en offrant une visibilité approfondie sur
+l'engagement des utilisateurs et la fréquentation des différents points
+d'intérêt.
 
-> Back-office of the mobile application: "**Dédale**"
+---
 
 ## About
 
@@ -36,6 +43,13 @@
 [User08]: https://github.com/CYL-B/
 [User09]: https://github.com/fred2541/
 [User10]: https://github.com/ananas122/
+
+## 🛠️ Stack & Outils
+
+![React](https://img.shields.io/badge/-React-61DAFB?logo=react&logoColor=white&style=flat)  
+![Firebase](https://img.shields.io/badge/-Firebase-FFCA28?logo=firebase&logoColor=white&style=flat)  
+![Tailwind CSS](https://img.shields.io/badge/-TailwindCSS-38B2AC?logo=tailwind-css&logoColor=white&style=flat)  
+![Git](https://img.shields.io/badge/-Git-F05032?logo=git&logoColor=white&style=flat)
 
 ## Install
 
@@ -89,3 +103,15 @@ VITE_FIREBASE_STORAGE_BUCKET=""
 ```bash
 yarn dev --open
 ```
+
+---
+
+## 📸 Aperçus
+
+Ajoutez ici des captures d’écran ou GIFs du projet en action.
+
+📌 **Exemple 1 : Page d’accueil du projet**  
+![Aperçu](<img src="./assets/logo-ludimuseo.png" alt="ludimuseo" width="150" height="90"/> <img src="./src/assets/imgs/BackOffice Dedale.png" alt="dedale" width="200" height="90"/>
+)
+
+---
