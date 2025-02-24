@@ -117,6 +117,6 @@ yarn dev --open
 Ajoutez ici des captures d’écran ou GIFs du projet en action.
 
 📌 **Exemple 1 : Page d’accueil du projet**  
-<img src="./src/assets/imgs/BackOffice Dedale.png" alt="dedale" width="400" height="180"/>
+<img src="./src/assets/imgs/BackOffice Dedale.png" alt="dedale" width="500" height="180"/>
 
 ---
