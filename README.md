@@ -117,7 +117,6 @@ yarn dev --open
 Ajoutez ici des captures d’écran ou GIFs du projet en action.
 
 📌 **Exemple 1 : Page d’accueil du projet**  
-![Aperçu](<img src="./assets/logo-ludimuseo.png" alt="ludimuseo" width="150" height="90"/> <img src="./src/assets/imgs/BackOffice Dedale.png" alt="dedale" width="200" height="90"/>
-)
+<img src="./assets/logo-ludimuseo.png" alt="ludimuseo" width="150" height="90"/> <img src="./src/assets/imgs/BackOffice Dedale.png" alt="dedale" width="200" height="90"/>
 
 ---
