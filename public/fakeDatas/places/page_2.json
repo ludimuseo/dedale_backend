@@ -1,0 +1,228 @@
+{
+  "page": 2,
+  "perPage": 15,
+  "total": 30,
+  "totalPages": 2,
+  "data": [
+    {
+      "clientId": "client6",
+      "medalId": "medal006",
+      "content": {
+        "image": ["image11.jpg", "image12.jpg"],
+        "type": "gallery"
+      },
+      "address": {
+        "address": "25 Rue du Faubourg Saint-Antoine",
+        "postal": "75011",
+        "city": "Paris",
+        "country": "France"
+      },
+      "name": {
+        "fr": "Galerie d'Art Moderne",
+        "en": "Modern Art Gallery"
+      },
+      "coords": {
+        "lat": 48.852,
+        "lon": 2.3742,
+        "isLocationRequired": true
+      },
+      "description": {
+        "standard": {
+          "fr": "Galerie d'art contemporain avec des expositions variées.",
+          "en": "Contemporary art gallery with varied exhibitions."
+        },
+        "falc": {
+          "fr": "Galerie certifiée d'art moderne.",
+          "en": "Certified modern art gallery.",
+          "falcCertified": "yes",
+          "userId": "user006",
+          "status": {
+            "isValidate": true,
+            "isCertified": true,
+            "certifiedDate": "2024-02-10T11:00:00Z",
+            "isCorrected": false
+          }
+        }
+      },
+      "audio": {
+        "standard": {
+          "fr": "audio6_fr.mp3",
+          "en": "audio6_en.mp3"
+        },
+        "falc": {
+          "fr": "audio_falc6_fr.mp3",
+          "en": "audio_falc6_en.mp3"
+        }
+      },
+      "status": {
+        "isActive": true,
+        "isPublished": true
+      }
+    },
+    {
+      "clientId": "client7",
+      "medalId": "medal007",
+      "content": {
+        "image": ["image13.jpg", "image14.jpg"],
+        "type": "shopping"
+      },
+      "address": {
+        "address": "67 Avenue Montaigne",
+        "postal": "75008",
+        "city": "Paris",
+        "country": "France"
+      },
+      "name": {
+        "fr": "Champs-Élysées Shopping",
+        "en": "Champs-Élysées Shopping"
+      },
+      "coords": {
+        "lat": 48.87,
+        "lon": 2.3078,
+        "isLocationRequired": true
+      },
+      "description": {
+        "standard": {
+          "fr": "Centre commercial de luxe avec des boutiques haut de gamme.",
+          "en": "Luxury shopping mall with high-end boutiques."
+        },
+        "falc": {
+          "fr": "Centre commercial certifié haut de gamme.",
+          "en": "Certified high-end shopping mall.",
+          "falcCertified": "yes",
+          "userId": "user007",
+          "status": {
+            "isValidate": true,
+            "isCertified": true,
+            "certifiedDate": "2024-02-12T14:00:00Z",
+            "isCorrected": false
+          }
+        }
+      },
+      "audio": {
+        "standard": {
+          "fr": "audio7_fr.mp3",
+          "en": "audio7_en.mp3"
+        },
+        "falc": {
+          "fr": "audio_falc7_fr.mp3",
+          "en": "audio_falc7_en.mp3"
+        }
+      },
+      "status": {
+        "isActive": true,
+        "isPublished": true
+      }
+    },
+    {
+      "clientId": "client8",
+      "medalId": "medal008",
+      "content": {
+        "image": ["image15.jpg", "image16.jpg"],
+        "type": "museum"
+      },
+      "address": {
+        "address": "101 Rue de la République",
+        "postal": "13002",
+        "city": "Marseille",
+        "country": "France"
+      },
+      "name": {
+        "fr": "Musée des Civilisations de l'Europe et de la Méditerranée",
+        "en": "Museum of European and Mediterranean Civilizations"
+      },
+      "coords": {
+        "lat": 43.2965,
+        "lon": 5.3731,
+        "isLocationRequired": true
+      },
+      "description": {
+        "standard": {
+          "fr": "Musée dédié aux civilisations méditerranéennes.",
+          "en": "Museum dedicated to Mediterranean civilizations."
+        },
+        "falc": {
+          "fr": "Musée certifié par l'UNESCO.",
+          "en": "UNESCO certified museum.",
+          "falcCertified": "yes",
+          "userId": "user008",
+          "status": {
+            "isValidate": true,
+            "isCertified": true,
+            "certifiedDate": "2024-02-15T16:00:00Z",
+            "isCorrected": false
+          }
+        }
+      },
+      "audio": {
+        "standard": {
+          "fr": "audio8_fr.mp3",
+          "en": "audio8_en.mp3"
+        },
+        "falc": {
+          "fr": "audio_falc8_fr.mp3",
+          "en": "audio_falc8_en.mp3"
+        }
+      },
+      "status": {
+        "isActive": true,
+        "isPublished": true
+      }
+    },
+    {
+      "clientId": "client9",
+      "medalId": "medal009",
+      "content": {
+        "image": ["image17.jpg", "image18.jpg"],
+        "type": "restaurant"
+      },
+      "address": {
+        "address": "88 Rue de la Croisette",
+        "postal": "06400",
+        "city": "Cannes",
+        "country": "France"
+      },
+      "name": {
+        "fr": "Le Palais des Saveurs",
+        "en": "Palace of Flavors"
+      },
+      "coords": {
+        "lat": 43.5512,
+        "lon": 7.0167,
+        "isLocationRequired": true
+      },
+      "description": {
+        "standard": {
+          "fr": "Restaurant gastronomique surplombant la mer.",
+          "en": "Gastronomic restaurant overlooking the sea."
+        },
+        "falc": {
+          "fr": "Restaurant certifié cuisine de qualité.",
+          "en": "Certified quality cuisine restaurant.",
+          "falcCertified": "yes",
+          "userId": "user009",
+          "status": {
+            "isValidate": true,
+            "isCertified": true,
+            "certifiedDate": "2024-02-17T18:00:00Z",
+            "isCorrected": false
+          }
+        }
+      },
+      "audio": {
+        "standard": {
+          "fr": "audio9_fr.mp3",
+          "en": "audio9_en.mp3"
+        },
+        "falc": {
+          "fr": "audio_falc9_fr.mp3",
+          "en": "audio_falc9_en.mp3"
+        }
+      },
+      "status": {
+        "isActive": true,
+        "isPublished": true
+      }
+    }
+  ]
+}

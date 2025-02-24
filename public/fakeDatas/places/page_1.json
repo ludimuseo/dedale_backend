@@ -1,0 +1,283 @@
+{
+  "page": 1,
+  "perPage": 15,
+  "total": 30,
+  "totalPages": 2,
+  "data": [
+    {
+      "clientId": "client1",
+      "medalId": "medal001",
+      "content": {
+        "image": ["image1.jpg", "image2.jpg"],
+        "type": "museum"
+      },
+      "address": {
+        "address": "123 Rue de Paris",
+        "postal": "75001",
+        "city": "Paris",
+        "country": "France"
+      },
+      "name": {
+        "fr": "Musée du Louvre",
+        "en": "Louvre Museum"
+      },
+      "coords": {
+        "lat": 48.8606,
+        "lon": 2.3376,
+        "isLocationRequired": true
+      },
+      "description": {
+        "standard": {
+          "fr": "Musée d'art et d'antiquités.",
+          "en": "Museum of art and antiques."
+        },
+        "falc": {
+          "fr": "Musée classé au patrimoine mondial.",
+          "en": "World heritage classified museum.",
+          "falcCertified": "yes",
+          "userId": "user001",
+          "status": {
+            "isValidate": true,
+            "isCertified": true,
+            "certifiedDate": "2024-01-10T10:00:00Z",
+            "isCorrected": false
+          }
+        }
+      },
+      "audio": {
+        "standard": {
+          "fr": "audio1_fr.mp3",
+          "en": "audio1_en.mp3"
+        },
+        "falc": {
+          "fr": "audio_falc_fr.mp3",
+          "en": "audio_falc_en.mp3"
+        }
+      },
+      "status": {
+        "isActive": true,
+        "isPublished": true
+      }
+    },
+    {
+      "clientId": "client2",
+      "medalId": "medal002",
+      "content": {
+        "image": ["image3.jpg", "image4.jpg"],
+        "type": "restaurant"
+      },
+      "address": {
+        "address": "456 Avenue des Champs-Élysées",
+        "postal": "75008",
+        "city": "Paris",
+        "country": "France"
+      },
+      "name": {
+        "fr": "Le Gourmet",
+        "en": "The Gourmet"
+      },
+      "coords": {
+        "lat": 48.8696,
+        "lon": 2.3074,
+        "isLocationRequired": true
+      },
+      "description": {
+        "standard": {
+          "fr": "Restaurant gastronomique avec des spécialités françaises.",
+          "en": "Gastronomic restaurant with French specialties."
+        },
+        "falc": {
+          "fr": "Restaurant certifié gastronomique.",
+          "en": "Certified gastronomic restaurant.",
+          "falcCertified": "yes",
+          "userId": "user002",
+          "status": {
+            "isValidate": true,
+            "isCertified": true,
+            "certifiedDate": "2024-01-15T15:00:00Z",
+            "isCorrected": false
+          }
+        }
+      },
+      "audio": {
+        "standard": {
+          "fr": "audio2_fr.mp3",
+          "en": "audio2_en.mp3"
+        },
+        "falc": {
+          "fr": "audio_falc2_fr.mp3",
+          "en": "audio_falc2_en.mp3"
+        }
+      },
+      "status": {
+        "isActive": true,
+        "isPublished": true
+      }
+    },
+    {
+      "clientId": "client3",
+      "medalId": "medal003",
+      "content": {
+        "image": ["image5.jpg", "image6.jpg"],
+        "type": "park"
+      },
+      "address": {
+        "address": "789 Rue de la Liberté",
+        "postal": "69000",
+        "city": "Lyon",
+        "country": "France"
+      },
+      "name": {
+        "fr": "Parc de la Tête d'Or",
+        "en": "Tête d'Or Park"
+      },
+      "coords": {
+        "lat": 45.764,
+        "lon": 4.8357,
+        "isLocationRequired": true
+      },
+      "description": {
+        "standard": {
+          "fr": "Grand parc public avec un lac et un zoo.",
+          "en": "Large public park with a lake and a zoo."
+        },
+        "falc": {
+          "fr": "Parc certifié écologique.",
+          "en": "Certified ecological park.",
+          "falcCertified": "yes",
+          "userId": "user003",
+          "status": {
+            "isValidate": true,
+            "isCertified": true,
+            "certifiedDate": "2024-01-20T18:00:00Z",
+            "isCorrected": false
+          }
+        }
+      },
+      "audio": {
+        "standard": {
+          "fr": "audio3_fr.mp3",
+          "en": "audio3_en.mp3"
+        },
+        "falc": {
+          "fr": "audio_falc3_fr.mp3",
+          "en": "audio_falc3_en.mp3"
+        }
+      },
+      "status": {
+        "isActive": true,
+        "isPublished": true
+      }
+    },
+    {
+      "clientId": "client4",
+      "medalId": "medal004",
+      "content": {
+        "image": ["image7.jpg", "image8.jpg"],
+        "type": "monument"
+      },
+      "address": {
+        "address": "10 Rue de la République",
+        "postal": "13001",
+        "city": "Marseille",
+        "country": "France"
+      },
+      "name": {
+        "fr": "Basilique Notre-Dame de la Garde",
+        "en": "Basilica of Notre-Dame de la Garde"
+      },
+      "coords": {
+        "lat": 43.2965,
+        "lon": 5.3698,
+        "isLocationRequired": true
+      },
+      "description": {
+        "standard": {
+          "fr": "Église emblématique de Marseille.",
+          "en": "Iconic church of Marseille."
+        },
+        "falc": {
+          "fr": "Basilique classée monument historique.",
+          "en": "Basilica classified as a historic monument.",
+          "falcCertified": "yes",
+          "userId": "user004",
+          "status": {
+            "isValidate": true,
+            "isCertified": true,
+            "certifiedDate": "2024-01-25T20:00:00Z",
+            "isCorrected": false
+          }
+        }
+      },
+      "audio": {
+        "standard": {
+          "fr": "audio4_fr.mp3",
+          "en": "audio4_en.mp3"
+        },
+        "falc": {
+          "fr": "audio_falc4_fr.mp3",
+          "en": "audio_falc4_en.mp3"
+        }
+      },
+      "status": {
+        "isActive": true,
+        "isPublished": true
+      }
+    },
+    {
+      "clientId": "client5",
+      "medalId": "medal005",
+      "content": {
+        "image": ["image9.jpg", "image10.jpg"],
+        "type": "theater"
+      },
+      "address": {
+        "address": "15 Boulevard Saint-Germain",
+        "postal": "75005",
+        "city": "Paris",
+        "country": "France"
+      },
+      "name": {
+        "fr": "Comédie-Française",
+        "en": "Comédie-Française"
+      },
+      "coords": {
+        "lat": 48.8545,
+        "lon": 2.3358,
+        "isLocationRequired": true
+      },
+      "description": {
+        "standard": {
+          "fr": "Théâtre national français.",
+          "en": "National French theater."
+        },
+        "falc": {
+          "fr": "Théâtre certifié de qualité.",
+          "en": "Certified quality theater.",
+          "falcCertified": "yes",
+          "userId": "user005",
+          "status": {
+            "isValidate": true,
+            "isCertified": true,
+            "certifiedDate": "2024-02-05T10:00:00Z",
+            "isCorrected": false
+          }
+        }
+      },
+      "audio": {
+        "standard": {
+          "fr": "audio5_fr.mp3",
+          "en": "audio5_en.mp3"
+        },
+        "falc": {
+          "fr": "audio_falc5_fr.mp3",
+          "en": "audio_falc5_en.mp3"
+        }
+      },
+      "status": {
+        "isActive": true,
+        "isPublished": true
+      }
+    }
+  ]
+}
