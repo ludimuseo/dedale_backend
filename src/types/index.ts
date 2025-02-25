@@ -236,6 +236,7 @@ export interface ClientType {
 
 /* PLACE */
 export interface PlaceType {
+  id: string
   clientId: string
   medalId: string
   content: {
