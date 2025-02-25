@@ -11,35 +11,25 @@ interface ActionButtonsProps {
 
 const ActionButtons = ({ imageIcon, image }: ActionButtonsProps) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  const [isHovered, setIsHovered] = useState(false)
+  // const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <div className="flex flex-row items-center">
+    <div className="flex flex-row items-center justify-center space-x-4">
       <button
-        className="group btn btn-circle btn-lg relative flex h-10 w-10 items-center justify-center rounded-full bg-white shadow"
+        className="group btn btn-circle btn-sm relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-blue-500 bg-white shadow"
         onClick={() => {
           setSelectedImage(image ? image[0] : imageIcon)
         }}>
         <img
           src={image ? image[0] : imageIcon}
           alt="Image"
-          className="h-16 w-16 rounded-full"
+          className="h-6 w-6 rounded-full"
         />
-        <span
-          className="mr-4 font-inclusive text-blue-950"
-          onMouseEnter={() => {
-            setIsHovered(false)
-          }}
-          onMouseLeave={() => {
-            setIsHovered(false)
-          }}>
-          {/* Image */}
-        </span>
         <div
           role="tooltip"
-          aria-label="Ajouter un correcteur"
+          aria-label="Afficher"
           className="absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 text-sm text-white shadow-lg group-hover:block">
-          Afficher
+          <span className="font-sans">Afficher</span>
         </div>
       </button>
 
@@ -61,45 +51,29 @@ const ActionButtons = ({ imageIcon, image }: ActionButtonsProps) => {
           </div>
         </div>
       )}
-      {isHovered && image && (
-        <div className="w-128 group absolute left-40 top-10 mt-2 rounded-md border-4 border-sky-950 bg-black shadow-md">
-          <img
-            src={image[0]}
-            alt="Aperçu"
-            className="h-auto w-full rounded-md"
-          />
-        </div>
-      )}
+
       {/* IMPRIMER */}
-      <button className="group btn btn-square btn-ghost btn-lg relative ml-4">
-        <PrintIcon />
+      <button className="group btn btn-square btn-ghost btn-sm relative border-2 border-blue-500">
+        <PrintIcon className="h-4 w-4" />
         <div
           role="tooltip"
-          aria-label="Ajouter un correcteur"
+          aria-label="Imprimer"
           className="absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 text-sm text-white shadow-lg group-hover:block">
-          Imprimer
+          <span className="font-sans">Imprimer</span>
         </div>
       </button>
 
       {/* DICTEE */}
-      <button className="group btn btn-square btn-ghost btn-lg relative ml-4">
-        <DictationIcon />
+      <button className="group btn btn-square btn-ghost btn-sm relative border-2 border-blue-500">
+        <DictationIcon className="h-4 w-4" />
         <div
           role="tooltip"
-          aria-label="Ajouter un correcteur"
+          aria-label="Dictée"
           className="absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 text-sm text-white shadow-lg group-hover:block">
-          Dictée
+          <span className="font-sans">Dictée</span>
         </div>
       </button>
 
-      {/* RECHERCHE */}
-      {/* <div className="form-control ml-20">
-        <input
-          type="text"
-          placeholder="🔎 Dictionnaire"
-          className="input input-bordered input-primary w-full max-w-xs"
-        />
-      </div> */}
       <DictionaryButton />
     </div>
   )

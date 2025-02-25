@@ -2,8 +2,8 @@ export const PencilIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="30"
-      height="30"
+      width="40"
+      height="40"
       viewBox="0 0 100 100">
       <circle
         cx="50"

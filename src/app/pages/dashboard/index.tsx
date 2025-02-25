@@ -13,7 +13,7 @@ const Dashboard: FC = () => {
   return (
     <>
       <header>
-        <h1 className="text-center font-inclusive text-3xl">Dashboard</h1>
+        <h1 className="pt-5 text-center font-inclusive text-4xl">Dashboard</h1>
       </header>
       <main>
         <DashboardMenu menu={menu} auth={auth} />
