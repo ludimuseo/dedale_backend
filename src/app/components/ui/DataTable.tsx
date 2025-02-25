@@ -107,16 +107,19 @@ function DataTable<T extends Record<string, unknown>>({
                 <tr key={typeof row.id === 'string' ? row.id : rowIndex}>
                   {columns.map((col, colIndex) => (
                     <td key={colIndex}>
-                      {col.accessor !== 'isActive' &&
+                      {col.header !== 'status' &&
                         (getNestedValue(row, col.accessor) as React.ReactNode)}
-                      {col.accessor === 'isActive' && row[col.accessor] ? (
+
+                      {col.header === 'status' &&
+                      getNestedValue(row, col.accessor) === true ? (
                         <div className="rounded-full p-1 text-green-400">
                           <div className="size-2 rounded-full bg-current"></div>
                         </div>
                       ) : (
                         ''
                       )}
-                      {col.accessor === 'isActive' && !row[col.accessor] ? (
+                      {col.header === 'status' &&
+                      getNestedValue(row, col.accessor) === false ? (
                         <div className="rounded-full p-1 text-gray-500">
                           <div className="size-2 rounded-full bg-current"></div>
                         </div>
