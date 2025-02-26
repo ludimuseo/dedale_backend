@@ -39,7 +39,10 @@ const DictionaryButton: FC = () => {
           onChange={handleChange}
           className="input input-bordered input-primary w-full max-w-xs"
         />
-        <button className="btn btn-square" type="submit" value="🔎">
+        <button
+          className="btn btn-square ml-2 box-decoration-clone"
+          type="submit"
+          value="🔎">
           🔎
         </button>
       </form>

@@ -5,6 +5,8 @@ export const ToCorrectIcon = ({ ...props }: SvgProps) => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 499.51 511.2"
+      width="130"
+      height="140"
       {...props}>
       <g id="Calque_2" data-name="Calque 2">
         <g id="Calque_1-2" data-name="Calque 1">
