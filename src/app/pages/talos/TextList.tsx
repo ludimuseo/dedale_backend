@@ -2,8 +2,9 @@ import { collection, getDocs, query, where } from 'firebase/firestore'
 import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import { ArrowIcon } from '@/app/components/ui/icons/ArrowIcon'
 import { CheckIcon } from '@/app/components/ui/icons/CheckIcon'
-import { PencilIcon } from '@/app/components/ui/icons/PencilIcon' // Import de l'icône
+import { PencilIcon } from '@/app/components/ui/icons/PencilIcon'
 import { db } from '@/firebase/firebase'
 import {
   EntityWithId,
@@ -14,6 +15,11 @@ import {
 } from '@/types'
 
 const TextList: FC = () => {
+  const [isPlacesOpen, setIsPlacesOpen] = useState(true)
+  const [isJourneysOpen, setIsJourneysOpen] = useState(true)
+  const [isStepsOpen, setIsStepsOpen] = useState(true)
+  const [isPiecesOpen, setIsPiecesOpen] = useState(true)
+
   const [places, setPlaces] = useState<
     (PlaceType & { id: string; collection: string })[]
   >([])
@@ -26,6 +32,7 @@ const TextList: FC = () => {
   const [pieces, setPieces] = useState<
     (PieceType & { id: string; collection: string })[]
   >([])
+
   const [activePlaceId, setActivePlaceId] = useState<string | null>(null)
   const [activeJourneyId, setActiveJourneyId] = useState<string | null>(null)
   const [activeStepId, setActiveStepId] = useState<string | null>(null)
@@ -118,253 +125,313 @@ const TextList: FC = () => {
   }
 
   return (
-    <div className="bg-white p-6 text-gray-900">
+    <div className="bg-white p-6 font-sans text-[#0A184D]">
       <h1 className="mb-8 text-4xl font-bold">Liste des Textes</h1>
 
       {/* Liste des Lieux */}
       <section aria-labelledby="places-heading">
-        <h2
-          id="places-heading"
-          className="mb-6 font-inclusive text-3xl font-semibold">
-          Lieux
-        </h2>
-        <div className="space-y-4">
-          {places.map((place) => (
-            <article
-              key={place.id}
-              className={`rounded-lg bg-gray-50 p-4 shadow-sm`}>
-              <h3 className="mb-2 font-inclusive text-2xl font-medium">
-                {place.name.fr}
-              </h3>
+        <div className="space-y-5">
+          <div className="flex items-center justify-between">
+            <h2
+              id="places-heading"
+              className="flex-grow rounded-md bg-[#0A184D] pl-3 text-3xl font-semibold leading-relaxed text-white">
+              Lieux
+            </h2>
+            <button
+              onClick={() => {
+                setIsPlacesOpen(!isPlacesOpen)
+              }}
+              className="bg-transparent px-4 py-2 text-white"
+              aria-label={
+                isPlacesOpen ? 'Masquer les lieux' : 'Afficher les lieux'
+              }>
+              <ArrowIcon isOpen={isPlacesOpen} />
+            </button>
+          </div>
+          {isPlacesOpen &&
+            places.map((place) => (
+              <article
+                key={place.id}
+                className="rounded-md border-2 border-[#0A184D] bg-[#F4FDFF] px-6 py-4 text-[#0A184D] shadow-lg">
+                <h3 className="my-1 text-3xl font-bold">{place.name.fr}</h3>
 
-              <p className="mb-4 text-gray-700">
-                {place.description.falc.fr.length > 100
-                  ? `${place.description.falc.fr.slice(0, 150)}...`
-                  : place.description.falc.fr}
-              </p>
-
-              {/* IMAGE */}
-              <div className="flex gap-4">
-                <div className="avatar">
-                  <div className="w-14 rounded-xl font-inclusive">
-                    <img src={place.content.image[0]} />
+                <p className="mb-5">
+                  {place.description.falc.fr.length > 100
+                    ? `${place.description.falc.fr.slice(0, 150)}...`
+                    : place.description.falc.fr}
+                </p>
+                {/* IMAGE */}
+                <div className="mb-2 flex gap-5">
+                  <div className="avatar">
+                    <div className="w-16 cursor-pointer rounded-xl">
+                      <img src={place.content.image[0]} alt={place.name.fr} />
+                    </div>
                   </div>
-                </div>
 
-                <button
-                  onClick={() => void fetchJourneys(place.id)}
-                  className="rounded-lg bg-blue-600 px-4 py-2 font-inclusive text-white hover:bg-blue-700"
-                  aria-label={`Voir les parcours pour ${place.name.fr}`}>
-                  Voir les Parcours
-                </button>
-                {place.description.falc.status.isCertified ? (
                   <button
-                    className="flex items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-white"
-                    aria-label={`Texte validé pour ${place.name.fr}`}>
-                    <CheckIcon className="h-8 w-8" />
-                    <span className="font-inclusive">Texte validé</span>
+                    onClick={() => void fetchJourneys(place.id)}
+                    className="duration-5 rounded-xl border-2 border-[#0A184D] bg-[#0A184D] px-6 py-4 text-xl text-white transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#ffffff] hover:text-[#0A184D]"
+                    aria-label={`Voir les parcours pour ${place.name.fr}`}>
+                    Voir les parcours
                   </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      handleNavigate(place)
-                    }}
-                    className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 font-inclusive text-white hover:bg-green-700"
-                    aria-label={`Corriger ${place.name.fr}`}>
-                    <PencilIcon />
-                    <span>Corriger</span>
-                  </button>
-                )}
-                {/* <button
+                  {place.description.falc.status.isCertified ? (
+                    <button
+                      className="flex items-center gap-3 rounded-xl border-2 border-[#22891F] bg-[#22891F] px-6 py-2 text-xl text-white"
+                      aria-label={`Texte validé pour ${place.name.fr}`}>
+                      <CheckIcon className="h-8 w-8" />
+                      <span>Texte validé</span>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        handleNavigate(place)
+                      }}
+                      className="duration-5 flex items-center gap-3 rounded-xl border-2 border-[#0A184D] bg-[#bfdcfe] px-6 py-2 text-xl text-[#0A184D] transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#F4FDFF] hover:text-[#0A184D]"
+                      aria-label={`Corriger ${place.name.fr}`}>
+                      <PencilIcon />
+                      <span>Corriger</span>
+                    </button>
+                  )}
+                  {/* <button
+>>>>>>> 9adf4c377fd9b6a971654e7d61e6380e8b46d60a:src/app/pages/talos/textList.tsx
                   className="btn-disabled flex items-center">
                   <img className="rounded-lg" src={place.content.image[0]} alt={place.name.fr} />
 
                 </button> */}
-              </div>
+                </div>
+                {/* Liste des Parcours */}
+                {activePlaceId === place.id && (
+                  <section
+                    aria-labelledby={`journeys-${place.id}-heading`}
+                    className="mt-7 rounded-lg border-2 bg-[#ffffff] px-2 py-3">
+                    <div className="space-y-5">
+                      <div className="flex items-center justify-between">
+                        <h4
+                          id={`journeys-${place.id}-heading`}
+                          className="flex-grow rounded-md bg-[#0A184D] pl-3 text-3xl font-semibold leading-relaxed text-white">
+                          Parcours
+                        </h4>
+                        <button
+                          onClick={() => {
+                            setIsJourneysOpen(!isJourneysOpen)
+                          }}
+                          className="bg-transparent px-4 py-2 text-white"
+                          aria-label={
+                            isJourneysOpen
+                              ? 'Masquer les parcours'
+                              : 'Afficher les parcours'
+                          }>
+                          <ArrowIcon isOpen={isJourneysOpen} />
+                        </button>
+                      </div>
+                      {isJourneysOpen &&
+                        journeys.map((journey) => (
+                          <article
+                            key={journey.id}
+                            className="m-4 rounded-xl border-2 border-[#0A184D] bg-[#F4FDFF] px-4 py-3 text-[#0A184D] shadow-md">
+                            <h5 className="mb-3 text-2xl font-medium">
+                              {journey.name.fr}
+                            </h5>
 
-              {/* Liste des Parcours */}
-              {activePlaceId === place.id && (
-                <section
-                  aria-labelledby={`journeys-${place.id}-heading`}
-                  className="mt-4">
-                  <h4
-                    id={`journeys-${place.id}-heading`}
-                    className="mb-4 font-inclusive text-xl font-semibold">
-                    Parcours
-                  </h4>
-                  <div className="space-y-4">
-                    {journeys.map((journey) => (
-                      <article
-                        key={journey.id}
-                        className="rounded-lg bg-white p-4 shadow-sm">
-                        <h5 className="mb-2 font-inclusive text-lg font-medium">
-                          {journey.name.fr}
-                        </h5>
-                        {/* IMAGE */}
-                        <div className="flex gap-4">
-                          <div className="avatar">
-                            <div className="w-14 rounded-xl">
-                              <img src={journey.content.image[0]} />
+                            {/* IMAGE */}
+                            <div className="mb-2 flex gap-5">
+                              <div className="avatar">
+                                <div className="w-16 rounded-xl">
+                                  <img src={journey.content.image[0]} />
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => void fetchSteps(journey.id)}
+                                className="duration-5 rounded-xl border-2 border-[#0A184D] bg-[#0A184D] px-6 py-4 text-xl text-white transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#ffffff] hover:text-[#0A184D]"
+                                aria-label={`Voir les étapes pour ${journey.name.fr}`}>
+                                Voir les étapes
+                              </button>
+                              {journey.description.falc.status.isCertified ? (
+                                <button
+                                  className="flex items-center gap-3 rounded-xl border-2 border-[#22891F] bg-[#22891F] px-6 py-2 text-xl text-white"
+                                  aria-label={`Texte validé pour ${journey.name.fr}`}>
+                                  <CheckIcon className="h-8 w-8" />
+                                  <span>Texte validé</span>
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={() => {
+                                    handleNavigate(journey)
+                                  }}
+                                  className="duration-5 flex items-center gap-3 rounded-xl border-2 border-[#0A184D] bg-[#bfdcfe] px-6 py-2 text-xl text-[#0A184D] transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#F4FDFF] hover:text-[#0A184D]"
+                                  aria-label={`Corriger ${journey.name.fr}`}>
+                                  <PencilIcon />
+                                  <span>Corriger</span>
+                                </button>
+                              )}
                             </div>
-                          </div>
-                          <button
-                            onClick={() => void fetchSteps(journey.id)}
-                            className="rounded-lg bg-blue-600 px-4 py-2 font-inclusive text-white hover:bg-blue-700"
-                            aria-label={`Voir les étapes pour ${journey.name.fr}`}>
-                            Voir les Étapes
-                          </button>
-                          {journey.description.falc.status.isCertified ? (
-                            <button
-                              className="flex items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-white"
-                              aria-label={`Texte validé pour ${journey.name.fr}`}>
-                              <CheckIcon className="h-8 w-8" />
-                              <span className="font-inclusive">
-                                Texte validé
-                              </span>
-                            </button>
-                          ) : (
-                            <button
-                              onClick={() => {
-                                handleNavigate(journey)
-                              }}
-                              className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 font-inclusive text-white hover:bg-green-700"
-                              aria-label={`Corriger ${journey.name.fr}`}>
-                              <PencilIcon />
-                              <span className="font-inclusive">Corriger</span>
-                            </button>
-                          )}
-                        </div>
 
-                        {/* Liste des Étapes */}
-                        {activeJourneyId === journey.id && (
-                          <section
-                            aria-labelledby={`steps-${journey.id}-heading`}
-                            className="mt-4">
-                            <h6
-                              id={`steps-${journey.id}-heading`}
-                              className="mb-4 font-inclusive text-lg font-semibold">
-                              Étapes
-                            </h6>
-                            <div className="space-y-4">
-                              {steps.map((step) => (
-                                <article
-                                  key={step.id}
-                                  className="rounded-lg bg-gray-50 p-4 shadow-sm">
-                                  <h6 className="text-md mb-2 font-inclusive font-medium">
-                                    Etape n° {step.stage.stepNumber} :{' '}
-                                    {step.name.fr}
-                                  </h6>
-                                  <div className="flex gap-4">
-                                    <div className="avatar">
-                                      <div className="w-14 rounded-xl">
-                                        <img src={step.content.image[0]} />
-                                      </div>
-                                    </div>
+                            {/* Liste des Étapes */}
+                            {activeJourneyId === journey.id && (
+                              <section
+                                aria-labelledby={`steps-${journey.id}-heading`}
+                                className="mt-7 rounded-lg border-2 bg-[#ffffff] px-2 py-3">
+                                <div className="space-y-5">
+                                  <div className="flex items-center justify-between">
+                                    <h6
+                                      id={`steps-${journey.id}-heading`}
+                                      className="flex-grow rounded-md bg-[#0A184D] pl-3 text-3xl font-semibold leading-relaxed text-white">
+                                      Étapes
+                                    </h6>
                                     <button
-                                      onClick={() => void fetchPieces(step.id)}
-                                      className="rounded-lg bg-blue-600 px-4 py-2 font-inclusive text-white hover:bg-blue-700"
-                                      aria-label={`Voir les œuvres pour ${step.name.fr}`}>
-                                      Voir les Œuvres
+                                      onClick={() => {
+                                        setIsStepsOpen(!isStepsOpen)
+                                      }}
+                                      className="bg-transparent px-4 py-2 text-white"
+                                      aria-label={
+                                        isStepsOpen
+                                          ? 'Masquer les étapes'
+                                          : 'Afficher les étapes'
+                                      }>
+                                      <ArrowIcon isOpen={isStepsOpen} />
                                     </button>
-                                    {step.description.falc.status
-                                      .isCertified ? (
-                                      <button
-                                        className="flex items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-white"
-                                        aria-label={`Texte validé pour ${step.name.fr}`}>
-                                        <CheckIcon className="h-8 w-8" />
-                                        <span className="font-inclusive">
-                                          Texte validé
-                                        </span>
-                                      </button>
-                                    ) : (
-                                      <button
-                                        onClick={() => {
-                                          handleNavigate(step)
-                                        }}
-                                        className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-                                        aria-label={`Corriger ${step.name.fr}`}>
-                                        <PencilIcon />
-                                        <span className="font-inclusive">
-                                          Corriger
-                                        </span>
-                                      </button>
-                                    )}
                                   </div>
+                                  {isStepsOpen &&
+                                    steps.map((step) => (
+                                      <article
+                                        key={step.id}
+                                        className="m-4 rounded-lg border-2 border-[#0A184D] bg-[#F4FDFF] p-4 shadow-lg">
+                                        <h6 className="pb-4 text-2xl font-medium">
+                                          Étape n° {step.stage.stepNumber} :{' '}
+                                          {step.name.fr}
+                                        </h6>
+                                        {/* IMAGE */}
+                                        <div className="flex gap-4">
+                                          <div className="avatar">
+                                            <div className="w-16 rounded-xl">
+                                              <img
+                                                src={step.content.image[0]}
+                                              />
+                                            </div>
+                                          </div>
+                                          <button
+                                            onClick={() =>
+                                              void fetchPieces(step.id)
+                                            }
+                                            className="duration-5 rounded-xl border-2 border-[#0A184D] bg-[#0A184D] px-6 py-4 text-xl text-white transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#FFFFFF] hover:text-[#0A184D]"
+                                            aria-label={`Voir les œuvres pour ${step.name.fr}`}>
+                                            Voir l'œuvre
+                                          </button>
+                                          {step.description.falc.status
+                                            .isCertified ? (
+                                            <button
+                                              className="flex items-center gap-3 rounded-xl border-2 border-[#22891F] bg-[#22891F] px-6 py-2 text-xl text-white"
+                                              aria-label={`Texte validé pour ${step.name.fr}`}>
+                                              <CheckIcon className="h-8 w-8" />
+                                              <span>Texte validé</span>
+                                            </button>
+                                          ) : (
+                                            <button
+                                              onClick={() => {
+                                                handleNavigate(step)
+                                              }}
+                                              className="duration-5 flex items-center gap-3 rounded-xl border-2 border-[#0A184D] bg-[#bfdcfe] px-6 py-2 text-xl text-[#0A184D] transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#F4FDFF] hover:text-[#0A184D]"
+                                              aria-label={`Corriger ${step.name.fr}`}>
+                                              <PencilIcon />
+                                              <span>Corriger</span>
+                                            </button>
+                                          )}
+                                        </div>
 
-                                  {/* Liste des Œuvres */}
-                                  {activeStepId === step.id && (
-                                    <section
-                                      aria-labelledby={`pieces-${step.id}-heading`}
-                                      className="mt-4">
-                                      <h6
-                                        id={`pieces-${step.id}-heading`}
-                                        className="text-md mb-4 font-inclusive font-semibold">
-                                        Œuvres
-                                      </h6>
-                                      <div className="space-y-4">
-                                        {pieces.map((piece) => (
-                                          <article
-                                            key={piece.id}
-                                            className="rounded-lg bg-white p-4 shadow-sm">
-                                            <h6 className="mb-2 font-inclusive text-sm font-medium">
-                                              {piece.name.fr}
-                                            </h6>
-                                            {/* IMAGE */}
-                                            <div className="flex gap-4">
-                                              <div className="avatar">
-                                                <div className="w-14 rounded-xl">
-                                                  <img
-                                                    src={
-                                                      journey.content.image[0]
-                                                    }
-                                                  />
-                                                </div>
-                                              </div>
-                                              {piece.description.falc.status
-                                                .isCertified ? (
-                                                <button
-                                                  className="flex items-center gap-2 rounded-lg bg-gray-600 px-4 py-2 text-white"
-                                                  aria-label={`Texte validé pour ${piece.name.fr}`}>
-                                                  <CheckIcon className="h-8 w-8" />
-                                                  <span className="font-inclusive">
-                                                    Texte validé
-                                                  </span>
-                                                </button>
-                                              ) : (
+                                        {/* Liste des Œuvres */}
+                                        {activeStepId === step.id && (
+                                          <section
+                                            aria-labelledby={`pieces-${step.id}-heading`}
+                                            className="mt-7 rounded-lg border-2 bg-[#ffffff] px-2 py-3">
+                                            <div className="space-y-5">
+                                              <div className="flex items-center justify-between">
+                                                <h6
+                                                  id={`pieces-${step.id}-heading`}
+                                                  className="flex-grow rounded-md bg-[#0A184D] pl-3 text-3xl font-semibold leading-relaxed text-white">
+                                                  œuvres
+                                                </h6>
+
                                                 <button
                                                   onClick={() => {
-                                                    handleNavigate(piece)
+                                                    setIsPiecesOpen(
+                                                      !isPiecesOpen
+                                                    )
                                                   }}
-                                                  className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-                                                  aria-label={`Corriger ${place.name.fr}`}>
-                                                  <PencilIcon />
-                                                  <span className="font-inclusive">
-                                                    Corriger
-                                                  </span>
+                                                  className="bg-transparent px-4 py-2 text-white"
+                                                  aria-label={
+                                                    isPiecesOpen
+                                                      ? 'Masquer les étapes'
+                                                      : 'Afficher les étapes'
+                                                  }>
+                                                  <ArrowIcon
+                                                    isOpen={isPiecesOpen}
+                                                  />
                                                 </button>
-                                              )}
+                                              </div>
+                                              {isPiecesOpen &&
+                                                pieces.map((piece) => (
+                                                  <article
+                                                    key={piece.id}
+                                                    className="m-4 rounded-lg border-2 border-[#0A184D] bg-[#F4FDFF] p-4 shadow-lg">
+                                                    <h6 className="mb-2 text-xl font-medium">
+                                                      {piece.name.fr}
+                                                    </h6>
+                                                    {/* IMAGE */}
+                                                    <div className="flex gap-4">
+                                                      <div className="avatar">
+                                                        <div className="w-16 rounded-xl">
+                                                          <img
+                                                            src={
+                                                              piece.content
+                                                                .image[0]
+                                                            }
+                                                          />
+                                                        </div>
+                                                      </div>
+                                                      {piece.description.falc
+                                                        .status.isCertified ? (
+                                                        <button
+                                                          className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+                                                          aria-label={`Texte validé pour ${piece.name.fr}`}>
+                                                          <CheckIcon className="h-8 w-8" />
+                                                          <span>
+                                                            Texte validé
+                                                          </span>
+                                                        </button>
+                                                      ) : (
+                                                        <button
+                                                          onClick={() => {
+                                                            handleNavigate(
+                                                              piece
+                                                            )
+                                                          }}
+                                                          className="duration-5 flex items-center gap-3 rounded-xl border-2 border-[#0A184D] bg-[#bfdcfe] px-6 py-2 text-xl text-[#0A184D] transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#F4FDFF] hover:text-[#0A184D]"
+                                                          aria-label={`Corriger ${place.name.fr}`}>
+                                                          <PencilIcon />
+                                                          <span>Corriger</span>
+                                                        </button>
+                                                      )}
+                                                    </div>
+                                                  </article>
+                                                ))}
                                             </div>
-                                          </article>
-                                        ))}
-                                      </div>
-                                    </section>
-                                  )}
-                                </article>
-                              ))}
-                            </div>
-                          </section>
-                        )}
-                      </article>
-                    ))}
-                  </div>
-                </section>
-              )}
-            </article>
-          ))}
+                                          </section>
+                                        )}
+                                      </article>
+                                    ))}
+                                </div>
+                              </section>
+                            )}
+                          </article>
+                        ))}
+                    </div>
+                  </section>
+                )}
+              </article>
+            ))}
         </div>
       </section>
     </div>
   )
 }
-
 export { TextList }
