@@ -149,11 +149,9 @@ yarn dev --open
 
 ---
 
-## 📸 Aperçus
+## 📸 Preview
 
-Ajoutez ici des captures d’écran ou GIFs du projet en action.
-
-📌 **Exemple 1 : Page d’accueil du projet**  
+📌 **Page d’accueil du projet**  
 <img src="./src/assets/imgs/BackOffice Dedale.png" alt="dedale" width="500" height="180"/>
 
 ---
