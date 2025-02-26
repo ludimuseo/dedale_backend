@@ -45,7 +45,7 @@ be categorized, archived, or activated/deactivated as needed.
     •	Ergonomic Design: The back-office interface is designed to be intuitive and easy to use, ensuring quick onboarding even for non-technical users.
     •	Responsive Design: The platform is accessible from various devices (computers, tablets) for flexible and mobile management.
 
-✅ **[Feature 3]** – Security and Access Management.
+✅ **[Feature 4]** – Security and Access Management.
 
     •	Secure Authentication: The back-office integrates a robust authentication system to ensure data security and access control.
     •	Permission Management: Access rights are configured based on roles, ensuring that only authorized users can make critical modifications.
