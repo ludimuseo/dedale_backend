@@ -85,7 +85,12 @@ be categorized, archived, or activated/deactivated as needed.
 ![React](https://img.shields.io/badge/-React-61DAFB?logo=react&logoColor=white&style=flat)  
 ![Firebase](https://img.shields.io/badge/-Firebase-FFCA28?logo=firebase&logoColor=white&style=flat)  
 ![Tailwind CSS](https://img.shields.io/badge/-TailwindCSS-38B2AC?logo=tailwind-css&logoColor=white&style=flat)  
-![Git](https://img.shields.io/badge/-Git-F05032?logo=git&logoColor=white&style=flat)
+![Git](https://img.shields.io/badge/-Git-F05032?logo=git&logoColor=white&style=flat)  
+![DaisyUI](https://img.shields.io/badge/-DaisyUI-5A0EF8?logo=daisyui&logoColor=white&style=flat)  
+![Redux](https://img.shields.io/badge/-Redux-764ABC?logo=redux&logoColor=white&style=flat)  
+![Zod](https://img.shields.io/badge/-Zod-1E90FF?logo=zod&logoColor=white&style=flat)  
+![i18n](https://img.shields.io/badge/-i18n-FFD700?logo=i18n&logoColor=white&style=flat)
+
 
 ---
 
