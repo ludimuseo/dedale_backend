@@ -1,7 +1,5 @@
 import { type FC, useState } from 'react'
 
-import { DictationIcon } from '../../ui/icons/DictationIcon'
-import { PrintIcon } from '../../ui/icons/PrintIcon'
 import { DictionaryButton } from './DictionaryButton'
 
 interface ActionButtonsProps {
@@ -16,19 +14,19 @@ const ActionButtons: FC<ActionButtonsProps> = ({ imageIcon, image }) => {
   return (
     <div className="flex flex-row items-center justify-center space-x-4">
       <button
-        className="group btn btn-circle btn-sm relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-blue-500 bg-white shadow"
+        className="group btn btn-square"
         onClick={() => {
           setSelectedImage(image ? image[0] : imageIcon)
         }}>
         <img
           src={image ? image[0] : imageIcon}
           alt="Image"
-          className="h-6 w-6 rounded-full"
+          className="h-12 w-12 rounded-xl"
         />
         <div
           role="tooltip"
           aria-label="Afficher"
-          className="absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 text-sm text-white shadow-lg group-hover:block">
+          className="absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 font-inclusive text-sm text-white shadow-lg group-hover:block">
           <span className="font-sans">Afficher</span>
         </div>
       </button>
@@ -53,7 +51,7 @@ const ActionButtons: FC<ActionButtonsProps> = ({ imageIcon, image }) => {
       )}
 
       {/* IMPRIMER */}
-      <button className="group btn btn-square btn-ghost btn-sm relative border-2 border-blue-500">
+      {/* <button className="group btn btn-square btn-ghost btn-sm relative border-2 border-blue-500">
         <PrintIcon className="h-4 w-4" />
         <div
           role="tooltip"
@@ -61,10 +59,10 @@ const ActionButtons: FC<ActionButtonsProps> = ({ imageIcon, image }) => {
           className="absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 text-sm text-white shadow-lg group-hover:block">
           <span className="font-sans">Imprimer</span>
         </div>
-      </button>
+      </button> */}
 
       {/* DICTEE */}
-      <button className="group btn btn-square btn-ghost btn-sm relative border-2 border-blue-500">
+      {/* <button className="group btn btn-square btn-ghost btn-sm relative border-2 border-blue-500">
         <DictationIcon className="h-4 w-4" />
         <div
           role="tooltip"
@@ -72,7 +70,7 @@ const ActionButtons: FC<ActionButtonsProps> = ({ imageIcon, image }) => {
           className="absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 text-sm text-white shadow-lg group-hover:block">
           <span className="font-sans">Dictée</span>
         </div>
-      </button>
+      </button> */}
 
       <DictionaryButton />
     </div>

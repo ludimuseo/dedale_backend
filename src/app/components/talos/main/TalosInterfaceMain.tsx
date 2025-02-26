@@ -11,6 +11,7 @@ import {
 import { doc, updateDoc } from 'firebase/firestore'
 import { AnimatePresence, motion } from 'framer-motion'
 import { type FC, useState } from 'react'
+import { useNavigate } from 'react-router'
 
 import { db } from '@/firebase/firebase'
 import {
@@ -38,6 +39,7 @@ interface TalosInterfaceMainProps {
 }
 
 const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
+  const navigate = useNavigate()
   const [validateText, setValidateText] = useState(false)
   const [activeTextId, setActiveTextId] = useState<boolean>(false) // clipboard actif
   const [coloredSentence, setColoredSentence] = useState<
@@ -213,7 +215,7 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
   }
 
   const handleGoBack = () => {
-    alert('Retour en arriere bientot disponible :-)')
+    void navigate('/textList')
   }
 
   const handleProofReading = () => {

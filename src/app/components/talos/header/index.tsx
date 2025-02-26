@@ -27,18 +27,17 @@ const Header: FC<HeaderProps> = ({
 }) => {
   return (
     <div className="navbar flex flex-row items-center rounded-md bg-red-100 px-4 py-2 shadow-md">
-      <button className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow hover:bg-gray-100">
-        <img
-          src={backIcon}
-          alt="retour"
-          className="h-10 w-10"
-          onClick={handleGoBack}
-        />
+      <button
+        className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow hover:bg-gray-100"
+        onClick={() => {
+          handleGoBack()
+        }}>
+        <img src={backIcon} alt="retour" className="h-10 w-10" />
       </button>
 
       <div className="ml-4 flex-1">
         <span className="font-inclusive text-xl text-[#0a184d]">
-          Vous relisez le texte: {` `}
+          Vous relisez le texte : {` `}
           <span className="font-bold hover:text-blue-600">
             {formData?.name.fr}
           </span>
