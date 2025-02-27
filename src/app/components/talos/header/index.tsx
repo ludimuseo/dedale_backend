@@ -1,11 +1,11 @@
 import { type FC } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import { GameType, JourneyType, PieceType, PlaceType, StepType } from '@/types'
 
 import { ActionButtons } from './ActionButtons'
 
 interface HeaderProps {
+  handleGoBack: () => void
   backIcon: string
   imageIcon: string
   zoomIconLess: string
@@ -19,18 +19,19 @@ interface HeaderProps {
     | undefined
 }
 
-const Header: FC<HeaderProps> = ({ backIcon, imageIcon, formData }) => {
-  const navigate = useNavigate()
-
-  const handleGoBack = () => {
-    void navigate(-1)
-  }
-
+const Header: FC<HeaderProps> = ({
+  handleGoBack,
+  backIcon,
+  imageIcon,
+  formData,
+}) => {
   return (
     <div className="navbar flex flex-row items-center rounded-md bg-red-100 px-4 py-2 shadow-md">
       <button
         className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow hover:bg-gray-100"
-        onClick={handleGoBack}>
+        onClick={() => {
+          handleGoBack()
+        }}>
         <img src={backIcon} alt="retour" className="h-10 w-10" />
       </button>
 
