@@ -31,7 +31,7 @@ const RightClipboard: FC<RightClipboardProps> = ({
           initial={{ translateY: 100 }}
           transition={{ duration: 0.3, ease: 'linear' }}
           className="w-1/2 pl-4">
-          <div className="mt-4 h-auto max-h-[600px] min-h-[419px] rounded-md border-2 border-black bg-white p-6 shadow-2xl">
+          <div className="mt-4 h-auto rounded-md border-2 border-black bg-white p-6 shadow-2xl">
             <h2 className="mb-4 text-xl font-bold text-[#0a184d]">
               Je corrige et je vérifie :
             </h2>
