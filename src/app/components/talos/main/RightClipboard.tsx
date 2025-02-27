@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
 import { type FC } from 'react'
 
+import { WrongCheck } from '../../ui/icons/WrongCheck'
+
 interface RightClipboardProps {
   activeTextId: boolean
   newSentence: string[]
@@ -63,11 +65,7 @@ const RightClipboard: FC<RightClipboardProps> = ({
                             onClick={() => {
                               handleDeleteText(index)
                             }}>
-                            <img
-                              src="/src/assets/imgs/Talos/coche-faux.svg"
-                              alt="supprimer"
-                              className="h-[25px] w-[200px]"
-                            />
+                            <WrongCheck className="h-8 w-8" />
                           </div>
                         </div>
                       )}
