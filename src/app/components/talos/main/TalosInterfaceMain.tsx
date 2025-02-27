@@ -27,6 +27,7 @@ import { PenIcon } from '../../ui/icons/PenIcon'
 import { WrongCheck } from '../../ui/icons/WrongCheck'
 import { Header } from '../header'
 import { ConfirmModal } from '../modals/ConfirmModal'
+import { ProofReadingModal } from '../modals/ProofReadingModal'
 import { SuccessModal } from '../modals/SuccessModal'
 import { RightSideBar } from '../RightSideBar'
 import { LeftClipboard } from './LeftClipboard'
@@ -45,6 +46,7 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
   const [coloredSentence, setColoredSentence] = useState<
     Record<number, string>
   >([])
+  const [goBack, setGoBack] = useState<boolean>(false)
   const [falcText, setFalcText] = useState<string[]>([])
   const [newSentence, setNewSentence] = useState<string[]>([])
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
@@ -215,10 +217,19 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
   }
 
   const handleGoBack = () => {
+    if (newSentence.length > 0 && !isSuccess) {
+      setGoBack(true)
+    } else {
+      void navigate('/textList')
+    }
+  }
+
+  const handleLeaveProofReading = () => {
     void navigate('/textList')
   }
 
   const handleProofReading = () => {
+    setGoBack(false)
     setShowProofReading(!showProofReading)
     setActiveTextId(false)
     if (falcText.length > 0) {
@@ -309,6 +320,12 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
           />
         )}
         {isSuccess && <SuccessModal setIsSuccess={setIsSuccess} />}
+        {goBack && (
+          <ProofReadingModal
+            handleProofReading={handleProofReading}
+            handleLeaveProofReading={handleLeaveProofReading}
+          />
+        )}
       </div>
     </>
   )
