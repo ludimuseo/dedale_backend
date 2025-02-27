@@ -32,7 +32,6 @@ const LeftClipboard: FC<LeftClipboardProps> = ({
   return (
     <>
       {/* Main Content SECTION GAUCHE */}
-
       <div
         className={
           isLeftClipboardShowed

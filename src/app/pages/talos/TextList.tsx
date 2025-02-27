@@ -192,12 +192,6 @@ const TextList: FC = () => {
                       <span>Corriger</span>
                     </button>
                   )}
-                  {/* <button
->>>>>>> 9adf4c377fd9b6a971654e7d61e6380e8b46d60a:src/app/pages/talos/textList.tsx
-                  className="btn-disabled flex items-center">
-                  <img className="rounded-lg" src={place.content.image[0]} alt={place.name.fr} />
-
-                </button> */}
                 </div>
                 {/* Liste des Parcours */}
                 {activePlaceId === place.id && (
@@ -315,7 +309,7 @@ const TextList: FC = () => {
                                             }
                                             className="duration-5 rounded-xl border-2 border-[#0A184D] bg-[#0A184D] px-6 py-4 text-xl text-white transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#FFFFFF] hover:text-[#0A184D]"
                                             aria-label={`Voir les œuvres pour ${step.name.fr}`}>
-                                            Voir l'œuvre
+                                            Voir l'indice de l'Etape
                                           </button>
                                           {step.description.falc.status
                                             .isCertified ? (
