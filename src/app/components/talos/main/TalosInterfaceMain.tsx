@@ -13,6 +13,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { type FC, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import { useLocalStorage } from '@/app/hooks/useLocalStorage'
 import { db } from '@/firebase/firebase'
 import {
   EntityWithId,
@@ -46,9 +47,15 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
   const [coloredSentence, setColoredSentence] = useState<
     Record<number, string>
   >([])
+
+  const [savedSentence, setSavedSentence] = useLocalStorage('savedSentence', '')
   const [goBack, setGoBack] = useState<boolean>(false)
-  const [falcText, setFalcText] = useState<string[]>([])
-  const [newSentence, setNewSentence] = useState<string[]>([])
+  const [falcText, setFalcText] = useState<string[]>(
+    Array.isArray(savedSentence) ? savedSentence : []
+  )
+  const [newSentence, setNewSentence] = useState<string[]>(
+    Array.isArray(savedSentence) ? savedSentence : []
+  )
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [hoveredIndexCorrectedText, setHoveredIndexCorrectedText] = useState<
     number | null
@@ -225,6 +232,7 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
   }
 
   const handleLeaveProofReading = () => {
+    setSavedSentence((prev: string[]) => [...prev, newSentence])
     void navigate('/textList')
   }
 
@@ -270,6 +278,7 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
       console.error('Erreur de la soumission des données', error)
     }
   }
+
   return (
     <>
       <Header
