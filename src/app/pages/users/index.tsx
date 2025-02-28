@@ -1,99 +1,46 @@
-import {
-  collection,
-  DocumentSnapshot,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  startAfter,
-} from 'firebase/firestore'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import DataTable from '@/app/components/ui/DataTable'
-import { db } from '@/firebase/firebase'
+import { useFetch } from '@/app/hooks/useFetch'
 import { ClientType } from '@/types'
+
+interface FetchResponse {
+  page: number
+  totalPages: number
+  data: ClientType[]
+}
 
 const Users: FC = () => {
   const navigate = useNavigate()
   const [users, setUsers] = useState<ClientType[]>([])
-  const [filteredUsers, setFilteredUsers] = useState<Record<string, unknown>[]>(
+  /* const [filteredUsers, setFilteredUsers] = useState<Record<string, unknown>[]>(
     []
+  ) */
+  const [currentPage, setCurrentPage] = useState(1)
+  const { data, isLoading, error } = useFetch<FetchResponse>(
+    `/fakeDatas/users/page_${currentPage.toString()}.json`
   )
-  const [isLoading, setIsLoading] = useState(false)
-  const [currentPage, setCurrentPage] = useState(0)
+  console.log(data, isLoading, error)
 
-  const [pages, setPages] = useState<DocumentSnapshot[]>([])
-
-  const pageSize = 10 // Number of items per page
-
-  const fetchUsers = async (pageIndex: number) => {
-    setIsLoading(true)
-
-    try {
-      let usersQuery
-
-      // Define the query for the given page
-      if (pageIndex === 0) {
-        // Initial page
-        usersQuery = query(
-          collection(db, 'clients'),
-          orderBy('client.company.name'),
-          limit(pageSize)
-        )
-      } else {
-        // Other pages
-        const startPoint = pages[pageIndex - 1]
-        usersQuery = query(
-          collection(db, 'clients'),
-          orderBy('client.company.name'),
-          startAfter(startPoint),
-          limit(pageSize)
-        )
-      }
-
-      const querySnapshot = await getDocs(usersQuery)
-
-      // Save the last document for pagination
-      if (querySnapshot.docs.length > 0) {
-        const newPages = [...pages]
-        newPages[pageIndex] = querySnapshot.docs[querySnapshot.docs.length - 1]
-        setPages(newPages)
-      }
-
-      // Format and set user data
-      const usersData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        collection: 'clients',
-        ...(doc.data().client as ClientType),
-      }))
-      setFilteredUsers(
-        usersData.map((user) => ({
-          ...user,
-        }))
-      )
-      setUsers(usersData)
-    } catch (error) {
-      console.error('Error fetching clients:', error)
-    } finally {
-      setIsLoading(false)
+  useEffect(() => {
+    if (data?.data) {
+      setUsers(data.data)
     }
-  }
+  }, [data])
 
   const nextPage = () => {
     setCurrentPage((prev) => prev + 1)
-    void fetchUsers(currentPage + 1)
   }
 
   const previousPage = () => {
     if (currentPage > 0) {
       const prevIndex = currentPage - 1
       setCurrentPage(prevIndex)
-      void fetchUsers(prevIndex)
     }
   }
 
-  const search = (searchTerm: string) => {
+  /* const search = (searchTerm: string) => {
     const tempUsers = users.map((user) => ({ ...user }))
     if (!searchTerm.trim()) {
       setFilteredUsers(tempUsers)
@@ -108,15 +55,11 @@ const Users: FC = () => {
       )
     })
     setFilteredUsers(filteredData)
-  }
+  } */
 
   const handleCreationClick = () => {
     void navigate('/form/client')
   }
-
-  // useEffect(() => {
-  //   void fetchUsers(0)
-  // }, [fetchUsers])
 
   const columns = [
     { header: '', accessor: 'isActive' },
@@ -129,9 +72,9 @@ const Users: FC = () => {
   const actions = [
     {
       type: 'edit',
-      onClick: async (id: string) => {
+      onClick: async (el: ClientType) => {
         try {
-          await navigate(`/users/${id}`)
+          await navigate(`/users/${el.id}`)
         } catch (error) {
           console.error('Error during navigation:', error)
         }
@@ -153,7 +96,7 @@ const Users: FC = () => {
 
   return (
     <div className="container mx-auto mt-5">
-      <div className="flex justify-between align-middle">
+      <div className="mb-5 flex justify-between align-middle">
         <h2>Users</h2>
         <button
           onClick={handleCreationClick}
@@ -161,18 +104,19 @@ const Users: FC = () => {
           Nouveau
         </button>
       </div>
-      <DataTable
-        columns={columns}
-        data={filteredUsers}
-        actions={actions as []}
-        isLoading={isLoading}
-        nextPage={nextPage}
-        previousPage={previousPage}
-        disableNext={users.length < pageSize} // Disable "Next" if fewer items than pageSize
-        disablePrevious={currentPage === 0}
-        currentPage={currentPage} // Disable "Previous" on the first page
-        search={void search}
-      />
+      {data && (
+        <DataTable
+          columns={columns}
+          nextPage={nextPage}
+          previousPage={previousPage}
+          disableNext={data.page === data.totalPages}
+          data={users}
+          disablePrevious={data.page === 1}
+          currentPage={data.page}
+          actions={actions as []}
+          isLoading={isLoading}
+        />
+      )}
     </div>
   )
 }
