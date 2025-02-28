@@ -232,7 +232,7 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
   }
 
   const handleLeaveProofReading = () => {
-    setSavedSentence((prev: string[]) => [...prev, newSentence])
+    setSavedSentence(() => [...newSentence])
     void navigate('/textList')
   }
 
