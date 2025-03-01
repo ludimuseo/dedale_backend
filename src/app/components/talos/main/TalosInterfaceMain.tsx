@@ -48,7 +48,10 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
     Record<number, string>
   >([])
 
-  const [savedSentence, setSavedSentence] = useLocalStorage('savedSentence', '')
+  const [savedSentence, setSavedSentence, clearValue] = useLocalStorage(
+    'savedSentence',
+    ''
+  )
   const [goBack, setGoBack] = useState<boolean>(false)
   const [falcText, setFalcText] = useState<string[]>(
     Array.isArray(savedSentence) ? savedSentence : []
@@ -250,6 +253,7 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
   }
 
   const handleValidate = async () => {
+    clearValue()
     setIsConfirmSubmitFalcText(false)
     setIsSuccess(true)
     const id = formData.id
