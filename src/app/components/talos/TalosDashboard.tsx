@@ -69,7 +69,8 @@ const TalosDashboard: React.FC<TalosDashboardProps> = ({ role, userName }) => {
           transition={{ duration: 0.4, delay: 0.9, ease: 'linear' }}
           className="dashboard-item shadow-extra-dark card flex h-[250px] w-[250px] transform cursor-pointer flex-col items-center gap-4 rounded-lg border-4 border-[#0a184d] bg-[#f4fdff] p-4 transition-transform hover:scale-110 hover:border-4 hover:border-[#0a184d] hover:font-bold hover:shadow-2xl"
           tabIndex={0}
-          aria-labelledby="text-validate-and-send-card-title">
+          aria-labelledby="text-validate-and-send-card-title"
+          onClick={() => void navigate('/validateText')}>
           <CheckdTextIcon />
           <p
             className="text-center font-inclusive text-2xl text-[#0a184d]"
