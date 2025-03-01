@@ -357,13 +357,6 @@ const ValidateText: FC = () => {
                   <h1 className="mb-4">Texte Standard</h1>
 
                   {standardTextPreview.map((sentence) => {
-                    if (!sentence) {
-                      return (
-                        <p className="font-inclusive text-2xl leading-[2]">
-                          Non renseigné
-                        </p>
-                      )
-                    }
                     return (
                       <p className="font-inclusive text-xl leading-[2]">
                         {sentence}
