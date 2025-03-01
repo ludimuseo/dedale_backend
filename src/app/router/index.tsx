@@ -54,12 +54,22 @@ const routes: RouteObject[] = [
             },
             path: '/form',
           },
+          //TALOS
           {
             async lazy() {
               const { TextList } = await import('@/app/pages/talos/TextList')
               return { Component: TextList }
             },
             path: '/textList',
+          },
+          {
+            async lazy() {
+              const { ValidateText } = await import(
+                '@/app/pages/talos/ValidateText'
+              )
+              return { Component: ValidateText }
+            },
+            path: '/validateText',
           },
           {
             async lazy() {
