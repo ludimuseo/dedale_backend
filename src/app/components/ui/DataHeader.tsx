@@ -1,10 +1,12 @@
+import { FC } from 'react'
+
 interface DataHeaderProps {
   title: string
   btnText?: string
   btnAction: () => void
 }
 
-const DataHeader = ({ title, btnText, btnAction }: DataHeaderProps) => {
+const DataHeader: FC<DataHeaderProps> = ({ title, btnText, btnAction }) => {
   return (
     <div className="mb-5 flex justify-between align-middle">
       <h2>{title}</h2>
