@@ -9,6 +9,8 @@ import SearchInput from './SearchInput'
 interface Column<T> {
   header: string
   accessor: keyof T
+  isLink?: boolean
+  link?: string
 }
 
 type ActionType = 'edit' | 'location' | 'delete'
@@ -54,7 +56,7 @@ function DataTable<T extends Record<string, unknown>>({
 
   const columnsWithActions = actions ? [...columns, actionColumn] : columns
 
-  const getNestedValue = (obj: T, path: keyof T): unknown => {
+  const getNestedValue = (obj: T, path: string): unknown => {
     return path
       .toString()
       .split('.')
@@ -67,10 +69,16 @@ function DataTable<T extends Record<string, unknown>>({
   }
 
   const tableContainerStyle = {
-    maxHeight: 'calc(80vh - var(--headerHeight))',
+    maxHeight: 'calc(77vh - var(--headerHeight))',
   }
   const tableHeadStyle = {
     boxShadow: '0 0px 2px 0 rgb(0 0 0 / 0.05)',
+  }
+
+  const getLink = (row: T, linkTemplate: string): string => {
+    return linkTemplate.replace(/{{(.*?)}}/g, (_, path) => {
+      return String(getNestedValue(row, String(path)))
+    })
   }
 
   return (
@@ -107,24 +115,41 @@ function DataTable<T extends Record<string, unknown>>({
                 <tr key={typeof row.id === 'string' ? row.id : rowIndex}>
                   {columns.map((col, colIndex) => (
                     <td key={colIndex}>
-                      {col.header !== 'status' &&
-                        (getNestedValue(row, col.accessor) as React.ReactNode)}
-
-                      {col.header === 'status' &&
-                      getNestedValue(row, col.accessor) === true ? (
-                        <div className="rounded-full p-1 text-green-400">
-                          <div className="size-2 rounded-full bg-current"></div>
-                        </div>
+                      {col.isLink && col.link ? (
+                        <a href={getLink(row, col.link)}>
+                          {
+                            getNestedValue(
+                              row,
+                              col.accessor.toString()
+                            ) as React.ReactNode
+                          }
+                        </a>
                       ) : (
-                        ''
-                      )}
-                      {col.header === 'status' &&
-                      getNestedValue(row, col.accessor) === false ? (
-                        <div className="rounded-full p-1 text-gray-500">
-                          <div className="size-2 rounded-full bg-current"></div>
-                        </div>
-                      ) : (
-                        ''
+                        <>
+                          {col.header !== 'status' &&
+                            (getNestedValue(
+                              row,
+                              col.accessor.toString()
+                            ) as React.ReactNode)}
+                          {col.header === 'status' &&
+                          getNestedValue(row, col.accessor.toString()) ===
+                            true ? (
+                            <div className="rounded-full p-1 text-green-400">
+                              <div className="size-2 rounded-full bg-current"></div>
+                            </div>
+                          ) : (
+                            ''
+                          )}
+                          {col.header === 'status' &&
+                          getNestedValue(row, col.accessor.toString()) ===
+                            false ? (
+                            <div className="rounded-full p-1 text-gray-500">
+                              <div className="size-2 rounded-full bg-current"></div>
+                            </div>
+                          ) : (
+                            ''
+                          )}
+                        </>
                       )}
                     </td>
                   ))}
