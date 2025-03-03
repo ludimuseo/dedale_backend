@@ -29,7 +29,8 @@
     "signin": "Connexion",
     "signout": "Déconnexion",
     "accept": "Accepter",
-    "decline": "Refuser"
+    "decline": "Refuser",
+    "new": "Nouveau"
   },
   "page": {
     "auth": "🪹",
