@@ -71,7 +71,7 @@ const FormJourney: FC = () => {
         status: {
           isValidate: false,
           isCertified: false,
-          certifiedDate: new Date(),
+          certifiedDate: null,
           isCorrected: false,
         },
       },
