@@ -197,7 +197,6 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
   const handleModifSentenceClick = (sentenceObject: Sentence) => {
     const indexToString: string = sentenceObject.id
     setNewSentence((prev) => [...prev, sentenceObject])
-    console.log('newSentence', newSentence)
     setClickedIndex(sentenceObject.id)
     //colorer la phrase
     setColoredSentence((prev) => ({
@@ -250,7 +249,6 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
     index: string,
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    console.log('hey')
     const value = e.target.value
     setNewSentence((prev) =>
       prev.map((item) =>
