@@ -1,12 +1,12 @@
 import { type FC } from 'react'
 
 interface ProofReadingModalProps {
-  handleProofReading: () => void
+  handleKeepProofReading: () => void
   handleLeaveProofReading: () => void
 }
 
 const ProofReadingModal: FC<ProofReadingModalProps> = ({
-  handleProofReading,
+  handleKeepProofReading,
   handleLeaveProofReading,
 }) => {
   return (
@@ -37,7 +37,7 @@ const ProofReadingModal: FC<ProofReadingModalProps> = ({
           </button>
           <button
             onClick={() => {
-              handleProofReading()
+              handleKeepProofReading()
             }}
             className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
             aria-label="Confirmer">
