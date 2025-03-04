@@ -544,7 +544,7 @@ const TextList: FC = () => {
                                                           className="duration-5 flex items-center gap-3 rounded-xl border-2 border-[#0A184D] bg-[#bfdcfe] px-6 py-2 text-xl text-[#0A184D] transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#F4FDFF] hover:text-[#0A184D]"
                                                           aria-label={`Corriger ${place.name.fr}`}>
                                                           <PencilIcon />
-                                                          <span>Corriger</span>
+                                                          <span>Corriger </span>
                                                         </button>
                                                       )}
                                                     </div>
