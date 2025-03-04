@@ -32,8 +32,20 @@ const ActionButtons: FC<ActionButtonsProps> = ({ imageIcon, image }) => {
       </button>
 
       {selectedImage && (
-        <div className="modal modal-open" role="dialog">
-          <div className="modal-box relative">
+        <div
+          className="modal modal-open flex items-center justify-center"
+          role="dialog"
+          style={{
+            width: '100vw',
+            height: '100vh',
+          }}>
+          <div
+            className="relative rounded-lg bg-white p-4"
+            style={{
+              transform: 'translateX(20vw)', // Décale la fenêtre
+              width: '50vw',
+              height: '90vh',
+            }}>
             <button
               className="btn btn-circle btn-primary btn-sm absolute right-2 top-2"
               onClick={() => {
@@ -44,7 +56,12 @@ const ActionButtons: FC<ActionButtonsProps> = ({ imageIcon, image }) => {
             <img
               src={selectedImage}
               alt="Zoomed"
-              className="h-auto w-full rounded-lg"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain', // Garde l'image entière et sans déformation
+              }}
+              className="rounded-lg"
             />
           </div>
         </div>
