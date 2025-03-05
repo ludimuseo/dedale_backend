@@ -1,23 +1,17 @@
 import { EnvelopeIcon, Input, LockIcon } from '@component'
-import { useAppDispatch, useInput, useNotification } from '@hook'
-import { signIn } from '@service/redux/slices/reducerAuth'
-import { signInWithEmailAndPassword, type UserCredential } from 'firebase/auth'
-import { doc, getDoc } from 'firebase/firestore'
+import { useInput, useNotification } from '@hook'
 import { type FC, type FormEvent, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router'
 
-import { auth, db } from '@/firebase/firebase'
-import type { User } from '@/types'
 
 const AuthSignIn: FC = () => {
     const { t } = useTranslation()
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const { notify } = useNotification()
-    const dispatch = useAppDispatch()
+    // const dispatch = useAppDispatch()
     const emailRef = useRef<HTMLInputElement>(null)
     const [showPassword, setShowPassword] = useState<boolean>(false)
-    const [showLoader, setShowLoader] = useState<boolean>(false)
+    const [showLoader,] = useState<boolean>(false)
     const email = useInput('', { name: 'signin-email', type: 'email' })
     const password = useInput('', { name: 'signin-password', type: 'password' })
 
@@ -26,11 +20,11 @@ const AuthSignIn: FC = () => {
         emailRef.current?.focus()
     }, [])
 
-    const execute = async () => {
-        setShowLoader(true)
-        // FIREBASE LOGIN ATTEMPT
-        return await signInWithEmailAndPassword(auth, email.value, password.value)
-    }
+    // const execute = async () => {
+    //     setShowLoader(true)
+    //     // FIREBASE LOGIN ATTEMPT
+    //     return await signInWithEmailAndPassword(auth, email.value, password.value)
+    // }
 
     //   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     //     event.preventDefault()
