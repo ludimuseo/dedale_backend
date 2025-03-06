@@ -169,6 +169,23 @@ const routes: RouteObject[] = [
             },
             path: '/users/:id',
           },
+          {
+            async lazy() {
+              const { Places } = await import('@/app/pages/places')
+              return { Component: Places }
+            },
+            path: '/places',
+          },
+          //Contributors
+          {
+            async lazy() {
+              const { Contributor } = await import(
+                '@/app/pages/contributors/Contributor'
+              )
+              return { Component: Contributor }
+            },
+            path: '/contributors',
+          },
         ],
         element: (
           <RouteAuth role={null}>
