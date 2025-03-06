@@ -54,7 +54,7 @@ const Pagination: React.FC<PaginationProps> = ({
             </svg>
           </button>
           <div className="relative -ml-px inline-flex items-center bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300">
-            {currentPage + 1}
+            {currentPage}
           </div>
           <button
             type="button"

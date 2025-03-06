@@ -6,23 +6,25 @@ import { PlaceIcon } from './icons/PlaceIcon'
 import Pagination from './Pagination'
 import SearchInput from './SearchInput'
 
-interface Column {
+interface Column<T> {
   header: string
-  accessor: string
+  accessor: keyof T
+  isLink?: boolean
+  link?: string
 }
 
 type ActionType = 'edit' | 'location' | 'delete'
 
-interface Action {
+interface Action<T> {
   type: ActionType
-  onClick: (id: string) => Promise<void> | void
+  onClick: (row: T) => Promise<void> | void
 }
 
-interface DataTableProps {
-  columns: Column[] | null
-  data: Record<string, unknown>[] | null
+interface DataTableProps<T> {
+  columns: Column<T>[] | null
+  data: T[] | null
   isLoading: boolean
-  actions?: Action[]
+  actions?: Action<T>[]
   previousPage: () => void
   nextPage: () => void
   disablePrevious: boolean
@@ -31,7 +33,7 @@ interface DataTableProps {
   search?: () => void
 }
 
-const DataTable: React.FC<DataTableProps> = ({
+function DataTable<T extends Record<string, unknown>>({
   columns,
   data,
   isLoading,
@@ -42,32 +44,41 @@ const DataTable: React.FC<DataTableProps> = ({
   disableNext,
   currentPage,
   search,
-}) => {
+}: DataTableProps<T>) {
   if (!columns || !data) {
     return <div>Invalid data or columns</div>
   }
 
-  const actionColumn: Column = {
+  const actionColumn: Column<T> = {
     header: 'Actions',
-    accessor: 'actions',
+    accessor: 'actions' as keyof T,
   }
 
   const columnsWithActions = actions ? [...columns, actionColumn] : columns
 
-  const getNestedValue = (obj: unknown, path: string): unknown => {
-    return path.split('.').reduce((acc: unknown, key: string) => {
-      if (acc && typeof acc === 'object' && key in acc) {
-        return (acc as Record<string, unknown>)[key]
-      }
-      return ''
-    }, obj)
+  const getNestedValue = (obj: T, path: string): unknown => {
+    return path
+      .toString()
+      .split('.')
+      .reduce((acc: unknown, key: string) => {
+        if (acc && typeof acc === 'object' && key in acc) {
+          return (acc as Record<string, unknown>)[key]
+        }
+        return ''
+      }, obj)
   }
 
   const tableContainerStyle = {
-    maxHeight: 'calc(80vh - var(--headerHeight))',
+    maxHeight: 'calc(77vh - var(--headerHeight))',
   }
   const tableHeadStyle = {
     boxShadow: '0 0px 2px 0 rgb(0 0 0 / 0.05)',
+  }
+
+  const getLink = (row: T, linkTemplate: string): string => {
+    return linkTemplate.replace(/{{(.*?)}}/g, (_, path) => {
+      return String(getNestedValue(row, String(path)))
+    })
   }
 
   return (
@@ -104,21 +115,41 @@ const DataTable: React.FC<DataTableProps> = ({
                 <tr key={typeof row.id === 'string' ? row.id : rowIndex}>
                   {columns.map((col, colIndex) => (
                     <td key={colIndex}>
-                      {col.accessor !== 'isActive' &&
-                        (getNestedValue(row, col.accessor) as React.ReactNode)}
-                      {col.accessor === 'isActive' && row[col.accessor] ? (
-                        <div className="rounded-full p-1 text-green-400">
-                          <div className="size-2 rounded-full bg-current"></div>
-                        </div>
+                      {col.isLink && col.link ? (
+                        <a href={getLink(row, col.link)}>
+                          {
+                            getNestedValue(
+                              row,
+                              col.accessor.toString()
+                            ) as React.ReactNode
+                          }
+                        </a>
                       ) : (
-                        ''
-                      )}
-                      {col.accessor === 'isActive' && !row[col.accessor] ? (
-                        <div className="rounded-full p-1 text-gray-500">
-                          <div className="size-2 rounded-full bg-current"></div>
-                        </div>
-                      ) : (
-                        ''
+                        <>
+                          {col.header !== 'status' &&
+                            (getNestedValue(
+                              row,
+                              col.accessor.toString()
+                            ) as React.ReactNode)}
+                          {col.header === 'status' &&
+                          getNestedValue(row, col.accessor.toString()) ===
+                            true ? (
+                            <div className="rounded-full p-1 text-green-400">
+                              <div className="size-2 rounded-full bg-current"></div>
+                            </div>
+                          ) : (
+                            ''
+                          )}
+                          {col.header === 'status' &&
+                          getNestedValue(row, col.accessor.toString()) ===
+                            false ? (
+                            <div className="rounded-full p-1 text-gray-500">
+                              <div className="size-2 rounded-full bg-current"></div>
+                            </div>
+                          ) : (
+                            ''
+                          )}
+                        </>
                       )}
                     </td>
                   ))}
@@ -129,7 +160,7 @@ const DataTable: React.FC<DataTableProps> = ({
                           <button
                             key={actionIndex}
                             onClick={() => {
-                              void action.onClick(row.id as string)
+                              void action.onClick(row)
                             }}
                             className="focus:shadow-outline group mr-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-700 transition-colors duration-150 hover:bg-gray-200">
                             {action.type === 'edit' && (
