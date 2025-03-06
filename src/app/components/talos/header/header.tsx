@@ -1,6 +1,13 @@
 import React from 'react'
 
 import { GameType, JourneyType, PieceType, PlaceType, StepType } from '@/types'
+import {
+  isGameType,
+  isJourneyType,
+  isPieceType,
+  isPlaceType,
+  isStepType,
+} from '@/types/typeGuards'
 
 import ActionButtons from './actionButtons'
 
@@ -25,6 +32,38 @@ const Header: React.FC<HeaderProps> = ({
   imageIcon,
   formData,
 }) => {
+  function getFormDataType(
+    formData1:
+      | PlaceType
+      | JourneyType
+      | StepType
+      | PieceType
+      | GameType
+      | undefined
+  ): string {
+    if (!formData1) {
+      return 'Inconnu'
+    }
+
+    if (isPlaceType(formData1)) {
+      return 'Lieu'
+    }
+    if (isJourneyType(formData1)) {
+      return 'Parcours'
+    }
+    if (isStepType(formData1)) {
+      return 'Étape'
+    }
+    if (isPieceType(formData1)) {
+      return 'Œuvre'
+    }
+    if (isGameType(formData1)) {
+      return 'Jeu'
+    }
+
+    return 'Inconnu'
+  }
+
   return (
     <div className="navbar flex flex-row items-center rounded-md bg-red-100 px-4 py-2 shadow-md">
       <button className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow hover:bg-gray-100">
@@ -45,7 +84,12 @@ const Header: React.FC<HeaderProps> = ({
         </span>
       </div>
       <div className="w-1/2">
-        <ActionButtons imageIcon={imageIcon} image={formData?.content.image} />
+        <ActionButtons
+          imageIcon={imageIcon}
+          image={formData?.content.image}
+          name={formData?.name.fr}
+          category={getFormDataType(formData)}
+        />
       </div>
     </div>
   )
