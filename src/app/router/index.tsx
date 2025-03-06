@@ -35,6 +35,13 @@ const routes: RouteObject[] = [
           },
           {
             async lazy() {
+              const { FAQ } = await import('@/app/pages/faq')
+              return { Component: FAQ }
+            },
+            path: '/faq',
+          },
+          {
+            async lazy() {
               const { UserSettings } = await import('@/app/pages/user/Settings')
               return { Component: UserSettings }
             },
