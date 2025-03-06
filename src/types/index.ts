@@ -21,16 +21,30 @@ export interface State {
 export enum UserRole {
   SUPERADMIN = 'SUPERADMIN',
   ADMIN = 'ADMIN',
+  REFERENT = 'REFERENT',
   CONTRIBUTOR = 'CONTRIBUTOR',
 }
 
 export interface User {
-  uid: string
-  role: string | null
-  email: string | null
-  emailVerified: boolean
-  pseudo: string | null
-  photoURL: string | null
+  id: string
+  pseudo: string
+  name: string
+  firstname: string
+  email: string
+  role: UserRole
+  token: string
+  password: string
+}
+
+/* WORDPASS */
+export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+export interface UserSettings {
+  isContrast: boolean
+  isFalc: boolean
+  avatar: string
+  language: string
+  isTutorial: boolean
 }
 
 /* THEME */

@@ -32,7 +32,7 @@ const BlockUserMenu: FC = () => {
             <BlockAvatar
               alt="user avatar"
               className="avatar rounded-full"
-              url={user.photoURL}
+              url={'https://cdn-icons-png.flaticon.com/512/3541/3541871.png'} //user.photoURL
               size={48}
             />
             <ul
