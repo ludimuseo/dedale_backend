@@ -66,6 +66,7 @@ be categorized, archived, or activated/deactivated as needed.
 | <img src="https://avatars.githubusercontent.com/u/88055801?v=4" width="50" alt="@CYL-B avatar" />            | [@CYL-B][User08]           |
 | <img src="https://avatars.githubusercontent.com/u/3463006?v=4" width="50" alt="@fred2541 avatar" />          | [@fred2541][User09]        |
 | <img src="https://avatars.githubusercontent.com/u/122387449?v=4" width="50" alt="@ananas122 avatar" />       | [@ananas122][User10]       |
+| <img src="https://avatars.githubusercontent.com/u/198619749?v=4" width="50" alt="AurianeMaq avatar" />       | [AurianeMaq][User11]       |
 
 [User01]: https://github.com/A-Fidele/
 [User02]: https://github.com/Maeva-RODRIGUES/
@@ -77,6 +78,7 @@ be categorized, archived, or activated/deactivated as needed.
 [User08]: https://github.com/CYL-B/
 [User09]: https://github.com/fred2541/
 [User10]: https://github.com/ananas122/
+[User11]: https://github.com/AurianeMaq
 
 ---
 
