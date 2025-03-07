@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import DataHeader from '@/app/components/ui/DataHeader'
 import DataTable from '@/app/components/ui/DataTable'
 import { useFetch } from '@/app/hooks/useFetch'
 import { PlaceType } from '@/types'
@@ -29,8 +30,18 @@ const Places: FC = () => {
   const columns = [
     { header: 'status', accessor: 'status.isActive' },
     { header: 'Nom', accessor: 'name.fr' },
-    { header: 'Client', accessor: 'clientId' },
-    { header: 'Nombre de parcours', accessor: 'clientId' },
+    {
+      header: 'Client',
+      accessor: 'clientId',
+      isLink: true,
+      link: '/client/{{clientId}}',
+    },
+    {
+      header: 'Nombre de parcours',
+      accessor: 'clientId',
+      isLink: true,
+      link: '/journey/{{clientId}}',
+    },
     { header: 'Medaille', accessor: 'medalId' },
   ]
 
@@ -57,15 +68,15 @@ const Places: FC = () => {
       },
     },
     {
-      type: 'location',
-      onClick: (id: string) => {
-        console.log(`Location: ${id}`)
+      type: 'journey',
+      onClick: (el: PlaceType) => {
+        console.log(`Journey: ${el.id}`)
       },
     },
     {
       type: 'delete',
-      onClick: (id: string) => {
-        console.log(`Delete: ${id}`)
+      onClick: (el: PlaceType) => {
+        console.log(`Delete: ${el.id}`)
       },
     },
   ]
@@ -75,15 +86,8 @@ const Places: FC = () => {
   }
 
   return (
-    <div className="container mx-auto mt-5">
-      <div className="flex justify-between align-middle">
-        <h2>Places</h2>
-        <button
-          onClick={handleCreationClick}
-          className="btn btn-outline btn-primary">
-          Nouveau
-        </button>
-      </div>
+    <div className="container mx-auto">
+      <DataHeader title="Places" btnAction={handleCreationClick} />
       {data && (
         <DataTable
           columns={columns}
