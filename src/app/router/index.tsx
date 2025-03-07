@@ -101,6 +101,16 @@ const routes: RouteObject[] = [
             },
             path: '/clientsList',
           },
+          //DOCUMENTAION
+          {
+            async lazy() {
+              const { AccessiblePage } = await import(
+                '@/app/pages/documentaion/accessibility'
+              )
+              return { Component: AccessiblePage }
+            },
+            path: '/accessibilitydoc',
+          },
           //FORMULAIRES
           {
             async lazy() {
