@@ -3,31 +3,36 @@ import { useNavigate } from 'react-router'
 
 import DataTable from '@/app/components/ui/DataTable'
 import { useFetch } from '@/app/hooks/useFetch'
-import { ClientType } from '@/types'
+import { PlaceType } from '@/types'
 
 interface FetchResponse {
   page: number
   totalPages: number
-  data: ClientType[]
+  data: PlaceType[]
 }
 
-const Users: FC = () => {
+const Places: FC = () => {
   const navigate = useNavigate()
-  const [users, setUsers] = useState<ClientType[]>([])
-  /* const [filteredUsers, setFilteredUsers] = useState<Record<string, unknown>[]>(
-    []
-  ) */
+  const [place, setPlace] = useState<PlaceType[]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const { data, isLoading, error } = useFetch<FetchResponse>(
-    `/fakeDatas/users/page_${currentPage.toString()}.json`
+    `/fakeDatas/places/page_${currentPage.toString()}.json`
   )
   console.log(data, isLoading, error)
 
   useEffect(() => {
     if (data?.data) {
-      setUsers(data.data)
+      setPlace(data.data)
     }
   }, [data])
+
+  const columns = [
+    { header: 'status', accessor: 'status.isActive' },
+    { header: 'Nom', accessor: 'name.fr' },
+    { header: 'Client', accessor: 'clientId' },
+    { header: 'Nombre de parcours', accessor: 'clientId' },
+    { header: 'Medaille', accessor: 'medalId' },
+  ]
 
   const nextPage = () => {
     setCurrentPage((prev) => prev + 1)
@@ -40,41 +45,12 @@ const Users: FC = () => {
     }
   }
 
-  /* const search = (searchTerm: string) => {
-    const tempUsers = users.map((user) => ({ ...user }))
-    if (!searchTerm.trim()) {
-      setFilteredUsers(tempUsers)
-      return
-    }
-    const lowerCasedTerm = searchTerm.toLowerCase()
-
-    const filteredData = tempUsers.filter((user: ClientType) => {
-      return (
-        user.company.name.toLowerCase().includes(lowerCasedTerm) ||
-        user.contact.email.toLowerCase().includes(lowerCasedTerm)
-      )
-    })
-    setFilteredUsers(filteredData)
-  } */
-
-  const handleCreationClick = () => {
-    void navigate('/form/client')
-  }
-
-  const columns = [
-    { header: '', accessor: 'isActive' },
-    { header: 'Entreprise ou société', accessor: 'company.name' },
-    { header: 'Contact', accessor: 'contact.name' },
-    { header: 'Email', accessor: 'contact.email' },
-    { header: 'Téléphone', accessor: 'contact.tel' },
-  ]
-
   const actions = [
     {
       type: 'edit',
-      onClick: async (el: ClientType) => {
+      onClick: async (el: PlaceType) => {
         try {
-          await navigate(`/users/${el.id}`)
+          await navigate(`/places/${el.id}`)
         } catch (error) {
           console.error('Error during navigation:', error)
         }
@@ -94,10 +70,14 @@ const Users: FC = () => {
     },
   ]
 
+  const handleCreationClick = () => {
+    void navigate('/form/place')
+  }
+
   return (
     <div className="container mx-auto mt-5">
-      <div className="mb-5 flex justify-between align-middle">
-        <h2>Users</h2>
+      <div className="flex justify-between align-middle">
+        <h2>Places</h2>
         <button
           onClick={handleCreationClick}
           className="btn btn-outline btn-primary">
@@ -110,7 +90,7 @@ const Users: FC = () => {
           nextPage={nextPage}
           previousPage={previousPage}
           disableNext={data.page === data.totalPages}
-          data={users}
+          data={place}
           disablePrevious={data.page === 1}
           currentPage={data.page}
           actions={actions as []}
@@ -121,4 +101,4 @@ const Users: FC = () => {
   )
 }
 
-export { Users }
+export { Places }
