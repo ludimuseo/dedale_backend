@@ -4,10 +4,21 @@ const AccessibilityIcon = ({ ...props }: SvgProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
+      viewBox="0 0 64 64"
+      width="192"
+      height="192"
       {...props}>
-      <path d="M12 2a2 2 0 110 4 2 2 0 010-4zm7 5h-4a1 1 0 00-1 1v1h-4V8a1 1 0 00-1-1H5a1 1 0 000 2h3v2a1 1 0 00.38.78L10 14v6a1 1 0 002 0v-5h2v5a1 1 0 002 0v-6l1.62-1.22A1 1 0 0016 12V10h3a1 1 0 100-2z" />
+      <circle cx="32" cy="32" r="30" fill="#007acc" />
+
+      <path
+        d="M32 20a4 4 0 0 0-4 4v8h-6v-4a2 2 0 0 0-4 0v4h-2a4 4 0 0 0-4 4v8a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4v-8h6v4a2 2 0 0 0 4 0v-4h2a4 4 0 0 0 4-4v-8a4 4 0 0 0-4-4h-8z"
+        fill="#fff"
+      />
+      <circle cx="20" cy="44" r="4" fill="#007acc" />
+      <circle cx="44" cy="44" r="4" fill="#007acc" />
+
+      <circle cx="32" cy="16" r="4" fill="#fff" />
+      <path d="M32 20a4 4 0 0 0-4 4v4h8v-4a4 4 0 0 0-4-4z" fill="#fff" />
     </svg>
   )
 }

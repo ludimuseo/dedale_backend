@@ -44,7 +44,7 @@ export const getDashboardConfig: DashboardConfig[] = [
     id: '3',
     title: 'DOCUMENTATION',
     ariaLabel: 'Accéder à documentation pour developpeurs',
-    subTitle: 'Documentation accessibilité pour développeur',
+    subTitle: 'Documentation accessibilité développeur',
     image: 'ACCESSIBILITY',
     imageAlt: 'null',
     role: ['OWNER', 'DEVELOPPER'],
