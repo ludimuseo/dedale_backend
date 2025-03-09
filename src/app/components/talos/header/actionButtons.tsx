@@ -1,143 +1,138 @@
-import { useState } from 'react'
+import { type FC, useState } from 'react'
 
-import DictationIcon from '../../ui/icons/DictationIcon'
-import { PrintIcon } from '../../ui/icons/PrintIcon'
-import SuggestionIcon from '../../ui/icons/SuggestionIcon'
 import SuggestionModal from '../modals/suggestionModal'
+import { DictionaryButton } from './DictionaryButton'
 
 interface ActionButtonsProps {
   imageIcon: string
   image: string[] | undefined
   name: string | undefined
-  category: string | undefined
+  category: string
 }
 
-const ActionButtons = ({
+const ActionButtons: FC<ActionButtonsProps> = ({
   imageIcon,
   image,
   name,
   category,
-}: ActionButtonsProps) => {
+}) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  const [isHovered, setIsHovered] = useState(false)
-  const [suggestionModalOpen, setSuggestionModalOpen] = useState<boolean>(false)
+  const [showSuggestionModal, setShowSuggestionModal] = useState(false)
+
+  const closeSuggestionModal = () => {
+    setShowSuggestionModal(false)
+  }
 
   return (
-    <div className="flex flex-row items-center">
+    <div className="flex flex-row items-center justify-center space-x-4">
+      {/* IMAGE */}
       <button
-        className="group btn btn-circle btn-lg relative flex h-10 w-10 items-center justify-center rounded-full bg-white shadow"
+        className="group btn btn-square"
         onClick={() => {
           setSelectedImage(image ? image[0] : imageIcon)
         }}>
         <img
           src={image ? image[0] : imageIcon}
           alt="Image"
-          className="h-16 w-16 rounded-full"
+          className="h-12 w-12 rounded-xl"
         />
-        <span
-          className="mr-4 font-inclusive text-blue-950"
-          onMouseEnter={() => {
-            setIsHovered(false)
-          }}
-          onMouseLeave={() => {
-            setIsHovered(false)
-          }}>
-          {/* Image */}
-        </span>
         <div
           role="tooltip"
-          aria-label="Ajouter un correcteur"
-          className="absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 text-sm text-white shadow-lg group-hover:block">
-          Afficher
+          aria-label="Afficher"
+          className="absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 font-inclusive text-sm text-white shadow-lg group-hover:block">
+          <span className="font-sans">Afficher</span>
         </div>
       </button>
 
+      {/* MODAL IMAGE */}
       {selectedImage && (
-        <div className="modal modal-open" role="dialog">
-          <div className="modal-box relative">
+        <div
+          className="modal modal-open flex items-center justify-center"
+          role="dialog"
+          style={{
+            width: '100vw',
+            height: '100vh',
+          }}>
+          <div
+            className="relative rounded-lg bg-white p-4"
+            style={{
+              transform: 'translateX(20vw)', // Décale la fenêtre
+              width: '50vw',
+              height: '90vh',
+            }}>
             <button
               className="btn btn-circle btn-primary btn-sm absolute right-2 top-2"
               onClick={() => {
                 setSelectedImage(null)
               }}>
-              <span className="font-extrabold text-stone-50">✕</span>
+              <p className="font-extrabold text-stone-50">✕</p>
             </button>
             <img
               src={selectedImage}
               alt="Zoomed"
-              className="h-auto w-full rounded-lg"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain', // Garde l'image entière et sans déformation
+              }}
+              className="rounded-lg"
             />
           </div>
         </div>
       )}
-      {isHovered && image && (
-        <div className="w-128 group absolute left-40 top-10 mt-2 rounded-md border-4 border-sky-950 bg-black shadow-md">
-          <img
-            src={image[0]}
-            alt="Aperçu"
-            className="h-auto w-full rounded-md"
-          />
-        </div>
-      )}
-
-      {suggestionModalOpen && (
-        <SuggestionModal
-          isOpen={suggestionModalOpen}
-          onClose={() => {
-            setSuggestionModalOpen(false)
-          }}
-          name={name}
-          category={category}
-        />
-      )}
 
       {/* IMPRIMER */}
-      <button className="group btn btn-square btn-ghost btn-lg relative ml-4">
-        <PrintIcon />
+      {/* <button className="group btn btn-square btn-ghost btn-sm relative border-2 border-blue-500">
+        <PrintIcon className="h-4 w-4" />
         <div
           role="tooltip"
-          aria-label="Ajouter un correcteur"
+          aria-label="Imprimer"
           className="absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 text-sm text-white shadow-lg group-hover:block">
-          Imprimer
+          <span className="font-sans">Imprimer</span>
         </div>
-      </button>
+      </button> */}
 
       {/* DICTEE */}
-      <button className="group btn btn-square btn-ghost btn-lg relative ml-4">
-        <DictationIcon />
+      {/* <button className="group btn btn-square btn-ghost btn-sm relative border-2 border-blue-500">
+        <DictationIcon className="h-4 w-4" />
         <div
           role="tooltip"
-          aria-label="Ajouter un correcteur"
+          aria-label="Dictée"
           className="absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 text-sm text-white shadow-lg group-hover:block">
-          Dictée
+          <span className="font-sans">Dictée</span>
         </div>
-      </button>
+      </button> */}
 
-      {/* SUGGESTION */}
+      <DictionaryButton />
+
       <button
-        className="group btn btn-square btn-ghost btn-lg relative ml-4"
+        className="btn btn-primary"
         onClick={() => {
-          setSuggestionModalOpen(true)
+          setShowSuggestionModal(true)
         }}>
-        <SuggestionIcon />
-        <div
-          role="tooltip"
-          aria-label="Ajouter une suggestion"
-          className="absolute left-1/2 top-full z-50 mt-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-gray-800 px-3 py-1 text-sm text-white shadow-lg group-hover:block">
-          Suggestion
-        </div>
+        <svg
+          aria-label="WeChat logo"
+          width="16"
+          height="16"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 32 32">
+          <g fill="white">
+            <path d="M11.606,3.068C5.031,3.068,0,7.529,0,12.393s4.344,7.681,4.344,7.681l-.706,2.676c-.093,.353,.284,.644,.602,.464l3.173-1.798c1.403,.447,4.381,.59,4.671,.603-.208-.721-.311-1.432-.311-2.095,0-3.754,3.268-9.04,10.532-9.04,.165,0,.331,.004,.496,.011-.965-4.627-5.769-7.827-11.195-7.827Zm-4.327,7.748c-.797,0-1.442-.646-1.442-1.442s.646-1.442,1.442-1.442,1.442,.646,1.442,1.442-.646,1.442-1.442,1.442Zm8.386,0c-.797,0-1.442-.646-1.442-1.442s.646-1.442,1.442-1.442,1.442,.646,1.442,1.442-.646,1.442-1.442,1.442Z"></path>
+            <path d="M32,19.336c0-4.26-4.998-7.379-9.694-7.379-6.642,0-9.459,4.797-9.459,7.966s2.818,7.966,9.459,7.966c1.469,0,2.762-.211,3.886-.584l2.498,1.585c.197,.125,.447-.052,.394-.279l-.567-2.46c2.36-1.643,3.483-4.234,3.483-6.815Zm-12.73-.81c-.704,0-1.275-.571-1.275-1.275s.571-1.275,1.275-1.275,1.275,.571,1.275,1.275c0,.705-.571,1.275-1.275,1.275Zm6.373,0c-.704,0-1.275-.571-1.275-1.275s.571-1.275,1.275-1.275,1.275,.571,1.275,1.275-.571,1.275-1.275,1.275Z"></path>
+          </g>
+        </svg>
+        <p className="font-inclusive text-xl">Envoyer une suggestion</p>
       </button>
-
-      {/* RECHERCHE */}
-      <div className="form-control ml-20">
-        <input
-          type="text"
-          placeholder="🔎 Dictionnaire"
-          className="input input-bordered input-primary w-full max-w-xs"
-        />
-      </div>
+      <SuggestionModal
+        isOpen={showSuggestionModal}
+        onClose={() => {
+          closeSuggestionModal()
+        }}
+        name={name}
+        category={category}
+      />
     </div>
   )
 }
 
-export default ActionButtons
+export { ActionButtons }
