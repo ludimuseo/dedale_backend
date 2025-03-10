@@ -2,7 +2,7 @@
 interface AddDocumentTypeProps {
     isSending: boolean
     handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void
-    imgName: string
+    imgName: string | undefined
     label: string
 }
 
@@ -18,11 +18,11 @@ export default function AddDocument({ handleImageUpload, imgName, label, isSendi
             />
             <label
                 htmlFor="imageUpload"
-                // className={`cursor-pointer rounded-md px-4 py-2 text-white ${isSending
-                //   ? 'bg-gray-500 hover:bg-gray-600 focus:ring focus:ring-gray-300 focus:ring-opacity-50'
-                //   : 'bg-blue-500 hover:bg-blue-600'
-                //   }`}
-                className='cursor-pointer rounded-md px-4 py-2 text-white bg-gray-500 hover:bg-gray-600 focus:ring focus:ring-gray-300 focus:ring-opacity-50'
+                className={`cursor-pointer rounded-md px-4 py-2 text-white ${isSending
+                    ? 'bg-gray-500 hover:bg-gray-600 focus:ring focus:ring-gray-300 focus:ring-opacity-50'
+                    : 'bg-blue-500 hover:bg-blue-600'
+                    }`}
+            //className='cursor-pointer rounded-md px-4 py-2 text-white bg-gray-500 hover:bg-gray-600 focus:ring focus:ring-gray-300 focus:ring-opacity-50'
             >
                 {label}
             </label>
