@@ -127,9 +127,7 @@ const SuggestionModal = ({
             }}>
             <span className="font-extrabold text-stone-50">✕</span>
           </button>
-          <SuggestionTitle
-            title="Envoyer votre suggestion à Ludi Muséo"
-          />
+          <SuggestionTitle title="Envoyer votre suggestion à Ludi Muséo" />
           <textarea
             disabled={isSending}
             className="w-full rounded-md border p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
