@@ -93,7 +93,6 @@ be categorized, archived, or activated/deactivated as needed.
 ![Zod](https://img.shields.io/badge/-Zod-1E90FF?logo=zod&logoColor=white&style=flat)  
 ![i18n](https://img.shields.io/badge/-i18n-FFD700?logo=i18n&logoColor=white&style=flat)
 
-
 ---
 
 ## Install

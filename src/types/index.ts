@@ -2,6 +2,7 @@ import type { StateAlert } from '@service/redux/slices/reducerAlert'
 import type { StateAuth } from '@service/redux/slices/reducerAuth'
 import type { StateDictionnary } from '@service/redux/slices/reducerDictionary'
 import type { StateTheme } from '@service/redux/slices/reducerTheme'
+import { Timestamp } from 'firebase/firestore'
 import type {
   ComponentProps,
   ComponentPropsWithoutRef,
@@ -149,7 +150,7 @@ interface Falc {
 interface CertifiedTxt {
   isValidate: boolean
   isCertified: boolean
-  certifiedDate: Date | null
+  certifiedDate: Timestamp | null
   isCorrected: boolean
 }
 interface Description {
@@ -209,6 +210,7 @@ interface Stage {
 
 /* CLIENT */
 export interface ClientType {
+  id: string
   isActive: boolean
   company: {
     name: string
@@ -236,6 +238,7 @@ export interface ClientType {
 
 /* PLACE */
 export interface PlaceType {
+  id: string
   clientId: string
   medalId: string
   content: {
@@ -270,7 +273,7 @@ export interface PlaceType {
       status: {
         isValidate: boolean
         isCertified: boolean
-        certifiedDate: Date
+        certifiedDate: Timestamp | null
         isCorrected: boolean
       }
     }
@@ -328,7 +331,7 @@ export interface JourneyType {
       status: {
         isValidate: boolean
         isCertified: boolean
-        certifiedDate: Date
+        certifiedDate: Timestamp | null
         isCorrected: boolean
       }
     }
@@ -383,7 +386,7 @@ export interface StepType {
       status: {
         isValidate: boolean
         isCertified: boolean
-        certifiedDate: Date
+        certifiedDate: Timestamp | null
         isCorrected: boolean
       }
     }
@@ -436,7 +439,7 @@ export interface PieceType {
       status: {
         isValidate: boolean
         isCertified: boolean
-        certifiedDate: Date
+        certifiedDate: Timestamp | null
         isCorrected: boolean
       }
     }
@@ -481,7 +484,7 @@ export interface GameType {
       status: {
         isValidate: boolean
         isCertified: boolean
-        certifiedDate: Date
+        certifiedDate: Timestamp | null
         isCorrected: boolean
       }
     }

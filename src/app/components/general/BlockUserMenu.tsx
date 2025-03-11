@@ -9,7 +9,7 @@ import type { State } from '@/types'
 
 const BlockUserMenu: FC = () => {
   const { t } = useTranslation()
-  const { notify } = useNotification()
+  const { push } = useNotification()
   const dispatch = useAppDispatch()
   const { isLogged, user }: StateAuth = useAppSelector(
     (state: State) => state.auth
@@ -89,7 +89,7 @@ const BlockUserMenu: FC = () => {
               <button
                 onClick={() => {
                   dispatch(signOut())
-                  notify(t('success.signout'), { type: 'success' })
+                  push(t('success.signout'), { type: 'success' })
                 }}
                 className="font-bold uppercase text-red-500">
                 {t('button.accept')}

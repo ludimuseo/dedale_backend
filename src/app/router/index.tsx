@@ -35,6 +35,13 @@ const routes: RouteObject[] = [
           },
           {
             async lazy() {
+              const { FAQ } = await import('@/app/pages/faq')
+              return { Component: FAQ }
+            },
+            path: '/faq',
+          },
+          {
+            async lazy() {
               const { UserSettings } = await import('@/app/pages/user/Settings')
               return { Component: UserSettings }
             },
@@ -54,12 +61,22 @@ const routes: RouteObject[] = [
             },
             path: '/form',
           },
+          //TALOS
           {
             async lazy() {
               const { TextList } = await import('@/app/pages/talos/TextList')
               return { Component: TextList }
             },
             path: '/textList',
+          },
+          {
+            async lazy() {
+              const { ValidateText } = await import(
+                '@/app/pages/talos/ValidateText'
+              )
+              return { Component: ValidateText }
+            },
+            path: '/validateText',
           },
           {
             async lazy() {
@@ -83,6 +100,16 @@ const routes: RouteObject[] = [
               return { Component: Users }
             },
             path: '/clientsList',
+          },
+          //DOCUMENTAION
+          {
+            async lazy() {
+              const { AccessiblePage } = await import(
+                '@/app/pages/documentaion/accessibility'
+              )
+              return { Component: AccessiblePage }
+            },
+            path: '/accessibilitydoc',
           },
           //FORMULAIRES
           {
@@ -151,6 +178,23 @@ const routes: RouteObject[] = [
               return { Component: UsersEdit }
             },
             path: '/users/:id',
+          },
+          {
+            async lazy() {
+              const { Places } = await import('@/app/pages/places')
+              return { Component: Places }
+            },
+            path: '/places',
+          },
+          //Contributors
+          {
+            async lazy() {
+              const { Contributor } = await import(
+                '@/app/pages/contributors/Contributor'
+              )
+              return { Component: Contributor }
+            },
+            path: '/contributors',
           },
         ],
         element: (

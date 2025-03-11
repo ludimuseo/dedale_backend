@@ -30,7 +30,6 @@ export const getDashboardConfig: DashboardConfig[] = [
     role: ['OWNER', 'ADMIN', 'SUPERADMIN', 'DEVELOPPER'],
     route: '/clientsList',
   },
-
   {
     id: '1',
     title: 'INTERFACE TALOS',
@@ -40,5 +39,15 @@ export const getDashboardConfig: DashboardConfig[] = [
     imageAlt: 'Talos',
     role: ['OWNER', 'SUPERADMIN', 'DEVELOPPER', 'REFERENT', 'CORRECTOR'],
     route: '/talos',
+  },
+  {
+    id: '3',
+    title: 'DOCUMENTATION',
+    ariaLabel: 'Accéder à documentation pour developpeurs',
+    subTitle: 'Documentation accessibilité développeur',
+    image: 'ACCESSIBILITY',
+    imageAlt: 'null',
+    role: ['OWNER', 'DEVELOPPER'],
+    route: '/accessibilitydoc',
   },
 ]

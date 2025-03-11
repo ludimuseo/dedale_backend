@@ -11,11 +11,12 @@ import {
 } from '@/types'
 
 import { MainContent } from './MainContent'
+import { Sentence } from './TalosInterfaceMain'
 
 interface LeftClipboardProps {
   isLeftClipboardShowed: boolean
   showProofReading: boolean
-  falcText: string[]
+  falcText: Sentence[]
   formData: EntityWithId<
     PlaceType | JourneyType | StepType | PieceType | GameType
   >
@@ -51,10 +52,10 @@ const LeftClipboard: FC<LeftClipboardProps> = ({
                 </h2>
                 {
                   <div className="space-y-4">
-                    {falcText.map((sentence: string, index: number) => {
+                    {falcText.map((sentenceObject: Sentence, index: number) => {
                       return (
                         <motion.div
-                          key={index}
+                          key={sentenceObject.id}
                           animate={{ opacity: 1 }}
                           initial={{ opacity: 0 }}
                           transition={{
@@ -62,7 +63,9 @@ const LeftClipboard: FC<LeftClipboardProps> = ({
                             delay: 0.3 + index * 0.3,
                             ease: 'linear',
                           }}>
-                          <p className="text-xl text-sky-950">{sentence}</p>
+                          <p className="text-xl text-sky-950">
+                            {sentenceObject.sentence}
+                          </p>
                         </motion.div>
                       )
                     })}
