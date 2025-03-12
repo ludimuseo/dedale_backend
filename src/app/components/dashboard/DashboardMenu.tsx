@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { type FC } from 'react'
 import { useNavigate } from 'react-router'
 
-import { DashboardConfig } from '@/app/pages/dashboard/GetDashbordConfig'
+import { DashboardConfig } from '@/app/pages/dashboard/getDashboardConfig'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
 import { MENU } from '@/enums/icons'
 
