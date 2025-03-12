@@ -1,8 +1,7 @@
 import '@style/root.scss'
 
-import React from 'react'
-
-import { PlaceIcon } from './icons/PlaceIcon'
+//import React from 'react'
+//import { PlaceIcon } from './icons/PlaceIcon'
 import Pagination from './Pagination'
 import SearchInput from './SearchInput'
 
@@ -22,7 +21,7 @@ interface Action<T> {
 
 interface DataTableProps<T> {
   columns: Column<T>[] | null
-  data: T[] | null
+  //data: T[] | null
   isLoading: boolean
   actions?: Action<T>[]
   previousPage: () => void
@@ -35,8 +34,8 @@ interface DataTableProps<T> {
 
 function DataTable<T extends Record<string, unknown>>({
   columns,
-  data,
-  isLoading,
+  //data,
+  //isLoading,
   actions,
   nextPage,
   previousPage,
@@ -45,7 +44,10 @@ function DataTable<T extends Record<string, unknown>>({
   currentPage,
   search,
 }: DataTableProps<T>) {
-  if (!columns || !data) {
+  // if (!columns || !data) {
+  //   return <div>Invalid data or columns</div>
+  // }
+  if (!columns) {
     return <div>Invalid data or columns</div>
   }
 
@@ -56,17 +58,17 @@ function DataTable<T extends Record<string, unknown>>({
 
   const columnsWithActions = actions ? [...columns, actionColumn] : columns
 
-  const getNestedValue = (obj: T, path: string): unknown => {
-    return path
-      .toString()
-      .split('.')
-      .reduce((acc: unknown, key: string) => {
-        if (acc && typeof acc === 'object' && key in acc) {
-          return (acc as Record<string, unknown>)[key]
-        }
-        return ''
-      }, obj)
-  }
+  // const getNestedValue = (obj: T, path: string): unknown => {
+  //   return path
+  //     .toString()
+  //     .split('.')
+  //     .reduce((acc: unknown, key: string) => {
+  //       if (acc && typeof acc === 'object' && key in acc) {
+  //         return (acc as Record<string, unknown>)[key]
+  //       }
+  //       return ''
+  //     }, obj)
+  // }
 
   const tableContainerStyle = {
     maxHeight: 'calc(77vh - var(--headerHeight))',
@@ -75,11 +77,11 @@ function DataTable<T extends Record<string, unknown>>({
     boxShadow: '0 0px 2px 0 rgb(0 0 0 / 0.05)',
   }
 
-  const getLink = (row: T, linkTemplate: string): string => {
-    return linkTemplate.replace(/{{(.*?)}}/g, (_, path) => {
-      return String(getNestedValue(row, String(path)))
-    })
-  }
+  // const getLink = (row: T, linkTemplate: string): string => {
+  //   return linkTemplate.replace(/{{(.*?)}}/g, (_, path) => {
+  //     return String(getNestedValue(row, String(path)))
+  //   })
+  // }
 
   return (
     <div className="relative">
@@ -109,7 +111,7 @@ function DataTable<T extends Record<string, unknown>>({
               ))}
             </tr>
           </thead>
-          <tbody>
+          {/* <tbody>
             {!isLoading ? (
               data.map((row, rowIndex) => (
                 <tr key={typeof row.id === 'string' ? row.id : rowIndex}>
@@ -214,7 +216,7 @@ function DataTable<T extends Record<string, unknown>>({
                 </td>
               </tr>
             )}
-          </tbody>
+          </tbody> */}
         </table>
       </div>
       <div
