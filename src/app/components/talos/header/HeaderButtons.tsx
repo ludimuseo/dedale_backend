@@ -2,12 +2,14 @@ import { type FC, useState } from 'react'
 
 import { DictionaryButton } from './DictionaryButton'
 
-interface ActionButtonsProps {
+interface HeaderButtonsProps {
   imageIcon: string
   image: string[] | undefined
+  name: string | undefined
+  category: string
 }
 
-const ActionButtons: FC<ActionButtonsProps> = ({ imageIcon, image }) => {
+const HeaderButtons: FC<HeaderButtonsProps> = ({ imageIcon, image }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   // const [isHovered, setIsHovered] = useState(false)
 
@@ -94,4 +96,4 @@ const ActionButtons: FC<ActionButtonsProps> = ({ imageIcon, image }) => {
   )
 }
 
-export { ActionButtons }
+export { HeaderButtons }
