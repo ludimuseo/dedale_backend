@@ -275,7 +275,7 @@ const TextList: FC = () => {
                       className="ml-5 flex items-center gap-3 rounded-xl border-2 border-[#22891F] bg-[#22891F] px-4 py-2 text-xl text-white"
                       aria-label={`Texte validé pour ${place.name.fr}`}>
                       <CheckIcon className="h-8 w-8" />
-                      <span>Texte validé</span>
+                      <p>Texte validé</p>
                     </button>
                   ) : (
                     <button
@@ -285,7 +285,7 @@ const TextList: FC = () => {
                       className="duration-5 flex items-center gap-3 rounded-xl border-2 border-[#0A184D] bg-[#bfdcfe] px-6 py-2 text-xl text-[#0A184D] transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#F4FDFF] hover:text-[#0A184D]"
                       aria-label={`Corriger ${place.name.fr}`}>
                       <PencilIcon />
-                      <span>Corriger</span>
+                      <p>Corriger</p>
                     </button>
                   )}
                 </div>
@@ -366,7 +366,7 @@ const TextList: FC = () => {
                                   className="ml-5 flex items-center gap-3 rounded-xl border-2 border-[#22891F] bg-[#22891F] px-4 py-2 text-xl text-white"
                                   aria-label={`Texte validé pour ${journey.name.fr}`}>
                                   <CheckIcon className="h-8 w-8" />
-                                  <span>Texte validé</span>
+                                  <p>Texte validé</p>
                                 </button>
                               ) : (
                                 <button
@@ -376,7 +376,7 @@ const TextList: FC = () => {
                                   className="duration-5 flex items-center gap-3 rounded-xl border-2 border-[#0A184D] bg-[#bfdcfe] px-6 py-2 text-xl text-[#0A184D] transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#F4FDFF] hover:text-[#0A184D]"
                                   aria-label={`Corriger ${journey.name.fr}`}>
                                   <PencilIcon />
-                                  <span>Corriger</span>
+                                  <p>Corriger</p>
                                 </button>
                               )}
                             </div>
@@ -441,7 +441,7 @@ const TextList: FC = () => {
                                             </div>
                                           </div>
                                           <button
-                                            onClick={() =>
+                                            onMouseOver={() =>
                                               void fetchPieces(step.id)
                                             }
                                             className="duration-5 rounded-xl border-2 border-[#0A184D] bg-[#0A184D] px-6 py-4 text-xl text-white transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#FFFFFF] hover:text-[#0A184D]"
@@ -454,7 +454,7 @@ const TextList: FC = () => {
                                               className="flex items-center gap-3 rounded-xl border-2 border-[#22891F] bg-[#22891F] px-6 py-2 text-xl text-white"
                                               aria-label={`Texte validé pour ${step.name.fr}`}>
                                               <CheckIcon className="h-8 w-8" />
-                                              <span>Texte validé</span>
+                                              <p>Texte validé</p>
                                             </button>
                                           ) : (
                                             <button
@@ -464,7 +464,7 @@ const TextList: FC = () => {
                                               className="duration-5 flex items-center gap-3 rounded-xl border-2 border-[#0A184D] bg-[#bfdcfe] px-6 py-2 text-xl text-[#0A184D] transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#F4FDFF] hover:text-[#0A184D]"
                                               aria-label={`Corriger ${step.name.fr}`}>
                                               <PencilIcon />
-                                              <span>Corriger</span>
+                                              <p>Corriger</p>
                                             </button>
                                           )}
                                         </div>
@@ -526,9 +526,7 @@ const TextList: FC = () => {
                                                           className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
                                                           aria-label={`Texte validé pour ${piece.name.fr}`}>
                                                           <CheckIcon className="h-8 w-8" />
-                                                          <span>
-                                                            Texte validé
-                                                          </span>
+                                                          <p>Texte validé</p>
                                                         </button>
                                                       ) : (
                                                         <button
@@ -540,7 +538,7 @@ const TextList: FC = () => {
                                                           className="duration-5 flex items-center gap-3 rounded-xl border-2 border-[#0A184D] bg-[#bfdcfe] px-6 py-2 text-xl text-[#0A184D] transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#F4FDFF] hover:text-[#0A184D]"
                                                           aria-label={`Corriger ${place.name.fr}`}>
                                                           <PencilIcon />
-                                                          <span>Corriger </span>
+                                                          <p>Corriger </p>
                                                         </button>
                                                       )}
                                                     </div>
