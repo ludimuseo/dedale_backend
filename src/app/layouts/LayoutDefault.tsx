@@ -2,7 +2,8 @@
 import type { FC } from 'react'
 import { Outlet } from 'react-router'
 
-import CoreHeader from '@/app/layouts/core/CoreHeader'
+import CoreHeader from './core/CoreHeader'
+
 // import CoreSidebar from '@/app/layouts/core/coreSidebar'
 
 const LayoutDefault: FC = () => {
