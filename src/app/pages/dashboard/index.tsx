@@ -7,7 +7,6 @@ import { State } from '@/types'
 
 import { getDashboardConfig } from './getDashboardConfig'
 
-
 const Dashboard: FC = () => {
   const { t } = useTranslation()
   const menu = getDashboardConfig
