@@ -1,31 +1,18 @@
 import { type FC, useState } from 'react'
 
-import SuggestionModal from '../modals/suggestionModal'
 import { DictionaryButton } from './DictionaryButton'
 
 interface ActionButtonsProps {
   imageIcon: string
   image: string[] | undefined
-  name: string | undefined
-  category: string
 }
 
-const ActionButtons: FC<ActionButtonsProps> = ({
-  imageIcon,
-  image,
-  name,
-  category,
-}) => {
+const ActionButtons: FC<ActionButtonsProps> = ({ imageIcon, image }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  const [showSuggestionModal, setShowSuggestionModal] = useState(false)
-
-  const closeSuggestionModal = () => {
-    setShowSuggestionModal(false)
-  }
+  // const [isHovered, setIsHovered] = useState(false)
 
   return (
     <div className="flex flex-row items-center justify-center space-x-4">
-      {/* IMAGE */}
       <button
         className="group btn btn-square"
         onClick={() => {
@@ -44,7 +31,6 @@ const ActionButtons: FC<ActionButtonsProps> = ({
         </div>
       </button>
 
-      {/* MODAL IMAGE */}
       {selectedImage && (
         <div
           className="modal modal-open flex items-center justify-center"
@@ -65,7 +51,7 @@ const ActionButtons: FC<ActionButtonsProps> = ({
               onClick={() => {
                 setSelectedImage(null)
               }}>
-              <p className="font-extrabold text-stone-50">✕</p>
+              <span className="font-extrabold text-stone-50">✕</span>
             </button>
             <img
               src={selectedImage}
@@ -104,33 +90,6 @@ const ActionButtons: FC<ActionButtonsProps> = ({
       </button> */}
 
       <DictionaryButton />
-
-      <button
-        className="btn btn-primary"
-        onClick={() => {
-          setShowSuggestionModal(true)
-        }}>
-        <svg
-          aria-label="WeChat logo"
-          width="16"
-          height="16"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 32 32">
-          <g fill="white">
-            <path d="M11.606,3.068C5.031,3.068,0,7.529,0,12.393s4.344,7.681,4.344,7.681l-.706,2.676c-.093,.353,.284,.644,.602,.464l3.173-1.798c1.403,.447,4.381,.59,4.671,.603-.208-.721-.311-1.432-.311-2.095,0-3.754,3.268-9.04,10.532-9.04,.165,0,.331,.004,.496,.011-.965-4.627-5.769-7.827-11.195-7.827Zm-4.327,7.748c-.797,0-1.442-.646-1.442-1.442s.646-1.442,1.442-1.442,1.442,.646,1.442,1.442-.646,1.442-1.442,1.442Zm8.386,0c-.797,0-1.442-.646-1.442-1.442s.646-1.442,1.442-1.442,1.442,.646,1.442,1.442-.646,1.442-1.442,1.442Z"></path>
-            <path d="M32,19.336c0-4.26-4.998-7.379-9.694-7.379-6.642,0-9.459,4.797-9.459,7.966s2.818,7.966,9.459,7.966c1.469,0,2.762-.211,3.886-.584l2.498,1.585c.197,.125,.447-.052,.394-.279l-.567-2.46c2.36-1.643,3.483-4.234,3.483-6.815Zm-12.73-.81c-.704,0-1.275-.571-1.275-1.275s.571-1.275,1.275-1.275,1.275,.571,1.275,1.275c0,.705-.571,1.275-1.275,1.275Zm6.373,0c-.704,0-1.275-.571-1.275-1.275s.571-1.275,1.275-1.275,1.275,.571,1.275,1.275-.571,1.275-1.275,1.275Z"></path>
-          </g>
-        </svg>
-        <p className="font-inclusive text-xl">Envoyer une suggestion</p>
-      </button>
-      <SuggestionModal
-        isOpen={showSuggestionModal}
-        onClose={() => {
-          closeSuggestionModal()
-        }}
-        name={name}
-        category={category}
-      />
     </div>
   )
 }
