@@ -7,6 +7,7 @@ import CoreHeader from './core/CoreHeader'
 
 
 
+
 const LayoutAuth: FC = () => {
   const { t } = useTranslation()
   return (
