@@ -58,7 +58,7 @@ be categorized, archived, or activated/deactivated as needed.
 | ------------------------------------------------------------------------------------------------------------ | -------------------------- |
 | <img src="https://avatars.githubusercontent.com/u/128374528?v=4" width="50" alt="@A-Fidele avatar" />        | [@A-Fidele][User01]        |
 | <img src="https://avatars.githubusercontent.com/u/167294285?v=4" width="50" alt="@Maeva-RODRIGUES avatar" /> | [@Maeva-RODRIGUES][User02] |
-| <img src="https://avatars.githubusercontent.com/u/91600327?v=4" width="50" alt="@Eternal-Grace avatar" />    | [＠GJMCharles ][User03]   |
+| <img src="https://avatars.githubusercontent.com/u/91600327?v=4" width="50" alt="@Eternal-Grace avatar" />    | [＠GJMCharles ][User03]    |
 | <img src="https://avatars.githubusercontent.com/u/13797688?v=4" width="50" alt="@Okkunsama avatar" />        | [@Okkunsama][User04]       |
 | <img src="https://avatars.githubusercontent.com/u/128263899?v=4" width="50" alt="@Lily87280 avatar" />       | [@Lily87280][User05]       |
 | <img src="https://avatars.githubusercontent.com/u/151648856?v=4" width="50" alt="@Mouad-Maataoui avatar" />  | [@Mouad-Maataoui][User06]  |

@@ -5,7 +5,8 @@ import { DashboardMenu } from '@/app/components/dashboard/DashboardMenu'
 import { useAppSelector } from '@/app/hooks'
 import { State } from '@/types'
 
-import { getDashboardConfig } from './getDashbordConfig'
+import { getDashboardConfig } from './getDashboardConfig'
+
 
 const Dashboard: FC = () => {
   const { t } = useTranslation()
