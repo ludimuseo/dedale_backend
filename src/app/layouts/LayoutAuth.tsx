@@ -3,7 +3,7 @@ import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router'
 
-import CoreHeader from '@/app/layouts/core/CoreHeader'
+import CoreHeader from './core/coreHeader'
 
 const LayoutAuth: FC = () => {
   const { t } = useTranslation()

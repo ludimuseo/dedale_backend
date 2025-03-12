@@ -21,7 +21,7 @@ const TextList: FC = () => {
   const [isPiecesOpen, setIsPiecesOpen] = useState(true)
 
   const [places, setPlaces] = useState<
-    (PlaceType & { id: string; collection: string })[]
+    (PlaceType & { docId: string; collection: string })[]
   >([])
   const [journeys, setJourneys] = useState<
     (JourneyType & { id: string; collection: string })[]
@@ -55,6 +55,7 @@ const TextList: FC = () => {
           const data = doc.data() as PlaceType
           return { ...data, id: doc.id }
         })
+
         const placesCount = placesData.filter(
           (place) => !place.description.falc.status.isCertified
         ).length
@@ -130,7 +131,7 @@ const TextList: FC = () => {
         )
         const querySnapshot = await getDocs(q)
         const placeData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
+          docId: doc.id,
           collection: 'places',
           ...(doc.data() as PlaceType),
         }))
@@ -162,7 +163,6 @@ const TextList: FC = () => {
       }))
       setJourneys(journeyData)
       setActivePlaceId(placeId)
-      // Count journeys to correct
       const journeysToCorrectCount = journeyData.filter(
         (journey) => !journey.description.falc.status.isCertified
       ).length
@@ -187,7 +187,6 @@ const TextList: FC = () => {
       }))
       setSteps(stepData.sort((a, b) => a.stage.stepNumber - b.stage.stepNumber))
       setActiveJourneyId(journeyId)
-      // Count steps to correct
       const stepsToCorrectCount = stepData.filter(
         (step) => !step.description.falc.status.isCertified
       ).length
@@ -209,7 +208,6 @@ const TextList: FC = () => {
       }))
       setPieces(pieceData)
       setActiveStepId(stepId)
-      // Count pieces to correct
       const piecesToCorrectCount = pieceData.filter(
         (piece) => !piece.description.falc.status.isCertified
       ).length
@@ -230,9 +228,6 @@ const TextList: FC = () => {
     <div className="bg-white p-6 font-sans text-[#0A184D]">
       <h1 className="mb-6 text-4xl font-bold">Liste des Textes</h1>
       <div className="rounded-xl border-4 border-[#0A184D] bg-[#f8dd27] bg-opacity-50 px-6 py-4">
-        {/* <h2 className="text-2xl font-semibold leading-[2.5rem] underline decoration-[#0A184D] decoration-[2px] underline-offset-4">
-          Résumé des corrections à faire
-        </h2> */}
         <p className="text-xl leading-[2rem]">
           Textes de Lieux à corriger : {placesToCorrect}
         </p>
@@ -257,12 +252,6 @@ const TextList: FC = () => {
               Lieux
             </h2>
 
-            <span className="absolute left-0 mt-24 bg-[#f8dd27] bg-opacity-50 text-2xl text-[#0A184D] opacity-0 transition-opacity group-hover:opacity-100">
-              Il reste à corriger : {placesToCorrect} texte(s) "Lieux",{' '}
-              {journeysToCorrect} texte(s) "Parcours", {stepsToCorrect} texte(s)
-              "Indice d'étapes" et {piecesToCorrect} texte(s) "Oeuvres".
-            </span>
-
             <button
               onClick={() => {
                 setIsPlacesOpen(!isPlacesOpen)
@@ -277,7 +266,7 @@ const TextList: FC = () => {
           {isPlacesOpen &&
             places.map((place) => (
               <article
-                key={place.id}
+                key={place.docId}
                 className="rounded-md border-2 border-[#0A184D] bg-[#F4FDFF] px-6 py-4 text-[#0A184D] shadow-lg">
                 <div className="mb-2 flex items-center">
                   <h3 className="my-1 text-3xl font-bold">{place.name.fr}</h3>
@@ -286,7 +275,7 @@ const TextList: FC = () => {
                       className="ml-5 flex items-center gap-3 rounded-xl border-2 border-[#22891F] bg-[#22891F] px-4 py-2 text-xl text-white"
                       aria-label={`Texte validé pour ${place.name.fr}`}>
                       <CheckIcon className="h-8 w-8" />
-                      <span>Texte validé</span>
+                      <p>Texte validé</p>
                     </button>
                   ) : (
                     <button
@@ -296,7 +285,7 @@ const TextList: FC = () => {
                       className="duration-5 flex items-center gap-3 rounded-xl border-2 border-[#0A184D] bg-[#bfdcfe] px-6 py-2 text-xl text-[#0A184D] transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#F4FDFF] hover:text-[#0A184D]"
                       aria-label={`Corriger ${place.name.fr}`}>
                       <PencilIcon />
-                      <span>Corriger</span>
+                      <p>Corriger</p>
                     </button>
                   )}
                 </div>
@@ -316,28 +305,35 @@ const TextList: FC = () => {
 
                   <div className="group relative inline-flex items-center">
                     <button
-                      onClick={() => void fetchJourneys(place.id)}
+                      onClick={() => void fetchJourneys(place.docId)}
                       className="duration-5 rounded-xl border-2 border-[#0A184D] bg-[#0A184D] px-6 py-4 text-xl text-white transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#ffffff] hover:text-[#0A184D]"
                       aria-label={`Voir les parcours pour ${place.name.fr}`}>
                       Voir les parcours
                     </button>
 
-                    <span className="ml-4 bg-[#f8dd27] bg-opacity-50 text-xl text-[#0A184D] opacity-0 transition-opacity group-hover:opacity-100">
-                      Il reste à corriger : {journeysToCorrect} texte(s)
-                      "Parcours", {stepsToCorrect} texte(s) "Indice d'étapes" et{' '}
-                      {piecesToCorrect} texte(s) "Oeuvres".
-                    </span>
+                    <p className="ml-4 rounded-lg bg-[#f8dd27] bg-opacity-50 p-2 text-xl text-[#0A184D] opacity-0 transition-opacity group-hover:opacity-100">
+                      Il reste à corriger :
+                      {placesToCorrect > 0 &&
+                        `${placesToCorrect.toString()} texte(s) "Lieux"`}{' '}
+                      {journeysToCorrect > 0 &&
+                        `${journeysToCorrect.toString()} texte(s) "Parcours"`}{' '}
+                      {stepsToCorrect > 0 &&
+                        `${stepsToCorrect.toString()} texte(s) "Indice d'étapes"`}{' '}
+                      {piecesToCorrect > 0 &&
+                        ` et ${piecesToCorrect.toString()} texte(s) "Oeuvres".`}
+                    </p>
                   </div>
                 </div>
+
                 {/* Liste des Parcours */}
-                {activePlaceId === place.id && (
+                {activePlaceId === place.docId && (
                   <section
-                    aria-labelledby={`journeys-${place.id}-heading`}
+                    aria-labelledby={`journeys-${place.docId}-heading`}
                     className="mt-7 rounded-lg border-2 bg-[#ffffff] px-2 py-3">
                     <div className="space-y-5">
                       <div className="flex items-center justify-between">
                         <h4
-                          id={`journeys-${place.id}-heading`}
+                          id={`journeys-${place.docId}-heading`}
                           className="flex-grow rounded-md bg-[#0A184D] pl-3 text-3xl font-semibold leading-relaxed text-white">
                           Parcours
                           {/* ({journeysToCorrect} à corriger) */}
@@ -370,7 +366,7 @@ const TextList: FC = () => {
                                   className="ml-5 flex items-center gap-3 rounded-xl border-2 border-[#22891F] bg-[#22891F] px-4 py-2 text-xl text-white"
                                   aria-label={`Texte validé pour ${journey.name.fr}`}>
                                   <CheckIcon className="h-8 w-8" />
-                                  <span>Texte validé</span>
+                                  <p>Texte validé</p>
                                 </button>
                               ) : (
                                 <button
@@ -380,7 +376,7 @@ const TextList: FC = () => {
                                   className="duration-5 flex items-center gap-3 rounded-xl border-2 border-[#0A184D] bg-[#bfdcfe] px-6 py-2 text-xl text-[#0A184D] transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#F4FDFF] hover:text-[#0A184D]"
                                   aria-label={`Corriger ${journey.name.fr}`}>
                                   <PencilIcon />
-                                  <span>Corriger</span>
+                                  <p>Corriger</p>
                                 </button>
                               )}
                             </div>
@@ -445,7 +441,7 @@ const TextList: FC = () => {
                                             </div>
                                           </div>
                                           <button
-                                            onClick={() =>
+                                            onMouseOver={() =>
                                               void fetchPieces(step.id)
                                             }
                                             className="duration-5 rounded-xl border-2 border-[#0A184D] bg-[#0A184D] px-6 py-4 text-xl text-white transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#FFFFFF] hover:text-[#0A184D]"
@@ -458,7 +454,7 @@ const TextList: FC = () => {
                                               className="flex items-center gap-3 rounded-xl border-2 border-[#22891F] bg-[#22891F] px-6 py-2 text-xl text-white"
                                               aria-label={`Texte validé pour ${step.name.fr}`}>
                                               <CheckIcon className="h-8 w-8" />
-                                              <span>Texte validé</span>
+                                              <p>Texte validé</p>
                                             </button>
                                           ) : (
                                             <button
@@ -468,7 +464,7 @@ const TextList: FC = () => {
                                               className="duration-5 flex items-center gap-3 rounded-xl border-2 border-[#0A184D] bg-[#bfdcfe] px-6 py-2 text-xl text-[#0A184D] transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#F4FDFF] hover:text-[#0A184D]"
                                               aria-label={`Corriger ${step.name.fr}`}>
                                               <PencilIcon />
-                                              <span>Corriger</span>
+                                              <p>Corriger</p>
                                             </button>
                                           )}
                                         </div>
@@ -530,9 +526,7 @@ const TextList: FC = () => {
                                                           className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
                                                           aria-label={`Texte validé pour ${piece.name.fr}`}>
                                                           <CheckIcon className="h-8 w-8" />
-                                                          <span>
-                                                            Texte validé
-                                                          </span>
+                                                          <p>Texte validé</p>
                                                         </button>
                                                       ) : (
                                                         <button
@@ -544,7 +538,7 @@ const TextList: FC = () => {
                                                           className="duration-5 flex items-center gap-3 rounded-xl border-2 border-[#0A184D] bg-[#bfdcfe] px-6 py-2 text-xl text-[#0A184D] transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#F4FDFF] hover:text-[#0A184D]"
                                                           aria-label={`Corriger ${place.name.fr}`}>
                                                           <PencilIcon />
-                                                          <span>Corriger </span>
+                                                          <p>Corriger </p>
                                                         </button>
                                                       )}
                                                     </div>

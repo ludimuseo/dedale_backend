@@ -16,7 +16,7 @@ const FormJourney: FC = () => {
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
   const [placeIdAndName, setPlaceIdAndName] = useState<
-    { id: string; name: string }[] | undefined
+    { docId: string; name: string }[] | undefined
   >([])
   const [clientIdAndName, setClientIdAndName] = useState<
     { id: string; name: string }[] | undefined
@@ -113,8 +113,8 @@ const FormJourney: FC = () => {
     event.preventDefault()
     try {
       const docRef = await addDoc(collection(db, 'journeys'), { ...formData })
-      const id = docRef.id
-      if (id) {
+      const dataId = docRef.id
+      if (dataId) {
         setMessage(() => ({
           info: 'Votre formulaire a été envoyé avec succès !',
           result: true,
@@ -219,12 +219,12 @@ const FormJourney: FC = () => {
       )
       const querySnapshot = await getDocs(q)
       const placeData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
+        docId: doc.id,
         ...(doc.data().place as PlaceType),
       }))
 
       const packagePlaceData = placeData.map((item) => {
-        return { id: item.id, name: item.name.fr }
+        return { docId: item.id, name: item.name.fr }
       })
       setPlaceIdAndName(packagePlaceData)
     } catch (error) {
