@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef, forwardRef } from 'react'
 
-const FromCard = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'>>(
+const FormCard = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'>>(
   ({ children, title, ...props }, ref) => {
     return (
       <div className="p-1">
@@ -17,4 +17,4 @@ const FromCard = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'>>(
   }
 )
 
-export { FromCard }
+export { FormCard }
