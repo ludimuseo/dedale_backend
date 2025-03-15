@@ -1,0 +1,111 @@
+/* //tailwind/_base.scss */
+@use '@style/variables/colors' as color;
+@use '@style/variables/globals' as global;
+
+:root {
+  color-scheme: light;
+
+  --color-white: #{color.$white};
+  --color-black: #{color.$black};
+
+  --color-white4: #{color.$white4};
+  --color-whiteCream: #{color.$whiteCream};
+
+  --color-lightBlue: #{color.$lightBlue};
+  --color-darkBlue: #{color.$darkBlue};
+  --color-darkBlue2: #{color.$darkBlue2};
+
+  --color-darkGunmetal: #{color.$darkGunmetal};
+  --color-antiFlashWhite: #{color.$antiFlashWhite};
+
+  --color-primary: #{color.$darkBlue};
+  --color-secondary: #{color.$secondary};
+  --color-tertiary: #{color.$tertiary};
+
+  --color-background: #{color.$white};
+  --color-text: #{color.$darkBlue};
+
+  &[data-theme='system'][data-is-dark='true'],
+  &[data-theme='dark'] {
+    color-scheme: dark;
+
+    --color-background: #{color.$darkBlue2};
+    --color-text: #{color.$white};
+  }
+}
+
+html,
+:host {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+
+  @apply h-full min-h-screen select-none font-satoshi antialiased;
+}
+
+body,
+#root {
+  @apply h-[inherit];
+}
+
+body {
+  @apply text-default transition-[color] duration-300;
+}
+
+header,
+main,
+aside {
+  @apply transition-[background-color] duration-300;
+}
+
+main {
+  @apply p-3;
+}
+
+h1 {
+  @apply text-3xl;
+}
+
+h2 {
+  @apply text-2xl;
+}
+
+h3 {
+  @apply text-xl;
+}
+
+h4 {
+  @apply text-lg;
+}
+
+p {
+  @apply text-base;
+}
+
+a {
+  @apply decoration-inherit hover:underline;
+}
+
+button,
+a {
+  @apply cursor-pointer;
+}
+
+form {
+  @apply flex flex-col;
+}
+
+figure,
+img,
+svg {
+  /* // Disable 'draggable' items */
+  @apply pointer-events-none;
+}
+
+figure {
+  > img {
+    @apply mx-auto my-0;
+  }
+  > figcaption {
+    @apply text-justify;
+  }
+}

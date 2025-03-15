@@ -1,0 +1,62 @@
+{
+  "lang": {
+    "en": "English",
+    "fr": "French"
+  },
+  "theme": {
+    "dark": "dark",
+    "light": "light",
+    "system": "system"
+  },
+  "label": {
+    "email": "email",
+    "password": "password"
+  },
+  "input": {
+    "placeholder": {
+      "email": "enter your email",
+      "password": "enter your password"
+    },
+    "error": {
+      "min": "{{min}} character maximum",
+      "min_plural": "{{min}} characters maximum",
+      "max": "{{max}} character maximum",
+      "max_plural": "{{max}} characters maximum",
+      "required": "the field is required"
+    }
+  },
+  "button": {
+    "signin": "Sign In",
+    "signout": "Sign Out",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "page": {
+    "auth": "🫙",
+    "auth_signin": "Sign In Back-Office",
+    "dashboard": "Dashboard",
+    "user": "User",
+    "user_create": "Create User",
+    "user_profile": "My Profile",
+    "user_settings": "Account Settings"
+  },
+  "success": {
+    "signin": "You are now logged in",
+    "signout": "You are now logged out"
+  },
+  "error": {
+    "4XX": "An error occurred. Please try again.",
+    "5XX": "An error occurred. Please contact an administrator."
+  },
+  "warning": {
+    "auth": "You are currently logged in as user {{user}}.",
+    "guest": "You are not logged in."
+  },
+  "text": {
+    "current_language": "Current Language",
+    "description": "Access to the Daedalus backoffice reserved for administrators and clients"
+  },
+  "question": {
+    "proceed": "Do you wish to proceed ?"
+  }
+}

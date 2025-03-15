@@ -1,0 +1,114 @@
+/*
+//// ./styles
+////  |____ ./fonts
+////         |____ ./satoshi.scss
+////  |____ ./_mixins.scss
+////  |____ ./tailwind
+////         |____ ./base.scss
+////         |____ ./components.scss
+////         |____ ./utilities.scss
+////         |____ ./variants.scss
+////  |____ ./variables
+////         |____ ./_colors.scss
+////         |____ ./_globals.scss
+////  |____ ./root.scss <= (root file)
+*/
+@use 'sass:meta';
+
+// @include meta.load-css('@style/mixins');
+// @function colorMix($color, $blendColor, $percentage) {
+//   @return color-mix(in srgb, $color, $blendColor $percentage);
+// }
+
+@tailwind base;
+@layer base {
+  @include meta.load-css('@style/tailwind/base');
+}
+
+@tailwind components;
+@layer components {
+  @include meta.load-css('@style/tailwind/components');
+}
+
+@tailwind utilities;
+@layer utilities {
+  @include meta.load-css('@style/tailwind/utilities');
+}
+
+$headerHeight: 6rem;
+$sidebarWidth: 15rem;
+$switchCheckboxSize: 1.8rem;
+
+:root {
+  --headerHeight: #{$headerHeight};
+}
+
+/* // Layouts */
+#layout-auth,
+#layout-default {
+  @apply flex h-full flex-col bg-default;
+  header {
+    @apply h-[#{$headerHeight}] w-full;
+  }
+}
+#layout-auth {
+  // @apply flex-col;
+  > main {
+    @apply flex flex-1 flex-row;
+    > section {
+      @apply flex flex-1 items-center justify-center px-4 md:px-16 xl:px-32;
+      > div,
+      form {
+        @apply w-full;
+      }
+      &#auth-info {
+        @apply max-lg:hidden;
+        figure {
+          @apply pb-4;
+        }
+        p {
+          @apply mx-auto my-0 text-center;
+        }
+      }
+    }
+  }
+}
+
+#layout-default {
+  // @apply flex-col;
+
+  #sidebar-control {
+    @apply px-0 lg:hidden;
+  }
+
+  > #inner-content {
+    @apply flex flex-row;
+    @apply h-full w-full bg-gray-100 dark:bg-slate-800;
+    @apply overflow-hidden;
+
+    > aside#sidebar {
+      @apply w-[#{$sidebarWidth}] h-full bg-primary p-3;
+    }
+
+    > main.content {
+      @apply bg-[var(--color-antiFlashWhite)] dark:bg-[var(--color-darkGunmetal)];
+      @apply flex-1 overflow-x-auto overflow-y-scroll;
+    }
+  }
+
+  @media only screen and (max-width: 1024px) {
+    aside#sidebar {
+      @apply absolute;
+    }
+    header:has(#sidebar-control > input:checked) + #inner-content {
+      aside#sidebar {
+        @apply -left-[#{$sidebarWidth}];
+      }
+    }
+  }
+}
+
+#change-language,
+#change-theme {
+  @apply flex items-center justify-between;
+}

@@ -1,0 +1,55 @@
+/* //tailwind/_components.scss */
+
+/* class: .card */
+.card {
+  position: inherit;
+  @apply m-3;
+}
+
+.avatar {
+  position: inherit;
+}
+
+/* class: .btn */
+.btn {
+  /* class: .btn--primary */
+  &--primary {
+    @apply flex items-center justify-center rounded-lg p-3 font-medium text-white;
+  }
+}
+
+ul.menu {
+  @apply m-0 p-1.5;
+  li {
+    @apply mx-0 py-1;
+    a,
+    button {
+      @apply block text-center;
+    }
+  }
+}
+
+form > .btn {
+  &--primary {
+    @apply my-8 w-full capitalize;
+  }
+}
+
+/* class: .form */
+.form {
+  /* class: .form--group */
+  &--group {
+    @apply pt-4;
+    /* class: .form--group > label */
+    > label {
+      @apply mb-1 block capitalize;
+    }
+  }
+  /* class: .form--input */
+  &--input {
+    @apply w-full rounded-lg border bg-transparent py-4 pl-6 pr-10 outline-none focus-visible:shadow-none;
+    + span:has(svg) {
+      @apply absolute right-4 top-4 text-black;
+    }
+  }
+}

@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+set -e
+
+yarn run commitlint --edit $1
+yarn run semantic-commit-emoji $1
