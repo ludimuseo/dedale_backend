@@ -9,7 +9,7 @@ interface OptionsProps {
 const useNotification = () => {
   const { enqueueSnackbar } = useSnackbar()
 
-  const notify = (message: string, options: OptionsProps = {}) => {
+  const push = (message: string, options: OptionsProps = {}) => {
     enqueueSnackbar(message, {
       action: options.callback,
       anchorOrigin: {
@@ -21,7 +21,7 @@ const useNotification = () => {
     })
   }
 
-  return { notify }
+  return { push }
 }
 
 export { useNotification }

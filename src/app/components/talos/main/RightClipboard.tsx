@@ -2,18 +2,19 @@ import { motion } from 'framer-motion'
 import { type FC } from 'react'
 
 import { WrongCheck } from '../../ui/icons/WrongCheck'
+import { Sentence } from './TalosInterfaceMain'
 
 interface RightClipboardProps {
   activeTextId: boolean
-  newSentence: string[]
-  handleMouseOverCorrectedText: (index: number) => void
+  newSentence: Sentence[]
+  handleMouseOverCorrectedText: (index: string) => void
   handleMouseLeave: () => void
   handleChangeText: (
-    index: number,
+    index: string,
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => void
-  hoveredIndexCorrectedText: number | null
-  handleDeleteText: (index: number) => void
+  hoveredIndexCorrectedText: string | null
+  handleDeleteText: (index: string) => void
 }
 
 const RightClipboard: FC<RightClipboardProps> = ({
@@ -39,31 +40,31 @@ const RightClipboard: FC<RightClipboardProps> = ({
             </h2>
             <>
               {newSentence.length > 0 ? (
-                newSentence.map((item: string, index: number) => (
+                newSentence.map((item: Sentence) => (
                   <>
                     <div
-                      key={index}
+                      key={item.id}
                       className="mb-2 flex cursor-pointer flex-row rounded-lg p-2 hover:bg-slate-200 hover:transition-all hover:duration-300 hover:ease-in-out"
                       onMouseOver={() => {
-                        handleMouseOverCorrectedText(index)
+                        handleMouseOverCorrectedText(item.id)
                       }}
                       onMouseLeave={() => {
                         handleMouseLeave()
                       }}>
                       <textarea
                         onChange={(e) => {
-                          handleChangeText(index, e)
+                          handleChangeText(item.id, e)
                         }}
-                        value={newSentence[index]}
+                        value={item.sentence}
                         className="textarea textarea-ghost textarea-xs w-full max-w-xl"
                         style={{ fontSize: '22px' }}>
-                        {item}
+                        {item.sentence}
                       </textarea>
-                      {hoveredIndexCorrectedText === index && (
+                      {hoveredIndexCorrectedText === item.id && (
                         <div className="border-1 ml-auto w-12 rounded-xl p-2">
                           <div
                             onClick={() => {
-                              handleDeleteText(index)
+                              handleDeleteText(item.id)
                             }}>
                             <WrongCheck className="h-8 w-8" />
                           </div>

@@ -38,6 +38,9 @@ export default {
   plugins: [tailwind3dtransforms, typography, daisyui],
   theme: {
     extend: {
+      colors: {
+        darkViolet: '#2E145D',
+      },
       fontFamily: {
         sans: ['"Inclusive Sans"', 'sans-serif'],
       },
