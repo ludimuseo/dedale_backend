@@ -86,6 +86,7 @@ const SuggestionModal = ({
       return
     }
     const templateParams = {
+
       user_email: user.email,
       user_name: user.pseudo,
       suggestion_text: suggestionText,
@@ -159,7 +160,7 @@ const SuggestionModal = ({
           <AddDocument
             isSending={isSending}
             handleImageUpload={handleImageUpload}
-            imgName={suggestionImg?.name}
+            imgName={suggestionImg?.name ?? 'no image'}
             label="Ajouter une image"
           />
 
