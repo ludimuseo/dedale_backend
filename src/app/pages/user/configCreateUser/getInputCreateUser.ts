@@ -1,26 +1,3 @@
-// interface User {
-//     placeId: string[]
-//     journeyId: string[]
-//     stepId: string[]
-//     medalId: string[]
-//     profile: {
-//         username: string
-//         email: string
-//         token: string
-//         role: string
-//         createdAt: Date
-//         updatedAt: Date
-//         logs: Date[]
-//     }
-//     settieng: {
-//         isContrast: boolean
-//         isFalc: boolean
-//         avatar: string
-//         language: string
-//         isTutorial: boolean
-//     }
-// }
-
 export interface User {
   id: string
   pseudo: string
@@ -110,7 +87,7 @@ export const getInputConfig = [
     id: 15,
     label: 'Confirmer le mot de passe',
     section: 'profile',
-    field: 'password',
+    field: 'confirmedPassword',
     placeholder: 'Confirmer le mot de passe',
     type: 'text',
     maxLength: 50,

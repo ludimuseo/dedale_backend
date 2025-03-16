@@ -78,7 +78,7 @@ const UserCreate: FC = () => {
     event.preventDefault()
 
     // 🔸 Check if there are validation errors before submitting
-    if (Object.values(errors).some((error) => error)) {
+    if (Object.values(errors).some((error: string) => error !== '')) {
       alert('Please fix the errors before submitting.')
       return
     }
@@ -132,6 +132,10 @@ const UserCreate: FC = () => {
                     <div className="label"></div>
                     <p className="font-inclusive">{input.label}</p>
                     <input
+                      value={user[input.field as keyof User]}
+                      onChange={(e) => {
+                        handleChange(input.field, e.target.value)
+                      }}
                       type={input.type}
                       placeholder={input.placeholder}
                       aria-label={input.placeholder}
