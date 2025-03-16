@@ -64,6 +64,15 @@ export type InputProps = {
   insideForm: boolean
 } & ComponentPropsWithoutRef<'input'>
 
+export type DropdownProps = {
+  uid: string
+  label: string
+  insideForm?: boolean
+  errors: string[]
+  options?: string[]
+  placeholder?: string
+} & ComponentPropsWithoutRef<'select'>
+
 /* ON_SUBMIT_FORM_MESSAGE */
 export interface MessageType {
   info: string

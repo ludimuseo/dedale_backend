@@ -90,12 +90,12 @@ const InputArea = ({
   }
 
   return (
-    <div className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark dark:border-strokedark dark:bg-boxdark flex flex-row justify-center rounded-sm border bg-white p-5">
+    <div className="navbar flex justify-center rounded-xl bg-base-100 p-5 shadow-xl">
       {/*INPUT AREA 1*/}
       {!message.info ? (
         <form
           onSubmit={() => handleSubmit}
-          className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark flex w-1/2 flex-col rounded-sm p-2">
+          className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark flex w-1/2 flex-col p-2">
           {getInput[currentStep].map(
             ({
               id,
@@ -137,7 +137,9 @@ const InputArea = ({
                   return (
                     <div className="form-control mt-4 flex flex-row" key={id}>
                       <label className="label cursor-pointer">
-                        <span className="label-text mr-7 text-lg">{label}</span>
+                        <p className="label-text mr-5 font-inclusive text-lg">
+                          {label}
+                        </p>
                         <input
                           name={name}
                           id={id}
@@ -161,8 +163,8 @@ const InputArea = ({
 
                 if (option) {
                   return (
-                    <div className="mt-2 flex flex-col" key={id}>
-                      <span>{label}</span>
+                    <div className="mt-2 flex w-1/2 flex-col" key={id}>
+                      <p className="mb-2 font-inclusive text-xl">{label}</p>
                       <select
                         name={name}
                         id={id}
@@ -174,7 +176,7 @@ const InputArea = ({
                             e.target.value as T[keyof T][keyof T[keyof T]]
                           )
                         }}
-                        className="select select-bordered w-full max-w-xs">
+                        className="select select-bordered">
                         {option.map((opt, index: number) => (
                           <option key={index} value={opt}>
                             {opt}
@@ -200,13 +202,13 @@ const InputArea = ({
                 }
                 if (type !== 'file' && !rows) {
                   return (
-                    <div className="mt-2 flex flex-col" key={id}>
-                      <span>{label}</span>
+                    <div className="mt-2 flex w-1/2 flex-col" key={id}>
+                      <p className="mb-2 font-inclusive text-xl">{label}</p>
                       <input
                         key={id}
                         id={id}
                         name={name}
-                        className="input input-bordered w-full max-w-xs"
+                        className="input input-bordered"
                         placeholder={placeholder}
                         type={type}
                         value={formData[section][name as keyof T[keyof T]]}
@@ -225,7 +227,7 @@ const InputArea = ({
                   return (
                     <div className="flex flex-row space-x-10">
                       <div className="mb-2 mt-2 flex flex-col" key={id}>
-                        <span>{label}</span>
+                        <p className="mb-2 font-inclusive">{label}</p>
                         <input
                           key={id}
                           id={id}
@@ -243,7 +245,7 @@ const InputArea = ({
                           className="carousel mt-4 w-64 rounded-box"
                           key={`${id}-image`}>
                           <div className="carousel-item w-full">
-                            <p>Aperçu:</p>
+                            <p className="mb-2 font-inclusive">Aperçu:</p>
                             <img
                               src={imagePreview}
                               alt="Prévisualisation"
@@ -323,7 +325,7 @@ const InputArea = ({
                     key={index}
                     className="border-stroke shadow-defaul dark:bg-boxdark w-1/2 rounded-lg border bg-sky-100 p-2">
                     <div className="mt-2 flex flex-col" key={id}>
-                      <span>{label}</span>
+                      <p className="mb-2 font-inclusive">{label}</p>
                       <input
                         key={id}
                         id={id}
