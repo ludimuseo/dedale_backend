@@ -33,24 +33,23 @@ const SuggestionModal = ({
   const [suggestionImg, setSuggestionImg] = useState<File | null>(null)
   const [isSending, setIsSending] = useState(false)
   const [emailData, setEmailData] = useState({})
-  const [imgFirebaseLink, setImgFirebaseLink] = useState("")
+  const [imgFirebaseLink, setImgFirebaseLink] = useState('')
 
   //TODO: Add doc to firestore storage
   const handleFileUpload = async (file: File | null) => {
     if (!file) return
-    const storage = getStorage();
+    const storage = getStorage()
     const storageRef = ref(storage, `${user?.pseudo ?? 'unknown'}/${file.name}`)
     try {
-      await uploadBytes(storageRef, file);
-      const downloadURL = await getDownloadURL(storageRef);
+      await uploadBytes(storageRef, file)
+      const downloadURL = await getDownloadURL(storageRef)
       setImgFirebaseLink(downloadURL)
-      console.log("File uploaded successfully. Download URL:", downloadURL)
-
+      console.log('File uploaded successfully. Download URL:', downloadURL)
     } catch (error) {
-      console.error("Error uploading file:", error);
+      console.error('Error uploading file:', error)
       console.log(error)
     }
-  };
+  }
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
