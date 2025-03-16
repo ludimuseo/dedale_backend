@@ -2,6 +2,8 @@ import { collection, getDocs, query, where } from 'firebase/firestore'
 import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import Header from '@/app/components/talos/textList/Header'
+import RemainingTexts from '@/app/components/talos/textList/RemainingTexts'
 import { ArrowIcon } from '@/app/components/ui/icons/ArrowIcon'
 import { CheckIcon } from '@/app/components/ui/icons/CheckIcon'
 import { PencilIcon } from '@/app/components/ui/icons/PencilIcon'
@@ -53,7 +55,7 @@ const TextList: FC = () => {
         const placesSnapshot = await getDocs(placesQuery)
         const placesData = placesSnapshot.docs.map((doc) => {
           const data = doc.data() as PlaceType
-          return { ...data, id: doc.id }
+          return { ...data, docId: doc.id }
         })
         const placesCount = placesData.filter(
           (place) => !place.description.falc.status.isCertified
@@ -71,7 +73,7 @@ const TextList: FC = () => {
           const journeysSnapshot = await getDocs(journeysQuery)
           const journeysData = journeysSnapshot.docs.map((doc) => {
             const data = doc.data() as JourneyType
-            return { ...data, id: doc.id }
+            return { ...data, docId: doc.id }
           })
           totalJourneysToCorrect += journeysData.filter(
             (journey) => !journey.description.falc.status.isCertified
@@ -80,12 +82,12 @@ const TextList: FC = () => {
           for (const journey of journeysData) {
             const stepsQuery = query(
               collection(db, 'steps'),
-              where('journeyId', '==', journey.id)
+              where('journeyId', '==', journey.docId)
             )
             const stepsSnapshot = await getDocs(stepsQuery)
             const stepsData = stepsSnapshot.docs.map((doc) => {
               const data = doc.data() as StepType
-              return { ...data, id: doc.id }
+              return { ...data, docId: doc.id }
             })
             totalStepsToCorrect += stepsData.filter(
               (step) => !step.description.falc.status.isCertified
@@ -94,12 +96,12 @@ const TextList: FC = () => {
             for (const step of stepsData) {
               const piecesQuery = query(
                 collection(db, 'pieces'),
-                where('stepId', '==', step.id)
+                where('stepId', '==', step.docId)
               )
               const piecesSnapshot = await getDocs(piecesQuery)
               const piecesData = piecesSnapshot.docs.map((doc) => {
                 const data = doc.data() as PieceType
-                return { ...data, id: doc.id }
+                return { ...data, docId: doc.id }
               })
               totalPiecesToCorrect += piecesData.filter(
                 (piece) => !piece.description.falc.status.isCertified
@@ -226,26 +228,18 @@ const TextList: FC = () => {
     void navigate('/interface', { state: { formData } })
   }
 
+  const sumTextToCorrect: number =
+    placesToCorrect + journeysToCorrect + stepsToCorrect + piecesToCorrect
+
   return (
     <div className="bg-white p-6 font-sans text-[#0A184D]">
-      <h1 className="mb-6 text-4xl font-bold">Liste des Textes</h1>
-      <div className="rounded-xl border-4 border-[#0A184D] bg-[#f8dd27] bg-opacity-50 px-6 py-4">
-        {/* <h2 className="text-2xl font-semibold leading-[2.5rem] underline decoration-[#0A184D] decoration-[2px] underline-offset-4">
-          Résumé des corrections à faire
-        </h2> */}
-        <p className="text-xl leading-[2rem]">
-          Textes de Lieux à corriger : {placesToCorrect}
-        </p>
-        <p className="text-xl leading-[2rem]">
-          Textes de Parcours à corriger : {journeysToCorrect}
-        </p>
-        <p className="text-xl leading-[2rem]">
-          Textes d'Indices d'étapes à corriger : {stepsToCorrect}
-        </p>
-        <p className="text-xl leading-[2rem]">
-          Textes d'œuvres à corriger : {piecesToCorrect}
-        </p>
-      </div>
+      <Header title="Liste des Textes" />
+      <RemainingTexts
+        placesToCorrect={placesToCorrect}
+        journeysToCorrect={journeysToCorrect}
+        stepsToCorrect={stepsToCorrect}
+        piecesToCorrect={piecesToCorrect}
+      />
 
       {/* Liste des Lieux */}
       <section aria-labelledby="places-heading">
@@ -257,11 +251,11 @@ const TextList: FC = () => {
               Lieux
             </h2>
 
-            <span className="absolute left-0 mt-24 bg-[#f8dd27] bg-opacity-50 text-2xl text-[#0A184D] opacity-0 transition-opacity group-hover:opacity-100">
+            {/* <span className="absolute left-0 mt-24 bg-[#f8dd27] bg-opacity-50 text-2xl text-[#0A184D] opacity-0 transition-opacity group-hover:opacity-100">
               Il reste à corriger : {placesToCorrect} texte(s) "Lieux",{' '}
               {journeysToCorrect} texte(s) "Parcours", {stepsToCorrect} texte(s)
               "Indice d'étapes" et {piecesToCorrect} texte(s) "Oeuvres".
-            </span>
+            </span> */}
 
             <button
               onClick={() => {
@@ -321,14 +315,23 @@ const TextList: FC = () => {
                       aria-label={`Voir les parcours pour ${place.name.fr}`}>
                       Voir les parcours
                     </button>
-
-                    <span className="ml-4 bg-[#f8dd27] bg-opacity-50 text-xl text-[#0A184D] opacity-0 transition-opacity group-hover:opacity-100">
-                      Il reste à corriger : {journeysToCorrect} texte(s)
-                      "Parcours", {stepsToCorrect} texte(s) "Indice d'étapes" et{' '}
-                      {piecesToCorrect} texte(s) "Oeuvres".
-                    </span>
+                    {sumTextToCorrect > 0 && (
+                      <p className="ml-4 rounded-xl bg-[#f8dd27] bg-opacity-50 p-4 text-xl text-[#0A184D] opacity-0 transition-opacity group-hover:opacity-100">
+                        Il reste à corriger :{' '}
+                        {journeysToCorrect
+                          ? `${String(journeysToCorrect)} "texte(s) Parcours `
+                          : ''}
+                        {stepsToCorrect
+                          ? `${String(stepsToCorrect)} "texte(s) Indice(s) d'étape, `
+                          : ''}
+                        {piecesToCorrect
+                          ? `${String(piecesToCorrect)} texte(s) Oeuvres. `
+                          : ''}
+                      </p>
+                    )}
                   </div>
                 </div>
+
                 {/* Liste des Parcours */}
                 {activePlaceId === place.id && (
                   <section
@@ -340,7 +343,6 @@ const TextList: FC = () => {
                           id={`journeys-${place.id}-heading`}
                           className="flex-grow rounded-md bg-[#0A184D] pl-3 text-3xl font-semibold leading-relaxed text-white">
                           Parcours
-                          {/* ({journeysToCorrect} à corriger) */}
                         </h4>
                         <button
                           onClick={() => {
