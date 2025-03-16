@@ -224,6 +224,7 @@ interface Stage {
 
 /* CLIENT */
 export interface ClientType {
+  id: string
   isActive: boolean
   company: {
     name: string
@@ -251,6 +252,7 @@ export interface ClientType {
 
 /* PLACE */
 export interface PlaceType {
+  id: string
   clientId: string
   medalId: string
   content: {

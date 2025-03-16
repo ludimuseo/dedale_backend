@@ -101,6 +101,16 @@ const routes: RouteObject[] = [
             },
             path: '/clientsList',
           },
+          //DOCUMENTAION
+          {
+            async lazy() {
+              const { AccessiblePage } = await import(
+                '@/app/pages/documentaion/accessibility'
+              )
+              return { Component: AccessiblePage }
+            },
+            path: '/accessibilitydoc',
+          },
           //FORMULAIRES
           {
             async lazy() {
@@ -168,6 +178,23 @@ const routes: RouteObject[] = [
               return { Component: UsersEdit }
             },
             path: '/users/:id',
+          },
+          {
+            async lazy() {
+              const { Places } = await import('@/app/pages/places')
+              return { Component: Places }
+            },
+            path: '/places',
+          },
+          //Contributors
+          {
+            async lazy() {
+              const { Contributor } = await import(
+                '@/app/pages/contributors/Contributor'
+              )
+              return { Component: Contributor }
+            },
+            path: '/contributors',
           },
         ],
         element: (

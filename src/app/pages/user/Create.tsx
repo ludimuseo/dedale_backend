@@ -23,6 +23,7 @@ const UserCreate: FC = () => {
     { id: string; name: string }[] | undefined
   >([])
   const [clientName, setClientName] = useState<string>('')
+  //const [user, setUser] = useState<User>()
 
   const selectOptions = getSelectConfig
   const inputs = getInputConfig
@@ -123,26 +124,24 @@ const UserCreate: FC = () => {
           {/* INPUT SECTION */}
           <div className="flex flex-row space-x-10">
             <div className="mt-6 w-1/2 border p-4">
-              {/* 🔹 Dynamically generate input fields from config */}
-              {inputs.map((input) => (
-                <label className="form-control w-full max-w-xs" key={input.id}>
-                  <p className="font-inclusive">{input.label}</p>
-                  <input
-                    type={input.type}
-                    placeholder={input.placeholder}
-                    maxLength={input.maxLength}
-                    value={user[input.field as keyof User]}
-                    onChange={(e) => {
-                      handleChange(input.field, e.target.value)
-                    }}
-                    className="input input-bordered w-full max-w-xs font-inclusive"
-                  />
-                  {/* Display validation error messages */}
-                  {errors[input.field] && (
-                    <p className="text-red-500">{errors[input.field]}</p>
-                  )}
-                </label>
-              ))}
+              {inputs.map((input) => {
+                return (
+                  <label
+                    className="form-control w-full max-w-xs"
+                    key={input.id}>
+                    <div className="label"></div>
+                    <p className="font-inclusive">{input.label}</p>
+                    <input
+                      type={input.type}
+                      placeholder={input.placeholder}
+                      aria-label={input.placeholder}
+                      pattern={input.pattern}
+                      maxLength={50}
+                      className="input input-bordered w-full max-w-xs font-inclusive invalid:border-red-500"
+                    />
+                  </label>
+                )
+              })}
             </div>
 
             {/* CLIENT SELECTION */}

@@ -12,7 +12,7 @@ const FormMenu: FC = () => {
   return (
     <>
       <h1 className="mb-10 mt-10 text-center font-inclusive text-4xl">
-        Création de de parcours
+        Création de parcours
       </h1>
       <motion.div
         className="flex flex-wrap rounded-xl bg-slate-50 p-4"
