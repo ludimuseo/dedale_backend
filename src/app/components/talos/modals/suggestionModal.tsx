@@ -87,7 +87,7 @@ const SuggestionModal = ({
     }
     const templateParams = {
       user_email: user.email,
-      user_name: user.pseudo ?? 'Inconnu',
+      user_name: user.pseudo,
       suggestion_text: suggestionText,
       suggestion_image: suggestionImg ? suggestionImg.name : 'Aucune image',
       suggestion_date: new Date().toLocaleDateString(),
