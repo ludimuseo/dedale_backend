@@ -20,7 +20,25 @@
 //         isTutorial: boolean
 //     }
 // }
+
+export interface User {
+  id: string
+  pseudo: string
+  name: string
+  firstname: string
+  email: string
+  role: 'SUPERADMIN' | 'ADMIN' | 'REFERENT' | 'CONTRIBUTOR'
+  token: string
+  password: string
+}
+
 export const getSelectConfig = [
+  {
+    id: '00',
+    label: 'SUPERADMIN',
+    section: 'profile',
+    field: 'role',
+  },
   {
     id: '01',
     label: 'ADMIN',
@@ -52,22 +70,32 @@ export const getInputConfig = [
   },
   {
     id: 11,
+    label: 'E-mail:',
+    section: 'profile',
+    field: 'email',
+    placeholder: "Entre l'e-mail de l'utilisateur",
+    type: 'text',
+    // eslint-disable-next-line no-useless-escape
+    pattern: '[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+',
+  },
+  {
+    id: 12,
     label: 'Prénom:',
     section: 'profile',
-    field: 'name',
+    field: 'firstname',
     placeholder: "Entre le prenom de l'utilisateur",
     type: 'text',
   },
   {
-    id: 12,
+    id: 13,
     label: 'Nom:',
     section: 'profile',
-    field: 'username',
+    field: 'name',
     placeholder: "Entre le nom de l'utilisateur",
     type: 'text',
   },
   {
-    id: 13,
+    id: 14,
     label: 'Mot de passe:',
     section: 'profile',
     field: 'password',
@@ -75,11 +103,11 @@ export const getInputConfig = [
     type: 'text',
   },
   {
-    id: 14,
+    id: 15,
     label: 'Confirmer le mot de passe',
     section: 'profile',
-    field: 'username',
-    placeholder: "Entre le nom de l'utilisateur",
+    field: 'password',
+    placeholder: 'Confirmer le mot de passe',
     type: 'text',
   },
 ]

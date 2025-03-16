@@ -13,6 +13,7 @@ const UserCreate: FC = () => {
     { id: string; name: string }[] | undefined
   >([])
   const [clientName, setClientName] = useState<string>('')
+  //const [user, setUser] = useState<User>()
 
   const selectOptions = getSelectConfig
   const inputs = getInputConfig
@@ -121,7 +122,9 @@ const UserCreate: FC = () => {
                       type={input.type}
                       placeholder={input.placeholder}
                       aria-label={input.placeholder}
-                      className="input input-bordered w-full max-w-xs font-inclusive"
+                      pattern={input.pattern}
+                      maxLength={50}
+                      className="input input-bordered w-full max-w-xs font-inclusive invalid:border-red-500"
                     />
                   </label>
                 )
