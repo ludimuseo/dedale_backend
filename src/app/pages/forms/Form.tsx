@@ -109,7 +109,7 @@ const Form = ({
 
   //fetchPiece
 
-  //fetchGamei
+  //fetchGame
 
   return (
     <div className="grid grid-cols-1 gap-1 p-10 sm:grid-cols-1">

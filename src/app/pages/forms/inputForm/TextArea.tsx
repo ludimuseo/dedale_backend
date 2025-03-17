@@ -59,10 +59,10 @@ export default function TextArea({
       className={
         rightSideVisible
           ? 'border-stroke shadow-defaul dark:bg-boxdark mt-1 flex w-1/3 flex-col rounded-lg border bg-sky-100 p-2'
-          : 'mt-2 flex flex-col'
+          : 'mt-2 flex w-1/2 flex-col'
       }
       key={id}>
-      <span>{label}</span>
+      <p className="mb-2 font-inclusive text-xl">{label}</p>
 
       <textarea
         key={id}
