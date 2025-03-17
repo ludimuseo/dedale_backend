@@ -14,7 +14,7 @@ type CollectionType = PlaceType | JourneyType | StepType | PieceType
 
 const ValidateText: FC = () => {
   const [places, setPlaces] = useState<
-    (PlaceType & { id: string; collection: string })[]
+    (PlaceType & { docId: string; collection: string })[]
   >([])
   const [journeys, setJourneys] = useState<
     (JourneyType & { id: string; collection: string })[]
@@ -32,6 +32,8 @@ const ValidateText: FC = () => {
     string[]
   >([])
 
+  //TODO use redux store
+
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
@@ -42,7 +44,7 @@ const ValidateText: FC = () => {
         )
         const querySnapshot = await getDocs(q)
         const placeData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
+          docId: doc.id,
           collection: 'places',
           ...(doc.data() as PlaceType),
         }))
@@ -171,7 +173,7 @@ const ValidateText: FC = () => {
             </thead>
             <tbody>
               {places.map((place) => (
-                <tr key={place.id}>
+                <tr key={place.docId}>
                   <td>
                     <span className="font-inclusive text-xl">Lieu</span>
                   </td>

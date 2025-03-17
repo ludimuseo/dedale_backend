@@ -1,7 +1,7 @@
 interface AddDocumentTypeProps {
   isSending: boolean
   handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void
-  imgName: string
+  imgName: string | undefined
   label: string
 }
 

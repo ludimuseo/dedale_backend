@@ -74,6 +74,8 @@ const Places: FC = () => {
     void navigate('/form/place')
   }
 
+  console.log(place)
+
   return (
     <div className="container mx-auto mt-5">
       <div className="flex justify-between align-middle">
@@ -90,7 +92,7 @@ const Places: FC = () => {
           nextPage={nextPage}
           previousPage={previousPage}
           disableNext={data.page === data.totalPages}
-          data={place}
+          //data={place}
           disablePrevious={data.page === 1}
           currentPage={data.page}
           actions={actions as []}

@@ -58,7 +58,7 @@ be categorized, archived, or activated/deactivated as needed.
 | ------------------------------------------------------------------------------------------------------------ | -------------------------- |
 | <img src="https://avatars.githubusercontent.com/u/128374528?v=4" width="50" alt="@A-Fidele avatar" />        | [@A-Fidele][User01]        |
 | <img src="https://avatars.githubusercontent.com/u/167294285?v=4" width="50" alt="@Maeva-RODRIGUES avatar" /> | [@Maeva-RODRIGUES][User02] |
-| <img src="https://avatars.githubusercontent.com/u/91600327?v=4" width="50" alt="@Eternal-Grace avatar" />    | [@Eternal-Grace][User03]   |
+| <img src="https://avatars.githubusercontent.com/u/91600327?v=4" width="50" alt="@Eternal-Grace avatar" />    | [＠GJMCharles ][User03]    |
 | <img src="https://avatars.githubusercontent.com/u/13797688?v=4" width="50" alt="@Okkunsama avatar" />        | [@Okkunsama][User04]       |
 | <img src="https://avatars.githubusercontent.com/u/128263899?v=4" width="50" alt="@Lily87280 avatar" />       | [@Lily87280][User05]       |
 | <img src="https://avatars.githubusercontent.com/u/151648856?v=4" width="50" alt="@Mouad-Maataoui avatar" />  | [@Mouad-Maataoui][User06]  |
@@ -66,10 +66,11 @@ be categorized, archived, or activated/deactivated as needed.
 | <img src="https://avatars.githubusercontent.com/u/88055801?v=4" width="50" alt="@CYL-B avatar" />            | [@CYL-B][User08]           |
 | <img src="https://avatars.githubusercontent.com/u/3463006?v=4" width="50" alt="@fred2541 avatar" />          | [@fred2541][User09]        |
 | <img src="https://avatars.githubusercontent.com/u/122387449?v=4" width="50" alt="@ananas122 avatar" />       | [@ananas122][User10]       |
+| <img src="https://avatars.githubusercontent.com/u/198619749?v=4" width="50" alt="AurianeMaq avatar" />       | [AurianeMaq][User11]       |
 
 [User01]: https://github.com/A-Fidele/
 [User02]: https://github.com/Maeva-RODRIGUES/
-[User03]: https://github.com/Eternal-Grace/
+[User03]: https://github.com/GJMCharles
 [User04]: https://github.com/okkunsama/
 [User05]: https://github.com/Lily87280/
 [User06]: https://github.com/Mouad-Maataoui/
@@ -77,6 +78,7 @@ be categorized, archived, or activated/deactivated as needed.
 [User08]: https://github.com/CYL-B/
 [User09]: https://github.com/fred2541/
 [User10]: https://github.com/ananas122/
+[User11]: https://github.com/AurianeMaq
 
 ---
 

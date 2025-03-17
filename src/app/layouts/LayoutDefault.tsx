@@ -3,8 +3,9 @@ import type { FC } from 'react'
 import { Outlet } from 'react-router'
 
 import CoreHeader from '@/app/layouts/core/CoreHeader'
-// import CoreSidebar from '@/app/layouts/core/coreSidebar'
 
+import CoreHeader from './core/CoreHeader'
+        
 const LayoutDefault: FC = () => {
   return (
     <>

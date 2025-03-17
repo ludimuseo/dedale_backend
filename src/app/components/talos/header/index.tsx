@@ -9,7 +9,7 @@ import {
   isStepType,
 } from '@/types/typeGuards'
 
-import { ActionButtons } from './ActionButtons'
+import { HeaderButtons } from './HeaderButtons'
 
 interface HeaderProps {
   handleGoBack: () => void
@@ -83,7 +83,7 @@ const Header: FC<HeaderProps> = ({
         </span>
       </div>
       <div className="w-1/2">
-        <ActionButtons
+        <HeaderButtons
           imageIcon={imageIcon}
           image={formData?.content.image}
           name={formData?.name.fr}
