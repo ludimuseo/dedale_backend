@@ -231,7 +231,6 @@ const TextList: FC = () => {
 
   return (
     <div className="bg-white p-6 font-sans text-[#0A184D]">
-
       <Header title="Liste des Textes" />
       <RemainingTexts
         placesToCorrect={placesToCorrect}
@@ -239,7 +238,6 @@ const TextList: FC = () => {
         stepsToCorrect={stepsToCorrect}
         piecesToCorrect={piecesToCorrect}
       />
-
 
       {/* Liste des Lieux */}
       <section aria-labelledby="places-heading">
@@ -250,7 +248,7 @@ const TextList: FC = () => {
               className="flex-grow rounded-md bg-[#0A184D] pl-3 text-3xl font-semibold leading-relaxed text-white">
               Lieux
             </h2>
-            
+
             <button
               onClick={() => {
                 setIsPlacesOpen(!isPlacesOpen)
@@ -324,7 +322,6 @@ const TextList: FC = () => {
                           : ''}
                       </p>
                     )}
-
                   </div>
                 </div>
 

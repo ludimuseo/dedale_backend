@@ -86,7 +86,6 @@ const SuggestionModal = ({
       return
     }
     const templateParams = {
-
       user_email: user.email,
       user_name: user.pseudo,
       suggestion_text: suggestionText,
