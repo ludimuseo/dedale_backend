@@ -4,7 +4,7 @@ import React, { FormEvent, MouseEvent } from 'react'
 import { GetInputConfigType, MessageType, T } from '@/types'
 
 import FormFooter from './FormFooter'
-import FormHeader from './Formheader'
+import FormHeader from './FormHeader'
 import InputArea from './InputArea'
 import Timeline from './Timeline'
 
