@@ -3,8 +3,8 @@ import React, { FormEvent, MouseEvent } from 'react'
 
 import { GetInputConfigType, MessageType, T } from '@/types'
 
-import FormFooter from './formFooter'
-import FormHeader from './formheader'
+import FormFooter from './FormFooter'
+import FormHeader from './Formheader'
 import InputArea from './InputArea'
 import Timeline from './Timeline'
 
@@ -109,7 +109,7 @@ const Form = ({
 
   //fetchPiece
 
-  //fetchGamei
+  //fetchGame
 
   return (
     <div className="grid grid-cols-1 gap-1 p-10 sm:grid-cols-1">

@@ -1,5 +1,6 @@
 import emailjs from '@emailjs/browser'
 import { addDoc, collection } from 'firebase/firestore'
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { useRef, useState } from 'react'
 
 import { useAppSelector } from '@/app/hooks'
@@ -32,8 +33,24 @@ const SuggestionModal = ({
   const [suggestionImg, setSuggestionImg] = useState<File | null>(null)
   const [isSending, setIsSending] = useState(false)
   const [emailData, setEmailData] = useState({})
+  const [imgFirebaseLink, setImgFirebaseLink] = useState('')
 
   //TODO: Add doc to firestore storage
+  const handleFileUpload = async (file: File | null) => {
+    if (!file) return
+    const storage = getStorage()
+    const storageRef = ref(storage, `${user?.pseudo ?? 'unknown'}/${file.name}`)
+    try {
+      await uploadBytes(storageRef, file)
+      const downloadURL = await getDownloadURL(storageRef)
+      setImgFirebaseLink(downloadURL)
+      console.log('File uploaded successfully. Download URL:', downloadURL)
+    } catch (error) {
+      console.error('Error uploading file:', error)
+      console.log(error)
+    }
+  }
+
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       setSuggestionImg(event.target.files[0])
@@ -70,12 +87,13 @@ const SuggestionModal = ({
     }
     const templateParams = {
       user_email: user.email,
-      user_name: user.pseudo ?? 'Inconnu',
+      user_name: user.pseudo,
       suggestion_text: suggestionText,
       suggestion_image: suggestionImg ? suggestionImg.name : 'Aucune image',
       suggestion_date: new Date().toLocaleDateString(),
       suggestion_title: name ?? 'Sans titre',
       suggestion_category: category ?? 'Non spécifiée',
+      suggestion_image_firebase_link: imgFirebaseLink,
       suggestion_status: '',
     }
     setEmailData({ ...templateParams })
@@ -101,6 +119,7 @@ const SuggestionModal = ({
           alert('🎉 Votre suggestion a été envoyée avec succès.')
           setSuggestionText('')
           setSuggestionImg(null)
+          void handleFileUpload(suggestionImg)
           onClose()
           setIsSending(false)
         },
@@ -138,9 +157,9 @@ const SuggestionModal = ({
             }}></textarea>
 
           <AddDocument
-            isSending={true}
+            isSending={isSending}
             handleImageUpload={handleImageUpload}
-            imgName={suggestionImg?.name}
+            imgName={suggestionImg?.name ?? 'no image'}
             label="Ajouter une image"
           />
 

@@ -1,8 +1,8 @@
 import { UserIcon } from '@component'
 import { addDoc, collection } from 'firebase/firestore'
 import { FC, type FormEvent, MouseEvent, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 
-import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
 import { MessageType, T } from '@/types'
 
@@ -10,6 +10,7 @@ import Form from '../Form'
 import { getInputClientConfig } from './configClient/getInputClientConfig'
 
 const FormClient: FC = () => {
+  const navigate = useNavigate()
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
   const [message, setMessage] = useState<MessageType>({
@@ -53,6 +54,10 @@ const FormClient: FC = () => {
 
   const handleEditPlace = () => {
     alert('Edit Place')
+  }
+
+  const handleArrowLeft = () => {
+    void navigate(-1)
   }
 
   //soumission des informations
