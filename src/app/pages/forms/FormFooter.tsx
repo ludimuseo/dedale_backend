@@ -1,4 +1,5 @@
 import React, { FormEvent, MouseEvent } from 'react'
+
 import { useNavigate } from 'react-router'
 
 import { ArrowLeftIcon } from '@/app/components'
@@ -11,6 +12,7 @@ interface FormFooterProps {
   message: MessageType
   handleDescription?: () => void
   showDescription: boolean
+
   currentStep: number
   step: number
   handlePrevStep: () => void
@@ -22,10 +24,12 @@ interface FormFooterProps {
 }
 
 const FormFooter = ({
+
   title,
   message,
   handleDescription,
   showDescription,
+
   currentStep,
   step,
   handlePrevStep,
@@ -33,6 +37,7 @@ const FormFooter = ({
   handleSubmit,
   icon,
 }: FormFooterProps) => {
+
   const navigate = useNavigate()
 
   return (
@@ -41,6 +46,7 @@ const FormFooter = ({
         {message.result ? (
           <>
             <button
+
               className="mx-8 mb-8 mt-8 flex justify-center rounded-xl bg-blue-900 p-3 font-bold text-white hover:bg-opacity-100"
               onClick={() => {
                 if (!showDescription && title !== 'Formulaire Client') {
@@ -61,35 +67,42 @@ const FormFooter = ({
               ) : (
                 <p className="font-inclusive text-xl">Retour au Menu</p>
               )}
+
             </button>
           </>
         ) : currentStep < step - 1 ? (
           <>
             {currentStep > 0 && (
               <div className="mr-10">
+
                 <button
                   className="btn btn-primary font-inclusive text-xl"
                   onClick={handlePrevStep}>
                   <ArrowLeftIcon className="w-8" />
                   {`Précédent`}
+
                 </button>
                 <br />
               </div>
             )}
+
             <button
               className="btn btn-primary font-inclusive text-xl"
               onClick={handleNextStep}>
               {`Suivant `}
               <ArrowRightIcon className="w-8" />
+
             </button>
           </>
         ) : (
           <div className="flex flex-row">
+
             <button
               className="btn btn-primary mr-10 font-inclusive text-xl"
               onClick={handlePrevStep}>
               <ArrowLeftIcon className="w-8" />
               {`Précédent`}
+
             </button>
             <br />
             <button
@@ -97,8 +110,10 @@ const FormFooter = ({
               onClick={(event) => {
                 handleSubmit(event)
               }}>
+
               <p className="font-inclusive text-xl">VALIDER</p>
               <CheckIcon className="h-7 w-7" />
+
             </button>
           </div>
         )}
