@@ -11,20 +11,18 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type NavigateFunction, useNavigate } from 'react-router'
 
 import type { User } from '@/types'
 
 const AuthSignIn: FC = () => {
   const { t } = useTranslation()
-  const navigate: NavigateFunction = useNavigate()
   const { push } = useNotification()
   const dispatch = useAppDispatch()
   const emailRef = useRef<HTMLInputElement>(null)
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const email = useInput('', { name: 'signin-email', type: 'email' })
   const password = useInput('', { name: 'signin-password', type: 'password' })
-  const { data, isLoading, error, setHandleRequest } = useFetch<unknown>(
+  const { data, isLoading, error, setHandleRequest } = useFetch<User>(
     '/auth/login',
     'POST',
     {
@@ -40,13 +38,17 @@ const AuthSignIn: FC = () => {
 
   const callback = useCallback(() => {
     return {
-      loginSuccess: () => {
-        dispatch(signIn(data as User))
+      loginSuccess: (value: User) => {
+        dispatch(
+          signIn({
+            token: value.token,
+            user: value,
+          })
+        )
         push(t('success.signin'), { type: 'success' })
-        void navigate('/', { replace: true })
       },
       loginFailure: (error: unknown) => {
-        push(typeof error == 'string' ? error : t('error.4XX'), {
+        push(typeof error === 'string' ? error : t('error.4XX'), {
           type: 'error',
         })
       },
@@ -55,7 +57,7 @@ const AuthSignIn: FC = () => {
   }, [])
 
   useEffect(() => {
-    if (data && !error) callback().loginSuccess()
+    if (data && !error) callback().loginSuccess(data)
     if (error) callback().loginFailure(error)
   }, [callback, data, error])
 

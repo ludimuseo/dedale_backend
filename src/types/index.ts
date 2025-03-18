@@ -17,15 +17,26 @@ export interface State {
   dictionary: StateDictionnary
 }
 
+export type Language = 'EN' | 'FR'
+
 /* USER */
-export enum UserRole {
-  SUPERADMIN = 'SUPERADMIN',
-  ADMIN = 'ADMIN',
-  CONTRIBUTOR = 'CONTRIBUTOR',
-}
+export type UserRole =
+  | 'OWNER'
+  | 'DEVELOPER'
+  | 'SUPERADMIN'
+  | 'ADMIN'
+  | 'CONTRIBUTOR'
+  | 'REFERENT'
+  | 'CORRECTOR'
+  | 'MOBILE'
 
 export interface User {
   token: string
+  // 🚨 </!\> Must change inside database "dedale_serverapi"
+  // => Change 'name' to 'last_name'
+  // => Change 'firstname' to 'first_name'
+  // => Change 'pseudo' to 'username'
+  // => Remove 'token'
   name: string
   firstname: string
   pseudo: string | null
@@ -33,7 +44,7 @@ export interface User {
   isContrast: boolean
   isFalc: boolean
   fontsize: number
-  language: 'EN' | 'FR'
+  language: Language
   tutorial: boolean
   role: UserRole
 }

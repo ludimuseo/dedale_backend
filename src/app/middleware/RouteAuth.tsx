@@ -4,11 +4,10 @@ import { Navigate } from 'react-router'
 
 import type { State, UserRole } from '@/types'
 
-interface RouteAuthProps {
-  role: UserRole | null
-}
-
-const RouteAuth = ({ role, children }: PropsWithChildren<RouteAuthProps>) => {
+const RouteAuth = ({
+  role,
+  children,
+}: PropsWithChildren<{ role: UserRole }>) => {
   const { isLogged } = useAppSelector((state: State) => state.auth)
   console.info('User role: ', role)
   if (isLogged) return children

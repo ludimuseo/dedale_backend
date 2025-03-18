@@ -37,6 +37,7 @@ function useFetch<T>(
       body: JSON.stringify(body),
       method,
       mode: 'cors',
+      credentials: 'include',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
