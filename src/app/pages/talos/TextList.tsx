@@ -45,83 +45,83 @@ const TextList: FC = () => {
   const [stepsToCorrect, setStepsToCorrect] = useState(0)
   const [piecesToCorrect, setPiecesToCorrect] = useState(0)
 
-  useEffect(() => {
-    const fetchAllCounts = async () => {
-      try {
-        const placesQuery = query(
-          collection(db, 'places'),
-          where('clientId', '==', 'rHkYsm0B5EKnI9H8gC3y')
-        )
-        const placesSnapshot = await getDocs(placesQuery)
-        const placesData = placesSnapshot.docs.map((doc) => {
-          const data = doc.data() as PlaceType
-          return { ...data, docId: doc.id }
-        })
+  // useEffect(() => {
+  //   const fetchAllCounts = async () => {
+  //     try {
+  //       const placesQuery = query(
+  //         collection(db, 'places'),
+  //         where('clientId', '==', 'rHkYsm0B5EKnI9H8gC3y')
+  //       )
+  //       const placesSnapshot = await getDocs(placesQuery)
+  //       const placesData = placesSnapshot.docs.map((doc) => {
+  //         const data = doc.data() as PlaceType
+  //         return { ...data, docId: doc.id }
+  //       })
 
-        const placesCount = placesData.filter(
-          (place) => !place.description.falc.status.isCertified
-        ).length
+  //       const placesCount = placesData.filter(
+  //         (place) => !place.description.falc.status.isCertified
+  //       ).length
 
-        let totalJourneysToCorrect = 0
-        let totalStepsToCorrect = 0
-        let totalPiecesToCorrect = 0
+  //       let totalJourneysToCorrect = 0
+  //       let totalStepsToCorrect = 0
+  //       let totalPiecesToCorrect = 0
 
-        for (const place of placesData) {
-          const journeysQuery = query(
-            collection(db, 'journeys'),
-            where('placeId', '==', place.id)
-          )
-          const journeysSnapshot = await getDocs(journeysQuery)
-          const journeysData = journeysSnapshot.docs.map((doc) => {
-            const data = doc.data() as JourneyType
-            return { ...data, docId: doc.id }
-          })
-          totalJourneysToCorrect += journeysData.filter(
-            (journey) => !journey.description.falc.status.isCertified
-          ).length
+  //       for (const place of placesData) {
+  //         const journeysQuery = query(
+  //           collection(db, 'journeys'),
+  //           where('placeId', '==', place.id)
+  //         )
+  //         const journeysSnapshot = await getDocs(journeysQuery)
+  //         const journeysData = journeysSnapshot.docs.map((doc) => {
+  //           const data = doc.data() as JourneyType
+  //           return { ...data, docId: doc.id }
+  //         })
+  //         totalJourneysToCorrect += journeysData.filter(
+  //           (journey) => !journey.description.falc.status.isCertified
+  //         ).length
 
-          for (const journey of journeysData) {
-            const stepsQuery = query(
-              collection(db, 'steps'),
-              where('journeyId', '==', journey.docId)
-            )
-            const stepsSnapshot = await getDocs(stepsQuery)
-            const stepsData = stepsSnapshot.docs.map((doc) => {
-              const data = doc.data() as StepType
-              return { ...data, docId: doc.id }
-            })
-            totalStepsToCorrect += stepsData.filter(
-              (step) => !step.description.falc.status.isCertified
-            ).length
+  //         for (const journey of journeysData) {
+  //           const stepsQuery = query(
+  //             collection(db, 'steps'),
+  //             where('journeyId', '==', journey.docId)
+  //           )
+  //           const stepsSnapshot = await getDocs(stepsQuery)
+  //           const stepsData = stepsSnapshot.docs.map((doc) => {
+  //             const data = doc.data() as StepType
+  //             return { ...data, docId: doc.id }
+  //           })
+  //           totalStepsToCorrect += stepsData.filter(
+  //             (step) => !step.description.falc.status.isCertified
+  //           ).length
 
-            for (const step of stepsData) {
-              const piecesQuery = query(
-                collection(db, 'pieces'),
-                where('stepId', '==', step.docId)
-              )
-              const piecesSnapshot = await getDocs(piecesQuery)
-              const piecesData = piecesSnapshot.docs.map((doc) => {
-                const data = doc.data() as PieceType
-                return { ...data, docId: doc.id }
-              })
-              totalPiecesToCorrect += piecesData.filter(
-                (piece) => !piece.description.falc.status.isCertified
-              ).length
-            }
-          }
-        }
+  //           for (const step of stepsData) {
+  //             const piecesQuery = query(
+  //               collection(db, 'pieces'),
+  //               where('stepId', '==', step.docId)
+  //             )
+  //             const piecesSnapshot = await getDocs(piecesQuery)
+  //             const piecesData = piecesSnapshot.docs.map((doc) => {
+  //               const data = doc.data() as PieceType
+  //               return { ...data, docId: doc.id }
+  //             })
+  //             totalPiecesToCorrect += piecesData.filter(
+  //               (piece) => !piece.description.falc.status.isCertified
+  //             ).length
+  //           }
+  //         }
+  //       }
 
-        setPlacesToCorrect(placesCount)
-        setJourneysToCorrect(totalJourneysToCorrect)
-        setStepsToCorrect(totalStepsToCorrect)
-        setPiecesToCorrect(totalPiecesToCorrect)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    }
+  //       setPlacesToCorrect(placesCount)
+  //       setJourneysToCorrect(totalJourneysToCorrect)
+  //       setStepsToCorrect(totalStepsToCorrect)
+  //       setPiecesToCorrect(totalPiecesToCorrect)
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error)
+  //     }
+  //   }
 
-    void fetchAllCounts()
-  }, [])
+  //   //void fetchAllCounts()
+  // }, [])
 
   // Fetch places on component mount
   useEffect(() => {
@@ -143,6 +143,8 @@ const TextList: FC = () => {
           (place) => !place.description.falc.status.isCertified
         ).length
         setPlacesToCorrect(placesToCorrectCount)
+
+        await fetchJourneys(placeData[0].docId)
       } catch (error) {
         console.error('Error fetching places:', error)
       }
@@ -169,6 +171,10 @@ const TextList: FC = () => {
         (journey) => !journey.description.falc.status.isCertified
       ).length
       setJourneysToCorrect(journeysToCorrectCount)
+
+      const journeysIdArray: string[] = journeyData.map((element) => element.id)
+
+      return journeysIdArray
     } catch (error) {
       console.error('Error fetching journeys:', error)
     }
