@@ -38,48 +38,49 @@ const SuggestionModal = ({
   const [imgFirebaseLink, setImgFirebaseLink] = useState('')
 
   //TODO: Add doc to firestore storage
-  const handleFileUpload = async (file: File | null) => {
-    if (!file) return
-    const storage = getStorage()
-    const storageRef = ref(storage, `${user?.pseudo ?? 'unknown'}/${file.name}`)
-    try {
-      await uploadBytes(storageRef, file)
-      const downloadURL = await getDownloadURL(storageRef)
-      setImgFirebaseLink(downloadURL)
-      console.log('File uploaded successfully. Download URL:', downloadURL)
-    } catch (error) {
-      console.error('Error uploading file:', error)
-      console.log(error)
-    }
-  }
+  // const handleFileUpload = async (file: File | null) => {
+  //   if (!file) return
+  //   const storage = getStorage()
+  //   const storageRef = ref(storage, `${user?.pseudo ?? 'unknown'}/${file.name}`)
+  //   try {
+  //     await uploadBytes(storageRef, file)
+  //     const downloadURL = await getDownloadURL(storageRef)
+  //     setImgFirebaseLink(downloadURL)
+  //     console.log('File uploaded successfully. Download URL:', downloadURL)
+  //   } catch (error) {
+  //     console.error('Error uploading file:', error)
+  //     console.log(error)
+  //   }
+  // }
 
-  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target.files && event.target.files.length > 0) {
       setSuggestionImg(event.target.files[0])
     }
-    const file = e.target.files[0];
-    if (file) {
-      uploadImage(file);
-    }
+    const file: File = event.target.files[0];
+
+    void uploadImage(file);
+
   }
 
   //register in firebase database
-  const sendToFirestore = async () => {
-    try {
-      const docRef = await addDoc(collection(db, 'contacts'), { ...emailData })
-      const id = docRef.id
-      if (id) {
-        console.log('Données enregistrées en base de donnée')
-      }
-    } catch (error) {
-      console.error("Erreur sur l'envoi du formulaire", error)
-      alert("Une erreur s'est produite.")
-      return
-    }
-  }
+  // const sendToFirestore = async () => {
+  //   try {
+  //     const docRef = await addDoc(collection(db, 'contacts'), { ...emailData })
+  //     const id = docRef.id
+  //     if (id) {
+  //       console.log('Données enregistrées en base de donnée')
+  //     }
+  //   } catch (error) {
+  //     console.error("Erreur sur l'envoi du formulaire", error)
+  //     alert("Une erreur s'est produite.")
+  //     return
+  //   }
+  // }
 
   //------------- send to server DEDALE --------------------------//
-  const uploadImage = async (file) => {
+  const uploadImage = async (file: File): Promise<void> => {
+    console.log("envoie image")
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc0MjI4OTkxMSwiZXhwIjoxNzQyMzYxOTExfQ.y_Ig0XumrabEaoki0Uch8JNzmnOCzx_5mKIq1oAfozc"
     const formData = new FormData();
 
@@ -89,7 +90,7 @@ const SuggestionModal = ({
     formData.append("destination", "Place"); // ou journey, step, etc.
 
     try {
-      const response = await fetch("http://localhost:4000/api/upload", {
+      const response: Response = await fetch("http://localhost:4000/api/upload", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}` // Token dans le header
@@ -101,7 +102,7 @@ const SuggestionModal = ({
         throw new Error(`Erreur serveur: ${response.status}`);
       }
 
-      const data = await response.json();
+      const data: unknown = await response.json();
 
       console.log("Fichier uploadé avec succès :", data);
     } catch (error) {
@@ -156,11 +157,11 @@ const SuggestionModal = ({
             response.status,
             response.text
           )
-          void sendToFirestore() //firestore
+          // void sendToFirestore() //firestore
           alert('🎉 Votre suggestion a été envoyée avec succès.')
           setSuggestionText('')
           setSuggestionImg(null)
-          void handleFileUpload(suggestionImg)
+          //void handleFileUpload(suggestionImg)
           onClose()
           setIsSending(false)
         },
