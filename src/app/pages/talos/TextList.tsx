@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import Header from '@/app/components/talos/textList/Header'
+import ImagePreview from '@/app/components/talos/textList/ImagePreview'
 import RemainingTexts from '@/app/components/talos/textList/RemainingTexts'
 import { ArrowIcon } from '@/app/components/ui/icons/ArrowIcon'
 import { CheckIcon } from '@/app/components/ui/icons/CheckIcon'
@@ -17,10 +18,10 @@ import {
 } from '@/types'
 
 const TextList: FC = () => {
-  const [isPlacesOpen, setIsPlacesOpen] = useState(true)
-  const [isJourneysOpen, setIsJourneysOpen] = useState(true)
-  const [isStepsOpen, setIsStepsOpen] = useState(true)
-  const [isPiecesOpen, setIsPiecesOpen] = useState(true)
+  const [isPlacesOpen, setIsPlacesOpen] = useState<boolean>(true)
+  const [isJourneysOpen, setIsJourneysOpen] = useState<boolean>(true)
+  const [isStepsOpen, setIsStepsOpen] = useState<boolean>(true)
+  const [isPiecesOpen, setIsPiecesOpen] = useState<boolean>(true)
 
   const [places, setPlaces] = useState<
     (PlaceType & { docId: string; collection: string })[]
@@ -199,6 +200,9 @@ const TextList: FC = () => {
         (step) => !step.description.falc.status.isCertified
       ).length
       setStepsToCorrect(stepsToCorrectCount)
+
+      //stepData.map(element => void fetchPieces(element.id))
+
     } catch (error) {
       console.error('Error fetching steps:', error)
     }
@@ -244,6 +248,7 @@ const TextList: FC = () => {
         stepsToCorrect={stepsToCorrect}
         piecesToCorrect={piecesToCorrect}
       />
+      {/* <progress className="progress progress-primary w-56" value={50} max="100"></progress> */}
 
       {/* Liste des Lieux */}
       <section aria-labelledby="places-heading">
@@ -275,10 +280,10 @@ const TextList: FC = () => {
                   <h3 className="my-1 text-3xl font-bold">{place.name.fr}</h3>
                   {place.description.falc.status.isCertified ? (
                     <button
-                      className="ml-5 flex items-center gap-3 rounded-xl border-2 border-[#22891F] bg-[#22891F] px-4 py-2 text-xl text-white"
+                      className="ml-5 flex items-center gap-1 rounded-full border-2 border-[#22891F] bg-[#22891F] px-1 py-1 font-inclusive text-xl]"
                       aria-label={`Texte validé pour ${place.name.fr}`}>
                       <CheckIcon className="h-8 w-8" />
-                      <p>Texte validé</p>
+                      <p>Validé</p>
                     </button>
                   ) : (
                     <button
@@ -387,19 +392,13 @@ const TextList: FC = () => {
                             </div>
 
                             {/* IMAGE */}
-                            <div className="mb-2 flex gap-5">
-                              <div className="avatar">
-                                <div className="w-16 rounded-xl">
-                                  <img src={journey.content.image[0]} />
-                                </div>
-                              </div>
-                              <button
-                                onClick={() => void fetchSteps(journey.id)}
-                                className="duration-5 rounded-xl border-2 border-[#0A184D] bg-[#0A184D] px-6 py-4 text-xl text-white transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#ffffff] hover:text-[#0A184D]"
-                                aria-label={`Voir les étapes pour ${journey.name.fr}`}>
-                                Voir les étapes
-                              </button>
-                            </div>
+                            <ImagePreview
+                              label={journey.name.fr}
+                              id={journey.id}
+                              img={journey.content.image[0]}
+                              fetch={() => void fetchSteps(journey.id)}
+                              instruction="Voir les parcours"
+                            />
 
                             {/* Liste des Étapes */}
                             {activeJourneyId === journey.id && (
@@ -438,21 +437,13 @@ const TextList: FC = () => {
                                         </h6>
                                         {/* IMAGE */}
                                         <div className="flex gap-4">
-                                          <div className="avatar">
-                                            <div className="w-16 rounded-xl">
-                                              <img
-                                                src={step.content.image[0]}
-                                              />
-                                            </div>
-                                          </div>
-                                          <button
-                                            onMouseOver={() =>
-                                              void fetchPieces(step.id)
-                                            }
-                                            className="duration-5 rounded-xl border-2 border-[#0A184D] bg-[#0A184D] px-6 py-4 text-xl text-white transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#FFFFFF] hover:text-[#0A184D]"
-                                            aria-label={`Voir les œuvres pour ${step.name.fr}`}>
-                                            Voir l'œuvre
-                                          </button>
+                                          <ImagePreview
+                                            label={step.name.fr}
+                                            id={step.id}
+                                            img={step.content.image[0]}
+                                            fetch={() => void fetchPieces(step.id)}
+                                            instruction="Voir l'œuvre"
+                                          />
                                           {step.description.falc.status
                                             .isCertified ? (
                                             <button
