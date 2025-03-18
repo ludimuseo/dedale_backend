@@ -202,7 +202,6 @@ const TextList: FC = () => {
       setStepsToCorrect(stepsToCorrectCount)
 
       //stepData.map(element => void fetchPieces(element.id))
-
     } catch (error) {
       console.error('Error fetching steps:', error)
     }
@@ -280,7 +279,7 @@ const TextList: FC = () => {
                   <h3 className="my-1 text-3xl font-bold">{place.name.fr}</h3>
                   {place.description.falc.status.isCertified ? (
                     <button
-                      className="ml-5 flex items-center gap-1 rounded-full border-2 border-[#22891F] bg-[#22891F] px-1 py-1 font-inclusive text-xl]"
+                      className="text-xl] ml-5 flex items-center gap-1 rounded-full border-2 border-[#22891F] bg-[#22891F] px-1 py-1 font-inclusive"
                       aria-label={`Texte validé pour ${place.name.fr}`}>
                       <CheckIcon className="h-8 w-8" />
                       <p>Validé</p>
@@ -441,7 +440,9 @@ const TextList: FC = () => {
                                             label={step.name.fr}
                                             id={step.id}
                                             img={step.content.image[0]}
-                                            fetch={() => void fetchPieces(step.id)}
+                                            fetch={() =>
+                                              void fetchPieces(step.id)
+                                            }
                                             instruction="Voir l'œuvre"
                                           />
                                           {step.description.falc.status
