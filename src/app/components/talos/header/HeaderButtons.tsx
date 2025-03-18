@@ -10,7 +10,12 @@ interface HeaderButtonsProps {
   category: string
 }
 
-const HeaderButtons: FC<HeaderButtonsProps> = ({ imageIcon, image, name, category }: HeaderButtonsProps) => {
+const HeaderButtons: FC<HeaderButtonsProps> = ({
+  imageIcon,
+  image,
+  name,
+  category,
+}: HeaderButtonsProps) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [showSuggestionModal, setShowSuggestionModal] = useState(false)
 
