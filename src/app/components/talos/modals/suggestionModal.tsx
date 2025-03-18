@@ -13,6 +13,8 @@ import BottomSuggestionForm from '../suggestion/BottomSuggestionForm'
 import SuggestionTitle from '../suggestion/SuggestionTitle'
 import SuggestionUserInfo from '../suggestion/SuggestionUserInfo'
 
+const BACKEND_ADDRESS = "http://localhost:4000/api/upload"
+
 interface SuggestionModalProps {
   isOpen: boolean
   onClose: () => void
@@ -51,9 +53,13 @@ const SuggestionModal = ({
     }
   }
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       setSuggestionImg(event.target.files[0])
+    }
+    const file = e.target.files[0];
+    if (file) {
+      uploadImage(file);
     }
   }
 
@@ -71,6 +77,41 @@ const SuggestionModal = ({
       return
     }
   }
+
+  //------------- send to server DEDALE --------------------------//
+  const uploadImage = async (file) => {
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc0MjI4OTkxMSwiZXhwIjoxNzQyMzYxOTExfQ.y_Ig0XumrabEaoki0Uch8JNzmnOCzx_5mKIq1oAfozc"
+    const formData = new FormData();
+
+    // Ajout des données dans formData
+    formData.append("file", file); // le fichier image à uploader
+    formData.append("type", "image"); // type : image ou audio
+    formData.append("destination", "Place"); // ou journey, step, etc.
+
+    try {
+      const response = await fetch("http://localhost:4000/api/upload", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}` // Token dans le header
+        },
+        body: formData // Attention : pas de Content-Type ici, FormData le gère
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur serveur: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      console.log("Fichier uploadé avec succès :", data);
+    } catch (error) {
+      console.error("Erreur lors de l'upload :", error);
+      throw error;
+    }
+  }
+
+
+
 
   const sendSuggestion = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
