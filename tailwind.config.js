@@ -10,7 +10,7 @@ export default {
     themes: false,
     base: true,
     utils: true,
-    logs: process.env.NODE_ENV !== 'production',
+    logs: import.meta.env.NODE_ENV !== 'production',
     // themes: [
     //   {
     //     :: {

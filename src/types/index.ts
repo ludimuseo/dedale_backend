@@ -25,12 +25,17 @@ export enum UserRole {
 }
 
 export interface User {
-  uid: string
-  role: string | null
-  email: string | null
-  emailVerified: boolean
+  token: string
+  name: string
+  firstname: string
   pseudo: string | null
-  photoURL: string | null
+  avatar: string | null
+  isContrast: boolean
+  isFalc: boolean
+  fontsize: number
+  language: 'EN' | 'FR'
+  tutorial: boolean
+  role: UserRole
 }
 
 /* THEME */

@@ -17,7 +17,7 @@ const options: InitOptions = {
     },
   },
   cleanCode: true,
-  debug: process.env.NODE_ENV !== 'production',
+  debug: import.meta.env.NODE_ENV !== 'production',
   detection: {
     lookupLocalStorage: 'lang',
     order: ['localStorage', 'navigator'],
