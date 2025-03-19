@@ -4,8 +4,10 @@ import { useNavigate } from 'react-router'
 
 import Header from '@/app/components/talos/textList/Header'
 import ImagePreview from '@/app/components/talos/textList/ImagePreview'
+import NavigationHeader from '@/app/components/talos/textList/NavigationHeader'
+import PreviewRemainingText from '@/app/components/talos/textList/PreviewRemainingText'
 import RemainingTexts from '@/app/components/talos/textList/RemainingTexts'
-import { ArrowIcon } from '@/app/components/ui/icons/ArrowIcon'
+import TextPreview from '@/app/components/talos/textList/TextPreview'
 import { CheckIcon } from '@/app/components/ui/icons/CheckIcon'
 import { PencilIcon } from '@/app/components/ui/icons/PencilIcon'
 import { db } from '@/firebase/firebase'
@@ -252,24 +254,15 @@ const TextList: FC = () => {
       {/* Liste des Lieux */}
       <section aria-labelledby="places-heading">
         <div className="space-y-5">
-          <div className="group relative flex items-center justify-between">
-            <h2
-              id="places-heading"
-              className="flex-grow rounded-md bg-[#0A184D] pl-3 text-3xl font-semibold leading-relaxed text-white">
-              Lieux
-            </h2>
+          <NavigationHeader
+            key={String(Math.random())}
+            isOpen={isPlacesOpen}
+            label={'Lieux'}
+            openNav={() => {
+              setIsPlacesOpen(!isPlacesOpen)
+            }}
+          />
 
-            <button
-              onClick={() => {
-                setIsPlacesOpen(!isPlacesOpen)
-              }}
-              className="bg-transparent px-4 py-6 text-white"
-              aria-label={
-                isPlacesOpen ? 'Masquer les lieux' : 'Afficher les lieux'
-              }>
-              <ArrowIcon isOpen={isPlacesOpen} />
-            </button>
-          </div>
           {isPlacesOpen &&
             places.map((place) => (
               <article
@@ -296,43 +289,22 @@ const TextList: FC = () => {
                     </button>
                   )}
                 </div>
+                <TextPreview description={place.description.falc.fr} />
 
-                <p className="mb-5 text-xl">
-                  {place.description.falc.fr.length > 100
-                    ? `${place.description.falc.fr.slice(0, 150)}...`
-                    : place.description.falc.fr}
-                </p>
-                {/* IMAGE */}
-                <div className="mb-2 flex gap-5">
-                  <div className="avatar">
-                    <div className="w-16 cursor-pointer rounded-xl">
-                      <img src={place.content.image[0]} alt={place.name.fr} />
-                    </div>
-                  </div>
-
-                  <div className="group relative inline-flex items-center">
-                    <button
-                      onClick={() => void fetchJourneys(place.docId)}
-                      className="duration-5 rounded-xl border-2 border-[#0A184D] bg-[#0A184D] px-6 py-4 text-xl text-white transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#ffffff] hover:text-[#0A184D]"
-                      aria-label={`Voir les parcours pour ${place.name.fr}`}>
-                      Voir les parcours
-                    </button>
-
-                    {sumTextToCorrect > 0 && (
-                      <p className="ml-4 rounded-xl bg-[#f8dd27] bg-opacity-50 p-4 text-xl text-[#0A184D] opacity-0 transition-opacity group-hover:opacity-100">
-                        Il reste à corriger :{' '}
-                        {journeysToCorrect
-                          ? `${String(journeysToCorrect)} "texte(s) Parcours `
-                          : ''}
-                        {stepsToCorrect
-                          ? `${String(stepsToCorrect)} "texte(s) Indice(s) d'étape, `
-                          : ''}
-                        {piecesToCorrect
-                          ? `${String(piecesToCorrect)} texte(s) Oeuvres. `
-                          : ''}
-                      </p>
-                    )}
-                  </div>
+                <div className="group relative inline-flex items-center">
+                  <ImagePreview
+                    label={place.name.fr}
+                    img={place.content.image[0]}
+                    id={place.docId}
+                    fetch={() => void fetchJourneys(place.docId)}
+                    instruction="Voir les parcours"
+                  />
+                  <PreviewRemainingText
+                    sumTextToCorrect={sumTextToCorrect}
+                    journeysToCorrect={journeysToCorrect}
+                    stepsToCorrect={stepsToCorrect}
+                    piecesToCorrect={piecesToCorrect}
+                  />
                 </div>
 
                 {/* Liste des Parcours */}
@@ -341,25 +313,14 @@ const TextList: FC = () => {
                     aria-labelledby={`journeys-${place.docId}-heading`}
                     className="mt-7 rounded-lg border-2 bg-[#ffffff] px-2 py-3">
                     <div className="space-y-5">
-                      <div className="flex items-center justify-between">
-                        <h4
-                          id={`journeys-${place.docId}-heading`}
-                          className="flex-grow rounded-md bg-[#0A184D] pl-3 text-3xl font-semibold leading-relaxed text-white">
-                          Parcours
-                        </h4>
-                        <button
-                          onClick={() => {
-                            setIsJourneysOpen(!isJourneysOpen)
-                          }}
-                          className="bg-transparent px-4 py-2 text-white"
-                          aria-label={
-                            isJourneysOpen
-                              ? 'Masquer les parcours'
-                              : 'Afficher les parcours'
-                          }>
-                          <ArrowIcon isOpen={isJourneysOpen} />
-                        </button>
-                      </div>
+                      <NavigationHeader
+                        key={place.id}
+                        isOpen={isJourneysOpen}
+                        label={'Parcours'}
+                        openNav={() => {
+                          setIsJourneysOpen(!isJourneysOpen)
+                        }}
+                      />
                       {isJourneysOpen &&
                         journeys.map((journey) => (
                           <article
@@ -396,7 +357,7 @@ const TextList: FC = () => {
                               id={journey.id}
                               img={journey.content.image[0]}
                               fetch={() => void fetchSteps(journey.id)}
-                              instruction="Voir les parcours"
+                              instruction="Voir les étapes"
                             />
 
                             {/* Liste des Étapes */}
@@ -405,25 +366,14 @@ const TextList: FC = () => {
                                 aria-labelledby={`steps-${journey.id}-heading`}
                                 className="mt-7 rounded-lg border-2 bg-[#ffffff] px-2 py-3">
                                 <div className="space-y-5">
-                                  <div className="flex items-center justify-between">
-                                    <h6
-                                      id={`steps-${journey.id}-heading`}
-                                      className="flex-grow rounded-md bg-[#0A184D] pl-3 text-3xl font-semibold leading-relaxed text-white">
-                                      Étapes ({stepsToCorrect} à corriger)
-                                    </h6>
-                                    <button
-                                      onClick={() => {
-                                        setIsStepsOpen(!isStepsOpen)
-                                      }}
-                                      className="bg-transparent px-4 py-2 text-white"
-                                      aria-label={
-                                        isStepsOpen
-                                          ? 'Masquer les étapes'
-                                          : 'Afficher les étapes'
-                                      }>
-                                      <ArrowIcon isOpen={isStepsOpen} />
-                                    </button>
-                                  </div>
+                                  <NavigationHeader
+                                    key={journey.id}
+                                    isOpen={isStepsOpen}
+                                    label="Etapes"
+                                    openNav={() => {
+                                      setIsStepsOpen(!isStepsOpen)
+                                    }}
+                                  />
                                   {isStepsOpen &&
                                     steps.map((step) => (
                                       <article
@@ -472,31 +422,14 @@ const TextList: FC = () => {
                                             aria-labelledby={`pieces-${step.id}-heading`}
                                             className="mt-7 rounded-lg border-2 bg-[#ffffff] px-2 py-3">
                                             <div className="space-y-5">
-                                              <div className="flex items-center justify-between">
-                                                <h6
-                                                  id={`pieces-${step.id}-heading`}
-                                                  className="flex-grow rounded-md bg-[#0A184D] pl-3 text-3xl font-semibold leading-relaxed text-white">
-                                                  œuvres ({piecesToCorrect} à
-                                                  corriger)
-                                                </h6>
-
-                                                <button
-                                                  onClick={() => {
-                                                    setIsPiecesOpen(
-                                                      !isPiecesOpen
-                                                    )
-                                                  }}
-                                                  className="bg-transparent px-4 py-2 text-white"
-                                                  aria-label={
-                                                    isPiecesOpen
-                                                      ? 'Masquer les étapes'
-                                                      : 'Afficher les étapes'
-                                                  }>
-                                                  <ArrowIcon
-                                                    isOpen={isPiecesOpen}
-                                                  />
-                                                </button>
-                                              </div>
+                                              <NavigationHeader
+                                                key={step.id}
+                                                isOpen={isPiecesOpen}
+                                                label="œuvre"
+                                                openNav={() => {
+                                                  setIsPiecesOpen(!isPiecesOpen)
+                                                }}
+                                              />
                                               {isPiecesOpen &&
                                                 pieces.map((piece) => (
                                                   <article
