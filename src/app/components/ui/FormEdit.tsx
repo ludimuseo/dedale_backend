@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { ComponentPropsWithoutRef, forwardRef } from 'react'
 
 import { FormCard } from '@/app/components/ui/FormCard'
@@ -29,8 +30,6 @@ const FormEdit = forwardRef<HTMLFormElement, FormEditProps>(
     },
     ref
   ) => {
-    console.log(datas)
-
     return (
       <form onSubmit={handleSubmit} ref={ref}>
         <div
@@ -54,12 +53,28 @@ const FormEdit = forwardRef<HTMLFormElement, FormEditProps>(
           <div key={sectionIndex}>
             <FormCard title={section[0].sectionLabel}>
               {section.map((el, sectionKey) => {
-                // Vérification sécurisée du type
                 const sectionData = datas[
                   el.section as keyof typeof datas
                 ] as Record<string, string>
-                const value = sectionData[el.name]
-                // const audioValue = sectionData[el.name][el.language];
+                let value = sectionData[el.name]
+
+                if (
+                  el.section === 'description' &&
+                  el.mode &&
+                  sectionData[el.mode]
+                ) {
+                  value = el.language
+                    ? sectionData[el.mode][el.language] || ''
+                    : value
+                } else if (
+                  el.section === 'audio' &&
+                  el.mode &&
+                  sectionData[el.mode]
+                ) {
+                  value = el.language
+                    ? sectionData[el.mode][el.language] || ''
+                    : value
+                }
 
                 return (
                   <div key={sectionKey} className="sm:col-span-6">
@@ -76,7 +91,21 @@ const FormEdit = forwardRef<HTMLFormElement, FormEditProps>(
                         className="input input-bordered w-full"
                       />
                     )}
-                    {el.type === 'dropdown' && (
+                    {el.type === 'number' && (
+                      <Input
+                        insideForm
+                        uid={el.id}
+                        name={el.name}
+                        placeholder=""
+                        label={el.label}
+                        errors={errors[el.id] ?? []}
+                        onChange={handleChange}
+                        value={value}
+                        className="input input-bordered w-full"
+                        type="number"
+                      />
+                    )}
+                    {el.option && (
                       <Dropdown
                         insideForm
                         uid={el.id}
@@ -89,18 +118,16 @@ const FormEdit = forwardRef<HTMLFormElement, FormEditProps>(
                         options={el.option}
                       />
                     )}
-                    {/* { el.type === 'file' && (
-                      <InputFile
-                        insideForm
-                        uid={el.id}
+                    {el.type === 'file' && (
+                      <input
+                        type="file"
+                        id={el.id}
                         name={el.name}
-                        label={el.label}
-                        errors={errors[el.id] ?? []}
-                        value={audioValue}
+                        accept={el.accessType}
                         onChange={handleChange}
+                        className="file-input file-input-bordered w-full"
                       />
-                    )
-                    } */}
+                    )}
                   </div>
                 )
               })}
