@@ -10,7 +10,7 @@ import Timeline from './Timeline'
 
 interface FormProps {
   clientIdAndName?: { id: string; name: string }[] | undefined
-  placeIdAndName?: { id: string; name: string }[] | undefined
+  placeIdAndName?: { docId: string; name: string }[] | undefined
   title: string
   icon: React.JSX.Element
   handleArrowLeft: () => void
