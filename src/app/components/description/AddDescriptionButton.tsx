@@ -1,8 +1,16 @@
-export default function AddDescriptionButton() {
+interface AddDescriptionButtonProps {
+  handleAddDesc: () => void
+}
+
+export default function AddDescriptionButton({
+  handleAddDesc,
+}: AddDescriptionButtonProps) {
   return (
     <div>
       {' '}
-      <button className="btn btn-primary mt-2 w-1/3 font-inclusive text-xl">
+      <button
+        onClick={handleAddDesc}
+        className="btn btn-primary mt-2 w-1/3 font-inclusive text-xl">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6"
