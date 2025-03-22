@@ -1,6 +1,7 @@
 import { MuseumIcon } from '@component'
 import React, { FormEvent, MouseEvent } from 'react'
 
+import Description from '@/app/components/description/Description'
 import { GetInputConfigType, MessageType, T } from '@/types'
 
 import FormFooter from './formFooter'
@@ -159,6 +160,7 @@ const Form = ({
           icon={<MuseumIcon />}
         />
       </>
+      <Description />
     </div>
   )
 }
