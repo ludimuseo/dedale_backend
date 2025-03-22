@@ -1,3 +1,19 @@
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 
 import { CloseIcon } from '../ui/icons/CloseIcon'
@@ -6,8 +22,64 @@ import DescriptionNavBar from './DescriptionNavBar'
 import FileUploadArea from './FileUploadArea'
 import MainTextArea from './MainTextArea'
 
+interface SortableItemProps {
+  desc: { id: number }
+  handleRemoveDesc: (id: number) => void
+}
+
+function SortableItem({ desc, handleRemoveDesc }: SortableItemProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: desc.id })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition: transition ?? undefined,
+  }
+
+  return (
+    <motion.div
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      style={style}
+      layout // pour activer les transitions sur le repositionnement
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: isDragging ? 0.5 : 1, scale: isDragging ? 0.98 : 1 }}
+      exit={{ opacity: 0, scale: 0.8, y: 20 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+      className="relative mb-4 cursor-grab rounded-xl border bg-base-100 p-4 shadow">
+      <div className="hero min-h-10">
+        <div className="hero-content flex-col lg:flex-row">
+          <FileUploadArea />
+          <MainTextArea />
+        </div>
+      </div>
+      <button
+        className="absolute right-2 top-2 text-red-500 hover:text-red-700"
+        onClick={() => {
+          handleRemoveDesc(desc.id)
+        }}
+        title="Supprimer">
+        <CloseIcon />
+      </button>
+    </motion.div>
+  )
+}
+
 export default function Description() {
-  const [descriptions, setDescriptions] = useState([{ id: Date.now() }])
+  const [descriptions, setDescriptions] = useState<{ id: number }[]>([
+    { id: Date.now() },
+  ])
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
+  )
 
   const handleAddDesc = () => {
     setDescriptions([...descriptions, { id: Date.now() + Math.random() }])
@@ -17,29 +89,38 @@ export default function Description() {
     setDescriptions(descriptions.filter((desc) => desc.id !== id))
   }
 
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+    if (active.id !== over?.id) {
+      const oldIndex = descriptions.findIndex((item) => item.id === active.id)
+      const newIndex = descriptions.findIndex((item) => item.id === over?.id)
+      setDescriptions(arrayMove(descriptions, oldIndex, newIndex))
+    }
+  }
+
   return (
     <>
       <DescriptionNavBar />
-      {descriptions.map((desc) => (
-        <div
-          key={desc.id}
-          className="relative mb-4 rounded-xl border bg-base-100 p-4 shadow">
-          <div className="hero min-h-10">
-            <div className="hero-content flex-col lg:flex-row">
-              <FileUploadArea />
-              <MainTextArea />
-            </div>
-          </div>
-          <button
-            className="absolute right-2 top-2 text-red-500 hover:text-red-700"
-            onClick={() => {
-              handleRemoveDesc(desc.id)
-            }}
-            aria-label="Supprimer la description">
-            <CloseIcon />
-          </button>
-        </div>
-      ))}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}>
+        <SortableContext
+          items={descriptions}
+          strategy={verticalListSortingStrategy}>
+          <AnimatePresence>
+            {descriptions.map((desc) => (
+              <SortableItem
+                key={desc.id}
+                desc={desc}
+                handleRemoveDesc={() => {
+                  handleRemoveDesc(desc.id)
+                }}
+              />
+            ))}
+          </AnimatePresence>
+        </SortableContext>
+      </DndContext>
       <AddDescriptionButton handleAddDesc={handleAddDesc} />
     </>
   )
