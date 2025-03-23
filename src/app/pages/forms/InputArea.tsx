@@ -8,6 +8,7 @@ import TextArea from './inputForm/TextArea'
 
 interface InputAreaProps {
   message: MessageType
+  showDescription?: (isShowed: boolean) => void
   handleSubmit: (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => void
@@ -51,6 +52,7 @@ interface InputAreaProps {
 
 const InputArea = ({
   message,
+  showDescription,
   handleSubmit,
   getInput,
   currentStep,
@@ -113,6 +115,7 @@ const InputArea = ({
               rightSideVisible,
             }) => {
               if (!rightSideVisible) {
+                showDescription?.(false)
                 if (rows) {
                   return (
                     <TextArea
@@ -211,8 +214,8 @@ const InputArea = ({
                 }
                 if (fileType) {
                   return (
-                    <div className="flex flex-row space-x-10">
-                      <div className="mb-2 mt-2 flex flex-col" key={id}>
+                    <div className="flex flex-row space-x-10" key={id}>
+                      <div className="mb-2 mt-2 flex flex-col">
                         <p className="mb-2 font-inclusive">{label}</p>
                         <input
                           key={id}
@@ -249,6 +252,8 @@ const InputArea = ({
                     </div>
                   )
                 }
+              } else {
+                if (rows) showDescription?.(true)
               }
             }
           )}

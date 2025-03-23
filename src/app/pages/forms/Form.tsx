@@ -1,5 +1,5 @@
 import { MuseumIcon } from '@component'
-import React, { FormEvent, MouseEvent } from 'react'
+import React, { FormEvent, MouseEvent, useState } from 'react'
 
 import Description from '@/app/components/description/Description'
 import { GetInputConfigType, MessageType, T } from '@/types'
@@ -100,17 +100,10 @@ const Form = ({
   // selectedOption,
   // selectedPlaceOption,
 }: FormProps) => {
-  // const [journeyIdAndName, setJourneyIdAndName] = useState<{ id: string; name: string }[] | undefined>([])
-  // const [stepIdAndName, setStepAndName] = useState<{ id: string; name: string }[] | undefined>([])
-  // const [pieceIdAndName, setPiecedAndName] = useState<{ id: string; name: string }[] | undefined>([])
-
-  //fetchJourney
-
-  //fetchStep
-
-  //fetchPiece
-
-  //fetchGame
+  const [isDescription, setIsDescription] = useState(false)
+  const showDescription = (isShowed: boolean) => {
+    setIsDescription(isShowed)
+  }
 
   return (
     <div className="grid grid-cols-1 gap-1 p-10 sm:grid-cols-1">
@@ -127,6 +120,7 @@ const Form = ({
           getInput={getInput}
           currentStep={currentStep}
           formData={formData}
+          showDescription={showDescription}
           handleSubmit={(event) => {
             handleSubmit(event)
           }}
@@ -144,7 +138,7 @@ const Form = ({
             handleResponseChange?.(section, name, mode, language, value)
           }}
         />
-        <Description />
+        {isDescription && <Description />}
         <FormFooter
           message={message}
           handleEdit={handleEdit}
