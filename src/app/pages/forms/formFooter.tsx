@@ -1,5 +1,7 @@
 import React, { FormEvent, MouseEvent } from 'react'
 
+import { ArrowLeftIcon } from '@/app/components'
+import { ArrowRightIcon } from '@/app/components/ui/icons/ArrowRightIcon'
 import { MessageType } from '@/types'
 
 interface FormFooterProps {
@@ -43,20 +45,29 @@ const FormFooter = ({
           <>
             {currentStep > 0 && (
               <div className="mr-10">
-                <button className="btn btn-primary" onClick={handlePrevStep}>
-                  {`<- Précédent`}
+                <button
+                  className="btn btn-primary font-inclusive text-xl"
+                  onClick={handlePrevStep}>
+                  <ArrowLeftIcon className="w-8" />
+                  {`Précédent`}
                 </button>
                 <br />
               </div>
             )}
-            <button className="btn btn-primary" onClick={handleNextStep}>
-              {`Suivant ->`}
+            <button
+              className="btn btn-primary font-inclusive text-xl"
+              onClick={handleNextStep}>
+              {`Suivant `}
+              <ArrowRightIcon className="w-8" />
             </button>
           </>
         ) : (
           <div className="flex flex-row">
-            <button className="btn btn-primary mr-10" onClick={handlePrevStep}>
-              {`<- Précédent`}
+            <button
+              className="btn btn-primary mr-10 font-inclusive text-xl"
+              onClick={handlePrevStep}>
+              <ArrowLeftIcon className="w-8" />
+              {`Précédent`}
             </button>
             <br />
             <button

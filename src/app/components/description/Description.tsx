@@ -18,7 +18,6 @@ import { useState } from 'react'
 
 import { CloseIcon } from '../ui/icons/CloseIcon'
 import AddDescriptionButton from './AddDescriptionButton'
-import DescriptionNavBar from './DescriptionNavBar'
 import FileUploadArea from './FileUploadArea'
 import MainTextArea from './MainTextArea'
 
@@ -92,7 +91,7 @@ export default function Description() {
         }}
         exit={{ opacity: 0, scale: 0.8, y: 20 }}
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-        className="relative mb-4 cursor-grab rounded-xl border bg-base-100 p-4 shadow">
+        className="relative mb-4 cursor-grab rounded-xl border bg-base-100 p-4">
         <div className="hero min-h-10 shadow-sm">
           <div className="hero-content flex-col lg:flex-row">
             <FileUploadArea />
@@ -151,7 +150,7 @@ export default function Description() {
 
   return (
     <>
-      <DescriptionNavBar />
+      {/* <DescriptionNavBar /> */}
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

@@ -144,6 +144,7 @@ export const getInputPlaceConfig: GetInputConfigType[][] = [
       name: 'description',
       placeholder: 'Entrez la description du lieu',
       required: false,
+      rightSideVisible: false,
       rows: 10,
       section: 'description',
       sectionLabel: 'Descripton standard',

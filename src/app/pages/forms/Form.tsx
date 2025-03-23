@@ -127,7 +127,6 @@ const Form = ({
           getInput={getInput}
           currentStep={currentStep}
           formData={formData}
-          // Callback functions ?
           handleSubmit={(event) => {
             handleSubmit(event)
           }}
@@ -145,6 +144,7 @@ const Form = ({
             handleResponseChange?.(section, name, mode, language, value)
           }}
         />
+        <Description />
         <FormFooter
           message={message}
           handleEdit={handleEdit}
@@ -160,7 +160,6 @@ const Form = ({
           icon={<MuseumIcon />}
         />
       </>
-      <Description />
     </div>
   )
 }

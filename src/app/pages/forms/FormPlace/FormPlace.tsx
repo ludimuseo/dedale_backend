@@ -2,9 +2,9 @@ import { PlaceIcon } from '@component'
 import { addDoc, collection, getDocs } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 import { v4 as uuidv4 } from 'uuid'
 
-import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
 import { MessageType, T } from '@/types'
 
@@ -12,6 +12,7 @@ import Form from '../Form'
 import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
 
 const FormPlace: FC = () => {
+  const navigate = useNavigate()
   const title = 'Formulaire Lieu'
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
@@ -92,6 +93,9 @@ const FormPlace: FC = () => {
     alert('Edit Place')
   }
 
+  const handleArrowLeft = () => {
+    void navigate(-1)
+  }
   //liste des clients
 
   //soumission des informations

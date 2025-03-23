@@ -90,7 +90,7 @@ const InputArea = ({
   }
 
   return (
-    <div className="navbar flex justify-center rounded-xl bg-base-100 p-5 shadow-xl">
+    <div className="navbar flex min-h-max justify-center rounded-xl bg-base-100 p-4 shadow-xl">
       {/*INPUT AREA 1*/}
       {!message.info ? (
         <form
@@ -184,20 +184,6 @@ const InputArea = ({
                         ))}
                       </select>
                     </div>
-                    // <Option
-                    //   label={label}
-                    //   id={id}
-                    //   name={name}
-                    //   section={section}
-                    //   option={option}
-                    //   handleInputChange={(e) => {
-                    //     handleInputChange(
-                    //       section,
-                    //       name as keyof T[keyof T],
-                    //       e.target.value as T[keyof T][keyof T[keyof T]]
-                    //     )
-                    //   }}
-                    // />
                   )
                 }
                 if (type !== 'file' && !rows) {
@@ -292,8 +278,8 @@ const InputArea = ({
               name,
               label,
               placeholder,
-              mode,
-              language,
+              //mode,
+              //language,
               option,
               rightSideVisible,
             },
@@ -302,20 +288,21 @@ const InputArea = ({
             if (rightSideVisible) {
               if (rows) {
                 return (
-                  <TextArea
-                    id={id}
-                    label={label}
-                    name={name}
-                    placeholder={placeholder}
-                    rows={rows}
-                    mode={mode}
-                    formData={formData}
-                    section={section}
-                    language={language}
-                    handleChange={handleChange}
-                    handleInputChange={handleInputChange}
-                    rightSideVisible={rightSideVisible}
-                  />
+                  <></>
+                  // <TextArea
+                  //   id={id}
+                  //   label={label}
+                  //   name={name}
+                  //   placeholder={placeholder}
+                  //   rows={rows}
+                  //   mode={mode}
+                  //   formData={formData}
+                  //   section={section}
+                  //   language={language}
+                  //   handleChange={handleChange}
+                  //   handleInputChange={handleInputChange}
+                  //   rightSideVisible={rightSideVisible}
+                  // />
                 )
               }
 
