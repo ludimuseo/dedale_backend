@@ -1,9 +1,9 @@
 import emailjs from '@emailjs/browser'
+import { useAppSelector } from '@hook'
 import { addDoc, collection } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { useRef, useState } from 'react'
 
-import { useAppSelector } from '@/app/hooks'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
 import { db } from '@/firebase/firebase'
 import { State } from '@/types'

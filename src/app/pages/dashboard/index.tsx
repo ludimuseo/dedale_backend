@@ -1,8 +1,8 @@
+import { useAppSelector } from '@hook'
 import { type FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { DashboardMenu } from '@/app/components/dashboard/DashboardMenu'
-import { useAppSelector } from '@/app/hooks'
 import { State } from '@/types'
 
 import { getDashboardConfig } from './getDashboardConfig'

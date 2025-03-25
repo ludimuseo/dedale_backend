@@ -1,5 +1,6 @@
 import 'daisyui/dist/full.css'
 
+import { useLocalStorage } from '@hook'
 import backIcon from '@img/Talos/arrow-left.svg'
 import cocheValideIcon from '@img/Talos/coche-valide.svg'
 import imageIcon from '@img/Talos/image.svg'
@@ -13,7 +14,6 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { type FC, useState } from 'react'
 import { useNavigate } from 'react-router'
 
-import { useLocalStorage } from '@/app/hooks/useLocalStorage'
 import { db } from '@/firebase/firebase'
 import {
   EntityWithId,

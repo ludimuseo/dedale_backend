@@ -17,23 +17,46 @@ export interface State {
   dictionary: StateDictionnary
 }
 
+export enum Language {
+  EN = 'EN',
+  FR = 'FR',
+}
+
 /* USER */
 export enum UserRole {
+  OWNER = 'OWNER',
+  DEVELOPPER = 'DEVELOPPER',
   SUPERADMIN = 'SUPERADMIN',
   ADMIN = 'ADMIN',
-  REFERENT = 'REFERENT',
   CONTRIBUTOR = 'CONTRIBUTOR',
+  REFERENT = 'REFERENT',
+  CORRECTOR = 'CORRECTOR',
+  MOBILE = 'MOBILE',
+}
+
+export interface RouteRolesCondition {
+  roles: {
+    allow: UserRole[] | undefined
+    deny: UserRole[] | undefined
+  } | null
 }
 
 export interface User {
-  id: string
-  pseudo: string
-  name: string
+  // id: string
+  // email: string
+  // token: string
+  // password: string
+  //
+  avatar: string
   firstname: string
-  email: string
+  fontsize: number
+  isContrast: boolean
+  isFalc: boolean
+  language: Language
+  name: string
+  pseudo: string
   role: UserRole
-  token: string
-  password: string
+  tutorial: boolean
 }
 
 /* WORDPASS */
