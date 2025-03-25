@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouteObject } from 'react-router-dom'
 
 import LayoutAuth from '@/app/layouts/LayoutAuth'
 import LayoutDefault from '@/app/layouts/LayoutDefault'
@@ -9,7 +9,7 @@ import PageError from '@/app/pages/PageError'
 type ModuleKeys = keyof typeof modules
 
 const modules = {
-  Signin: () => import('@/app/pages/auth/Signin'),
+  AuthSignIn: () => import('@/app/pages/auth/SignIn'),
   Dashboard: () => import('@/app/pages/dashboard'),
   User: () => import('@/app/pages/user'),
   UserProfile: () => import('@/app/pages/user/Profile'),
@@ -43,7 +43,9 @@ const lazyLoad = (key: keyof typeof modules, exportName: string) => ({
   },
 })
 
-const authRoutes = [{ path: '/auth/signin', ...lazyLoad('Signin', 'Signin') }]
+const authRoutes = [
+  { path: '/auth/signin', ...lazyLoad('AuthSignIn', 'AuthSignIn') },
+]
 
 const defaultRoutes: [string, ModuleKeys, string][] = [
   ['/', 'Dashboard', 'Dashboard'],
@@ -71,19 +73,22 @@ const defaultRoutes: [string, ModuleKeys, string][] = [
   ['/places', 'Places', 'Places'],
   ['/contributors', 'Contributors', 'Contributors'],
 ]
-const mappedRoutes = defaultRoutes.map(([path, key, exportName]) => ({
-  path,
-  ...lazyLoad(key, exportName),
-}))
+const mappedRoutes: RouteObject[] = defaultRoutes.map(
+  ([path, key, exportName]) => ({
+    path,
+    ...lazyLoad(key, exportName),
+  })
+)
 
 const routes = [
   {
     id: 'root',
     errorElement: <PageError />,
+    caseSensitive: true,
     children: [
       {
         element: (
-          <RouteAuth role={null}>
+          <RouteAuth roles={null}>
             <LayoutDefault />
           </RouteAuth>
         ),

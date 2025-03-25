@@ -1,8 +1,8 @@
+import { useFetch } from '@hook'
 import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import DataTable from '@/app/components/ui/DataTable'
-import { useFetch } from '@/app/hooks/useFetch'
 import { ClientType } from '@/types'
 
 interface FetchResponse {

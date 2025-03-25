@@ -2,17 +2,29 @@ import { useAppSelector } from '@hook'
 import type { PropsWithChildren } from 'react'
 import { Navigate } from 'react-router'
 
-import type { State, UserRole } from '@/types'
+import PageUnauthorized from '@/app/pages/PageUnauthorized'
+import type { RouteRolesCondition, State, UserRole } from '@/types'
 
-interface RouteAuthProps {
-  role: UserRole | null
-}
+const RouteAuth = ({
+  roles,
+  children,
+}: PropsWithChildren<RouteRolesCondition>) => {
+  const { isLogged, user } = useAppSelector((state: State) => state.auth)
 
-const RouteAuth = ({ role, children }: PropsWithChildren<RouteAuthProps>) => {
-  const { isLogged } = useAppSelector((state: State) => state.auth)
-  console.info('User role: ', role)
-  if (isLogged) return children
-  else return <Navigate to={{ pathname: '/auth/signin' }} replace />
+  if (isLogged && user) {
+    const userRole: UserRole = user.role
+    if (
+      roles == null ||
+      roles.allow?.includes(userRole) ||
+      !roles.deny?.includes(userRole)
+    ) {
+      return children
+    } else {
+      return <PageUnauthorized />
+    }
+  } else {
+    return <Navigate to={{ pathname: '/auth/signin' }} replace />
+  }
 }
 
 export default RouteAuth

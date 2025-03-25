@@ -1,7 +1,7 @@
 import { type SnackbarAction, useSnackbar } from 'notistack'
 
 interface OptionsProps {
-  type?: 'success' | 'error' | 'warning' | 'info'
+  type: 'success' | 'error' | 'warning' | 'info'
   persist?: boolean
   callback?: SnackbarAction
 }
@@ -9,7 +9,10 @@ interface OptionsProps {
 const useNotification = () => {
   const { enqueueSnackbar } = useSnackbar()
 
-  const push = (message: string, options: OptionsProps = {}) => {
+  const push = (
+    message: string,
+    options: OptionsProps = { type: 'success' }
+  ) => {
     enqueueSnackbar(message, {
       action: options.callback,
       anchorOrigin: {

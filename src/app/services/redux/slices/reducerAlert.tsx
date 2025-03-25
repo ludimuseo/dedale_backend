@@ -18,7 +18,6 @@ const initialState: StateAlert = {
   message: '',
   type: 'info',
 }
-console.log(initialState)
 
 export const sliceAlert = createSlice({
   initialState,

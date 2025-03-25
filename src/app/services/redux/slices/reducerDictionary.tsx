@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
-// import { useFetch } from '@/app/hooks/useFetch'
+// import { useFetch } from '@hook'
 
 export interface StateDictionnary {
   selectedWord: string | null
