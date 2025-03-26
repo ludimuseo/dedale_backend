@@ -34,6 +34,7 @@ export interface User {
   role: UserRole
   token: string
   password: string
+  confirmedPassword: string
 }
 
 /* WORDPASS */

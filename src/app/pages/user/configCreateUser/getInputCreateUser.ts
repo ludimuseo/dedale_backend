@@ -89,7 +89,7 @@ export const getInputConfig = [
     section: 'profile',
     field: 'confirmedPassword',
     placeholder: 'Confirmer le mot de passe',
-    type: 'text',
+    type: 'password',
     maxLength: 50,
   },
 ]

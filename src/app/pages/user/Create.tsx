@@ -13,6 +13,12 @@ const UserCreate: FC = () => {
   // State to store user data
   const [user, setUser] = useState<Partial<User>>({
     role: UserRole.ADMIN, // Default role
+    pseudo: '',
+    email: '',
+    firstname: '',
+    name: '',
+    password: '',
+    confirmedPassword: '',
   })
 
   //State to store validation errors
@@ -90,6 +96,12 @@ const UserCreate: FC = () => {
     void fetchClients()
   }, [])
 
+  const generatePassword = () => {
+    const password = crypto.randomUUID()
+
+    setUser((prev) => ({ ...prev, password, confirmedPassword: password }))
+  }
+
   return (
     <>
       {/* NAVBAR */}
@@ -146,6 +158,12 @@ const UserCreate: FC = () => {
                   </label>
                 )
               })}
+              <button
+                type="button"
+                className="btn btn-primary mt-6"
+                onClick={generatePassword}>
+                Generate Password
+              </button>
             </div>
 
             {/* CLIENT SELECTION */}
