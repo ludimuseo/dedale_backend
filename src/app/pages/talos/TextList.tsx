@@ -6,7 +6,6 @@ import Header from '@/app/components/talos/textList/Header'
 import ImagePreview from '@/app/components/talos/textList/ImagePreview'
 import NavigationHeader from '@/app/components/talos/textList/NavigationHeader'
 import PreviewRemainingText from '@/app/components/talos/textList/PreviewRemainingText'
-import RemainingTexts from '@/app/components/talos/textList/RemainingTexts'
 import TextPreview from '@/app/components/talos/textList/TextPreview'
 import { CheckIcon } from '@/app/components/ui/icons/CheckIcon'
 import { PencilIcon } from '@/app/components/ui/icons/PencilIcon'
@@ -243,13 +242,12 @@ const TextList: FC = () => {
   return (
     <div className="bg-white p-6 font-sans text-[#0A184D]">
       <Header title="Liste des Textes" />
-      <RemainingTexts
+      {/* <RemainingTexts
         placesToCorrect={placesToCorrect}
         journeysToCorrect={journeysToCorrect}
         stepsToCorrect={stepsToCorrect}
         piecesToCorrect={piecesToCorrect}
-      />
-      {/* <progress className="progress progress-primary w-56" value={50} max="100"></progress> */}
+      /> */}
 
       {/* Liste des Lieux */}
       <section aria-labelledby="places-heading">
@@ -271,12 +269,19 @@ const TextList: FC = () => {
                 <div className="mb-2 flex items-center">
                   <h3 className="my-1 text-3xl font-bold">{place.name.fr}</h3>
                   {place.description.falc.status.isCertified ? (
-                    <button
-                      className="text-xl] ml-5 flex items-center gap-1 rounded-full border-2 border-[#22891F] bg-[#22891F] px-1 py-1 font-inclusive"
-                      aria-label={`Texte validé pour ${place.name.fr}`}>
-                      <CheckIcon className="h-8 w-8" />
-                      <p>Validé</p>
-                    </button>
+                    <div className="group relative inline-block">
+                      <button
+                        className="ml-5 flex items-center gap-1 rounded-full border-2 border-[#22891F] bg-[#22891F] px-1 py-1 font-inclusive text-xl"
+                        aria-label={`Texte validé pour ${place.name.fr}`}>
+                        <CheckIcon className="h-8 w-8" />
+                        {/* Infobulle */}
+                      </button>
+                      <div
+                        role="tooltip"
+                        className="absolute bottom-full left-1/2 mb-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-yellow-400 px-3 py-1 font-inclusive text-lg text-blue-950 shadow-lg group-hover:block">
+                        Texte validé
+                      </div>
+                    </div>
                   ) : (
                     <button
                       onClick={() => {
@@ -328,16 +333,23 @@ const TextList: FC = () => {
                             className="m-4 rounded-xl border-2 border-[#0A184D] bg-[#F4FDFF] px-4 py-3 text-[#0A184D] shadow-md">
                             <div className="mb-4 flex items-center">
                               {' '}
-                              <h5 className="mb-3 text-3xl font-medium">
+                              <h5 className="mb-3 font-inclusive text-3xl">
                                 {journey.name.fr}
                               </h5>
                               {journey.description.falc.status.isCertified ? (
-                                <button
-                                  className="ml-5 flex items-center gap-3 rounded-xl border-2 border-[#22891F] bg-[#22891F] px-4 py-2 text-xl text-white"
-                                  aria-label={`Texte validé pour ${journey.name.fr}`}>
-                                  <CheckIcon className="h-8 w-8" />
-                                  <p>Texte validé</p>
-                                </button>
+                                <div className="group relative bottom-1 inline-block">
+                                  <button
+                                    className="ml-5 flex items-center gap-1 rounded-full border-2 border-[#22891F] bg-[#22891F] px-1 py-1 font-inclusive text-xl"
+                                    aria-label={`Texte validé pour ${journey.name.fr}`}>
+                                    <CheckIcon className="h-8 w-8" />
+                                    {/* Infobulle */}
+                                  </button>
+                                  <div
+                                    role="tooltip"
+                                    className="absolute bottom-full left-1/2 mb-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-yellow-400 px-3 py-1 font-inclusive text-lg text-blue-950 shadow-lg group-hover:block">
+                                    Texte validé
+                                  </div>
+                                </div>
                               ) : (
                                 <button
                                   onClick={() => {
@@ -398,10 +410,12 @@ const TextList: FC = () => {
                                           {step.description.falc.status
                                             .isCertified ? (
                                             <button
-                                              className="flex items-center gap-3 rounded-xl border-2 border-[#22891F] bg-[#22891F] px-6 py-2 text-xl text-white"
+                                              className="flex h-16 items-center gap-2 rounded-xl bg-[#22891F] px-6 text-xl text-white"
                                               aria-label={`Texte validé pour ${step.name.fr}`}>
                                               <CheckIcon className="h-8 w-8" />
-                                              <p>Texte validé</p>
+                                              <p className="text-xl">
+                                                Texte validé
+                                              </p>
                                             </button>
                                           ) : (
                                             <button
@@ -453,10 +467,12 @@ const TextList: FC = () => {
                                                       {piece.description.falc
                                                         .status.isCertified ? (
                                                         <button
-                                                          className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-                                                          aria-label={`Texte validé pour ${piece.name.fr}`}>
+                                                          className="flex h-16 items-center gap-2 rounded-xl bg-green-600 px-6 text-xl text-white"
+                                                          aria-label={`Texte validé pour ${step.name.fr}`}>
                                                           <CheckIcon className="h-8 w-8" />
-                                                          <p>Texte validé</p>
+                                                          <p className="text-xl">
+                                                            Texte validé
+                                                          </p>
                                                         </button>
                                                       ) : (
                                                         <button
