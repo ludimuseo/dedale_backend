@@ -1,18 +1,10 @@
 import React, { FormEvent, MouseEvent } from 'react'
 
-import { useNavigate } from 'react-router'
-
-import { ArrowLeftIcon } from '@/app/components'
-import { ArrowRightIcon } from '@/app/components/ui/icons/ArrowRightIcon'
-import { CheckIcon } from '@/app/components/ui/icons/CheckIcon'
 import { MessageType } from '@/types'
 
 interface FormFooterProps {
-  title: string
   message: MessageType
-  handleDescription?: () => void
-  showDescription: boolean
-
+  handleEdit: () => void
   currentStep: number
   step: number
   handlePrevStep: () => void
@@ -24,12 +16,8 @@ interface FormFooterProps {
 }
 
 const FormFooter = ({
-
-  title,
   message,
-  handleDescription,
-  showDescription,
-
+  handleEdit,
   currentStep,
   step,
   handlePrevStep,
@@ -37,72 +25,38 @@ const FormFooter = ({
   handleSubmit,
   icon,
 }: FormFooterProps) => {
-
-  const navigate = useNavigate()
-
   return (
     <div className="dark:border-strokedark dark:bg-boxdark mt-5 flex flex-col rounded-sm px-20">
       <div className="flex flex-row justify-center">
         {message.result ? (
           <>
             <button
-
-              className="mx-8 mb-8 mt-8 flex justify-center rounded-xl bg-blue-900 p-3 font-bold text-white hover:bg-opacity-100"
+              className="mx-8 mb-8 mt-8 flex justify-center rounded bg-blue-900 p-3 font-bold text-white hover:bg-opacity-100"
               onClick={() => {
-                if (!showDescription && title !== 'Formulaire Client') {
-                  handleDescription?.()
-                } else {
-                  void navigate('/form')
-                }
+                handleEdit()
               }}>
-              {!showDescription && title !== 'Formulaire Client' ? (
-                icon && icon
-              ) : (
-                <></>
-              )}
-              {!showDescription && title !== 'Formulaire Client' ? (
-                <p className="ml-2 flex items-center font-inclusive text-xl">
-                  Ajouter les descriptions
-                </p>
-              ) : (
-                <p className="font-inclusive text-xl">Retour au Menu</p>
-              )}
-
+              {icon && icon}
+              <span className="ml-2 mt-1">{`Editer un Lieu `}</span>
             </button>
           </>
         ) : currentStep < step - 1 ? (
           <>
             {currentStep > 0 && (
               <div className="mr-10">
-
-                <button
-                  className="btn btn-primary font-inclusive text-xl"
-                  onClick={handlePrevStep}>
-                  <ArrowLeftIcon className="w-8" />
-                  {`Précédent`}
-
+                <button className="btn btn-primary" onClick={handlePrevStep}>
+                  {`<- Précédent`}
                 </button>
                 <br />
               </div>
             )}
-
-            <button
-              className="btn btn-primary font-inclusive text-xl"
-              onClick={handleNextStep}>
-              {`Suivant `}
-              <ArrowRightIcon className="w-8" />
-
+            <button className="btn btn-primary" onClick={handleNextStep}>
+              {`Suivant ->`}
             </button>
           </>
         ) : (
           <div className="flex flex-row">
-
-            <button
-              className="btn btn-primary mr-10 font-inclusive text-xl"
-              onClick={handlePrevStep}>
-              <ArrowLeftIcon className="w-8" />
-              {`Précédent`}
-
+            <button className="btn btn-primary mr-10" onClick={handlePrevStep}>
+              {`<- Précédent`}
             </button>
             <br />
             <button
@@ -110,10 +64,7 @@ const FormFooter = ({
               onClick={(event) => {
                 handleSubmit(event)
               }}>
-
-              <p className="font-inclusive text-xl">VALIDER</p>
-              <CheckIcon className="h-7 w-7" />
-
+              VALIDER
             </button>
           </div>
         )}
