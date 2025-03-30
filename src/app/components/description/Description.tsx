@@ -54,7 +54,7 @@ export default function Description({
   getInput,
   currentStep,
 }: DescriptionProps) {
-  const [language, setLanguage] = useState<string>('fr')
+  const [language, setLanguage] = useState<string | undefined>('fr')
   const [descriptions, setDescriptions] = useState<Description[]>([
     {
       id: Date.now(),
@@ -186,8 +186,8 @@ export default function Description({
       ...descriptions,
       {
         id: Date.now() + Math.random(),
-        language: language,
-        order: 0,
+        language: language ?? 'fr',
+        order: descriptions.length,
         text: '',
         isFalc: false,
         isCertifiedFalc: false,
@@ -218,10 +218,18 @@ export default function Description({
       const oldIndex = descriptions.findIndex((item) => item.id === active.id)
       const newIndex = descriptions.findIndex((item) => item.id === over?.id)
       setDescriptions(arrayMove(descriptions, oldIndex, newIndex))
+
+      // Mettre à jour les valeurs de `order`
+      setDescriptions(
+        descriptions.map((desc, index) => ({
+          ...desc,
+          order: index, // Mise à jour de l’ordre selon la nouvelle position
+        }))
+      )
     }
   }
 
-  //console.log('descriptions: ', descriptions)
+  console.log('descriptions: ', descriptions)
   return (
     <>
       {/* <DescriptionNavBar /> */}
