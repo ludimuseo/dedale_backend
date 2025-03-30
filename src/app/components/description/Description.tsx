@@ -14,7 +14,7 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { CloseIcon } from '../ui/icons/CloseIcon'
 import AddDescriptionButton from './AddDescriptionButton'
@@ -26,7 +26,7 @@ interface SortableItemProps {
   handleRemoveDesc: (id: number) => void
 }
 
-interface Description {
+export interface Description {
   id: number
   language: 'fr' | 'en'
   order: number
@@ -42,6 +42,14 @@ interface Description {
   }
 }
 
+// interface DescriptionProps {
+//   handleInputChange: <S extends keyof T, K extends keyof T[S]>(
+//       section: S,
+//       name: K,
+//       event: T[S][K]
+//     ) => void
+// }
+
 export default function Description() {
   const [descriptions, setDescriptions] = useState<Description[]>([
     {
@@ -53,13 +61,34 @@ export default function Description() {
         file: '',
         alt: '',
       },
-
       audio: {
         file: '',
         audio_desc: '',
       },
     },
   ])
+
+  const textareasRef = useRef<Record<number, HTMLTextAreaElement | null>>({})
+
+  const handleAddDescription = (
+    id: number,
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    event.preventDefault()
+    const { value } = event.target
+
+    setDescriptions((prev) =>
+      prev.map((desc) => (desc.id === id ? { ...desc, text: value } : desc))
+    )
+    setTimeout(() => {
+      if (textareasRef.current[id]) {
+        const textarea = textareasRef.current[id]
+        //Placer le curseur toujours à la fin du texte
+        textarea.focus()
+        textarea.setSelectionRange(value.length, value.length)
+      }
+    }, 0)
+  }
 
   function SortableItem({ desc, handleRemoveDesc }: SortableItemProps) {
     const {
@@ -95,7 +124,13 @@ export default function Description() {
         <div className="hero min-h-10 shadow-sm">
           <div className="hero-content flex-col lg:flex-row">
             <FileUploadArea />
-            <MainTextArea />
+            <MainTextArea
+              ref={(el) => {
+                if (el) textareasRef.current[desc.id] = el
+              }}
+              descriptions={[desc as Description]}
+              handleAddDescription={handleAddDescription}
+            />
           </div>
         </div>
         <button
@@ -114,6 +149,7 @@ export default function Description() {
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
   )
 
+  //Ajouter une description
   const handleAddDesc = () => {
     setDescriptions([
       ...descriptions,
@@ -136,7 +172,12 @@ export default function Description() {
   }
 
   const handleRemoveDesc = (id: number) => {
-    setDescriptions(descriptions.filter((desc) => desc.id !== id))
+    if (
+      window.confirm(
+        'Etes-vous certain de vouloir supprimer cette descritpion ?'
+      )
+    )
+      setDescriptions(descriptions.filter((desc) => desc.id !== id))
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -148,6 +189,7 @@ export default function Description() {
     }
   }
 
+  console.log('descriptions: ', descriptions)
   return (
     <>
       {/* <DescriptionNavBar /> */}

@@ -92,7 +92,7 @@ const InputArea = ({
   }
 
   return (
-    <div className="navbar flex min-h-max justify-center rounded-xl bg-base-100 p-4 shadow-xl">
+    <div className="flex min-h-max justify-center rounded-xl bg-base-100 p-4 shadow-xl">
       {/*INPUT AREA 1*/}
       {!message.info ? (
         <form
@@ -259,6 +259,7 @@ const InputArea = ({
           )}
         </form>
       ) : (
+        // <Description />
         <>
           <div className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark mt-5 flex w-1/2 flex-col items-center rounded-sm p-2">
             <h1> 🚀 {message.info}</h1>
@@ -271,7 +272,7 @@ const InputArea = ({
           </div>
         </>
       )}
-      {
+      {/* {
         //translate s'affiche si il y a une traduction a executer
         getInput[currentStep].map(
           (
@@ -342,7 +343,7 @@ const InputArea = ({
             }
           }
         )
-      }
+      } */}
     </div>
   )
 }

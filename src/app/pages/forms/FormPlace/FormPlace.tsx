@@ -314,6 +314,7 @@ const FormPlace: FC = () => {
     }
     void fecthMedal()
   }, [])
+
   //useEffect(() => {
   //VERIFIER SI USER.ROLE === 'SUPERADMIN' sinon redirection page dashboard
   //}, [])

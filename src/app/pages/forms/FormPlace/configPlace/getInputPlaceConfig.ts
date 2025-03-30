@@ -156,7 +156,7 @@ export const getInputPlaceConfig: GetInputConfigType[][] = [
       label: 'Description FALC ou Facile à lire',
       language: 'fr',
       mode: 'falc',
-      name: 'falc',
+      name: 'descriptionFalc',
       placeholder: 'Entrez la description facile a lire du lieu',
       rightSideVisible: true,
       required: false,
