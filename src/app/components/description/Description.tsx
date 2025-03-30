@@ -16,7 +16,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useRef, useState } from 'react'
 
-import { CloseIcon } from '../ui/icons/CloseIcon'
+import { WrongCheck } from '../ui/icons/WrongCheck'
 import AddDescriptionButton from './AddDescriptionButton'
 import FileUploadArea from './FileUploadArea'
 import MainTextArea from './MainTextArea'
@@ -31,6 +31,8 @@ export interface Description {
   language: 'fr' | 'en'
   order: number
   text: string
+  isFalc: boolean
+  isCertifiedFalc: boolean
   image: {
     file: string
     alt: string
@@ -42,14 +44,6 @@ export interface Description {
   }
 }
 
-// interface DescriptionProps {
-//   handleInputChange: <S extends keyof T, K extends keyof T[S]>(
-//       section: S,
-//       name: K,
-//       event: T[S][K]
-//     ) => void
-// }
-
 export default function Description() {
   const [descriptions, setDescriptions] = useState<Description[]>([
     {
@@ -57,6 +51,8 @@ export default function Description() {
       language: 'fr',
       order: 0,
       text: '',
+      isFalc: false,
+      isCertifiedFalc: false,
       image: {
         file: '',
         alt: '',
@@ -139,7 +135,7 @@ export default function Description() {
             handleRemoveDesc(desc.id)
           }}
           title="Supprimer">
-          <CloseIcon />
+          <WrongCheck className="h-8 w-8" />
         </button>
       </motion.div>
     )
@@ -158,11 +154,12 @@ export default function Description() {
         language: 'fr',
         order: 0,
         text: '',
+        isFalc: false,
+        isCertifiedFalc: false,
         image: {
           file: '',
           alt: '',
         },
-
         audio: {
           file: '',
           audio_desc: '',
