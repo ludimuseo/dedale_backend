@@ -319,7 +319,7 @@ const FormPlace: FC = () => {
   //VERIFIER SI USER.ROLE === 'SUPERADMIN' sinon redirection page dashboard
   //}, [])
 
-  console.log('FormData:', { ...formData })
+  // console.log('FormData:', { ...formData })
 
   return (
     <>

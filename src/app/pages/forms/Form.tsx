@@ -138,7 +138,9 @@ const Form = ({
             handleResponseChange?.(section, name, mode, language, value)
           }}
         />
-        {isDescription && <Description />}
+        {isDescription && (
+          <Description getInput={getInput} currentStep={currentStep} />
+        )}
         <FormFooter
           message={message}
           handleEdit={handleEdit}

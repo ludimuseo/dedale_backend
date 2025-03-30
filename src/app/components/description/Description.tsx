@@ -14,13 +14,19 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
+import { GetInputConfigType } from '@/types'
 
 import { WrongCheck } from '../ui/icons/WrongCheck'
 import AddDescriptionButton from './AddDescriptionButton'
 import FileUploadArea from './FileUploadArea'
 import MainTextArea from './MainTextArea'
 
+interface DescriptionProps {
+  getInput: GetInputConfigType[][]
+  currentStep: number
+}
 interface SortableItemProps {
   desc: { id: number }
   handleRemoveDesc: (id: number) => void
@@ -28,7 +34,7 @@ interface SortableItemProps {
 
 export interface Description {
   id: number
-  language: 'fr' | 'en'
+  language: string
   order: number
   text: string
   isFalc: boolean
@@ -44,7 +50,11 @@ export interface Description {
   }
 }
 
-export default function Description() {
+export default function Description({
+  getInput,
+  currentStep,
+}: DescriptionProps) {
+  const [language, setLanguage] = useState<string>('fr')
   const [descriptions, setDescriptions] = useState<Description[]>([
     {
       id: Date.now(),
@@ -63,8 +73,13 @@ export default function Description() {
       },
     },
   ])
-
   const textareasRef = useRef<Record<number, HTMLTextAreaElement | null>>({})
+
+  useEffect(() => {
+    getInput[currentStep].map(({ language }) => {
+      setLanguage(language)
+    })
+  }, [getInput, currentStep])
 
   const handleAddDescription = (
     id: number,
@@ -120,6 +135,26 @@ export default function Description() {
         <div className="hero min-h-10 shadow-sm">
           <div className="hero-content flex-col lg:flex-row">
             <FileUploadArea />
+            <div>
+              {language === 'fr' ? (
+                <svg width="32" height="24" viewBox="0 0 16 16">
+                  <rect width="5" height="16" fill="#002654" />
+                  <rect x="5" width="6" height="16" fill="#FFFFFF" />
+                  <rect x="11" width="5" height="16" fill="#ED2939" />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 16 16">
+                  <rect width="16" height="16" fill="#FFFFFF" />
+                  <rect y="7" width="16" height="2" fill="#C8102E" />
+                  <rect x="7" width="2" height="16" fill="#C8102E" />
+                </svg>
+              )}
+            </div>
+
             <MainTextArea
               ref={(el) => {
                 if (el) textareasRef.current[desc.id] = el
@@ -151,7 +186,7 @@ export default function Description() {
       ...descriptions,
       {
         id: Date.now() + Math.random(),
-        language: 'fr',
+        language: language,
         order: 0,
         text: '',
         isFalc: false,
@@ -186,7 +221,7 @@ export default function Description() {
     }
   }
 
-  console.log('descriptions: ', descriptions)
+  //console.log('descriptions: ', descriptions)
   return (
     <>
       {/* <DescriptionNavBar /> */}

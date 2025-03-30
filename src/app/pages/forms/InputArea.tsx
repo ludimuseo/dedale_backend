@@ -253,7 +253,29 @@ const InputArea = ({
                   )
                 }
               } else {
-                if (rows) showDescription?.(true)
+                if (rows) {
+                  showDescription?.(true)
+                  return (
+                    <div className="flex flex-row items-center">
+                      <svg
+                        width="64"
+                        height="64"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" fill="#4285F4" />
+
+                        <path
+                          d="M12 6L14 10H18L15 13L17 17L12 15L7 17L9 13L6 10H10L12 6Z"
+                          fill="white"
+                        />
+                      </svg>
+                      <p className="ml-2 font-inclusive text-3xl">
+                        {' '}
+                        {placeholder}
+                      </p>
+                    </div>
+                  )
+                }
               }
             }
           )}
