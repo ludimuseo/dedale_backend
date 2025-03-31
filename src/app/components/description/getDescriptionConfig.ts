@@ -7,14 +7,17 @@ export const getDescriptionConfig = [
     isFalc: false,
     isCertifiedFalc: false,
   },
-  {
-    id: '1',
-    language: 'fr',
-    name: 'descriptionFalc',
-    label: 'Description Falc en francais',
-    isFalc: true,
-    isCertifiedFalc: false,
-  },
+  // {
+  //     id: '1',
+  //     language: 'fr',
+  //     name: 'descriptionFalc',
+  //     label: 'Description Falc en francais',
+  //     isFalc: true,
+  //     isCertifiedFalc: false,
+  // },
+]
+
+export const getDescriptionEnConfig = [
   {
     id: '2',
     language: 'en',

@@ -55,6 +55,7 @@ export default function Description({
   currentStep,
 }: DescriptionProps) {
   const [language, setLanguage] = useState<string | undefined>('fr')
+  const [isFalc, setIsFalc] = useState(false)
   const [descriptions, setDescriptions] = useState<Description[]>([
     {
       id: Date.now(),
@@ -76,10 +77,34 @@ export default function Description({
   const textareasRef = useRef<Record<number, HTMLTextAreaElement | null>>({})
 
   useEffect(() => {
-    getInput[currentStep].map(({ language }) => {
+    const stepData = getInput[currentStep] || [] // Évite les erreurs si `getInput[currentStep]` est undefined
+
+    if (stepData.length > 0) {
+      const { language, mode } = stepData[0] // Prend les valeurs du premier élément de la liste
       setLanguage(language)
-    })
-  }, [getInput, currentStep])
+      setIsFalc(mode === 'falc')
+    }
+  }, [currentStep, getInput])
+
+  useEffect(() => {
+    // Vérifie si l'on passe en mode FALC et qu'il y a déjà du texte
+    if (isFalc && descriptions.some((desc) => desc.text.length > 0)) {
+      const confirmClear = window.confirm(
+        'Voulez-vous effacer le texte pour rédiger la version FALC ?'
+      )
+
+      if (confirmClear) {
+        setDescriptions((prevDescriptions) =>
+          prevDescriptions.map((desc) => ({
+            ...desc,
+            id: Date.now() + Math.random(), // Nouvel ID unique
+            text: '', // Efface le texte
+          }))
+        )
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFalc]) // Déclenché uniquement quand `isFalc` change
 
   const handleAddDescription = (
     id: number,
@@ -89,8 +114,11 @@ export default function Description({
     const { value } = event.target
 
     setDescriptions((prev) =>
-      prev.map((desc) => (desc.id === id ? { ...desc, text: value } : desc))
+      prev.map((desc) =>
+        desc.id === id ? { ...desc, text: value } : { ...desc }
+      )
     )
+
     setTimeout(() => {
       if (textareasRef.current[id]) {
         const textarea = textareasRef.current[id]
@@ -161,6 +189,8 @@ export default function Description({
               }}
               descriptions={[desc as Description]}
               handleAddDescription={handleAddDescription}
+              language={language}
+              isFalc={isFalc}
             />
           </div>
         </div>
@@ -189,7 +219,7 @@ export default function Description({
         language: language ?? 'fr',
         order: descriptions.length,
         text: '',
-        isFalc: false,
+        isFalc: isFalc,
         isCertifiedFalc: false,
         image: {
           file: '',
@@ -229,7 +259,8 @@ export default function Description({
     }
   }
 
-  console.log('descriptions: ', descriptions)
+  console.log('descriptions0: ', descriptions[0])
+
   return (
     <>
       {/* <DescriptionNavBar /> */}
