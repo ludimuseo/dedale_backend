@@ -10,6 +10,7 @@ import {
   StepType,
 } from '@/types'
 
+import { ChangeFontSizeBar } from '../ChangeFontSizeBar'
 import { MainContent } from './MainContent'
 import { Sentence } from './TalosInterfaceMain'
 
@@ -21,6 +22,8 @@ interface LeftClipboardProps {
     PlaceType | JourneyType | StepType | PieceType | GameType
   >
   sentencesData: ReactElement[]
+  handleChangeFontSize: (newCounter: number) => void
+  fontSize: number
 }
 
 const LeftClipboard: FC<LeftClipboardProps> = ({
@@ -29,14 +32,25 @@ const LeftClipboard: FC<LeftClipboardProps> = ({
   falcText,
   formData,
   sentencesData,
+  handleChangeFontSize,
+  fontSize,
 }) => {
+  const handleDecreaseFontSize = () => {
+    if (fontSize === 0) return
+    handleChangeFontSize(fontSize - 1)
+  }
+
+  const handleIncreaseFontSize = () => {
+    if (fontSize === 5) return
+    handleChangeFontSize(fontSize + 1)
+  }
   return (
     <>
       {/* Main Content SECTION GAUCHE */}
       <div
         className={
           isLeftClipboardShowed
-            ? 'w-1/2 border-r border-gray-300 pr-4'
+            ? 'mt-4 flex w-1/2 border-r border-gray-300 pr-4'
             : 'w-full'
         }>
         <AnimatePresence>
@@ -75,7 +89,13 @@ const LeftClipboard: FC<LeftClipboardProps> = ({
             </>
           )}
           {!showProofReading && (
-            <MainContent formData={formData} sentencesData={sentencesData} />
+            <>
+              <MainContent formData={formData} sentencesData={sentencesData} />
+              <ChangeFontSizeBar
+                handleDecreaseFontSize={handleDecreaseFontSize}
+                handleIncreaseFontSize={handleIncreaseFontSize}
+              />
+            </>
           )}
         </AnimatePresence>
       </div>
