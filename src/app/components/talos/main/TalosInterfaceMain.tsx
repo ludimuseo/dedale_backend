@@ -81,7 +81,7 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
   const [showProofReading, setShowProofReading] = useState(false)
   const [isConfirmSubmitFalcText, setIsConfirmSubmitFalcText] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-
+  const [counter, setCounter] = useState<number>(0)
   const [visibleSentences] = useState<Sentence[]>(
     formData.description.falc.fr
       .split(/(?<=[.!?:])\s+/)
@@ -102,6 +102,31 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
           disabled = true
         }
       }
+
+      let newFontSize
+
+      switch (counter) {
+        case 0:
+          newFontSize = 'text-base'
+          break
+        case 1:
+          newFontSize = 'text-lg'
+          break
+        case 2:
+          newFontSize = 'text-xl'
+          break
+        case 3:
+          newFontSize = 'text-2xl'
+          break
+        case 4:
+          newFontSize = 'text-3xl'
+          break
+        case 5:
+          newFontSize = 'text-4xl'
+          break
+        default:
+          newFontSize = 'text-base'
+      }
       return (
         <motion.div
           key={item.id}
@@ -115,7 +140,7 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
           onMouseLeave={() => {
             handleMouseLeave()
           }}>
-          <p>{item.sentence}</p>
+          <p className={newFontSize}>{item.sentence}</p>
           <AnimatePresence mode="popLayout">
             {hoveredIndex === item.id && (
               <motion.div
@@ -354,6 +379,8 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
               falcText={falcText}
               formData={formData}
               sentencesData={sentencesData}
+              handleChangeFontSize={setCounter}
+              fontSize={counter}
             />
             {/* SECTION DROITE */}
             <RightClipboard
