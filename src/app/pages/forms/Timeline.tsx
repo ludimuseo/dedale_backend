@@ -8,6 +8,8 @@ interface TimelineProps {
 }
 
 const Timeline = ({ getInput, currentStep, message }: TimelineProps) => {
+  console.log('TIMELINE currentStep', currentStep)
+
   return (
     <div className="navbar rounded-xl bg-base-100 p-4 shadow-xl">
       {

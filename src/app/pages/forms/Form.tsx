@@ -1,5 +1,4 @@
-import { MuseumIcon } from '@component'
-import React, { FormEvent, MouseEvent, useState } from 'react'
+import React, { FormEvent, MouseEvent } from 'react'
 
 import Description from '@/app/components/description/Description'
 import { GetInputConfigType, MessageType, T } from '@/types'
@@ -12,6 +11,7 @@ import Timeline from './Timeline'
 interface FormProps {
   clientIdAndName?: { id: string; name: string }[] | undefined
   placeIdAndName?: { docId: string; name: string }[] | undefined
+  showDescription: boolean
   title: string
   icon: React.JSX.Element
   handleArrowLeft: () => void
@@ -27,7 +27,7 @@ interface FormProps {
   currentStep: number
   step: number
   message: MessageType
-  handleEdit: () => void
+  handleDescription: () => void
   handlePrevStep: () => void
   handleNextStep: () => void
   handleSubmit: (
@@ -49,12 +49,7 @@ interface FormProps {
     language: L,
     event: T[S][M][L]
   ) => void
-  handleFileUpload?: (
-    file: File,
-    fileType: string,
-    section: string,
-    name: string
-  ) => void
+  handleFileUpload?: (file: File, fileType: string, name: string) => void
   handleResponseChange?: <
     S extends keyof T,
     M extends keyof T[S],
@@ -76,6 +71,7 @@ interface FormProps {
 const Form = ({
   //clientIdAndName,
   //placeIdAndName,
+  showDescription,
   title,
   icon,
   handleArrowLeft,
@@ -90,7 +86,7 @@ const Form = ({
   formData,
   handleInputChange,
   handleChange,
-  handleEdit,
+  handleDescription,
   handlePrevStep,
   handleNextStep,
   handleFileUpload,
@@ -100,11 +96,6 @@ const Form = ({
   // selectedOption,
   // selectedPlaceOption,
 }: FormProps) => {
-  const [isDescription, setIsDescription] = useState(false)
-  const showDescription = (isShowed: boolean) => {
-    setIsDescription(isShowed)
-  }
-
   return (
     <div className="grid grid-cols-1 gap-1 p-10 sm:grid-cols-1">
       <FormHeader title={title} icon={icon} handleSubmit={handleArrowLeft} />
@@ -120,6 +111,7 @@ const Form = ({
           getInput={getInput}
           currentStep={currentStep}
           formData={formData}
+          handleDescription={handleDescription}
           showDescription={showDescription}
           handleSubmit={(event) => {
             handleSubmit(event)
@@ -131,19 +123,20 @@ const Form = ({
             if (handleChange !== undefined)
               handleChange(section, mode, language, value)
           }}
-          handleFileUpload={(file, fileType, section, name) =>
-            handleFileUpload?.(file, fileType, section, name)
+          handleFileUpload={(file, fileType, name) =>
+            handleFileUpload?.(file, fileType, name)
           }
           handleResponseChange={(section, name, mode, language, value) => {
             handleResponseChange?.(section, name, mode, language, value)
           }}
         />
-        {isDescription && (
+        {showDescription && (
           <Description getInput={getInput} currentStep={currentStep} />
         )}
         <FormFooter
           message={message}
-          handleEdit={handleEdit}
+          handleDescription={handleDescription}
+          showDescription={showDescription}
           currentStep={currentStep}
           step={step}
           handlePrevStep={() => {
@@ -153,7 +146,22 @@ const Form = ({
           handleSubmit={(event) => {
             handleSubmit(event)
           }}
-          icon={<MuseumIcon />}
+          icon={
+            <div className="flex flex-row items-center">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" fill="#4285F4" />
+
+                <path
+                  d="M12 6L14 10H18L15 13L17 17L12 15L7 17L9 13L6 10H10L12 6Z"
+                  fill="white"
+                />
+              </svg>
+            </div>
+          }
         />
       </>
     </div>

@@ -8,7 +8,8 @@ import TextArea from './inputForm/TextArea'
 
 interface InputAreaProps {
   message: MessageType
-  showDescription?: (isShowed: boolean) => void
+  handleDescription?: (isShowed: boolean) => void
+  showDescription?: boolean
   handleSubmit: (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => void
@@ -20,12 +21,7 @@ interface InputAreaProps {
     name: K,
     event: T[S][K]
   ) => void
-  handleFileUpload: (
-    file: File,
-    fileType: string,
-    section: string,
-    name: string
-  ) => void
+  handleFileUpload: (file: File, fileType: string, name: string) => void
   handleChange: <
     S extends keyof T,
     M extends keyof T[S],
@@ -52,7 +48,6 @@ interface InputAreaProps {
 
 const InputArea = ({
   message,
-  showDescription,
   handleSubmit,
   getInput,
   currentStep,
@@ -62,31 +57,22 @@ const InputArea = ({
   handleChange,
 }: InputAreaProps) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null)
-  const [audioPreview, setAudioPreview] = useState<string | null>(null)
+  //const [audioPreview, setAudioPreview] = useState<string | null>(null)
 
   const handleFileChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     type: string,
-    section: string,
     name: string
   ) => {
     const file = event.target.files?.[0]
     if (file) {
       if (type === 'image') {
         if (typeof handleFileUpload !== 'undefined') {
-          handleFileUpload(file, 'image', section, name)
+          handleFileUpload(file, 'image', name)
         }
         const imageUrl = URL.createObjectURL(file)
         setImagePreview(imageUrl)
         console.log('imagePreview: ', imagePreview)
-      }
-      if (type === 'audio') {
-        if (typeof handleFileUpload !== 'undefined') {
-          handleFileUpload(file, 'audio', section, name)
-        }
-        const audioUrl = URL.createObjectURL(file)
-        setAudioPreview(audioUrl)
-        console.log('audioPreview: ', audioPreview)
       }
     }
   }
@@ -115,7 +101,7 @@ const InputArea = ({
               rightSideVisible,
             }) => {
               if (!rightSideVisible) {
-                showDescription?.(false)
+                //handleDescription?.(false)
                 if (rows) {
                   return (
                     <TextArea
@@ -224,7 +210,7 @@ const InputArea = ({
                           type={type}
                           accept={accessType}
                           onChange={(file) => {
-                            handleFileChange(file, fileType, section, name)
+                            handleFileChange(file, fileType, name)
                           }}
                           className="file-input file-input-bordered w-full max-w-xs"
                         />
@@ -243,18 +229,18 @@ const InputArea = ({
                           </div>
                         </div>
                       )}
-                      {fileType === 'audio' && audioPreview && (
+                      {/* {fileType === 'audio' && audioPreview && (
                         <audio controls key={`${id}-audio`}>
                           <source src={audioPreview} type="audio/mpeg" />
                           Votre navigateur ne supporte pas la lecture audio.
                         </audio>
-                      )}
+                      )} */}
                     </div>
                   )
                 }
               } else {
                 if (rows) {
-                  showDescription?.(true)
+                  // handleDescription?.(true)
                   return (
                     <div className="flex flex-row items-center">
                       <svg
@@ -281,7 +267,6 @@ const InputArea = ({
           )}
         </form>
       ) : (
-        // <Description />
         <>
           <div className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark mt-5 flex w-1/2 flex-col items-center rounded-sm p-2">
             <h1> 🚀 {message.info}</h1>

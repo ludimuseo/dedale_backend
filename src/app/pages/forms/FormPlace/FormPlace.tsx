@@ -1,10 +1,11 @@
 import { PlaceIcon } from '@component'
-import { addDoc, collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { v4 as uuidv4 } from 'uuid'
 
+import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { db } from '@/firebase/firebase'
 import { MessageType, T } from '@/types'
 
@@ -16,6 +17,7 @@ const FormPlace: FC = () => {
   const title = 'Formulaire Lieu'
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
+  const [showDescription, setShowDescription] = useState(false)
   const [clientIdAndName, setClientIdAndName] = useState<
     { id: string; name: string }[] | undefined
   >([])
@@ -89,8 +91,10 @@ const FormPlace: FC = () => {
     setCurrentStep(currentStep - 1)
   }
 
-  const handleEditPlace = () => {
-    alert('Edit Place')
+  const handleDescription = () => {
+    //AFFICHER Descritpion
+    setShowDescription(true)
+    setCurrentStep(0)
   }
 
   const handleArrowLeft = () => {
@@ -99,26 +103,40 @@ const FormPlace: FC = () => {
   //liste des clients
 
   //soumission des informations
-  const handleSubmit = async (
+  const handleSubmit = (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault()
-    try {
-      const docRef = await addDoc(collection(db, 'places'), { ...formData })
-      const id = docRef.id
-      if (id) {
-        setMessage(() => ({
-          info: 'Votre formulaire a été envoyé avec succès !',
-          result: true,
-        }))
-      }
-    } catch (error) {
-      console.error("Erreur sur l'envoi du formulaire", error)
+
+    //FETCH des donnees a l'API et recuperer l'ID
+    if (showDescription) {
       setMessage(() => ({
-        info: "Erreur lors de l'envoi du formulaire",
-        result: false,
+        info: 'Vos descriptions ont été envoyées avec succès !',
+        result: true,
+      }))
+    } else {
+      setMessage(() => ({
+        info: 'Votre formulaire a été envoyé avec succès !',
+        result: true,
       }))
     }
+    console.log('FETCH formData: ', formData)
+    // try {
+    //   const docRef = await addDoc(collection(db, 'places'), { ...formData })
+    //   const id = docRef.id
+    //   if (id) {
+    //     setMessage(() => ({
+    //       info: 'Votre formulaire a été envoyé avec succès !',
+    //       result: true,
+    //     }))
+    //   }
+    // } catch (error) {
+    //   console.error("Erreur sur l'envoi du formulaire", error)
+    //   setMessage(() => ({
+    //     info: "Erreur lors de l'envoi du formulaire",
+    //     result: false,
+    //   }))
+    // }
   }
 
   const handleInputChange = <S extends keyof T, K extends keyof T[S]>(
@@ -177,7 +195,6 @@ const FormPlace: FC = () => {
   const handleFileUpload = async (
     file: File,
     fileType: string,
-    section: string,
     name: string
   ) => {
     const storage = getStorage()
@@ -187,17 +204,9 @@ const FormPlace: FC = () => {
     const downloadURL = await getDownloadURL(storageRef)
 
     setFormData((prevFormData) => {
-      const sectionData = prevFormData[section]
-      if (typeof sectionData === 'object') {
-        return {
-          ...prevFormData,
-          [section]: {
-            ...sectionData,
-            [name]: downloadURL,
-          },
-        }
-      } else {
-        return formData
+      return {
+        ...prevFormData,
+        [name]: downloadURL,
       }
     })
   }
@@ -229,10 +238,14 @@ const FormPlace: FC = () => {
     }
   }
 
-  const getInput = getInputPlaceConfig
+  const getInput = !showDescription ? getInputPlaceConfig : getDescriptionConfig
 
   useEffect(() => {
     setStep(getInput.length)
+    setMessage({
+      info: '',
+      result: false,
+    })
   }, [getInput])
 
   useEffect(() => {
@@ -319,13 +332,11 @@ const FormPlace: FC = () => {
   //VERIFIER SI USER.ROLE === 'SUPERADMIN' sinon redirection page dashboard
   //}, [])
 
-  // console.log('FormData:', { ...formData })
-
   return (
     <>
       <Form
-        clientIdAndName={clientIdAndName && clientIdAndName}
-        handleSelect={handleSelect}
+        clientIdAndName={clientIdAndName && clientIdAndName} //no use yet
+        handleSelect={handleSelect} //no use yet
         selectedOption={selectedOption}
         medalsData={medalsData}
         attributedMedal={attributedMedal}
@@ -337,8 +348,9 @@ const FormPlace: FC = () => {
         currentStep={currentStep}
         step={step}
         message={message}
+        showDescription={showDescription}
         handleSubmit={(event) => {
-          void handleSubmit(event)
+          handleSubmit(event)
         }}
         formData={formData}
         handleInputChange={(section, name, value) => {
@@ -347,7 +359,7 @@ const FormPlace: FC = () => {
         handleChange={(section, mode, langaue, value) => {
           handleChange(section, mode, langaue, value)
         }}
-        handleEdit={handleEditPlace}
+        handleDescription={handleDescription}
         handlePrevStep={handlePrevStep}
         handleNextStep={handleNextStep}
         handleFileUpload={void handleFileUpload}
