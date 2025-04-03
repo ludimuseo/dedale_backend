@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
 import { type FC, useState } from 'react'
 
+import { useLocalStorage } from '@/app/hooks/useLocalStorage'
+
 import { WrongCheck } from '../../ui/icons/WrongCheck'
 import { ChangeFontSizeBar } from '../ChangeFontSizeBar'
 import { Sentence } from './TalosInterfaceMain'
@@ -17,6 +19,7 @@ interface RightClipboardProps {
   ) => void
   hoveredIndexCorrectedText: string | null
   handleDeleteText: (index: string) => void
+  fontValueFromRightClipboard: (counter: number) => void
 }
 
 const RightClipboard: FC<RightClipboardProps> = ({
@@ -26,19 +29,29 @@ const RightClipboard: FC<RightClipboardProps> = ({
   handleMouseOverCorrectedText,
   handleMouseLeave,
   handleChangeText,
+  fontValueFromRightClipboard,
   hoveredIndexCorrectedText,
   handleDeleteText,
 }) => {
-  const [counter, setCounter] = useState<number>(0)
+  const [savedFontSizeRightClipboard] = useLocalStorage(
+    `savedFontSizeRightClipboardLeftClipboard`,
+    ''
+  )
+  const [counter, setCounter] = useState<number>(
+    savedFontSizeRightClipboard ? Number(savedFontSizeRightClipboard) : 0
+  )
+
   let newFontSize
   const handleDecreaseFontSize = () => {
     if (counter === 0) return
     setCounter((prev) => prev - 1)
+    fontValueFromRightClipboard(counter)
   }
 
   const handleIncreaseFontSize = () => {
     if (counter === 5) return
     setCounter((prev) => prev + 1)
+    fontValueFromRightClipboard(counter)
   }
 
   switch (counter) {
