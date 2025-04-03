@@ -53,6 +53,15 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
     `savedSentence-${formData.id}`,
     ''
   )
+  const [
+    savedFontSizeLeftClipboard,
+    setsavedFontSizeLeftClipboard,
+    clearLeftFontSize,
+  ] = useLocalStorage(`savedFontSizeLeftClipboardLeftClipboard`, '')
+  const [, setsavedFontSizeRightClipboard, clearRightFontSize] =
+    useLocalStorage(`savedFontSizeRightClipboardLeftClipboard`, '')
+
+  const [counterRightClipboard, setCounterRightClipboard] = useState<number>(0)
   const [coloredSentence, setColoredSentence] = useState<
     Record<string, string>
   >(() => {
@@ -81,7 +90,9 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
   const [showProofReading, setShowProofReading] = useState(false)
   const [isConfirmSubmitFalcText, setIsConfirmSubmitFalcText] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-  const [counter, setCounter] = useState<number>(0)
+  const [counter, setCounter] = useState<number>(
+    savedFontSizeLeftClipboard ? Number(savedFontSizeLeftClipboard) : 0
+  )
   const [visibleSentences] = useState<Sentence[]>(
     formData.description.falc.fr
       .split(/(?<=[.!?:])\s+/)
@@ -94,6 +105,9 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
       })
   )
 
+  const fontValueFromRightClipboard = (counter: number) => {
+    setCounterRightClipboard(counter)
+  }
   const sentencesData = visibleSentences.map(
     (item: Sentence, index: number) => {
       let disabled = false
@@ -296,12 +310,16 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
       setActiveTextId(false)
     } else {
       clearValue()
+      clearLeftFontSize()
+      clearRightFontSize()
       void navigate('/textList')
     }
   }
 
   const handleLeaveProofReading = () => {
     setSavedSentence(() => [...newSentence])
+    setsavedFontSizeLeftClipboard(counter)
+    setsavedFontSizeRightClipboard(counterRightClipboard)
     void navigate('/textList')
   }
 
@@ -391,6 +409,7 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
               handleChangeText={handleChangeText}
               hoveredIndexCorrectedText={hoveredIndexCorrectedText}
               handleDeleteText={handleDeleteText}
+              fontValueFromRightClipboard={fontValueFromRightClipboard}
             />
           </div>
           <RightSideBar
