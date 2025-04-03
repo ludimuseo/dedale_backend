@@ -5,6 +5,8 @@ export const Talos = ({ ...props }: SvgProps) => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 425.2 165.15"
+      width="100%"
+      height="100%"
       {...props}>
       <g id="Calque_2" data-name="Calque 2">
         <g id="Calque_2-2" data-name="Calque 2">
