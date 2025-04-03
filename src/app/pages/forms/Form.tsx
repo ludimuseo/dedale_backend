@@ -134,6 +134,7 @@ const Form = ({
           <Description getInput={getInput} currentStep={currentStep} />
         )}
         <FormFooter
+          title={title}
           message={message}
           handleDescription={handleDescription}
           showDescription={showDescription}

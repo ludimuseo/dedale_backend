@@ -36,40 +36,21 @@ const FormPlace: FC = () => {
   const [formData, setFormData] = useState<T>({
     clientId: '',
     medalId: '',
+    // image: '',
+    content: {
+      image: '',
+    },
     address: {
       address: '',
       city: '',
       country: '',
       postal: '',
     },
-    audio: {
-      falc: {
-        en: '',
-        fr: '',
-      },
-      standard: {
-        en: '',
-        fr: '',
-      },
-    },
-    content: {
-      image: [],
-      type: '',
-    },
+
     coords: {
       isLocationRequired: false,
       lat: 0,
       lon: 0,
-    },
-    description: {
-      falc: {
-        en: '',
-        fr: '',
-      },
-      standard: {
-        en: '',
-        fr: '',
-      },
     },
     name: {
       en: '',
@@ -103,7 +84,7 @@ const FormPlace: FC = () => {
   //liste des clients
 
   //soumission des informations
-  const handleSubmit = (
+  const handleSubmit = async (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault()
@@ -121,6 +102,50 @@ const FormPlace: FC = () => {
       }))
     }
     console.log('FETCH formData: ', formData)
+
+    const token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc0MzU4MjM3NiwiZXhwIjoxNzQzNjU0Mzc2fQ.5lGu1N2-Yegv8gN8e9unvxqPcqjh-QYVL8Hu9X5uwjI'
+    //const place = { ...formData }
+
+    const place = {
+      clientId: 1,
+      name: 'loremipsum',
+      type: 'MUSEUM',
+      lat: 0,
+      lon: 0,
+      location_required: false,
+      image: 'image.png',
+      isPublished: false,
+      isActive: false,
+    }
+
+    try {
+      const response: Response = await fetch(
+        `https://dev.ludimuseo.fr:4000/api/places`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(place),
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${String(response.status)}`)
+      }
+
+      const data: unknown = await response.json()
+      console.log('DATA from Server', data)
+    } catch (error) {
+      console.error('Erreur:', error)
+      setMessage({
+        info: "Erreur lors de l'envoi du formulaire",
+        result: false,
+      })
+    }
+
     // try {
     //   const docRef = await addDoc(collection(db, 'places'), { ...formData })
     //   const id = docRef.id
@@ -350,7 +375,7 @@ const FormPlace: FC = () => {
         message={message}
         showDescription={showDescription}
         handleSubmit={(event) => {
-          handleSubmit(event)
+          void handleSubmit(event)
         }}
         formData={formData}
         handleInputChange={(section, name, value) => {

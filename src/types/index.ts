@@ -112,6 +112,7 @@ export type T = Record<
   | Contact
   | Status
   | Name
+  | Image
   | Coords
   | Description
   | Standard
@@ -191,6 +192,10 @@ interface Audio {
     falcCertified?: string
     userId?: string
   }
+}
+
+interface Image {
+  image: string
 }
 interface Content {
   image: string[]
