@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, type RouteObject } from 'react-router'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 import LayoutAuth from '@/app/layouts/LayoutAuth'
 import LayoutDefault from '@/app/layouts/LayoutDefault'
@@ -6,231 +6,109 @@ import RouteAuth from '@/app/middleware/RouteAuth'
 import RouteGuest from '@/app/middleware/RouteGuest'
 import PageError from '@/app/pages/PageError'
 
-const routes: RouteObject[] = [
+type ModuleKeys = keyof typeof modules
+
+const modules = {
+  Signin: () => import('@/app/pages/auth/Signin'),
+  Dashboard: () => import('@/app/pages/dashboard'),
+  User: () => import('@/app/pages/user'),
+  UserProfile: () => import('@/app/pages/user/Profile'),
+  FAQ: () => import('@/app/pages/faq'),
+  UserSettings: () => import('@/app/pages/user/Settings'),
+  UserCreate: () => import('@/app/pages/user/Create'),
+  FormMenu: () => import('@/app/pages/forms/FormMenu'),
+  TextList: () => import('@/app/pages/talos/TextList'),
+  ValidateText: () => import('@/app/pages/talos/ValidateText'),
+  TalosHome: () => import('@/app/pages/talos/TalosHome'),
+  TalosInterface: () => import('@/app/pages/talos/TalosInterface'),
+  ClientsList: () => import('@/app/pages/users'),
+  AccessibilityDoc: () => import('@/app/pages/documentaion/accessibility'),
+  FormClient: () => import('@/app/pages/forms/FormClient'),
+  FormPlace: () => import('@/app/pages/forms/FormPlace'),
+  FormJourney: () => import('@/app/pages/forms/FormJourney'),
+  FormStep: () => import('@/app/pages/forms/FormStep'),
+  FormPiece: () => import('@/app/pages/forms/FormPiece'),
+  FormGame: () => import('@/app/pages/forms/FormGame'),
+  FormMedal: () => import('@/app/pages/forms/FormMedal'),
+  Users: () => import('@/app/pages/users'),
+  UserEdit: () => import('@/app/pages/users/Edit'),
+  Places: () => import('@/app/pages/places'),
+  Contributors: () => import('@/app/pages/contributors/Contributor'),
+}
+
+const lazyLoad = (key: keyof typeof modules, exportName: string) => ({
+  async lazy() {
+    const component = await modules[key]()
+    return { Component: component[exportName as keyof typeof component] }
+  },
+})
+
+const authRoutes = [{ path: '/auth/signin', ...lazyLoad('Signin', 'Signin') }]
+
+const defaultRoutes: [string, ModuleKeys, string][] = [
+  ['/', 'Dashboard', 'Dashboard'],
+  ['/user', 'User', 'User'],
+  ['/user/profile', 'UserProfile', 'UserProfile'],
+  ['/faq', 'FAQ', 'FAQ'],
+  ['/user/settings', 'UserSettings', 'UserSettings'],
+  ['/user/create', 'UserCreate', 'UserCreate'],
+  ['/form', 'FormMenu', 'FormMenu'],
+  ['/textList', 'TextList', 'TextList'],
+  ['/validateText', 'ValidateText', 'ValidateText'],
+  ['/talos', 'TalosHome', 'TalosHome'],
+  ['/interface', 'TalosInterface', 'TalosInterface'],
+  ['/clientsList', 'ClientsList', 'ClientsList'],
+  ['/accessibilitydoc', 'AccessibilityDoc', 'AccessibilityDoc'],
+  ['/form/client', 'FormClient', 'FormClient'],
+  ['/form/place', 'FormPlace', 'FormPlace'],
+  ['/form/journey', 'FormJourney', 'FormJourney'],
+  ['/form/step', 'FormStep', 'FormStep'],
+  ['/form/piece', 'FormPiece', 'FormPiece'],
+  ['/form/game', 'FormGame', 'FormGame'],
+  ['/form/medal', 'FormMedal', 'FormMedal'],
+  ['/users', 'Users', 'Users'],
+  ['/users/:id', 'UserEdit', 'UserEdit'],
+  ['/places', 'Places', 'Places'],
+  ['/contributors', 'Contributors', 'Contributors'],
+]
+const mappedRoutes = defaultRoutes.map(([path, key, exportName]) => ({
+  path,
+  ...lazyLoad(key, exportName),
+}))
+
+const routes = [
   {
+    id: 'root',
+    errorElement: <PageError />,
     children: [
-      // Default Layout
       {
-        children: [
-          {
-            async lazy() {
-              const { Dashboard } = await import('@/app/pages/dashboard')
-              return { Component: Dashboard }
-            },
-            path: '/',
-          },
-          {
-            async lazy() {
-              const { User } = await import('@/app/pages/user')
-              return { Component: User }
-            },
-            path: '/user',
-          },
-          {
-            async lazy() {
-              const { UserProfile } = await import('@/app/pages/user/Profile')
-              return { Component: UserProfile }
-            },
-            path: '/user/profile',
-          },
-          {
-            async lazy() {
-              const { FAQ } = await import('@/app/pages/faq')
-              return { Component: FAQ }
-            },
-            path: '/faq',
-          },
-          {
-            async lazy() {
-              const { UserSettings } = await import('@/app/pages/user/Settings')
-              return { Component: UserSettings }
-            },
-            path: '/user/settings',
-          },
-          {
-            async lazy() {
-              const { UserCreate } = await import('@/app/pages/user/Create')
-              return { Component: UserCreate }
-            },
-            path: '/user/create',
-          },
-          {
-            async lazy() {
-              const { FormMenu } = await import('@/app/pages/forms/FormMenu')
-              return { Component: FormMenu }
-            },
-            path: '/form',
-          },
-          //TALOS
-          {
-            async lazy() {
-              const { TextList } = await import('@/app/pages/talos/TextList')
-              return { Component: TextList }
-            },
-            path: '/textList',
-          },
-          {
-            async lazy() {
-              const { ValidateText } = await import(
-                '@/app/pages/talos/ValidateText'
-              )
-              return { Component: ValidateText }
-            },
-            path: '/validateText',
-          },
-          {
-            async lazy() {
-              const { TalosHome } = await import('@/app/pages/talos/TalosHome')
-              return { Component: TalosHome }
-            },
-            path: '/talos',
-          },
-          {
-            async lazy() {
-              const { TalosInterface } = await import(
-                '@/app/pages/talos/TalosInterface'
-              )
-              return { Component: TalosInterface }
-            },
-            path: '/interface',
-          },
-          {
-            async lazy() {
-              const { Users } = await import('@/app/pages/users')
-              return { Component: Users }
-            },
-            path: '/clientsList',
-          },
-          //DOCUMENTAION
-          {
-            async lazy() {
-              const { AccessiblePage } = await import(
-                '@/app/pages/documentaion/accessibility'
-              )
-              return { Component: AccessiblePage }
-            },
-            path: '/accessibilitydoc',
-          },
-          //FORMULAIRES
-          {
-            async lazy() {
-              const { FormClient } = await import(
-                '@/app/pages/forms/FormClient'
-              )
-              return { Component: FormClient }
-            },
-            path: '/form/client',
-          },
-          {
-            async lazy() {
-              const { FormPlace } = await import('@/app/pages/forms/FormPlace')
-              return { Component: FormPlace }
-            },
-            path: '/form/place',
-          },
-          {
-            async lazy() {
-              const { FormJourney } = await import(
-                '@/app/pages/forms/FormJourney'
-              )
-              return { Component: FormJourney }
-            },
-            path: '/form/journey',
-          },
-          {
-            async lazy() {
-              const { FormStep } = await import('@/app/pages/forms/FormStep')
-              return { Component: FormStep }
-            },
-            path: '/form/step',
-          },
-          {
-            async lazy() {
-              const { FormPiece } = await import('@/app/pages/forms/FormPiece')
-              return { Component: FormPiece }
-            },
-            path: '/form/piece',
-          },
-          {
-            async lazy() {
-              const { FormGame } = await import('@/app/pages/forms/FormGame')
-              return { Component: FormGame }
-            },
-            path: '/form/game',
-          },
-          {
-            async lazy() {
-              const { FormMedal } = await import('@/app/pages/forms/FormMedal')
-              return { Component: FormMedal }
-            },
-            path: '/form/medal',
-          },
-          {
-            async lazy() {
-              const { Users } = await import('@/app/pages/users')
-              return { Component: Users }
-            },
-            path: '/users',
-          },
-          {
-            async lazy() {
-              const { UsersEdit } = await import('@/app/pages/users/Edit')
-              return { Component: UsersEdit }
-            },
-            path: '/users/:id',
-          },
-          {
-            async lazy() {
-              const { Places } = await import('@/app/pages/places')
-              return { Component: Places }
-            },
-            path: '/places',
-          },
-          //Contributors
-          {
-            async lazy() {
-              const { Contributor } = await import(
-                '@/app/pages/contributors/Contributor'
-              )
-              return { Component: Contributor }
-            },
-            path: '/contributors',
-          },
-        ],
         element: (
           <RouteAuth role={null}>
             <LayoutDefault />
           </RouteAuth>
         ),
+        children: mappedRoutes,
       },
-      // Auth Layout
       {
-        children: [
-          {
-            element: <Navigate to={{ pathname: '/auth/signin' }} />,
-            path: '/auth',
-          },
-          {
-            async lazy() {
-              const { AuthSignIn } = await import('@/app/pages/auth/Signin')
-              return { Component: AuthSignIn }
-            },
-            path: '/auth/signin',
-          },
-        ],
         element: (
           <RouteGuest>
             <LayoutAuth />
           </RouteGuest>
         ),
+        children: [
+          {
+            path: '/auth',
+            element: <Navigate to={{ pathname: '/auth/signin' }} />,
+          },
+          ...authRoutes,
+        ],
       },
     ],
-    errorElement: <PageError />,
-    id: 'root',
   },
 ]
 
 const router = createBrowserRouter(routes, {
+
   hydrationData: {},
 })
 

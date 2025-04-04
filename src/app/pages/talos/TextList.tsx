@@ -46,85 +46,7 @@ const TextList: FC = () => {
   const [journeysToCorrect, setJourneysToCorrect] = useState(0)
   const [stepsToCorrect, setStepsToCorrect] = useState(0)
   const [piecesToCorrect, setPiecesToCorrect] = useState(0)
-
-  // useEffect(() => {
-  //   const fetchAllCounts = async () => {
-  //     try {
-  //       const placesQuery = query(
-  //         collection(db, 'places'),
-  //         where('clientId', '==', 'rHkYsm0B5EKnI9H8gC3y')
-  //       )
-  //       const placesSnapshot = await getDocs(placesQuery)
-  //       const placesData = placesSnapshot.docs.map((doc) => {
-  //         const data = doc.data() as PlaceType
-  //         return { ...data, docId: doc.id }
-  //       })
-
-  //       const placesCount = placesData.filter(
-  //         (place) => !place.description.falc.status.isCertified
-  //       ).length
-
-  //       let totalJourneysToCorrect = 0
-  //       let totalStepsToCorrect = 0
-  //       let totalPiecesToCorrect = 0
-
-  //       for (const place of placesData) {
-  //         const journeysQuery = query(
-  //           collection(db, 'journeys'),
-  //           where('placeId', '==', place.id)
-  //         )
-  //         const journeysSnapshot = await getDocs(journeysQuery)
-  //         const journeysData = journeysSnapshot.docs.map((doc) => {
-  //           const data = doc.data() as JourneyType
-  //           return { ...data, docId: doc.id }
-  //         })
-  //         totalJourneysToCorrect += journeysData.filter(
-  //           (journey) => !journey.description.falc.status.isCertified
-  //         ).length
-
-  //         for (const journey of journeysData) {
-  //           const stepsQuery = query(
-  //             collection(db, 'steps'),
-  //             where('journeyId', '==', journey.docId)
-  //           )
-  //           const stepsSnapshot = await getDocs(stepsQuery)
-  //           const stepsData = stepsSnapshot.docs.map((doc) => {
-  //             const data = doc.data() as StepType
-  //             return { ...data, docId: doc.id }
-  //           })
-  //           totalStepsToCorrect += stepsData.filter(
-  //             (step) => !step.description.falc.status.isCertified
-  //           ).length
-
-  //           for (const step of stepsData) {
-  //             const piecesQuery = query(
-  //               collection(db, 'pieces'),
-  //               where('stepId', '==', step.docId)
-  //             )
-  //             const piecesSnapshot = await getDocs(piecesQuery)
-  //             const piecesData = piecesSnapshot.docs.map((doc) => {
-  //               const data = doc.data() as PieceType
-  //               return { ...data, docId: doc.id }
-  //             })
-  //             totalPiecesToCorrect += piecesData.filter(
-  //               (piece) => !piece.description.falc.status.isCertified
-  //             ).length
-  //           }
-  //         }
-  //       }
-
-  //       setPlacesToCorrect(placesCount)
-  //       setJourneysToCorrect(totalJourneysToCorrect)
-  //       setStepsToCorrect(totalStepsToCorrect)
-  //       setPiecesToCorrect(totalPiecesToCorrect)
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error)
-  //     }
-  //   }
-
-  //   //void fetchAllCounts()
-  // }, [])
-
+  
   // Fetch places on component mount
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -249,6 +171,7 @@ const TextList: FC = () => {
         piecesToCorrect={piecesToCorrect}
       /> */}
 
+
       {/* Liste des Lieux */}
       <section aria-labelledby="places-heading">
         <div className="space-y-5">
@@ -294,6 +217,7 @@ const TextList: FC = () => {
                     </button>
                   )}
                 </div>
+              
                 <TextPreview description={place.description.falc.fr} />
 
                 <div className="group relative inline-flex items-center">
@@ -310,6 +234,7 @@ const TextList: FC = () => {
                     stepsToCorrect={stepsToCorrect}
                     piecesToCorrect={piecesToCorrect}
                   />
+
                 </div>
 
                 {/* Liste des Parcours */}
