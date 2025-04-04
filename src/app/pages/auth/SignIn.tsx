@@ -1,14 +1,7 @@
 import { EnvelopeIcon, Input, LockIcon } from '@component/index'
-import { useAppDispatch, useFetch, useInput, useNotification } from '@hook'
+import { useAppDispatch, useInput, useNotification } from '@hook'
 import { signIn } from '@service/redux/slices/reducerAuth'
-import {
-  type FC,
-  type FormEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { type FC, type FormEvent, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { User } from '@/types'
@@ -25,50 +18,67 @@ const AuthSignIn: FC = () => {
 
   const password = useInput('', { name: 'signin-password', type: 'password' })
   const [showPassword, setShowPassword] = useState<boolean>(false)
-
-  const { data, isLoading, error, isSuccess, setRequestHandle } =
-    useFetch<AuthUserType>(
-      '/auth/login',
-      'POST',
-      { email: email.value, password: password.value },
-      false
-    )
-
-  const callback = useCallback(() => {
-    if (isSuccess && !!data) {
-      dispatch(
-        signIn({
-          token: data.token,
-          user: data,
-        })
-      )
-      push(t('success.signin'))
-    } else if (!isSuccess && !data) {
-      push(t(`error.${error ?? '4XX'}`), { type: 'error' })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error, data])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   // After the page loads, have the Email input focused for immediate typing
   useEffect(() => {
     emailRef.current?.focus()
   }, [])
 
-  useEffect(() => {
-    if (isSuccess == null) return
-    callback()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess])
+  const executeSignIn = async () => {
+    setIsLoading(true)
+
+    const url: string = [import.meta.env.VITE_API_BASE_URL, '/auth/login'].join(
+      ''
+    )
+    const requestOptions: RequestInit = {
+      mode: 'cors',
+      method: 'POST',
+      body: JSON.stringify({
+        email: email.value,
+        password: password.value,
+      }),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }
+
+    try {
+      const response: Response = await fetch(url, requestOptions)
+      if (!response.ok) {
+        await response.json().then(({ message }: { message?: string }) => {
+          throw new Error(
+            message ?? `HTTP error | Status: ${String(response.status)}`
+          )
+        })
+      }
+      const jsonData = (await response.json()) as AuthUserType
+      dispatch(
+        signIn({
+          token: jsonData.token,
+          user: jsonData,
+        })
+      )
+      push(t('success.signin'))
+    } catch (err: unknown) {
+      const errorMessage: string = err instanceof Error ? err.message : '404'
+      push(t(`error.${errorMessage}`), { type: 'error' })
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (
       !isLoading &&
-      !!setRequestHandle &&
+      email.value.length &&
+      password.value.length &&
       !email.errors.length &&
       !password.errors.length
     ) {
-      setRequestHandle(true)
+      void executeSignIn()
     }
   }
 
