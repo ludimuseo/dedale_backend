@@ -3,14 +3,14 @@ import React, { FormEvent, MouseEvent } from 'react'
 
 import { GetInputConfigType, MessageType, T } from '@/types'
 
-import FormFooter from './formFooter'
-import FormHeader from './formheader'
+import FormFooter from './FormFooter'
+import FormHeader from './FormHeader'
 import InputArea from './InputArea'
 import Timeline from './Timeline'
 
 interface FormProps {
   clientIdAndName?: { id: string; name: string }[] | undefined
-  placeIdAndName?: { id: string; name: string }[] | undefined
+  placeIdAndName?: { docId: string; name: string }[] | undefined
   title: string
   icon: React.JSX.Element
   handleArrowLeft: () => void

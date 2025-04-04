@@ -14,6 +14,7 @@ interface FetchResponse {
 const Users: FC = () => {
   const navigate = useNavigate()
   const [users, setUsers] = useState<ClientType[]>([])
+
   /* const [filteredUsers, setFilteredUsers] = useState<Record<string, unknown>[]>(
     []
   ) */
@@ -93,6 +94,7 @@ const Users: FC = () => {
       },
     },
   ]
+  console.log(users)
 
   return (
     <div className="container mx-auto mt-5">
@@ -110,7 +112,7 @@ const Users: FC = () => {
           nextPage={nextPage}
           previousPage={previousPage}
           disableNext={data.page === data.totalPages}
-          data={users}
+          //data={users}
           disablePrevious={data.page === 1}
           currentPage={data.page}
           actions={actions as []}

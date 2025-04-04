@@ -3,19 +3,19 @@ import { type FC, useState } from 'react'
 import SuggestionModal from '../modals/suggestionModal'
 import { DictionaryButton } from './DictionaryButton'
 
-interface ActionButtonsProps {
+interface HeaderButtonsProps {
   imageIcon: string
   image: string[] | undefined
   name: string | undefined
   category: string
 }
 
-const ActionButtons: FC<ActionButtonsProps> = ({
+const HeaderButtons: FC<HeaderButtonsProps> = ({
   imageIcon,
   image,
   name,
   category,
-}) => {
+}: HeaderButtonsProps) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [showSuggestionModal, setShowSuggestionModal] = useState(false)
 
@@ -25,7 +25,6 @@ const ActionButtons: FC<ActionButtonsProps> = ({
 
   return (
     <div className="flex flex-row items-center justify-center space-x-4">
-      {/* IMAGE */}
       <button
         className="group btn btn-square"
         onClick={() => {
@@ -44,7 +43,6 @@ const ActionButtons: FC<ActionButtonsProps> = ({
         </div>
       </button>
 
-      {/* MODAL IMAGE */}
       {selectedImage && (
         <div
           className="modal modal-open flex items-center justify-center"
@@ -65,7 +63,7 @@ const ActionButtons: FC<ActionButtonsProps> = ({
               onClick={() => {
                 setSelectedImage(null)
               }}>
-              <p className="font-extrabold text-stone-50">✕</p>
+              <span className="font-extrabold text-stone-50">✕</span>
             </button>
             <img
               src={selectedImage}
@@ -104,7 +102,6 @@ const ActionButtons: FC<ActionButtonsProps> = ({
       </button> */}
 
       <DictionaryButton />
-
       <button
         className="btn btn-primary"
         onClick={() => {
@@ -135,4 +132,4 @@ const ActionButtons: FC<ActionButtonsProps> = ({
   )
 }
 
-export { ActionButtons }
+export { HeaderButtons }
