@@ -82,10 +82,21 @@ const UserCreate: FC = () => {
   //Handle form submission
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
-
+    if (user.password !== user.confirmedPassword) {
+      setErrors((prev) => ({
+        ...prev,
+        confirmedPassword: 'Not the same password',
+      }))
+    }
     // 🔸 Check if there are validation errors before submitting
     if (Object.values(errors).some((error: string) => error !== '')) {
-      alert('Please fix the errors before submitting.')
+      const errorStr = Object.entries(errors)
+        .filter(([, message]) => message)
+        .map(([field, message]) => `- ${field}: ${message}`)
+        .join('\n')
+
+      alert(`Please fix this errors before submitting:\n${errorStr}`)
+
       return
     }
 
@@ -152,7 +163,8 @@ const UserCreate: FC = () => {
                       placeholder={input.placeholder}
                       aria-label={input.placeholder}
                       pattern={input.pattern}
-                      maxLength={50}
+                      maxLength={input.maxLength}
+                      minLength={input.minLength}
                       className="input input-bordered w-full max-w-xs font-inclusive invalid:border-red-500"
                     />
                   </label>

@@ -81,6 +81,7 @@ export const getInputConfig = [
     field: 'password',
     placeholder: "Entre le mot de passe de l'utilisateur",
     type: 'password',
+    minLength: 6,
     maxLength: 50,
   },
   {
@@ -90,6 +91,7 @@ export const getInputConfig = [
     field: 'confirmedPassword',
     placeholder: 'Confirmer le mot de passe',
     type: 'password',
+    minLength: 6,
     maxLength: 50,
   },
 ]
