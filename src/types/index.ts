@@ -26,14 +26,14 @@ export enum UserRole {
 }
 
 export interface User {
-  id: string
+  //id: string
   pseudo: string
-  name: string
-  firstname: string
+  name?: string
+  firstname?: string
   email: string
   role: UserRole
   token: string
-  password: string
+  //password: string
 }
 
 /* WORDPASS */

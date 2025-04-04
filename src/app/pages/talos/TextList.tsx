@@ -3,8 +3,10 @@ import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import Header from '@/app/components/talos/textList/Header'
-import RemainingTexts from '@/app/components/talos/textList/RemainingTexts'
-import { ArrowIcon } from '@/app/components/ui/icons/ArrowIcon'
+import ImagePreview from '@/app/components/talos/textList/ImagePreview'
+import NavigationHeader from '@/app/components/talos/textList/NavigationHeader'
+import PreviewRemainingText from '@/app/components/talos/textList/PreviewRemainingText'
+import TextPreview from '@/app/components/talos/textList/TextPreview'
 import { CheckIcon } from '@/app/components/ui/icons/CheckIcon'
 import { PencilIcon } from '@/app/components/ui/icons/PencilIcon'
 import { db } from '@/firebase/firebase'
@@ -17,10 +19,10 @@ import {
 } from '@/types'
 
 const TextList: FC = () => {
-  const [isPlacesOpen, setIsPlacesOpen] = useState(true)
-  const [isJourneysOpen, setIsJourneysOpen] = useState(true)
-  const [isStepsOpen, setIsStepsOpen] = useState(true)
-  const [isPiecesOpen, setIsPiecesOpen] = useState(true)
+  const [isPlacesOpen, setIsPlacesOpen] = useState<boolean>(true)
+  const [isJourneysOpen, setIsJourneysOpen] = useState<boolean>(true)
+  const [isStepsOpen, setIsStepsOpen] = useState<boolean>(true)
+  const [isPiecesOpen, setIsPiecesOpen] = useState<boolean>(true)
 
   const [places, setPlaces] = useState<
     (PlaceType & { docId: string; collection: string })[]
@@ -44,85 +46,7 @@ const TextList: FC = () => {
   const [journeysToCorrect, setJourneysToCorrect] = useState(0)
   const [stepsToCorrect, setStepsToCorrect] = useState(0)
   const [piecesToCorrect, setPiecesToCorrect] = useState(0)
-
-  useEffect(() => {
-    const fetchAllCounts = async () => {
-      try {
-        const placesQuery = query(
-          collection(db, 'places'),
-          where('clientId', '==', 'rHkYsm0B5EKnI9H8gC3y')
-        )
-        const placesSnapshot = await getDocs(placesQuery)
-        const placesData = placesSnapshot.docs.map((doc) => {
-          const data = doc.data() as PlaceType
-          return { ...data, docId: doc.id }
-        })
-
-        const placesCount = placesData.filter(
-          (place) => !place.description.falc.status.isCertified
-        ).length
-
-        let totalJourneysToCorrect = 0
-        let totalStepsToCorrect = 0
-        let totalPiecesToCorrect = 0
-
-        for (const place of placesData) {
-          const journeysQuery = query(
-            collection(db, 'journeys'),
-            where('placeId', '==', place.id)
-          )
-          const journeysSnapshot = await getDocs(journeysQuery)
-          const journeysData = journeysSnapshot.docs.map((doc) => {
-            const data = doc.data() as JourneyType
-            return { ...data, docId: doc.id }
-          })
-          totalJourneysToCorrect += journeysData.filter(
-            (journey) => !journey.description.falc.status.isCertified
-          ).length
-
-          for (const journey of journeysData) {
-            const stepsQuery = query(
-              collection(db, 'steps'),
-              where('journeyId', '==', journey.docId)
-            )
-            const stepsSnapshot = await getDocs(stepsQuery)
-            const stepsData = stepsSnapshot.docs.map((doc) => {
-              const data = doc.data() as StepType
-              return { ...data, docId: doc.id }
-            })
-            totalStepsToCorrect += stepsData.filter(
-              (step) => !step.description.falc.status.isCertified
-            ).length
-
-            for (const step of stepsData) {
-              const piecesQuery = query(
-                collection(db, 'pieces'),
-                where('stepId', '==', step.docId)
-              )
-              const piecesSnapshot = await getDocs(piecesQuery)
-              const piecesData = piecesSnapshot.docs.map((doc) => {
-                const data = doc.data() as PieceType
-                return { ...data, docId: doc.id }
-              })
-              totalPiecesToCorrect += piecesData.filter(
-                (piece) => !piece.description.falc.status.isCertified
-              ).length
-            }
-          }
-        }
-
-        setPlacesToCorrect(placesCount)
-        setJourneysToCorrect(totalJourneysToCorrect)
-        setStepsToCorrect(totalStepsToCorrect)
-        setPiecesToCorrect(totalPiecesToCorrect)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    }
-
-    void fetchAllCounts()
-  }, [])
-
+  
   // Fetch places on component mount
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -143,6 +67,8 @@ const TextList: FC = () => {
           (place) => !place.description.falc.status.isCertified
         ).length
         setPlacesToCorrect(placesToCorrectCount)
+
+        await fetchJourneys(placeData[0].docId)
       } catch (error) {
         console.error('Error fetching places:', error)
       }
@@ -169,6 +95,10 @@ const TextList: FC = () => {
         (journey) => !journey.description.falc.status.isCertified
       ).length
       setJourneysToCorrect(journeysToCorrectCount)
+
+      const journeysIdArray: string[] = journeyData.map((element) => element.id)
+
+      return journeysIdArray
     } catch (error) {
       console.error('Error fetching journeys:', error)
     }
@@ -193,6 +123,8 @@ const TextList: FC = () => {
         (step) => !step.description.falc.status.isCertified
       ).length
       setStepsToCorrect(stepsToCorrectCount)
+
+      //stepData.map(element => void fetchPieces(element.id))
     } catch (error) {
       console.error('Error fetching steps:', error)
     }
@@ -232,34 +164,26 @@ const TextList: FC = () => {
   return (
     <div className="bg-white p-6 font-sans text-[#0A184D]">
       <Header title="Liste des Textes" />
-      <RemainingTexts
+      {/* <RemainingTexts
         placesToCorrect={placesToCorrect}
         journeysToCorrect={journeysToCorrect}
         stepsToCorrect={stepsToCorrect}
         piecesToCorrect={piecesToCorrect}
-      />
+      /> */}
+
 
       {/* Liste des Lieux */}
       <section aria-labelledby="places-heading">
         <div className="space-y-5">
-          <div className="group relative flex items-center justify-between">
-            <h2
-              id="places-heading"
-              className="flex-grow rounded-md bg-[#0A184D] pl-3 text-3xl font-semibold leading-relaxed text-white">
-              Lieux
-            </h2>
+          <NavigationHeader
+            key={String(Math.random())}
+            isOpen={isPlacesOpen}
+            label={'Lieux'}
+            openNav={() => {
+              setIsPlacesOpen(!isPlacesOpen)
+            }}
+          />
 
-            <button
-              onClick={() => {
-                setIsPlacesOpen(!isPlacesOpen)
-              }}
-              className="bg-transparent px-4 py-6 text-white"
-              aria-label={
-                isPlacesOpen ? 'Masquer les lieux' : 'Afficher les lieux'
-              }>
-              <ArrowIcon isOpen={isPlacesOpen} />
-            </button>
-          </div>
           {isPlacesOpen &&
             places.map((place) => (
               <article
@@ -268,12 +192,19 @@ const TextList: FC = () => {
                 <div className="mb-2 flex items-center">
                   <h3 className="my-1 text-3xl font-bold">{place.name.fr}</h3>
                   {place.description.falc.status.isCertified ? (
-                    <button
-                      className="ml-5 flex items-center gap-3 rounded-xl border-2 border-[#22891F] bg-[#22891F] px-4 py-2 text-xl text-white"
-                      aria-label={`Texte validé pour ${place.name.fr}`}>
-                      <CheckIcon className="h-8 w-8" />
-                      <p>Texte validé</p>
-                    </button>
+                    <div className="group relative inline-block">
+                      <button
+                        className="ml-5 flex items-center gap-1 rounded-full border-2 border-[#22891F] bg-[#22891F] px-1 py-1 font-inclusive text-xl"
+                        aria-label={`Texte validé pour ${place.name.fr}`}>
+                        <CheckIcon className="h-8 w-8" />
+                        {/* Infobulle */}
+                      </button>
+                      <div
+                        role="tooltip"
+                        className="absolute bottom-full left-1/2 mb-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-yellow-400 px-3 py-1 font-inclusive text-lg text-blue-950 shadow-lg group-hover:block">
+                        Texte validé
+                      </div>
+                    </div>
                   ) : (
                     <button
                       onClick={() => {
@@ -286,43 +217,24 @@ const TextList: FC = () => {
                     </button>
                   )}
                 </div>
+              
+                <TextPreview description={place.description.falc.fr} />
 
-                <p className="mb-5 text-xl">
-                  {place.description.falc.fr.length > 100
-                    ? `${place.description.falc.fr.slice(0, 150)}...`
-                    : place.description.falc.fr}
-                </p>
-                {/* IMAGE */}
-                <div className="mb-2 flex gap-5">
-                  <div className="avatar">
-                    <div className="w-16 cursor-pointer rounded-xl">
-                      <img src={place.content.image[0]} alt={place.name.fr} />
-                    </div>
-                  </div>
+                <div className="group relative inline-flex items-center">
+                  <ImagePreview
+                    label={place.name.fr}
+                    img={place.content.image[0]}
+                    id={place.docId}
+                    fetch={() => void fetchJourneys(place.docId)}
+                    instruction="Voir les parcours"
+                  />
+                  <PreviewRemainingText
+                    sumTextToCorrect={sumTextToCorrect}
+                    journeysToCorrect={journeysToCorrect}
+                    stepsToCorrect={stepsToCorrect}
+                    piecesToCorrect={piecesToCorrect}
+                  />
 
-                  <div className="group relative inline-flex items-center">
-                    <button
-                      onClick={() => void fetchJourneys(place.docId)}
-                      className="duration-5 rounded-xl border-2 border-[#0A184D] bg-[#0A184D] px-6 py-4 text-xl text-white transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#ffffff] hover:text-[#0A184D]"
-                      aria-label={`Voir les parcours pour ${place.name.fr}`}>
-                      Voir les parcours
-                    </button>
-
-                    {sumTextToCorrect > 0 && (
-                      <p className="ml-4 rounded-xl bg-[#f8dd27] bg-opacity-50 p-4 text-xl text-[#0A184D] opacity-0 transition-opacity group-hover:opacity-100">
-                        Il reste à corriger :{' '}
-                        {journeysToCorrect
-                          ? `${String(journeysToCorrect)} "texte(s) Parcours `
-                          : ''}
-                        {stepsToCorrect
-                          ? `${String(stepsToCorrect)} "texte(s) Indice(s) d'étape, `
-                          : ''}
-                        {piecesToCorrect
-                          ? `${String(piecesToCorrect)} texte(s) Oeuvres. `
-                          : ''}
-                      </p>
-                    )}
-                  </div>
                 </div>
 
                 {/* Liste des Parcours */}
@@ -331,25 +243,14 @@ const TextList: FC = () => {
                     aria-labelledby={`journeys-${place.docId}-heading`}
                     className="mt-7 rounded-lg border-2 bg-[#ffffff] px-2 py-3">
                     <div className="space-y-5">
-                      <div className="flex items-center justify-between">
-                        <h4
-                          id={`journeys-${place.docId}-heading`}
-                          className="flex-grow rounded-md bg-[#0A184D] pl-3 text-3xl font-semibold leading-relaxed text-white">
-                          Parcours
-                        </h4>
-                        <button
-                          onClick={() => {
-                            setIsJourneysOpen(!isJourneysOpen)
-                          }}
-                          className="bg-transparent px-4 py-2 text-white"
-                          aria-label={
-                            isJourneysOpen
-                              ? 'Masquer les parcours'
-                              : 'Afficher les parcours'
-                          }>
-                          <ArrowIcon isOpen={isJourneysOpen} />
-                        </button>
-                      </div>
+                      <NavigationHeader
+                        key={place.id}
+                        isOpen={isJourneysOpen}
+                        label={'Parcours'}
+                        openNav={() => {
+                          setIsJourneysOpen(!isJourneysOpen)
+                        }}
+                      />
                       {isJourneysOpen &&
                         journeys.map((journey) => (
                           <article
@@ -357,16 +258,23 @@ const TextList: FC = () => {
                             className="m-4 rounded-xl border-2 border-[#0A184D] bg-[#F4FDFF] px-4 py-3 text-[#0A184D] shadow-md">
                             <div className="mb-4 flex items-center">
                               {' '}
-                              <h5 className="mb-3 text-3xl font-medium">
+                              <h5 className="mb-3 font-inclusive text-3xl">
                                 {journey.name.fr}
                               </h5>
                               {journey.description.falc.status.isCertified ? (
-                                <button
-                                  className="ml-5 flex items-center gap-3 rounded-xl border-2 border-[#22891F] bg-[#22891F] px-4 py-2 text-xl text-white"
-                                  aria-label={`Texte validé pour ${journey.name.fr}`}>
-                                  <CheckIcon className="h-8 w-8" />
-                                  <p>Texte validé</p>
-                                </button>
+                                <div className="group relative bottom-1 inline-block">
+                                  <button
+                                    className="ml-5 flex items-center gap-1 rounded-full border-2 border-[#22891F] bg-[#22891F] px-1 py-1 font-inclusive text-xl"
+                                    aria-label={`Texte validé pour ${journey.name.fr}`}>
+                                    <CheckIcon className="h-8 w-8" />
+                                    {/* Infobulle */}
+                                  </button>
+                                  <div
+                                    role="tooltip"
+                                    className="absolute bottom-full left-1/2 mb-2 hidden -translate-x-1/2 transform whitespace-nowrap rounded-md bg-yellow-400 px-3 py-1 font-inclusive text-lg text-blue-950 shadow-lg group-hover:block">
+                                    Texte validé
+                                  </div>
+                                </div>
                               ) : (
                                 <button
                                   onClick={() => {
@@ -381,19 +289,13 @@ const TextList: FC = () => {
                             </div>
 
                             {/* IMAGE */}
-                            <div className="mb-2 flex gap-5">
-                              <div className="avatar">
-                                <div className="w-16 rounded-xl">
-                                  <img src={journey.content.image[0]} />
-                                </div>
-                              </div>
-                              <button
-                                onClick={() => void fetchSteps(journey.id)}
-                                className="duration-5 rounded-xl border-2 border-[#0A184D] bg-[#0A184D] px-6 py-4 text-xl text-white transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#ffffff] hover:text-[#0A184D]"
-                                aria-label={`Voir les étapes pour ${journey.name.fr}`}>
-                                Voir les étapes
-                              </button>
-                            </div>
+                            <ImagePreview
+                              label={journey.name.fr}
+                              id={journey.id}
+                              img={journey.content.image[0]}
+                              fetch={() => void fetchSteps(journey.id)}
+                              instruction="Voir les étapes"
+                            />
 
                             {/* Liste des Étapes */}
                             {activeJourneyId === journey.id && (
@@ -401,25 +303,14 @@ const TextList: FC = () => {
                                 aria-labelledby={`steps-${journey.id}-heading`}
                                 className="mt-7 rounded-lg border-2 bg-[#ffffff] px-2 py-3">
                                 <div className="space-y-5">
-                                  <div className="flex items-center justify-between">
-                                    <h6
-                                      id={`steps-${journey.id}-heading`}
-                                      className="flex-grow rounded-md bg-[#0A184D] pl-3 text-3xl font-semibold leading-relaxed text-white">
-                                      Étapes ({stepsToCorrect} à corriger)
-                                    </h6>
-                                    <button
-                                      onClick={() => {
-                                        setIsStepsOpen(!isStepsOpen)
-                                      }}
-                                      className="bg-transparent px-4 py-2 text-white"
-                                      aria-label={
-                                        isStepsOpen
-                                          ? 'Masquer les étapes'
-                                          : 'Afficher les étapes'
-                                      }>
-                                      <ArrowIcon isOpen={isStepsOpen} />
-                                    </button>
-                                  </div>
+                                  <NavigationHeader
+                                    key={journey.id}
+                                    isOpen={isStepsOpen}
+                                    label="Etapes"
+                                    openNav={() => {
+                                      setIsStepsOpen(!isStepsOpen)
+                                    }}
+                                  />
                                   {isStepsOpen &&
                                     steps.map((step) => (
                                       <article
@@ -432,28 +323,24 @@ const TextList: FC = () => {
                                         </h6>
                                         {/* IMAGE */}
                                         <div className="flex gap-4">
-                                          <div className="avatar">
-                                            <div className="w-16 rounded-xl">
-                                              <img
-                                                src={step.content.image[0]}
-                                              />
-                                            </div>
-                                          </div>
-                                          <button
-                                            onMouseOver={() =>
+                                          <ImagePreview
+                                            label={step.name.fr}
+                                            id={step.id}
+                                            img={step.content.image[0]}
+                                            fetch={() =>
                                               void fetchPieces(step.id)
                                             }
-                                            className="duration-5 rounded-xl border-2 border-[#0A184D] bg-[#0A184D] px-6 py-4 text-xl text-white transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#FFFFFF] hover:text-[#0A184D]"
-                                            aria-label={`Voir les œuvres pour ${step.name.fr}`}>
-                                            Voir l'œuvre
-                                          </button>
+                                            instruction="Voir l'œuvre"
+                                          />
                                           {step.description.falc.status
                                             .isCertified ? (
                                             <button
-                                              className="flex items-center gap-3 rounded-xl border-2 border-[#22891F] bg-[#22891F] px-6 py-2 text-xl text-white"
+                                              className="flex h-16 items-center gap-2 rounded-xl bg-[#22891F] px-6 text-xl text-white"
                                               aria-label={`Texte validé pour ${step.name.fr}`}>
                                               <CheckIcon className="h-8 w-8" />
-                                              <p>Texte validé</p>
+                                              <p className="text-xl">
+                                                Texte validé
+                                              </p>
                                             </button>
                                           ) : (
                                             <button
@@ -474,31 +361,14 @@ const TextList: FC = () => {
                                             aria-labelledby={`pieces-${step.id}-heading`}
                                             className="mt-7 rounded-lg border-2 bg-[#ffffff] px-2 py-3">
                                             <div className="space-y-5">
-                                              <div className="flex items-center justify-between">
-                                                <h6
-                                                  id={`pieces-${step.id}-heading`}
-                                                  className="flex-grow rounded-md bg-[#0A184D] pl-3 text-3xl font-semibold leading-relaxed text-white">
-                                                  œuvres ({piecesToCorrect} à
-                                                  corriger)
-                                                </h6>
-
-                                                <button
-                                                  onClick={() => {
-                                                    setIsPiecesOpen(
-                                                      !isPiecesOpen
-                                                    )
-                                                  }}
-                                                  className="bg-transparent px-4 py-2 text-white"
-                                                  aria-label={
-                                                    isPiecesOpen
-                                                      ? 'Masquer les étapes'
-                                                      : 'Afficher les étapes'
-                                                  }>
-                                                  <ArrowIcon
-                                                    isOpen={isPiecesOpen}
-                                                  />
-                                                </button>
-                                              </div>
+                                              <NavigationHeader
+                                                key={step.id}
+                                                isOpen={isPiecesOpen}
+                                                label="œuvre"
+                                                openNav={() => {
+                                                  setIsPiecesOpen(!isPiecesOpen)
+                                                }}
+                                              />
                                               {isPiecesOpen &&
                                                 pieces.map((piece) => (
                                                   <article
@@ -522,10 +392,12 @@ const TextList: FC = () => {
                                                       {piece.description.falc
                                                         .status.isCertified ? (
                                                         <button
-                                                          className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-                                                          aria-label={`Texte validé pour ${piece.name.fr}`}>
+                                                          className="flex h-16 items-center gap-2 rounded-xl bg-green-600 px-6 text-xl text-white"
+                                                          aria-label={`Texte validé pour ${step.name.fr}`}>
                                                           <CheckIcon className="h-8 w-8" />
-                                                          <p>Texte validé</p>
+                                                          <p className="text-xl">
+                                                            Texte validé
+                                                          </p>
                                                         </button>
                                                       ) : (
                                                         <button
