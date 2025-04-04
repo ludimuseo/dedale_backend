@@ -3,13 +3,10 @@ import { FormEvent, MouseEvent, useState } from 'react'
 
 import { GetInputConfigType, MessageType, T } from '@/types'
 
-//import Option from './inputForm/Option'
 import TextArea from './inputForm/TextArea'
 
 interface InputAreaProps {
   message: MessageType
-  handleDescription?: (isShowed: boolean) => void
-  showDescription?: boolean
   handleSubmit: (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => void
@@ -101,7 +98,6 @@ const InputArea = ({
               rightSideVisible,
             }) => {
               if (!rightSideVisible) {
-                //handleDescription?.(false)
                 if (rows) {
                   return (
                     <TextArea
@@ -135,13 +131,11 @@ const InputArea = ({
                           type={type}
                           checked={isChecked}
                           onChange={() => {
-                            console.error('ERROR MUST CORRECT')
-                            alert('ERROR : CONTACT DEV NOW')
-                            // handleInputChange(
-                            //   section,
-                            //   name as keyof T[keyof T],
-                            //   !isChecked
-                            // )
+                            handleInputChange(
+                              section,
+                              name as keyof T[keyof T],
+                              !isChecked
+                            )
                           }}
                           className="checkbox"
                         />
@@ -165,7 +159,7 @@ const InputArea = ({
                             e.target.value as T[keyof T][keyof T[keyof T]]
                           )
                         }}
-                        className="select select-bordered">
+                        className="select select-bordered font-inclusive text-lg">
                         {option.map((opt, index: number) => (
                           <option key={index} value={opt}>
                             {opt}
@@ -229,12 +223,6 @@ const InputArea = ({
                           </div>
                         </div>
                       )}
-                      {/* {fileType === 'audio' && audioPreview && (
-                        <audio controls key={`${id}-audio`}>
-                          <source src={audioPreview} type="audio/mpeg" />
-                          Votre navigateur ne supporte pas la lecture audio.
-                        </audio>
-                      )} */}
                     </div>
                   )
                 }
@@ -278,58 +266,35 @@ const InputArea = ({
           </div>
         </>
       )}
-      {/* {
+      {
         //translate s'affiche si il y a une traduction a executer
         getInput[currentStep].map(
           (
             {
               id,
               section,
-              rows,
               type,
               name,
               label,
               placeholder,
-              //mode,
-              //language,
               option,
               rightSideVisible,
             },
             index
           ) => {
             if (rightSideVisible) {
-              if (rows) {
-                return (
-                  <></>
-                  // <TextArea
-                  //   id={id}
-                  //   label={label}
-                  //   name={name}
-                  //   placeholder={placeholder}
-                  //   rows={rows}
-                  //   mode={mode}
-                  //   formData={formData}
-                  //   section={section}
-                  //   language={language}
-                  //   handleChange={handleChange}
-                  //   handleInputChange={handleInputChange}
-                  //   rightSideVisible={rightSideVisible}
-                  // />
-                )
-              }
-
               if (!option && type === 'text') {
                 return (
                   <div
                     key={index}
-                    className="border-stroke shadow-defaul dark:bg-boxdark w-1/2 rounded-lg border bg-sky-100 p-2">
+                    className="border-stroke shadow-defaul w-1/2 rounded-lg border bg-sky-50 p-2">
                     <div className="mt-2 flex flex-col" key={id}>
-                      <p className="mb-2 font-inclusive">{label}</p>
+                      <p className="mb-2 font-inclusive text-xl">{label}</p>
                       <input
                         key={id}
                         id={id}
                         name={name}
-                        className="input input-bordered w-full max-w-xs"
+                        className="input input-bordered input-info w-full max-w-xs"
                         placeholder={placeholder}
                         type={type}
                         value={formData[section][name as keyof T[keyof T]]}
@@ -342,14 +307,13 @@ const InputArea = ({
                         }}
                       />
                     </div>
-                    <div>TRANSLATE</div>
                   </div>
                 )
               }
             }
           }
         )
-      } */}
+      }
     </div>
   )
 }

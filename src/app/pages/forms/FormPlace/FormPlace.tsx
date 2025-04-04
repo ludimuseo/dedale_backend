@@ -1,5 +1,5 @@
 import { PlaceIcon } from '@component'
-import { collection, getDocs } from 'firebase/firestore'
+import { addDoc, collection, getDocs } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
@@ -21,11 +21,13 @@ const FormPlace: FC = () => {
   const [clientIdAndName, setClientIdAndName] = useState<
     { id: string; name: string }[] | undefined
   >([])
+
   const [medalsData, setMedalsData] = useState<
     | { id: string; name: string; image: string; description: string }[]
     | undefined
   >([])
   const [selectedOption, setSelectedOption] = useState('')
+  const [newPlaceId, setNewPlaceId] = useState<string>('')
   const [attributedMedal, setAttributedMedal] = useState<
     { id: string; name: string; image: string; description: string } | undefined
   >()
@@ -101,23 +103,27 @@ const FormPlace: FC = () => {
         result: true,
       }))
     }
-    console.log('FETCH formData: ', formData)
+    // console.log('FETCH formData: ', formData)
 
     const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc0MzU4MjM3NiwiZXhwIjoxNzQzNjU0Mzc2fQ.5lGu1N2-Yegv8gN8e9unvxqPcqjh-QYVL8Hu9X5uwjI'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc0Mzc1ODc1NiwiZXhwIjoxNzQzODMwNzU2fQ.Iga10Dw5PL2-gkDAoJTDRCqF_Ehn5-I0zW6ezrbwgkc'
     //const place = { ...formData }
 
     const place = {
-      clientId: 1,
-      name: 'loremipsum',
-      type: 'MUSEUM',
-      lat: 0,
-      lon: 0,
-      location_required: false,
-      image: 'image.png',
-      isPublished: false,
-      isActive: false,
+      place: {
+        clientId: 2,
+        name: 'created from backoffice',
+        type: 'MUSEUM',
+        lat: 0,
+        lon: 0,
+        location_required: 'false',
+        image: 'image.png',
+        isPublished: 'false',
+        isActive: 'false',
+      },
     }
+
+    console.log('place: ', place)
 
     try {
       const response: Response = await fetch(
@@ -142,26 +148,27 @@ const FormPlace: FC = () => {
       console.error('Erreur:', error)
       setMessage({
         info: "Erreur lors de l'envoi du formulaire",
-        result: false,
+        result: true,
       })
     }
 
-    // try {
-    //   const docRef = await addDoc(collection(db, 'places'), { ...formData })
-    //   const id = docRef.id
-    //   if (id) {
-    //     setMessage(() => ({
-    //       info: 'Votre formulaire a été envoyé avec succès !',
-    //       result: true,
-    //     }))
-    //   }
-    // } catch (error) {
-    //   console.error("Erreur sur l'envoi du formulaire", error)
-    //   setMessage(() => ({
-    //     info: "Erreur lors de l'envoi du formulaire",
-    //     result: false,
-    //   }))
-    // }
+    try {
+      const docRef = await addDoc(collection(db, 'places'), { ...formData })
+      const id = docRef.id
+      if (id) {
+        setNewPlaceId(id)
+        setMessage(() => ({
+          info: 'Votre formulaire a été envoyé avec succès !',
+          result: true,
+        }))
+      }
+    } catch (error) {
+      console.error("Erreur sur l'envoi du formulaire", error)
+      setMessage(() => ({
+        info: "Erreur lors de l'envoi du formulaire",
+        result: false,
+      }))
+    }
   }
 
   const handleInputChange = <S extends keyof T, K extends keyof T[S]>(
@@ -169,6 +176,8 @@ const FormPlace: FC = () => {
     name: K,
     value: T[S][K]
   ) => {
+    console.log('FORMPLACE value isChecked:', value)
+
     const sectionData = formData[section]
     if (!section) {
       setFormData((prevFormData) => ({
@@ -356,6 +365,7 @@ const FormPlace: FC = () => {
   //useEffect(() => {
   //VERIFIER SI USER.ROLE === 'SUPERADMIN' sinon redirection page dashboard
   //}, [])
+  console.log('newId:', newPlaceId)
 
   return (
     <>
@@ -366,6 +376,7 @@ const FormPlace: FC = () => {
         medalsData={medalsData}
         attributedMedal={attributedMedal}
         handleAttributeMedal={handleAttributeMedal}
+        newPlaceId={newPlaceId}
         title={title}
         icon={<PlaceIcon />}
         handleArrowLeft={handleArrowLeft}

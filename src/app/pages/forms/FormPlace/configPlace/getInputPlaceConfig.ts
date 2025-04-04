@@ -29,7 +29,7 @@ export const getInputPlaceConfig: GetInputConfigType[][] = [
       label: 'Name (English)',
       language: 'en',
       name: 'en',
-      placeholder: 'Entrez le nom du lieu',
+      placeholder: 'Entrez le nom du lieu en Anglais',
       required: true,
       rightSideVisible: true,
       section: 'name',

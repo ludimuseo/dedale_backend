@@ -31,7 +31,7 @@ const Timeline = ({ getInput, currentStep, message }: TimelineProps) => {
                   <p className="font-inclusive text-blue-900">
                     {getInput[currentStep][0]?.sectionLabel}
                   </p>
-                  <p className="text-rose-500">En cours</p>
+                  <p className="font-inclusive text-rose-500">En cours</p>
                 </li>
               )
             }
@@ -42,7 +42,7 @@ const Timeline = ({ getInput, currentStep, message }: TimelineProps) => {
                   <p className="font-inclusive text-gray-400">
                     {inputs[0]?.sectionLabel}
                   </p>
-                  <p className="text-gray-400">En attente</p>
+                  <p className="font-inclusive text-gray-400">En attente</p>
                 </li>
               )
             }

@@ -269,6 +269,7 @@ export interface PlaceType {
   id: string
   clientId: string
   medalId: string
+  image: string
   content: {
     image: string[]
     type: string

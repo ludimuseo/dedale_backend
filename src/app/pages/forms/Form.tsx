@@ -11,6 +11,7 @@ import Timeline from './Timeline'
 interface FormProps {
   clientIdAndName?: { id: string; name: string }[] | undefined
   placeIdAndName?: { docId: string; name: string }[] | undefined
+  newPlaceId: string | undefined
   showDescription: boolean
   title: string
   icon: React.JSX.Element
@@ -72,6 +73,7 @@ const Form = ({
   //clientIdAndName,
   //placeIdAndName,
   showDescription,
+  newPlaceId,
   title,
   icon,
   handleArrowLeft,
@@ -106,32 +108,35 @@ const Form = ({
           step={step}
           message={message}
         />
-        <InputArea
-          message={message}
-          getInput={getInput}
-          currentStep={currentStep}
-          formData={formData}
-          handleDescription={handleDescription}
-          showDescription={showDescription}
-          handleSubmit={(event) => {
-            handleSubmit(event)
-          }}
-          handleInputChange={(section, name, value) => {
-            handleInputChange(section, name, value)
-          }}
-          handleChange={(section, mode, language, value) => {
-            if (handleChange !== undefined)
-              handleChange(section, mode, language, value)
-          }}
-          handleFileUpload={(file, fileType, name) =>
-            handleFileUpload?.(file, fileType, name)
-          }
-          handleResponseChange={(section, name, mode, language, value) => {
-            handleResponseChange?.(section, name, mode, language, value)
-          }}
-        />
-        {showDescription && (
-          <Description getInput={getInput} currentStep={currentStep} />
+        {!showDescription ? (
+          <InputArea
+            message={message}
+            getInput={getInput}
+            currentStep={currentStep}
+            formData={formData}
+            handleSubmit={(event) => {
+              handleSubmit(event)
+            }}
+            handleInputChange={(section, name, value) => {
+              handleInputChange(section, name, value)
+            }}
+            handleChange={(section, mode, language, value) => {
+              if (handleChange !== undefined)
+                handleChange(section, mode, language, value)
+            }}
+            handleFileUpload={(file, fileType, name) =>
+              handleFileUpload?.(file, fileType, name)
+            }
+            handleResponseChange={(section, name, mode, language, value) => {
+              handleResponseChange?.(section, name, mode, language, value)
+            }}
+          />
+        ) : (
+          <Description
+            getInput={getInput}
+            currentStep={currentStep}
+            newPlaceId={newPlaceId}
+          />
         )}
         <FormFooter
           title={title}
