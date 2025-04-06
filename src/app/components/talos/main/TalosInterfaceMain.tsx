@@ -388,9 +388,9 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
         zoomIconMore={zoomIconMore}
       />
       <div className="min-h-screen bg-blue-50 font-sans">
-        <div className="flex items-start space-x-4">
+        <div className="flex flex-col items-start space-x-4 lg:flex-row">
           {/* Main Content SECTION GAUCHE */}
-          <div className="ml-8 flex flex-grow">
+          <div className="order-2 ml-8 flex flex-grow flex-col lg:order-none lg:flex-row">
             <LeftClipboard
               isLeftClipboardShowed={activeTextId}
               showProofReading={showProofReading}
