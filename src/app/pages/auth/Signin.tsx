@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { type NavigateFunction, useNavigate } from 'react-router'
 
 import { auth, db } from '@/firebase/firebase'
-import type { User } from '@/types'
+import type { UserRole } from '@/types'
 
 const AuthSignIn: FC = () => {
   const { t } = useTranslation()
@@ -49,13 +49,12 @@ const AuthSignIn: FC = () => {
           // Dispatch to User Store
           dispatch(
             signIn({
-              email: user.email,
-              emailVerified: user.emailVerified,
-              photoURL: user.photoURL,
+              email: user.email ?? 'NoEmail',
+              // photoURL: user.photoURL,
               pseudo: String(customData?.pseudo),
-              role: String(customData?.role),
-              uid: user.uid,
-            } satisfies User)
+              role: customData?.role as UserRole,
+              token: '',
+            })
           )
           void navigate('/', { replace: true })
         })
