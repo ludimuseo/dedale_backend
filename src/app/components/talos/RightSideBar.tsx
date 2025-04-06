@@ -19,7 +19,7 @@ const RightSideBar: FC<RightSideBarProps> = ({
   validateText,
 }) => {
   return (
-    <div className="flex flex-col items-center space-y-4 p-4">
+    <div className="order-1 flex flex-col items-center space-y-4 p-4 lg:order-none">
       <ButtonWithIcon
         text={showProofReading ? 'Modifier le texte' : 'Relire le texte'}
         iconSrc={relectureIcon}
