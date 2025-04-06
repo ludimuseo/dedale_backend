@@ -53,6 +53,15 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
     `savedSentence-${formData.id}`,
     ''
   )
+  const [
+    savedFontSizeLeftClipboard,
+    setsavedFontSizeLeftClipboard,
+    clearLeftFontSize,
+  ] = useLocalStorage(`savedFontSizeLeftClipboardLeftClipboard`, '')
+  const [, setsavedFontSizeRightClipboard, clearRightFontSize] =
+    useLocalStorage(`savedFontSizeRightClipboardLeftClipboard`, '')
+
+  const [counterRightClipboard, setCounterRightClipboard] = useState<number>(0)
   const [coloredSentence, setColoredSentence] = useState<
     Record<string, string>
   >(() => {
@@ -81,7 +90,9 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
   const [showProofReading, setShowProofReading] = useState(false)
   const [isConfirmSubmitFalcText, setIsConfirmSubmitFalcText] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-
+  const [counter, setCounter] = useState<number>(
+    savedFontSizeLeftClipboard ? Number(savedFontSizeLeftClipboard) : 0
+  )
   const [visibleSentences] = useState<Sentence[]>(
     formData.description.falc.fr
       .split(/(?<=[.!?:])\s+/)
@@ -94,6 +105,9 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
       })
   )
 
+  const fontValueFromRightClipboard = (counter: number) => {
+    setCounterRightClipboard(counter)
+  }
   const sentencesData = visibleSentences.map(
     (item: Sentence, index: number) => {
       let disabled = false
@@ -101,6 +115,31 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
         if (element.id === item.id) {
           disabled = true
         }
+      }
+
+      let newFontSize
+
+      switch (counter) {
+        case 0:
+          newFontSize = 'text-base'
+          break
+        case 1:
+          newFontSize = 'text-lg'
+          break
+        case 2:
+          newFontSize = 'text-xl'
+          break
+        case 3:
+          newFontSize = 'text-2xl'
+          break
+        case 4:
+          newFontSize = 'text-3xl'
+          break
+        case 5:
+          newFontSize = 'text-4xl'
+          break
+        default:
+          newFontSize = 'text-base'
       }
       return (
         <motion.div
@@ -115,7 +154,7 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
           onMouseLeave={() => {
             handleMouseLeave()
           }}>
-          <p>{item.sentence}</p>
+          <p className={newFontSize}>{item.sentence}</p>
           <AnimatePresence mode="popLayout">
             {hoveredIndex === item.id && (
               <motion.div
@@ -271,12 +310,16 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
       setActiveTextId(false)
     } else {
       clearValue()
+      clearLeftFontSize()
+      clearRightFontSize()
       void navigate('/textList')
     }
   }
 
   const handleLeaveProofReading = () => {
     setSavedSentence(() => [...newSentence])
+    setsavedFontSizeLeftClipboard(counter)
+    setsavedFontSizeRightClipboard(counterRightClipboard)
     void navigate('/textList')
   }
 
@@ -345,15 +388,17 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
         zoomIconMore={zoomIconMore}
       />
       <div className="min-h-screen bg-blue-50 font-sans">
-        <div className="flex items-start space-x-4">
+        <div className="flex flex-col items-start space-x-4 lg:flex-row">
           {/* Main Content SECTION GAUCHE */}
-          <div className="ml-8 flex flex-grow">
+          <div className="order-2 ml-8 flex flex-grow flex-col lg:order-none lg:flex-row">
             <LeftClipboard
               isLeftClipboardShowed={activeTextId}
               showProofReading={showProofReading}
               falcText={falcText}
               formData={formData}
               sentencesData={sentencesData}
+              handleChangeFontSize={setCounter}
+              fontSize={counter}
             />
             {/* SECTION DROITE */}
             <RightClipboard
@@ -364,6 +409,7 @@ const TalosInterfaceMain: FC<TalosInterfaceMainProps> = ({ formData }) => {
               handleChangeText={handleChangeText}
               hoveredIndexCorrectedText={hoveredIndexCorrectedText}
               handleDeleteText={handleDeleteText}
+              fontValueFromRightClipboard={fontValueFromRightClipboard}
             />
           </div>
           <RightSideBar

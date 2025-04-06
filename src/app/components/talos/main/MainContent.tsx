@@ -20,7 +20,7 @@ const MainContent: FC<MainContentProps> = ({ sentencesData }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3, ease: 'linear' }}
-      className="mt-4 h-auto rounded-md border-2 border-black bg-white p-4 shadow-2xl">
+      className="h-auto rounded-md border-2 border-black bg-white p-4 shadow-2xl">
       {sentencesData && (
         <>
           <h2 className="mb-4 text-2xl font-bold text-primary">Je lis :</h2>
