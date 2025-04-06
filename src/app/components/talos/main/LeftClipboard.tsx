@@ -50,7 +50,7 @@ const LeftClipboard: FC<LeftClipboardProps> = ({
       <div
         className={
           isLeftClipboardShowed
-            ? 'mt-4 flex w-1/2 border-r border-gray-300 pr-4'
+            ? 'mt-4 w-full border-r border-gray-300 pr-4 lg:flex lg:w-1/2 lg:gap-1'
             : 'w-full'
         }>
         <AnimatePresence>
