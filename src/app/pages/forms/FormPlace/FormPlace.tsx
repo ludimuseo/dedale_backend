@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { PlaceIcon } from '@component'
-import { addDoc, collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
@@ -7,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { db } from '@/firebase/firebase'
-import { MessageType, T } from '@/types'
+import { MessageType, PlaceType, T } from '@/types'
 
 import Form from '../Form'
 import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
@@ -35,12 +37,14 @@ const FormPlace: FC = () => {
     info: '',
     result: false,
   })
-  const [formData, setFormData] = useState<T>({
+  const [formData, setFormData] = useState<T | PlaceType>({
     clientId: '',
     medalId: '',
-    // image: '',
+    placeId: '',
+    type: 'MUSEUM',
     content: {
       image: '',
+      type: '',
     },
     address: {
       address: '',
@@ -106,20 +110,42 @@ const FormPlace: FC = () => {
     // console.log('FETCH formData: ', formData)
 
     const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc0Mzc1ODc1NiwiZXhwIjoxNzQzODMwNzU2fQ.Iga10Dw5PL2-gkDAoJTDRCqF_Ehn5-I0zW6ezrbwgkc'
-    //const place = { ...formData }
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc0NDAyNTk0NiwiZXhwIjoxNzQ0MDk3OTQ2fQ.HBHhzEYtAL5FEoqqtmxg-kd2fEK2N3v2oqGrUEhlesc'
 
-    const place = {
+    interface PlaceData {
       place: {
-        clientId: 2,
-        name: 'created from backoffice',
-        type: 'MUSEUM',
-        lat: 0,
-        lon: 0,
-        location_required: 'false',
-        image: 'image.png',
-        isPublished: 'false',
-        isActive: 'false',
+        clientId: string
+        placeId: [keyof T]
+        name: string
+        type: string
+        address: string
+        city: string
+        country: string
+        postal: string
+        lat: number
+        lon: number
+        location_required: boolean
+        image: string
+        isPublished: boolean
+        isActive: boolean
+      }
+    }
+    const place: PlaceData = {
+      place: {
+        clientId: formData.clientId,
+        placeId: formData.placeId,
+        name: formData.name.fr,
+        type: formData.content.type,
+        address: formData.address.address,
+        city: formData.address.city,
+        country: formData.address.country,
+        postal: formData.address.postal,
+        lat: formData.coords.lat,
+        lon: formData.coords.lon,
+        location_required: formData.coords.locationRequired,
+        image: formData.content.image,
+        isPublished: formData.status.isPublished,
+        isActive: formData.status.isActive,
       },
     }
 
@@ -141,9 +167,9 @@ const FormPlace: FC = () => {
       if (!response.ok) {
         throw new Error(`Erreur HTTP: ${String(response.status)}`)
       }
-
-      const data: unknown = await response.json()
-      console.log('DATA from Server', data)
+      const data: string = await response.json()
+      setNewPlaceId(data) // recupere l'Id du nouveau place créé
+      console.log('Data from Server', data)
     } catch (error) {
       console.error('Erreur:', error)
       setMessage({
@@ -152,23 +178,23 @@ const FormPlace: FC = () => {
       })
     }
 
-    try {
-      const docRef = await addDoc(collection(db, 'places'), { ...formData })
-      const id = docRef.id
-      if (id) {
-        setNewPlaceId(id)
-        setMessage(() => ({
-          info: 'Votre formulaire a été envoyé avec succès !',
-          result: true,
-        }))
-      }
-    } catch (error) {
-      console.error("Erreur sur l'envoi du formulaire", error)
-      setMessage(() => ({
-        info: "Erreur lors de l'envoi du formulaire",
-        result: false,
-      }))
-    }
+    //   try {
+    //     const docRef = await addDoc(collection(db, 'places'), { ...formData })
+    //     const id = docRef.id
+    //     if (id) {
+    //       setNewPlaceId(id)
+    //       setMessage(() => ({
+    //         info: 'Votre formulaire a été envoyé avec succès !',
+    //         result: true,
+    //       }))
+    //     }
+    //   } catch (error) {
+    //     console.error("Erreur sur l'envoi du formulaire", error)
+    //     setMessage(() => ({
+    //       info: "Erreur lors de l'envoi du formulaire",
+    //       result: false,
+    //     }))
+    //   }
   }
 
   const handleInputChange = <S extends keyof T, K extends keyof T[S]>(
@@ -365,7 +391,7 @@ const FormPlace: FC = () => {
   //useEffect(() => {
   //VERIFIER SI USER.ROLE === 'SUPERADMIN' sinon redirection page dashboard
   //}, [])
-  console.log('newId:', newPlaceId)
+  //console.log('newId:', newPlaceId)
 
   return (
     <>
