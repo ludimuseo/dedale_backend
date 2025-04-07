@@ -113,40 +113,36 @@ const FormPlace: FC = () => {
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc0NDAyNTk0NiwiZXhwIjoxNzQ0MDk3OTQ2fQ.HBHhzEYtAL5FEoqqtmxg-kd2fEK2N3v2oqGrUEhlesc'
 
     interface PlaceData {
-      place: {
-        clientId: string
-        placeId: [keyof T]
-        name: string
-        type: string
-        address: string
-        city: string
-        country: string
-        postal: string
-        lat: number
-        lon: number
-        location_required: boolean
-        image: string
-        isPublished: boolean
-        isActive: boolean
-      }
+      clientId: string
+      placeId: string
+      name: string
+      type: string
+      address: string
+      city: string
+      country: string
+      postal: string
+      lat: number
+      lon: number
+      location_required: boolean
+      image: string
+      isPublished: boolean
+      isActive: boolean
     }
     const place: PlaceData = {
-      place: {
-        clientId: formData.clientId,
-        placeId: formData.placeId,
-        name: formData.name.fr,
-        type: formData.content.type,
-        address: formData.address.address,
-        city: formData.address.city,
-        country: formData.address.country,
-        postal: formData.address.postal,
-        lat: formData.coords.lat,
-        lon: formData.coords.lon,
-        location_required: formData.coords.locationRequired,
-        image: formData.content.image,
-        isPublished: formData.status.isPublished,
-        isActive: formData.status.isActive,
-      },
+      clientId: formData.clientId,
+      placeId: formData.placeId,
+      name: formData.name.fr,
+      type: formData.content.type,
+      address: formData.address.address,
+      city: formData.address.city,
+      country: formData.address.country,
+      postal: formData.address.postal,
+      lat: formData.coords.lat,
+      lon: formData.coords.lon,
+      location_required: formData.coords.locationRequired,
+      image: formData.content.image,
+      isPublished: formData.status.isPublished,
+      isActive: formData.status.isActive,
     }
 
     console.log('place: ', place)
