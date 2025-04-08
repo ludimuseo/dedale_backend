@@ -58,6 +58,7 @@ const FormPlace: FC = () => {
       lat: 0,
       lon: 0,
     },
+    name: '',
     name: {
       en: '',
       fr: '',
@@ -110,11 +111,11 @@ const FormPlace: FC = () => {
     // console.log('FETCH formData: ', formData)
 
     const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc0NDAyNTk0NiwiZXhwIjoxNzQ0MDk3OTQ2fQ.HBHhzEYtAL5FEoqqtmxg-kd2fEK2N3v2oqGrUEhlesc'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc0NDEwMTkxNSwiZXhwIjoxNzQ0MTczOTE1fQ.2ZM5qF1XFm2U--NDhuE6G0kZGDEEEfgWGtXHaTzCYQU'
 
     interface PlaceData {
       clientId: string
-      placeId: string
+      //placeId: string
       name: string
       type: string
       address: string
@@ -129,20 +130,21 @@ const FormPlace: FC = () => {
       isActive: boolean
     }
     const place: PlaceData = {
-      clientId: formData.clientId,
-      placeId: formData.placeId,
-      name: formData.name.fr,
-      type: formData.content.type,
-      address: formData.address.address,
-      city: formData.address.city,
-      country: formData.address.country,
-      postal: formData.address.postal,
-      lat: formData.coords.lat,
-      lon: formData.coords.lon,
-      location_required: formData.coords.locationRequired,
-      image: formData.content.image,
-      isPublished: formData.status.isPublished,
-      isActive: formData.status.isActive,
+      place: {
+        clientId: formData.clientId,
+        name: formData.name.fr,
+        type: 'MUSEUM',
+        address: formData.address.address,
+        city: formData.address.city,
+        country: formData.address.country,
+        postal: formData.address.postal,
+        lat: formData.coords.lat,
+        lon: formData.coords.lon,
+        location_required: formData.coords.locationRequired ?? false,
+        image: formData.content.imag ?? 'imagepath',
+        isPublished: formData.status.isPublished,
+        isActive: formData.status.isActive,
+      },
     }
 
     console.log('place: ', place)

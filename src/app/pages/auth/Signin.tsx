@@ -108,4 +108,4 @@ const AuthSignIn: FC = () => {
   )
 }
 
-export { AuthSignIn }
+export default AuthSignIn

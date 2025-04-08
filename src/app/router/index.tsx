@@ -43,7 +43,9 @@ const lazyLoad = (key: keyof typeof modules, exportName: string) => ({
   },
 })
 
-const authRoutes = [{ path: '/auth/signin', ...lazyLoad('Signin', 'Signin') }]
+const authRoutes = [
+  { path: '/auth/signin', ...lazyLoad('Signin', 'AuthSignIn') },
+]
 
 const defaultRoutes: [string, ModuleKeys, string][] = [
   ['/', 'Dashboard', 'Dashboard'],
@@ -97,7 +99,7 @@ const routes = [
         ),
         children: [
           {
-            path: '/auth',
+            path: '/auth/',
             element: <Navigate to={{ pathname: '/auth/signin' }} />,
           },
           ...authRoutes,
