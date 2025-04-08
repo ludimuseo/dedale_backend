@@ -131,7 +131,7 @@ const FormPlace: FC = () => {
     }
     const place: PlaceData = {
       place: {
-        clientId: formData.clientId,
+        clientId: 2,
         name: formData.name.fr,
         type: 'MUSEUM',
         address: formData.address.address,
