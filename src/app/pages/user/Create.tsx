@@ -13,6 +13,12 @@ const UserCreate: FC = () => {
   // State to store user data
   const [user, setUser] = useState<Partial<User>>({
     role: UserRole.ADMIN, // Default role
+    pseudo: '',
+    email: '',
+    firstname: '',
+    name: '',
+    password: '',
+    confirmedPassword: '',
   })
 
   //State to store validation errors
@@ -76,10 +82,21 @@ const UserCreate: FC = () => {
   //Handle form submission
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
-
+    if (user.password !== user.confirmedPassword) {
+      setErrors((prev) => ({
+        ...prev,
+        confirmedPassword: 'Not the same password',
+      }))
+    }
     // 🔸 Check if there are validation errors before submitting
     if (Object.values(errors).some((error: string) => error !== '')) {
-      alert('Please fix the errors before submitting.')
+      const errorStr = Object.entries(errors)
+        .filter(([, message]) => message)
+        .map(([field, message]) => `- ${field}: ${message}`)
+        .join('\n')
+
+      alert(`Please fix this errors before submitting:\n${errorStr}`)
+
       return
     }
 
@@ -89,6 +106,12 @@ const UserCreate: FC = () => {
   useEffect(() => {
     void fetchClients()
   }, [])
+
+  const generatePassword = () => {
+    const password = crypto.randomUUID()
+
+    setUser((prev) => ({ ...prev, password, confirmedPassword: password }))
+  }
 
   return (
     <>
@@ -140,12 +163,19 @@ const UserCreate: FC = () => {
                       placeholder={input.placeholder}
                       aria-label={input.placeholder}
                       pattern={input.pattern}
-                      maxLength={50}
+                      maxLength={input.maxLength}
+                      minLength={input.minLength}
                       className="input input-bordered w-full max-w-xs font-inclusive invalid:border-red-500"
                     />
                   </label>
                 )
               })}
+              <button
+                type="button"
+                className="btn btn-primary mt-6"
+                onClick={generatePassword}>
+                Generate Password
+              </button>
             </div>
 
             {/* CLIENT SELECTION */}
