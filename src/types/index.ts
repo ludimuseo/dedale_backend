@@ -281,6 +281,23 @@ export interface ClientType {
   note: string
   isActive: boolean //ACTIVER/DESACTIVER LE CLIENT
 }
+
+export interface PlaceType {
+  clientId: number
+  medalId: number
+  image: string
+  type: string
+  address: string
+  city: string
+  country: string
+  postal: string
+  location_required: boolean
+  lat: number
+  lon: number
+  name: string
+  isActive: boolean
+  isPublished: boolean
+}
 /* DESCRIPTION */
 
 // description: {
@@ -317,62 +334,63 @@ export interface ClientType {
 // }
 
 /* PLACE */
-export interface PlaceType {
-  id: number
-  clientId: number | null
-  medalId?: string
-  content: {
-    image: string
-    type: string
-  }
-  address: {
-    address: string
-    postal: string
-    city: string
-    country: string
-  }
-  name: {
-    fr: string
-    en?: string
-  }
-  coords: {
-    lat: number
-    lon: number
-    isLocationRequired: boolean
-  }
-  status: {
-    isActive: boolean
-    isPublished: boolean
-  }
-  description?: {
-    standard: {
-      fr: string
-      en: string
-    }
-    falc: {
-      fr: string
-      en: string
-      falcCertified: string
-      userId: string
-      status: {
-        isValidate: boolean
-        isCertified: boolean
-        certifiedDate: Timestamp | null
-        isCorrected: boolean
-      }
-    }
-  }
-  audio?: {
-    standard: {
-      fr: string
-      en: string
-    }
-    falc: {
-      fr: string
-      en: string
-    }
-  }
-}
+// export interface PlaceType {
+//   id: number
+//   clientId: number | null
+//   medalId?: string
+//   content: {
+//     image: string
+//     type: string
+//   }
+//   address: {
+//     address: string
+//     postal: string
+//     city: string
+//     country: string
+//   }
+//   name: {
+//     fr: string
+//     en?: string
+//   }
+//   coords: {
+//     lat: number
+//     lon: number
+//     isLocationRequired: boolean
+//   }
+//   status: {
+//     isActive: boolean
+//     isPublished: boolean
+//   }
+//   description?: {
+//     standard: {
+//       fr: string
+//       en: string
+//     }
+//     falc: {
+//       fr: string
+//       en: string
+//       falcCertified: string
+//       userId: string
+//       status: {
+//         isValidate: boolean
+//         isCertified: boolean
+//         certifiedDate: Timestamp | null
+//         isCorrected: boolean
+//       }
+//     }
+//   }
+//   audio?: {
+//     standard: {
+//       fr: string
+//       en: string
+//     }
+//     falc: {
+//       fr: string
+//       en: string
+//     }
+//   }
+// }
+
 /* JOURNEY */
 export interface JourneyType {
   placeId: string

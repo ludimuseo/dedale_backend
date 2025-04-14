@@ -36,32 +36,20 @@ const FormPlace: FC = () => {
     result: false,
   })
   const [formData, setFormData] = useState<PlaceType>({
-    id: 0,
     clientId: 0,
-    medalId: '',
-    content: {
-      image: '',
-      type: 'MUSEUM',
-    },
-    address: {
-      address: '',
-      city: '',
-      country: '',
-      postal: '',
-    },
-    coords: {
-      isLocationRequired: false,
-      lat: 0,
-      lon: 0,
-    },
-    name: {
-      en: '',
-      fr: '',
-    },
-    status: {
-      isActive: false, //ACTIVER/DESACTIVER LE CLIENT
-      isPublished: false,
-    },
+    medalId: 0,
+    image: 'image.png',
+    type: 'MUSEUM',
+    address: '',
+    city: '',
+    country: '',
+    postal: '',
+    location_required: false,
+    lat: 0,
+    lon: 0,
+    name: '',
+    isActive: false,
+    isPublished: false,
   })
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
 
@@ -105,40 +93,40 @@ const FormPlace: FC = () => {
       }))
     }
 
-    interface PlaceData {
-      place: {
-        clientId: number | null
-        name: string
-        type: string
-        address: string
-        city: string
-        country: string
-        postal: string
-        lat: number
-        lon: number
-        location_required: boolean
-        image: string
-        isPublished: boolean
-        isActive: boolean
-      }
-    }
-    const place: PlaceData = {
-      place: {
-        clientId: formData.clientId,
-        name: formData.name.fr,
-        type: formData.content.type,
-        address: formData.address.address,
-        city: formData.address.city,
-        country: formData.address.country,
-        postal: formData.address.postal,
-        lat: formData.coords.lat,
-        lon: formData.coords.lon,
-        location_required: formData.coords.isLocationRequired,
-        image: formData.content.image,
-        isPublished: formData.status.isPublished,
-        isActive: formData.status.isActive,
-      },
-    }
+    // interface PlaceData {
+    //   place: {
+    //     clientId: number
+    //     name: string
+    //     type: string
+    //     address: string
+    //     city: string
+    //     country: string
+    //     postal: string
+    //     lat: number
+    //     lon: number
+    //     location_required: boolean
+    //     image: string
+    //     isPublished: boolean
+    //     isActive: boolean
+    //   }
+    // }
+    // const place: PlaceData = {
+    //   place: {
+    //     clientId: formData.clientId,
+    //     name: formData.name,
+    //     type: formData.content.type,
+    //     address: formData.address.address,
+    //     city: formData.address.city,
+    //     country: formData.address.country,
+    //     postal: formData.address.postal,
+    //     lat: formData.coords.lat,
+    //     lon: formData.coords.lon,
+    //     location_required: formData.coords.isLocationRequired,
+    //     image: formData.content.image,
+    //     isPublished: formData.status.isPublished,
+    //     isActive: formData.status.isActive,
+    //   },
+    // }
 
     if (token == null) {
       alert("Une erreur c'est produite")
@@ -155,7 +143,7 @@ const FormPlace: FC = () => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(place),
+          body: JSON.stringify({ place: formData }),
         }
       )
 
