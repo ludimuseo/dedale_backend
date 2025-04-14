@@ -26,7 +26,7 @@ import MainTextArea from './MainTextArea'
 interface DescriptionProps {
   getInput: GetInputConfigType[][]
   currentStep: number
-  newPlaceId: string | undefined
+  newPlaceId: number
 }
 interface SortableItemProps {
   desc: { id: number }
@@ -34,7 +34,7 @@ interface SortableItemProps {
 }
 
 export interface Description {
-  collectionId: string
+  collectionId: number
   id: number
   language: string
   order: number
@@ -62,7 +62,7 @@ export default function Description({
   const [descriptions, setDescriptions] = useState<Description[]>([
     {
       id: Date.now(),
-      collectionId: newPlaceId ?? '',
+      collectionId: newPlaceId,
       language: 'fr',
       order: 0,
       text: '',
@@ -220,7 +220,7 @@ export default function Description({
       ...descriptions,
       {
         id: Date.now() + Math.random(),
-        collectionId: newPlaceId ?? '',
+        collectionId: newPlaceId,
         language: language ?? 'fr',
         order: descriptions.length,
         text: '',

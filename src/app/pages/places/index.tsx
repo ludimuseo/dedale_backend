@@ -48,9 +48,10 @@ const Places: FC = () => {
   const actions = [
     {
       type: 'edit',
-      onClick: async (el: PlaceType) => {
+      onClick: async (/* el: PlaceType */) => {
         try {
-          await navigate(`/places/${el.id}`)
+          // await navigate(`/places/${el.id}`)
+          await navigate(`/`)
         } catch (error) {
           console.error('Error during navigation:', error)
         }

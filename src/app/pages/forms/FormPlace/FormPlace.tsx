@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { PlaceIcon } from '@component'
+import { useAppSelector } from '@hook'
 import { collection, getDocs } from 'firebase/firestore'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
@@ -8,8 +7,9 @@ import { useNavigate } from 'react-router'
 import { v4 as uuidv4 } from 'uuid'
 
 import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
 import { db } from '@/firebase/firebase'
-import { MessageType, PlaceType, T } from '@/types'
+import { ClientType, MessageType, PlaceType, State } from '@/types'
 
 import Form from '../Form'
 import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
@@ -20,31 +20,28 @@ const FormPlace: FC = () => {
   const [step, setStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
   const [showDescription, setShowDescription] = useState(false)
-  const [clientIdAndName, setClientIdAndName] = useState<
-    { id: string; name: string }[] | undefined
-  >([])
+  const [client, setClient] = useState<ClientType[]>([])
 
   const [medalsData, setMedalsData] = useState<
     | { id: string; name: string; image: string; description: string }[]
     | undefined
   >([])
-  const [selectedOption, setSelectedOption] = useState('')
-  const [newPlaceId, setNewPlaceId] = useState<string>('')
-  const [attributedMedal, setAttributedMedal] = useState<
-    { id: string; name: string; image: string; description: string } | undefined
-  >()
+  const [selectedOption, setSelectedOption] = useState<number>()
+  const [newPlaceId, setNewPlaceId] = useState<number>()
+  //const [attributedMedal, setAttributedMedal] = useState<
+  //  { id: string; name: string; image: string; description: string } | undefined
+  // >()
   const [message, setMessage] = useState<MessageType>({
     info: '',
     result: false,
   })
-  const [formData, setFormData] = useState<T | PlaceType>({
-    clientId: '',
+  const [formData, setFormData] = useState<PlaceType>({
+    id: 0,
+    clientId: 0,
     medalId: '',
-    placeId: '',
-    type: 'MUSEUM',
     content: {
       image: '',
-      type: '',
+      type: 'MUSEUM',
     },
     address: {
       address: '',
@@ -52,13 +49,11 @@ const FormPlace: FC = () => {
       country: '',
       postal: '',
     },
-
     coords: {
       isLocationRequired: false,
       lat: 0,
       lon: 0,
     },
-    name: '',
     name: {
       en: '',
       fr: '',
@@ -68,6 +63,7 @@ const FormPlace: FC = () => {
       isPublished: false,
     },
   })
+  const { token }: StateAuth = useAppSelector((state: State) => state.auth)
 
   const handleNextStep = () => {
     if (currentStep === step - 1) return
@@ -108,46 +104,47 @@ const FormPlace: FC = () => {
         result: true,
       }))
     }
-    // console.log('FETCH formData: ', formData)
-
-    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc0NDEwMTkxNSwiZXhwIjoxNzQ0MTczOTE1fQ.2ZM5qF1XFm2U--NDhuE6G0kZGDEEEfgWGtXHaTzCYQU'
 
     interface PlaceData {
-      clientId: string
-      //placeId: string
-      name: string
-      type: string
-      address: string
-      city: string
-      country: string
-      postal: string
-      lat: number
-      lon: number
-      location_required: boolean
-      image: string
-      isPublished: boolean
-      isActive: boolean
+      place: {
+        clientId: number | null
+        name: string
+        type: string
+        address: string
+        city: string
+        country: string
+        postal: string
+        lat: number
+        lon: number
+        location_required: boolean
+        image: string
+        isPublished: boolean
+        isActive: boolean
+      }
     }
     const place: PlaceData = {
       place: {
-        clientId: 2,
+        clientId: formData.clientId,
         name: formData.name.fr,
-        type: 'MUSEUM',
+        type: formData.content.type,
         address: formData.address.address,
         city: formData.address.city,
         country: formData.address.country,
         postal: formData.address.postal,
         lat: formData.coords.lat,
         lon: formData.coords.lon,
-        location_required: formData.coords.locationRequired ?? false,
-        image: formData.content.imag ?? 'imagepath',
+        location_required: formData.coords.isLocationRequired,
+        image: formData.content.image,
         isPublished: formData.status.isPublished,
         isActive: formData.status.isActive,
       },
     }
 
-    console.log('place: ', place)
+    if (token == null) {
+      alert("Une erreur c'est produite")
+      void navigate('/')
+      return
+    }
 
     try {
       const response: Response = await fetch(
@@ -165,9 +162,10 @@ const FormPlace: FC = () => {
       if (!response.ok) {
         throw new Error(`Erreur HTTP: ${String(response.status)}`)
       }
-      const data: string = await response.json()
-      setNewPlaceId(data) // recupere l'Id du nouveau place créé
-      console.log('Data from Server', data)
+      const newId: number = (await response.json()) as number
+      setNewPlaceId(newId) // recupere l'Id du nouveau place créé
+
+      console.log('newId from Server', newId)
     } catch (error) {
       console.error('Erreur:', error)
       setMessage({
@@ -176,6 +174,7 @@ const FormPlace: FC = () => {
       })
     }
 
+    /* THROW TO FIREBASE */
     //   try {
     //     const docRef = await addDoc(collection(db, 'places'), { ...formData })
     //     const id = docRef.id
@@ -195,60 +194,48 @@ const FormPlace: FC = () => {
     //   }
   }
 
-  const handleInputChange = <S extends keyof T, K extends keyof T[S]>(
-    section: S,
-    name: K,
-    value: T[S][K]
-  ) => {
-    console.log('FORMPLACE value isChecked:', value)
-
-    const sectionData = formData[section]
-    if (!section) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: value,
-      }))
-    } else if (typeof sectionData === 'object') {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [section]: {
-          ...sectionData,
-          [name]: value,
-        },
-      }))
-    }
-  }
-
-  //changement des donnees avec un objet plus profond
-  const handleChange = <
-    S extends keyof T,
-    M extends keyof T[S],
-    L extends keyof T[S][M],
-  >(
-    section: S,
-    mode: M,
-    language: L,
-    value: T[S][M][L]
+  const handleInputChange = (
+    name: string,
+    value: string | boolean // Ajout du type boolean pour les cases à cocher
   ) => {
     setFormData((prevFormData) => {
-      const sectionData = prevFormData[section]
-      const modeData = sectionData[mode] as T[M]
-      if (typeof sectionData === 'object' && typeof modeData === 'object') {
-        return {
-          ...prevFormData,
-          [section]: {
-            ...sectionData,
-            [mode]: {
-              ...modeData,
-              [language]: value,
-            },
-          },
-        }
-      } else {
-        return formData
+      return {
+        ...prevFormData,
+        [name]: value,
       }
     })
   }
+
+  //changement des donnees avec un objet plus profond
+  // const handleChange = <
+  //   S extends keyof T,
+  //   M extends keyof T[S],
+  //   L extends keyof T[S][M],
+  // >(
+  //   section: S,
+  //   mode: M,
+  //   language: L,
+  //   value: T[S][M][L]
+  // ) => {
+  //   setFormData((prevFormData) => {
+  //     const sectionData = prevFormData[section]
+  //     const modeData = sectionData[mode] as T[M]
+  //     if (typeof sectionData === 'object' && typeof modeData === 'object') {
+  //       return {
+  //         ...prevFormData,
+  //         [section]: {
+  //           ...sectionData,
+  //           [mode]: {
+  //             ...modeData,
+  //             [language]: value,
+  //           },
+  //         },
+  //       }
+  //     } else {
+  //       return formData
+  //     }
+  //   })
+  // }
 
   const handleFileUpload = async (
     file: File,
@@ -269,32 +256,33 @@ const FormPlace: FC = () => {
     })
   }
 
-  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value
-    setSelectedOption(selectedValue)
+    const selectedValueToNumber = Number(selectedValue)
+    setSelectedOption(selectedValueToNumber)
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
-        ['clientId']: selectedValue,
+        ['clientId']: selectedValueToNumber,
       }
     })
   }
 
-  const handleAttributeMedal = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (medalsData) {
-      const selectedValue = e.target.value
-      const selectedMedal = medalsData.find(
-        (medal) => medal.id === selectedValue
-      )
-      setAttributedMedal(selectedMedal)
-      setFormData((prevFormData) => {
-        return {
-          ...prevFormData,
-          ['medalId']: selectedValue,
-        }
-      })
-    }
-  }
+  // const handleAttributeMedal = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   if (medalsData) {
+  //     const selectedValue = e.target.value
+  //     const selectedMedal = medalsData.find(
+  //       (medal) => medal.id === selectedValue
+  //     )
+  //     setAttributedMedal(selectedMedal)
+  //     setFormData((prevFormData) => {
+  //       return {
+  //         ...prevFormData,
+  //         ['medalId']: selectedValue,
+  //       }
+  //     })
+  //   }
+  // }
 
   const getInput = !showDescription ? getInputPlaceConfig : getDescriptionConfig
 
@@ -308,43 +296,62 @@ const FormPlace: FC = () => {
 
   useEffect(() => {
     const fetchClients = async () => {
-      interface ClientData {
-        id: string
-        client?: {
-          company?: {
-            name?: string
-          }
-        }
-        company?: {
-          name?: string
-        }
+      if (token == null) {
+        alert("Une erreur c'est produite")
+        void navigate('/')
+        return
       }
       try {
-        const querySnapshot = await getDocs(collection(db, 'clients'))
-        const clientData: ClientData[] = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...(doc.data() as Omit<ClientData, 'id'>),
-        }))
+        const response: Response = await fetch(
+          `https://dev.ludimuseo.fr:4000/api/clients/list
+`,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
 
-        const clientPackageData = clientData
-          .map((item) => {
-            if (item.client?.company?.name) {
-              return { id: item.id, name: item.client.company.name } // Si "client" et "company.name" existent
-            } else if (item.company?.name) {
-              return { id: item.id, name: item.company.name } // Si "company.name" existe directement;
-            }
-            return undefined
-          })
-          .filter(
-            (item): item is { id: string; name: string } => item !== undefined
-          ) //Ce filtre assure à TypeScript que le tableau résultant ne contient que des objets conformes au type { id: string, name: string }.
-
-        setClientIdAndName(clientPackageData)
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${String(response.status)}`)
+        }
+        const data = (await response.json()) as ClientType[]
+        const clientData = data.clients as ClientType[]
+        setClient([...clientData])
       } catch (error) {
-        console.error('Error fetching data:', error)
+        console.log('ERROR fetching clients: ', error)
       }
+
+      /* FROM FIREBASE */
+      // try {
+      //   const querySnapshot = await getDocs(collection(db, 'clients'))
+      //   const clientData: ClientData[] = querySnapshot.docs.map((doc) => ({
+      //     id: doc.id,
+      //     ...(doc.data() as Omit<ClientData, 'id'>),
+      //   }))
+
+      //   const clientPackageData = clientData
+      //     .map((item) => {
+      //       if (item.client?.company?.name) {
+      //         return { id: item.id, name: item.client.company.name } // Si "client" et "company.name" existent
+      //       } else if (item.company?.name) {
+      //         return { id: item.id, name: item.company.name } // Si "company.name" existe directement;
+      //       }
+      //       return undefined
+      //     })
+      //     .filter(
+      //       (item): item is { id: string; name: string } => item !== undefined
+      //     ) //Ce filtre assure à TypeScript que le tableau résultant ne contient que des objets conformes au type { id: string, name: string }.
+
+      //   setClient(clientPackageData)
+      // } catch (error) {
+      //   console.error('Error fetching data:', error)
+      // }
     }
     void fetchClients()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -386,20 +393,23 @@ const FormPlace: FC = () => {
     void fecthMedal()
   }, [])
 
-  //useEffect(() => {
-  //VERIFIER SI USER.ROLE === 'SUPERADMIN' sinon redirection page dashboard
-  //}, [])
-  //console.log('newId:', newPlaceId)
+  useEffect(() => {
+    if (!token) void navigate('/')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  console.log('formData:', formData)
 
   return (
     <>
       <Form
-        clientIdAndName={clientIdAndName && clientIdAndName} //no use yet
-        handleSelect={handleSelect} //no use yet
+        client={client}
+        isClientId={formData.clientId !== 0}
+        handleSelectClient={handleSelectClient}
         selectedOption={selectedOption}
         medalsData={medalsData}
-        attributedMedal={attributedMedal}
-        handleAttributeMedal={handleAttributeMedal}
+        //attributedMedal={attributedMedal}
+        //handleAttributeMedal={handleAttributeMedal}
         newPlaceId={newPlaceId}
         title={title}
         icon={<PlaceIcon />}
@@ -413,12 +423,12 @@ const FormPlace: FC = () => {
           void handleSubmit(event)
         }}
         formData={formData}
-        handleInputChange={(section, name, value) => {
-          handleInputChange(section, name, value)
+        handleInputChange={(name, value) => {
+          handleInputChange(name, value)
         }}
-        handleChange={(section, mode, langaue, value) => {
-          handleChange(section, mode, langaue, value)
-        }}
+        //handleChange={(section, mode, langaue, value) => {
+        //  handleChange(section, mode, langaue, value)
+        // }}
         handleDescription={handleDescription}
         handlePrevStep={handlePrevStep}
         handleNextStep={handleNextStep}

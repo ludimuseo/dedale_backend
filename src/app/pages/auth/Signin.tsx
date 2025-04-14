@@ -1,70 +1,84 @@
 import { EnvelopeIcon, Input, LockIcon } from '@component/index'
-import { useAppDispatch, useInput, useNotification } from '@hook/index'
+import { useAppDispatch, useInput, useNotification } from '@hook'
 import { signIn } from '@service/redux/slices/reducerAuth'
-import { signInWithEmailAndPassword, type UserCredential } from 'firebase/auth'
-import { doc, getDoc } from 'firebase/firestore'
 import { type FC, type FormEvent, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type NavigateFunction, useNavigate } from 'react-router'
 
-import { auth, db } from '@/firebase/firebase'
-import type { User } from '@/types'
+import { User } from '@/types'
+
+type AuthUserType = User & { token: string }
 
 const AuthSignIn: FC = () => {
   const { t } = useTranslation()
-  const navigate: NavigateFunction = useNavigate()
   const { push } = useNotification()
   const dispatch = useAppDispatch()
+
   const emailRef = useRef<HTMLInputElement>(null)
-  const [showPassword, setShowPassword] = useState<boolean>(false)
-  const [showLoader, setShowLoader] = useState<boolean>(false)
   const email = useInput('', { name: 'signin-email', type: 'email' })
+
   const password = useInput('', { name: 'signin-password', type: 'password' })
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   // After the page loads, have the Email input focused for immediate typing
   useEffect(() => {
     emailRef.current?.focus()
   }, [])
 
+  const executeSignIn = async () => {
+    setIsLoading(true)
+
+    const url: string = [import.meta.env.VITE_API_BASE_URL, '/auth/login'].join(
+      ''
+    )
+    const requestOptions: RequestInit = {
+      mode: 'cors',
+      method: 'POST',
+      body: JSON.stringify({
+        email: email.value,
+        password: password.value,
+      }),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }
+
+    try {
+      const response: Response = await fetch(url, requestOptions)
+      if (!response.ok) {
+        await response.json().then(({ message }: { message?: string }) => {
+          throw new Error(
+            message ?? `HTTP error | Status: ${String(response.status)}`
+          )
+        })
+      }
+      const jsonData = (await response.json()) as AuthUserType
+      dispatch(
+        signIn({
+          token: jsonData.token,
+          user: jsonData,
+        })
+      )
+      push(t('success.signin'))
+    } catch (err: unknown) {
+      const errorMessage: string = err instanceof Error ? err.message : '404'
+      push(t(`error.${errorMessage}`), { type: 'error' })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!email.errors.length && !password.errors.length) {
-      const execute = async () => {
-        setShowLoader(true)
-        // FIREBASE LOGIN ATTEMPT
-        return await signInWithEmailAndPassword(
-          auth,
-          email.value,
-          password.value
-        )
-      }
-      execute()
-        .then(async ({ user }: UserCredential) => {
-          // Firestore database
-          const docRef = doc(db, 'users', user.uid)
-          const docSnapshot = await getDoc(docRef)
-          const customData = docSnapshot.data()
-          console.info('CUSTOMDATA', customData)
-
-          // Dispatch to User Store
-          dispatch(
-            signIn({
-              email: user.email,
-              emailVerified: user.emailVerified,
-              photoURL: user.photoURL,
-              pseudo: String(customData?.pseudo),
-              role: String(customData?.role),
-              uid: user.uid,
-            } satisfies User)
-          )
-          void navigate('/', { replace: true })
-        })
-        .catch(() => {
-          push(t('error.4XX'), { type: 'error' })
-        })
-        .finally(() => {
-          setShowLoader(false)
-        })
+    if (
+      !isLoading &&
+      email.value.length &&
+      password.value.length &&
+      !email.errors.length &&
+      !password.errors.length
+    ) {
+      void executeSignIn()
     }
   }
 
@@ -101,7 +115,7 @@ const AuthSignIn: FC = () => {
         {/* Button Submit */}
         <button type="submit" className="btn btn-primary mt-8">
           {t('button.signin')}&nbsp;
-          {showLoader && <span className="loading loading-spinner"></span>}
+          {isLoading && <span className="loading loading-spinner"></span>}
         </button>
       </form>
     </>

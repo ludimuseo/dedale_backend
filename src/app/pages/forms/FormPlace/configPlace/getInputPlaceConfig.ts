@@ -6,7 +6,7 @@ export const getInputPlaceConfig: GetInputConfigType[][] = [
       id: '011',
       label: 'Type de lieu',
       name: 'type',
-      option: ['museum', 'castle', 'outdoor'],
+      option: ['MUSEUM', 'CASTLE', 'OUTDOOR'],
       placeholder: 'Selectionnez le type',
       required: true,
       section: 'content',

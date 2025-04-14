@@ -93,7 +93,7 @@ export interface GetInputConfigType {
   required: boolean
   rows?: number | undefined
   rightSideVisible?: boolean | undefined
-  section: string
+  section?: string
   sectionLabel: string
   translate?: boolean
   type?: string
@@ -237,9 +237,9 @@ interface Stage {
 }
 
 /* CLIENT */
-export interface ClientType {
-  id: string
-  isActive: boolean
+export interface ClientTypeApi {
+  id?: number
+  name?: string
   company: {
     name: string
     siret: string
@@ -264,14 +264,65 @@ export interface ClientType {
   }
 }
 
+export interface ClientType {
+  id: number
+  name: string
+  siret: string
+  tva: string
+  type: string
+  website: string
+  address: string
+  postal: string
+  city: string
+  country: string
+  contact: string
+  email: string
+  tel: string
+  note: string
+  isActive: boolean //ACTIVER/DESACTIVER LE CLIENT
+}
+/* DESCRIPTION */
+
+// description: {
+//   standard: {
+//     fr: string
+//     en: string
+//   }
+//   falc: {
+//     fr: string
+//     en: string
+//     falcCertified: string
+//     userId: string
+//     status: {
+//       isValidate: boolean
+//       isCertified: boolean
+//       certifiedDate: Timestamp | null
+//       isCorrected: boolean
+//     }
+//   }
+// }
+// audio: {
+//   standard: {
+//     fr: string
+//     en: string
+//   }
+//   falc: {
+//     fr: string
+//     en: string
+//   }
+// }
+// status: {
+//   isActive: boolean
+//   isPublished: boolean
+// }
+
 /* PLACE */
 export interface PlaceType {
-  id: string
-  clientId: string
-  medalId: string
-  image: string
+  id: number
+  clientId: number | null
+  medalId?: string
   content: {
-    image: string[]
+    image: string
     type: string
   }
   address: {
@@ -282,14 +333,18 @@ export interface PlaceType {
   }
   name: {
     fr: string
-    en: string
+    en?: string
   }
   coords: {
     lat: number
     lon: number
     isLocationRequired: boolean
   }
-  description: {
+  status: {
+    isActive: boolean
+    isPublished: boolean
+  }
+  description?: {
     standard: {
       fr: string
       en: string
@@ -307,7 +362,7 @@ export interface PlaceType {
       }
     }
   }
-  audio: {
+  audio?: {
     standard: {
       fr: string
       en: string
@@ -317,12 +372,7 @@ export interface PlaceType {
       en: string
     }
   }
-  status: {
-    isActive: boolean
-    isPublished: boolean
-  }
 }
-
 /* JOURNEY */
 export interface JourneyType {
   placeId: string

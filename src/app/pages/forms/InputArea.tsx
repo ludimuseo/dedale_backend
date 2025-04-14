@@ -1,7 +1,13 @@
 import successImage from '@img/minos-reussi.png'
 import { FormEvent, MouseEvent, useState } from 'react'
 
-import { GetInputConfigType, MessageType, T } from '@/types'
+import {
+  ClientType,
+  GetInputConfigType,
+  MessageType,
+  PlaceType,
+  T,
+} from '@/types'
 
 import TextArea from './inputForm/TextArea'
 
@@ -12,11 +18,11 @@ interface InputAreaProps {
   ) => void
   getInput: GetInputConfigType[][]
   currentStep: number
-  formData: T
-  handleInputChange: <S extends keyof T, K extends keyof T[S]>(
-    section: S,
-    name: K,
-    event: T[S][K]
+  formData: T | PlaceType | ClientType
+  handleInputChange: (
+    //section: string,
+    name: string,
+    event: string
   ) => void
   handleFileUpload: (file: File, fileType: string, name: string) => void
   handleChange: <
@@ -108,7 +114,7 @@ const InputArea = ({
                       rows={rows}
                       mode={mode}
                       formData={formData}
-                      section={section}
+                      //section={section}
                       language={language}
                       handleChange={handleChange}
                       handleInputChange={handleInputChange}
@@ -116,7 +122,7 @@ const InputArea = ({
                   )
                 }
                 if (type === 'checkbox') {
-                  const isChecked = formData[section][
+                  const isChecked = formData[
                     name as keyof T[keyof T]
                   ] as boolean
                   return (
@@ -151,13 +157,9 @@ const InputArea = ({
                       <select
                         name={name}
                         id={id}
-                        value={formData[section][name as keyof T[keyof T]]}
+                        value={formData[name as keyof T[keyof T]]}
                         onChange={(e) => {
-                          handleInputChange(
-                            section,
-                            name as keyof T[keyof T],
-                            e.target.value as T[keyof T][keyof T[keyof T]]
-                          )
+                          handleInputChange(name, e.target.value)
                         }}
                         className="select select-bordered font-inclusive text-lg">
                         {option.map((opt, index: number) => (
@@ -180,10 +182,9 @@ const InputArea = ({
                         className="input input-bordered"
                         placeholder={placeholder}
                         type={type}
-                        value={formData[section][name as keyof T[keyof T]]}
+                        value={formData[name as keyof T[keyof T]]}
                         onChange={(e) => {
                           handleInputChange(
-                            section,
                             name as keyof T[keyof T],
                             e.target.value as T[keyof T][keyof T[keyof T]]
                           )
@@ -226,30 +227,31 @@ const InputArea = ({
                     </div>
                   )
                 }
-              } else {
-                if (rows) {
-                  return (
-                    <div className="flex flex-row items-center">
-                      <svg
-                        width="64"
-                        height="64"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="12" cy="12" r="10" fill="#4285F4" />
-
-                        <path
-                          d="M12 6L14 10H18L15 13L17 17L12 15L7 17L9 13L6 10H10L12 6Z"
-                          fill="white"
-                        />
-                      </svg>
-                      <p className="ml-2 font-inclusive text-3xl">
-                        {' '}
-                        {placeholder}
-                      </p>
-                    </div>
-                  )
-                }
               }
+              //  else {
+              //   if (rows) {
+              //     return (
+              //       <div className="flex flex-row items-center">
+              //         <svg
+              //           width="64"
+              //           height="64"
+              //           viewBox="0 0 24 24"
+              //           xmlns="http://www.w3.org/2000/svg">
+              //           <circle cx="12" cy="12" r="10" fill="#4285F4" />
+
+              //           <path
+              //             d="M12 6L14 10H18L15 13L17 17L12 15L7 17L9 13L6 10H10L12 6Z"
+              //             fill="white"
+              //           />
+              //         </svg>
+              //         <p className="ml-2 font-inclusive text-3xl">
+              //           {' '}
+              //           {placeholder}
+              //         </p>
+              //       </div>
+              //     )
+              //   }
+              // }
             }
           )}
         </form>
@@ -272,7 +274,7 @@ const InputArea = ({
           (
             {
               id,
-              section,
+              //  section,
               type,
               name,
               label,
@@ -297,10 +299,9 @@ const InputArea = ({
                         className="input input-bordered input-info w-full max-w-xs"
                         placeholder={placeholder}
                         type={type}
-                        value={formData[section][name as keyof T[keyof T]]}
+                        value={formData[name as keyof T[keyof T]]}
                         onChange={(e) => {
                           handleInputChange(
-                            section,
                             name as keyof T[keyof T],
                             e.target.value as T[keyof T][keyof T[keyof T]]
                           )

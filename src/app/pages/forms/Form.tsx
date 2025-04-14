@@ -1,7 +1,13 @@
 import React, { FormEvent, MouseEvent } from 'react'
 
 import Description from '@/app/components/description/Description'
-import { GetInputConfigType, MessageType, T } from '@/types'
+import {
+  ClientType,
+  GetInputConfigType,
+  MessageType,
+  PlaceType,
+  T,
+} from '@/types'
 
 import FormFooter from './formFooter'
 import FormHeader from './formheader'
@@ -9,10 +15,11 @@ import InputArea from './InputArea'
 import Timeline from './Timeline'
 
 interface FormProps {
-  clientIdAndName?: { id: string; name: string }[] | undefined
+  client?: ClientType[] | undefined
+  isClientId?: boolean
   placeIdAndName?: { docId: string; name: string }[] | undefined
-  newPlaceId: string | undefined
-  showDescription: boolean
+  newPlaceId?: number
+  showDescription?: boolean
   title: string
   icon: React.JSX.Element
   handleArrowLeft: () => void
@@ -28,18 +35,14 @@ interface FormProps {
   currentStep: number
   step: number
   message: MessageType
-  handleDescription: () => void
+  handleDescription?: () => void
   handlePrevStep: () => void
   handleNextStep: () => void
   handleSubmit: (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => void
-  formData: T
-  handleInputChange: <S extends keyof T, K extends keyof T[S]>(
-    section: S,
-    name: K,
-    event: T[S][K]
-  ) => void
+  formData: T | PlaceType | ClientType
+  handleInputChange: (name: string, event: string) => void
   handleChange?: <
     S extends keyof T,
     M extends keyof T[S],
@@ -63,15 +66,15 @@ interface FormProps {
     language: F,
     event: T[S][M][L][F]
   ) => void
-  handleSelect?: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  handleSelectClient?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handlePlaceSelect?: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  selectedOption?: string
+  selectedOption?: number
   selectedPlaceOption?: string
 }
 
 const Form = ({
-  //clientIdAndName,
-  //placeIdAndName,
+  client,
+  isClientId,
   showDescription,
   newPlaceId,
   title,
@@ -92,23 +95,52 @@ const Form = ({
   handlePrevStep,
   handleNextStep,
   handleFileUpload,
-  // handleSelect,
-  // handlePlaceSelect,
+  handleSelectClient,
   handleResponseChange,
-  // selectedOption,
-  // selectedPlaceOption,
 }: FormProps) => {
   return (
-    <div className="grid grid-cols-1 gap-1 p-10 sm:grid-cols-1">
+    <div className="grid grid-cols-1 gap-2 p-10 sm:grid-cols-1">
       <FormHeader title={title} icon={icon} handleSubmit={handleArrowLeft} />
-      <>
+
+      {title !== 'Formulaire Client' ? (
+        <div className="navbar rounded-xl bg-base-100 shadow-xl">
+          <div className="navbar-start">
+            <a className="btn btn-ghost font-inclusive text-3xl">Client: </a>
+            <p className="font-inclusive text-2xl">{}</p>
+          </div>
+          <select
+            onChange={handleSelectClient}
+            defaultValue=""
+            className="select-neutral select w-full font-inclusive text-xl">
+            <option disabled value="">
+              Associer un client:
+            </option>
+            {client?.map(({ id, name }, index) => {
+              return (
+                <option key={index} value={id as unknown as keyof ClientType}>
+                  {name as keyof ClientType}
+                </option>
+              )
+            })}
+          </select>
+        </div>
+      ) : (
+        <></>
+      )}
+
+      {isClientId || title === 'Formulaire Client' ? (
         <Timeline
           getInput={getInput}
           currentStep={currentStep}
           step={step}
           message={message}
         />
-        {!showDescription ? (
+      ) : (
+        <></>
+      )}
+
+      {isClientId || title === 'Formulaire Client' ? (
+        !showDescription ? (
           <InputArea
             message={message}
             getInput={getInput}
@@ -117,8 +149,8 @@ const Form = ({
             handleSubmit={(event) => {
               handleSubmit(event)
             }}
-            handleInputChange={(section, name, value) => {
-              handleInputChange(section, name, value)
+            handleInputChange={(name, value) => {
+              handleInputChange(name, value)
             }}
             handleChange={(section, mode, language, value) => {
               if (handleChange !== undefined)
@@ -135,14 +167,18 @@ const Form = ({
           <Description
             getInput={getInput}
             currentStep={currentStep}
-            newPlaceId={newPlaceId}
+            newPlaceId={newPlaceId ?? 0}
           />
-        )}
+        )
+      ) : (
+        <></>
+      )}
+      {isClientId || title === 'Formulaire Client' ? (
         <FormFooter
           title={title}
           message={message}
           handleDescription={handleDescription}
-          showDescription={showDescription}
+          showDescription={showDescription ?? false}
           currentStep={currentStep}
           step={step}
           handlePrevStep={() => {
@@ -169,7 +205,9 @@ const Form = ({
             </div>
           }
         />
-      </>
+      ) : (
+        <></>
+      )}
     </div>
   )
 }

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { doc, getDoc } from 'firebase/firestore'
 import { FC, useEffect, useState } from 'react'
 import { useParams } from 'react-router'

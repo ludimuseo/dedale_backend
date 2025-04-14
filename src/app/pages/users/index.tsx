@@ -73,9 +73,10 @@ const Users: FC = () => {
   const actions = [
     {
       type: 'edit',
-      onClick: async (el: ClientType) => {
+      onClick: async (/* el: ClientType */) => {
         try {
-          await navigate(`/users/${el.id}`)
+          // await navigate(`/users/${el.id}`)
+          await navigate(`/`)
         } catch (error) {
           console.error('Error during navigation:', error)
         }

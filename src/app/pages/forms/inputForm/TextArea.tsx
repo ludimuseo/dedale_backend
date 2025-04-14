@@ -1,4 +1,4 @@
-import { T } from '@/types'
+import { ClientType, PlaceType, T } from '@/types'
 
 interface TextAreaType {
   id: string
@@ -7,7 +7,7 @@ interface TextAreaType {
   placeholder?: string
   rows: number
   mode?: string
-  formData: T
+  formData: T | PlaceType | ClientType
   section: string
   language?: string
   rightSideVisible?: boolean
@@ -21,11 +21,7 @@ interface TextAreaType {
     language: L,
     event: T[S][M][L]
   ) => void
-  handleInputChange: <S extends keyof T, K extends keyof T[S]>(
-    section: S,
-    name: K,
-    event: T[S][K]
-  ) => void
+  handleInputChange: (name: string, event: string) => void
   handleResponseChange?: <
     S extends keyof T,
     M extends keyof T[S],
@@ -45,14 +41,9 @@ export default function TextArea({
   name,
   placeholder,
   rows,
-  mode,
   formData,
-  section,
-  language,
   rightSideVisible,
-  handleChange,
   handleInputChange,
-  handleResponseChange,
 }: TextAreaType) {
   return (
     <div
@@ -68,41 +59,15 @@ export default function TextArea({
         key={id}
         id={id}
         name={name}
-        className="textarea textarea-bordered"
+        className="textarea textarea-bordered font-inclusive text-lg"
         placeholder={placeholder}
         rows={rows}
-        value={
-          section === 'response'
-            ? formData[section][name as keyof T[keyof T]][
-                mode as keyof T[keyof T[keyof T]]
-              ][language ?? 'fr']
-            : mode
-              ? formData[section][mode as keyof T[keyof T]][language ?? 'fr']
-              : formData[section][name as keyof T[keyof T]]
-        }
+        value={formData[name as keyof T[keyof T]]}
         onChange={(e) => {
-          if (mode) {
-            handleChange(
-              section,
-              mode as keyof T[keyof T],
-              language as T[keyof T][keyof T[keyof T]],
-              e.target.value as T[keyof T][keyof T[keyof T[keyof T]]]
-            )
-          } else if (section === 'response' || section === 'explanation') {
-            handleResponseChange?.(
-              section,
-              name as keyof T[keyof T],
-              mode as T[keyof T][keyof T[keyof T]],
-              language as T[keyof T][keyof T[keyof T[keyof T]]],
-              e.target.value as T[keyof T][keyof T[keyof T[keyof T[keyof T]]]]
-            )
-          } else {
-            handleInputChange(
-              section,
-              name as keyof T[keyof T],
-              e.target.value as T[keyof T][keyof T[keyof T]]
-            )
-          }
+          handleInputChange(
+            name as keyof T[keyof T],
+            e.target.value as T[keyof T][keyof T[keyof T]]
+          )
         }}
       />
     </div>
