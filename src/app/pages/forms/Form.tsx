@@ -90,13 +90,11 @@ const Form = ({
   handleSubmit,
   formData,
   handleInputChange,
-  handleChange,
   handleDescription,
   handlePrevStep,
   handleNextStep,
   handleFileUpload,
   handleSelectClient,
-  handleResponseChange,
 }: FormProps) => {
   return (
     <div className="grid grid-cols-1 gap-2 p-10 sm:grid-cols-1">
@@ -152,16 +150,12 @@ const Form = ({
             handleInputChange={(name, value) => {
               handleInputChange(name, value)
             }}
-            handleChange={(section, mode, language, value) => {
-              if (handleChange !== undefined)
-                handleChange(section, mode, language, value)
-            }}
-            handleFileUpload={(file, fileType, name) =>
+            handleFileUpload={(file, fileType, name) => {
               handleFileUpload?.(file, fileType, name)
-            }
-            handleResponseChange={(section, name, mode, language, value) => {
-              handleResponseChange?.(section, name, mode, language, value)
             }}
+            // handleResponseChange={(section, name, mode, language, value) => {
+            //   handleResponseChange?.(section, name, mode, language, value)
+            // }}
           />
         ) : (
           <Description

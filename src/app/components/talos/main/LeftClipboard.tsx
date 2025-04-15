@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { AnimatePresence, motion } from 'framer-motion'
 import { type FC, ReactElement } from 'react'
 

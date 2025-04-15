@@ -1,10 +1,8 @@
 import { PlaceIcon } from '@component'
 import { useAppSelector } from '@hook'
 import { collection, getDocs } from 'firebase/firestore'
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { v4 as uuidv4 } from 'uuid'
 
 import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
@@ -93,43 +91,8 @@ const FormPlace: FC = () => {
       }))
     }
 
-    // interface PlaceData {
-    //   place: {
-    //     clientId: number
-    //     name: string
-    //     type: string
-    //     address: string
-    //     city: string
-    //     country: string
-    //     postal: string
-    //     lat: number
-    //     lon: number
-    //     location_required: boolean
-    //     image: string
-    //     isPublished: boolean
-    //     isActive: boolean
-    //   }
-    // }
-    // const place: PlaceData = {
-    //   place: {
-    //     clientId: formData.clientId,
-    //     name: formData.name,
-    //     type: formData.content.type,
-    //     address: formData.address.address,
-    //     city: formData.address.city,
-    //     country: formData.address.country,
-    //     postal: formData.address.postal,
-    //     lat: formData.coords.lat,
-    //     lon: formData.coords.lon,
-    //     location_required: formData.coords.isLocationRequired,
-    //     image: formData.content.image,
-    //     isPublished: formData.status.isPublished,
-    //     isActive: formData.status.isActive,
-    //   },
-    // }
-
-    if (token == null) {
-      alert("Une erreur c'est produite")
+    if (!token) {
+      alert("Une erreur c'est produite, reconnectez-vous")
       void navigate('/')
       return
     }
@@ -230,18 +193,46 @@ const FormPlace: FC = () => {
     fileType: string,
     name: string
   ) => {
-    const storage = getStorage()
-    const storageRef = ref(storage, `${fileType}/${uuidv4()}_${file.name}`)
+    if (!token) {
+      alert("Une erreur c'est produite, reconnectez-vous")
+      void navigate('/')
+      return
+    }
 
-    await uploadBytes(storageRef, file)
-    const downloadURL = await getDownloadURL(storageRef)
+    const formUpload = new FormData()
+    // Ajout des données dans formUpload
+    formUpload.append('file', file) // le fichier image à uploader
+    formUpload.append('type', 'image') // type : image ou audio
+    formUpload.append('destination', 'Place') // ou journey, step, etc.
 
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
-        [name]: downloadURL,
+        [fileType]: name,
       }
     })
+
+    try {
+      const response: Response = await fetch(
+        'http://localhost:4000/api/upload',
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formUpload, // Attention : pas de Content-Type ici, FormData le gère
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error(`Erreur serveur: ${response.status.toString()}`)
+      }
+      const data: unknown = await response.json()
+      console.log('Fichier uploadé avec succès :', data)
+    } catch (error) {
+      console.error("Erreur lors de l'upload :", error)
+      throw error
+    }
   }
 
   const handleSelectClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -291,8 +282,7 @@ const FormPlace: FC = () => {
       }
       try {
         const response: Response = await fetch(
-          `https://dev.ludimuseo.fr:4000/api/clients/list
-`,
+          `https://dev.ludimuseo.fr:4000/api/clients/list`,
           {
             method: 'GET',
             headers: {
@@ -307,7 +297,10 @@ const FormPlace: FC = () => {
         }
         const data = (await response.json()) as ClientType[]
         const clientData = data.clients as ClientType[]
-        setClient([...clientData])
+        const filteredClientIsActive = clientData.filter(
+          (item) => item.isActive
+        )
+        setClient([...filteredClientIsActive])
       } catch (error) {
         console.log('ERROR fetching clients: ', error)
       }
@@ -414,9 +407,6 @@ const FormPlace: FC = () => {
         handleInputChange={(name, value) => {
           handleInputChange(name, value)
         }}
-        //handleChange={(section, mode, langaue, value) => {
-        //  handleChange(section, mode, langaue, value)
-        // }}
         handleDescription={handleDescription}
         handlePrevStep={handlePrevStep}
         handleNextStep={handleNextStep}

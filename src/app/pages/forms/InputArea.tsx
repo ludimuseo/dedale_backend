@@ -1,5 +1,5 @@
 import successImage from '@img/minos-reussi.png'
-import { FormEvent, MouseEvent, useState } from 'react'
+import { FormEvent, MouseEvent, useRef, useState } from 'react'
 
 import {
   ClientType,
@@ -19,34 +19,18 @@ interface InputAreaProps {
   getInput: GetInputConfigType[][]
   currentStep: number
   formData: T | PlaceType | ClientType
-  handleInputChange: (
-    //section: string,
-    name: string,
-    event: string
-  ) => void
-  handleFileUpload: (file: File, fileType: string, name: string) => void
-  handleChange: <
-    S extends keyof T,
-    M extends keyof T[S],
-    L extends keyof T[S][M],
-  >(
-    section: S,
-    mode: M,
-    language: L,
-    event: T[S][M][L]
-  ) => void
-  handleResponseChange: <
-    S extends keyof T,
-    M extends keyof T[S],
-    L extends keyof T[S][M],
-    F extends keyof T[S][M][L],
-  >(
-    section: S,
-    name: M,
-    mode: L,
-    language: F,
-    event: T[S][M][L][F]
-  ) => void
+  handleInputChange: (name: string, event: string) => void
+  handleFileUpload: (
+    file: File,
+    fileType: string,
+    name: string
+  ) => Promise<void>
+  // handleChange: <S extends keyof T, M extends keyof T[S], L extends keyof T[S][M]>(
+  //   section: S,
+  //   mode: M,
+  //   language: L,
+  //   event: T[S][M][L]
+  // ) => void;
 }
 
 const InputArea = ({
@@ -57,40 +41,109 @@ const InputArea = ({
   formData,
   handleInputChange,
   handleFileUpload,
-  handleChange,
+  //handleChange,
 }: InputAreaProps) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null)
-  //const [audioPreview, setAudioPreview] = useState<string | null>(null)
+  const [imgFile, setImgFile] = useState<File | null>(null)
+  const [imgName, setImgName] = useState('')
+  const [isUploading, setIsUploading] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
+  const [uploadSuccess, setUploadSuccess] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const acceptedFileTypes = {
+    image: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+    audio: ['audio/mpeg', 'audio/wav', 'audio/ogg'],
+  }
+
+  const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 
   const handleFileChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    type: string,
-    name: string
+    type: string
   ) => {
+    event.preventDefault()
+    setUploadError(null)
+    setUploadSuccess(false)
+
     const file = event.target.files?.[0]
-    if (file) {
-      if (type === 'image') {
-        if (typeof handleFileUpload !== 'undefined') {
-          handleFileUpload(file, 'image', name)
-        }
-        const imageUrl = URL.createObjectURL(file)
-        setImagePreview(imageUrl)
-        console.log('imagePreview: ', imagePreview)
-      }
+    const name = event.target.name
+
+    if (!file) return
+
+    // Validation du type de fichier
+    if (
+      !acceptedFileTypes[type as keyof typeof acceptedFileTypes].includes(
+        file.type
+      )
+    ) {
+      setUploadError(
+        `Type de fichier non supporté. Formats acceptés: ${acceptedFileTypes[type as keyof typeof acceptedFileTypes].join(', ')}`
+      )
+      resetFileInput()
+      return
+    }
+
+    // Validation de la taille
+    if (file.size > MAX_FILE_SIZE) {
+      const MAX_SIZE = MAX_FILE_SIZE / (1024 * 1024)
+      setUploadError(
+        `Fichier trop volumineux. Taille max: ${MAX_SIZE.toString()}MB`
+      )
+      resetFileInput()
+      return
+    }
+
+    if (type === 'image') {
+      setImgFile(file)
+      setImgName(name)
+
+      const imageUrl = URL.createObjectURL(file)
+      setImagePreview(imageUrl)
+    }
+  }
+
+  const resetFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
+  }
+
+  const handleUploadToServer = async (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    if (!imgFile) return
+
+    setIsUploading(true)
+    setUploadError(null)
+    setUploadSuccess(false)
+
+    try {
+      await handleFileUpload(imgFile, 'image', imgName)
+      setUploadSuccess(true)
+      // Réinitialiser après un délai pour permettre à l'utilisateur de voir le message de succès
+      setTimeout(() => {
+        setUploadSuccess(false)
+        setImagePreview(null)
+        setImgFile(null)
+        resetFileInput()
+      }, 5000)
+    } catch (error) {
+      console.error('Upload error:', error)
+      setUploadError("Échec de l'envoi du fichier. Veuillez réessayer.")
+    } finally {
+      setIsUploading(false)
     }
   }
 
   return (
     <div className="flex min-h-max justify-center rounded-xl bg-base-100 p-4 shadow-xl">
-      {/*INPUT AREA 1*/}
       {!message.info ? (
         <form
-          onSubmit={() => handleSubmit}
+          onSubmit={handleSubmit}
           className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark flex w-1/2 flex-col p-2">
           {getInput[currentStep].map(
             ({
               id,
-              section,
               rows,
               language,
               type,
@@ -99,7 +152,6 @@ const InputArea = ({
               label,
               option,
               placeholder,
-              accessType,
               fileType,
               rightSideVisible,
             }) => {
@@ -107,6 +159,7 @@ const InputArea = ({
                 if (rows) {
                   return (
                     <TextArea
+                      key={id}
                       id={id}
                       label={label}
                       name={name}
@@ -114,13 +167,13 @@ const InputArea = ({
                       rows={rows}
                       mode={mode}
                       formData={formData}
-                      //section={section}
                       language={language}
-                      handleChange={handleChange}
+                      //handleChange={handleChange}
                       handleInputChange={handleInputChange}
                     />
                   )
                 }
+
                 if (type === 'checkbox') {
                   const isChecked = formData[
                     name as keyof T[keyof T]
@@ -137,11 +190,7 @@ const InputArea = ({
                           type={type}
                           checked={isChecked}
                           onChange={() => {
-                            handleInputChange(
-                              section,
-                              name as keyof T[keyof T],
-                              !isChecked
-                            )
+                            handleInputChange(name, !isChecked)
                           }}
                           className="checkbox"
                         />
@@ -171,6 +220,7 @@ const InputArea = ({
                     </div>
                   )
                 }
+
                 if (type !== 'file' && !rows) {
                   return (
                     <div className="mt-2 flex w-1/2 flex-col" key={id}>
@@ -184,43 +234,75 @@ const InputArea = ({
                         type={type}
                         value={formData[name as keyof T[keyof T]]}
                         onChange={(e) => {
-                          handleInputChange(
-                            name as keyof T[keyof T],
-                            e.target.value as T[keyof T][keyof T[keyof T]]
-                          )
+                          handleInputChange(name, e.target.value)
                         }}
                       />
                     </div>
                   )
                 }
+
                 if (fileType) {
                   return (
                     <div className="flex flex-row space-x-10" key={id}>
                       <div className="mb-2 mt-2 flex flex-col">
-                        <p className="mb-2 font-inclusive">{label}</p>
+                        <p className="mb-2 text-center font-inclusive text-lg">
+                          {label}
+                        </p>
                         <input
+                          ref={fileInputRef}
                           key={id}
                           id={id}
                           name={name}
                           type={type}
-                          accept={accessType}
-                          onChange={(file) => {
-                            handleFileChange(file, fileType, name)
+                          accept={acceptedFileTypes[
+                            fileType as keyof typeof acceptedFileTypes
+                          ].join(',')}
+                          onChange={(e) => {
+                            handleFileChange(e, fileType)
                           }}
-                          className="file-input file-input-bordered w-full max-w-xs"
+                          className="file-input file-input-bordered file-input-primary w-full max-w-xs"
                         />
+
+                        {/* Messages d'état */}
+                        {uploadError && (
+                          <div className="text-XL mt-2 text-error">
+                            {uploadError}
+                          </div>
+                        )}
+                        {uploadSuccess && (
+                          <div className="text-XL mt-2 text-success">
+                            Fichier envoyé avec succès!
+                          </div>
+                        )}
+
+                        {/* Bouton d'envoi */}
+                        {imagePreview && (
+                          <button
+                            className="btn btn-neutral mt-4"
+                            onClick={void handleUploadToServer}
+                            disabled={isUploading}>
+                            {isUploading ? (
+                              <span className="loading loading-spinner"></span>
+                            ) : (
+                              'Enregistrer sur le serveur'
+                            )}
+                          </button>
+                        )}
                       </div>
+
                       {fileType === 'image' && imagePreview && (
-                        <div
-                          className="carousel mt-4 w-64 rounded-box"
-                          key={`${id}-image`}>
-                          <div className="carousel-item w-full">
-                            <p className="mb-2 font-inclusive">Aperçu:</p>
-                            <img
-                              src={imagePreview}
-                              alt="Prévisualisation"
-                              className="ml-1 mt-4 w-full rounded-xl"
-                            />
+                        <div>
+                          <p className="mt-2 font-inclusive text-xl">Aperçu:</p>
+                          <div
+                            className="carousel mt-4 w-64 rounded-box"
+                            key={`${id}-image`}>
+                            <div className="carousel-item w-full">
+                              <img
+                                src={imagePreview}
+                                alt="Prévisualisation"
+                                className="ml-1 w-full rounded-xl"
+                              />
+                            </div>
                           </div>
                         </div>
                       )}
@@ -228,93 +310,20 @@ const InputArea = ({
                   )
                 }
               }
-              //  else {
-              //   if (rows) {
-              //     return (
-              //       <div className="flex flex-row items-center">
-              //         <svg
-              //           width="64"
-              //           height="64"
-              //           viewBox="0 0 24 24"
-              //           xmlns="http://www.w3.org/2000/svg">
-              //           <circle cx="12" cy="12" r="10" fill="#4285F4" />
-
-              //           <path
-              //             d="M12 6L14 10H18L15 13L17 17L12 15L7 17L9 13L6 10H10L12 6Z"
-              //             fill="white"
-              //           />
-              //         </svg>
-              //         <p className="ml-2 font-inclusive text-3xl">
-              //           {' '}
-              //           {placeholder}
-              //         </p>
-              //       </div>
-              //     )
-              //   }
-              // }
             }
           )}
         </form>
       ) : (
-        <>
-          <div className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark mt-5 flex w-1/2 flex-col items-center rounded-sm p-2">
-            <h1> 🚀 {message.info}</h1>
-            <img
-              width="30%"
-              src={successImage}
-              alt="Success Minos"
-              className="mt-10"
-            />
-          </div>
-        </>
+        <div className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark mt-5 flex w-1/2 flex-col items-center rounded-sm p-2">
+          <h1> 🚀 {message.info}</h1>
+          <img
+            width="30%"
+            src={successImage}
+            alt="Success Minos"
+            className="mt-10"
+          />
+        </div>
       )}
-      {
-        //translate s'affiche si il y a une traduction a executer
-        getInput[currentStep].map(
-          (
-            {
-              id,
-              //  section,
-              type,
-              name,
-              label,
-              placeholder,
-              option,
-              rightSideVisible,
-            },
-            index
-          ) => {
-            if (rightSideVisible) {
-              if (!option && type === 'text') {
-                return (
-                  <div
-                    key={index}
-                    className="border-stroke shadow-defaul w-1/2 rounded-lg border bg-sky-50 p-2">
-                    <div className="mt-2 flex flex-col" key={id}>
-                      <p className="mb-2 font-inclusive text-xl">{label}</p>
-                      <input
-                        key={id}
-                        id={id}
-                        name={name}
-                        className="input input-bordered input-info w-full max-w-xs"
-                        placeholder={placeholder}
-                        type={type}
-                        value={formData[name as keyof T[keyof T]]}
-                        onChange={(e) => {
-                          handleInputChange(
-                            name as keyof T[keyof T],
-                            e.target.value as T[keyof T][keyof T[keyof T]]
-                          )
-                        }}
-                      />
-                    </div>
-                  </div>
-                )
-              }
-            }
-          }
-        )
-      }
     </div>
   )
 }

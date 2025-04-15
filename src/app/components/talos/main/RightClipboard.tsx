@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { motion } from 'framer-motion'
 import { type FC } from 'react'
 
 import { WrongCheck } from '../../ui/icons/WrongCheck'
-import { Sentence } from './TalosInterfaceMain'
+//import { Sentence } from './TalosInterfaceMain'
 
 interface RightClipboardProps {
   activeTextId: boolean

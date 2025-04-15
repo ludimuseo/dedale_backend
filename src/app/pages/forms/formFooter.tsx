@@ -59,7 +59,7 @@ const FormFooter = ({
                   Ajouter les descriptions
                 </p>
               ) : (
-                <p className="font-inclusive text-xl">Retour</p>
+                <p className="font-inclusive text-xl">Retour au Menu</p>
               )}
             </button>
           </>

@@ -8,7 +8,6 @@ interface TextAreaType {
   rows: number
   mode?: string
   formData: T | PlaceType | ClientType
-  section: string
   language?: string
   rightSideVisible?: boolean
   handleChange: <
@@ -22,18 +21,6 @@ interface TextAreaType {
     event: T[S][M][L]
   ) => void
   handleInputChange: (name: string, event: string) => void
-  handleResponseChange?: <
-    S extends keyof T,
-    M extends keyof T[S],
-    L extends keyof T[S][M],
-    F extends keyof T[S][M][L],
-  >(
-    section: S,
-    name: M,
-    mode: L,
-    language: F,
-    event: T[S][M][L][F]
-  ) => void
 }
 export default function TextArea({
   id,
