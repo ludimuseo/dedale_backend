@@ -4,6 +4,7 @@ import { FormEvent, MouseEvent, useRef, useState } from 'react'
 import {
   ClientType,
   GetInputConfigType,
+  JourneyType,
   MessageType,
   PlaceType,
   T,
@@ -18,19 +19,14 @@ interface InputAreaProps {
   ) => void
   getInput: GetInputConfigType[][]
   currentStep: number
-  formData: T | PlaceType | ClientType
+  formData: T | PlaceType | ClientType | JourneyType
   handleInputChange: (name: string, event: string) => void
   handleFileUpload: (
     file: File,
     fileType: string,
-    name: string
-  ) => Promise<void>
-  // handleChange: <S extends keyof T, M extends keyof T[S], L extends keyof T[S][M]>(
-  //   section: S,
-  //   mode: M,
-  //   language: L,
-  //   event: T[S][M][L]
-  // ) => void;
+    name: string,
+    event: MouseEvent<HTMLButtonElement>
+  ) => void
 }
 
 const InputArea = ({
@@ -109,7 +105,7 @@ const InputArea = ({
     }
   }
 
-  const handleUploadToServer = async (event: MouseEvent<HTMLButtonElement>) => {
+  const handleUploadToServer = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     if (!imgFile) return
 
@@ -118,7 +114,7 @@ const InputArea = ({
     setUploadSuccess(false)
 
     try {
-      await handleFileUpload(imgFile, 'image', imgName)
+      handleFileUpload(imgFile, 'image', imgName, event)
       setUploadSuccess(true)
       // Réinitialiser après un délai pour permettre à l'utilisateur de voir le message de succès
       setTimeout(() => {

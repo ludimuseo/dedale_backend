@@ -4,6 +4,7 @@ import { collection, getDocs } from 'firebase/firestore'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import { fetchWithAuth } from '@/api/fetchWithAuth'
 import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
@@ -186,14 +187,10 @@ const FormPlace: FC = () => {
   const handleFileUpload = async (
     file: File,
     fileType: string,
-    name: string
+    name: string,
+    event: MouseEvent<HTMLButtonElement>
   ) => {
-    if (!token) {
-      alert("Une erreur c'est produite, reconnectez-vous")
-      void navigate('/')
-      return
-    }
-
+    event.preventDefault()
     const formUpload = new FormData()
     // Ajout des données dans formUpload
     formUpload.append('file', file) // le fichier image à uploader
@@ -208,8 +205,8 @@ const FormPlace: FC = () => {
     })
 
     try {
-      const response: Response = await fetch(
-        'http://localhost:4000/api/upload',
+      const response: Response = await fetchWithAuth(
+        'https://dev.ludimuseo.fr:4000/api/upload',
         {
           method: 'POST',
           headers: {
@@ -270,13 +267,8 @@ const FormPlace: FC = () => {
 
   useEffect(() => {
     const fetchClients = async () => {
-      if (!token) {
-        alert("Une erreur c'est produite")
-        void navigate('/')
-        return
-      }
       try {
-        const response: Response = await fetch(
+        const response: Response = await fetchWithAuth(
           `https://dev.ludimuseo.fr:4000/api/clients/list`,
           {
             method: 'GET',

@@ -154,9 +154,6 @@ const Form = ({
             handleFileUpload={(file, fileType, name) => {
               handleFileUpload?.(file, fileType, name)
             }}
-            // handleResponseChange={(section, name, mode, language, value) => {
-            //   handleResponseChange?.(section, name, mode, language, value)
-            // }}
           />
         ) : (
           <Description
