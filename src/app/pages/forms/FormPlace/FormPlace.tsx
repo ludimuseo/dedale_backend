@@ -66,7 +66,6 @@ const FormPlace: FC = () => {
   const handleArrowLeft = () => {
     void navigate(-1)
   }
-  //liste des clients
 
   //soumission des informations
   const handleSubmit = async (
@@ -271,7 +270,7 @@ const FormPlace: FC = () => {
 
   useEffect(() => {
     const fetchClients = async () => {
-      if (token == null) {
+      if (!token) {
         alert("Une erreur c'est produite")
         void navigate('/')
         return

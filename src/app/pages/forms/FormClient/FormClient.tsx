@@ -3,6 +3,7 @@ import { useAppSelector } from '@hook'
 import { FC, type FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import { useAuthCheck } from '@/app/hooks/useAuthCheck'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
 import { ClientType, ClientTypeApi, MessageType, State } from '@/types'
@@ -34,6 +35,8 @@ const FormClient: FC = () => {
     isActive: false,
   })
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
+  const { checkToken } = useAuthCheck()
+
   const { step, setStep, currentStep, handleNextStep, handlePrevStep } =
     useTimelineStep()
 
@@ -41,13 +44,21 @@ const FormClient: FC = () => {
     void navigate(-1)
   }
 
+  useEffect(() => {
+    if (checkToken(token)) {
+      console.log('Token valide')
+    } else {
+      console.log('Token invalide')
+    }
+  }, [])
+
   //soumission des informations FIREBASE
   const handleSubmit = async (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault()
 
-    if (token == null) {
+    if (!token) {
       alert("Une erreur c'est produite")
       void navigate('/')
       return

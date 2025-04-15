@@ -4,14 +4,14 @@ import type { User } from '@/types'
 
 export interface StateAuth {
   isLogged: boolean
-  token: string | null
+  token: string
   user: User | null
 }
 
 const initialState = (): StateAuth => {
   return {
     isLogged: false,
-    token: null,
+    token: '',
     user: null,
   }
 }
@@ -26,7 +26,7 @@ export const sliceAuth = createSlice({
       state.isLogged = true
     },
     signOut: (state) => {
-      state.token = null
+      state.token = ''
       state.user = null
       state.isLogged = false
     },

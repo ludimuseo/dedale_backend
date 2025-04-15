@@ -1,18 +1,25 @@
 import { useAppSelector } from '@hook'
-import type { PropsWithChildren } from 'react'
 import { Navigate } from 'react-router'
 
-import type { State, UserRole } from '@/types'
+import type { State } from '@/types'
+import { isTokenExpired } from '@/utils/auth'
 
-interface RouteAuthProps {
-  role: UserRole | null
-}
+const RouteAuth = ({
+  children /* role = null */,
+}: {
+  children: React.ReactNode
+  role?: string | null
+}) => {
+  const { token } = useAppSelector((state: State) => state.auth)
 
-const RouteAuth = ({ role, children }: PropsWithChildren<RouteAuthProps>) => {
-  const { isLogged } = useAppSelector((state: State) => state.auth)
-  console.info('User role: ', role)
-  if (isLogged) return children
-  else return <Navigate to={{ pathname: '/auth/signin' }} replace />
+  if (!token || isTokenExpired(token)) {
+    return <Navigate to={{ pathname: '/auth/signin' }} replace />
+  }
+  return <>{children}</>
 }
+//TODO:
+
+// Optionnel : vérification du rôle si nécessaire
+// if (role && !userHasRole(role)) return <Navigate to="/unauthorized" />
 
 export default RouteAuth
