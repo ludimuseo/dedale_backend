@@ -2,6 +2,7 @@ import { JourneyIcon } from '@component'
 import { collection, getDocs } from 'firebase/firestore'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 
+import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { handleArrowLeft } from '@/app/services/utils'
 import { db } from '@/firebase/firebase'
 import { JourneyType } from '@/types'
@@ -11,14 +12,9 @@ import { getInputJourneyConfig } from './configJourney/getInputJourneyConfig'
 
 const FormJourney: FC = () => {
   const title = 'Formulaire Parcours'
-  const [step, setStep] = useState(0)
-  const [currentStep, setCurrentStep] = useState(0)
   // const [placeIdAndName, setPlaceIdAndName] = useState<
   //     { docId: string; name: string }[] | undefined
   // >([])
-  const [clientIdAndName, setClientIdAndName] = useState<
-    { id: string; name: string }[] | undefined
-  >([])
   const [medalsData, setMedalsData] = useState<
     | { id: string; name: string; image: string; description: string }[]
     | undefined
@@ -50,19 +46,8 @@ const FormJourney: FC = () => {
     isPublished: false,
   })
 
-  const handleNextStep = () => {
-    if (currentStep === step - 1) return
-    setCurrentStep(currentStep + 1)
-  }
-
-  const handlePrevStep = () => {
-    if (currentStep === 0) return
-    setCurrentStep(currentStep - 1)
-  }
-
-  const handleEditPlace = () => {
-    alert('Edit Place')
-  }
+  const { step, setStep, currentStep, handleNextStep, handlePrevStep } =
+    useTimelineStep()
 
   //soumission des informations
   const handleSubmit = (
@@ -186,47 +171,6 @@ const FormJourney: FC = () => {
   }, [getInput])
 
   useEffect(() => {
-    const fetchClient = async () => {
-      interface ClientData {
-        id: string
-        client?: {
-          company?: {
-            name?: string
-          }
-        }
-        company?: {
-          name?: string
-        }
-      }
-      try {
-        const querySnapshot = await getDocs(collection(db, 'clients'))
-        const clientData: ClientData[] = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...(doc.data() as Omit<ClientData, 'id'>),
-        }))
-
-        const clientPackageData = clientData
-          .map((item) => {
-            if (item.client?.company?.name) {
-              return { id: item.id, name: item.client.company.name } // Si "client" et "company.name" existent
-            } else if (item.company?.name) {
-              return { id: item.id, name: item.company.name } // Si "company.name" existe directement;
-            }
-            return undefined
-          })
-          .filter(
-            (item): item is { id: string; name: string } => item !== undefined
-          ) //Ce filtre assure à TypeScript que le tableau résultant ne contient que des objets conformes au type { id: string, name: string }.
-
-        setClientIdAndName(clientPackageData)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    }
-    void fetchClient()
-  }, [])
-
-  useEffect(() => {
     interface Medal {
       id: string
 
@@ -274,9 +218,6 @@ const FormJourney: FC = () => {
   return (
     <>
       <Form
-        clientIdAndName={clientIdAndName && clientIdAndName}
-        // placeIdAndName={placeIdAndName && placeIdAndName}
-        //handleSelect={handleSelect}
         handlePlaceSelect={handlePlaceSelect}
         // selectedOption={selectedOption}
         selectedPlaceOption={selectedPlaceOption}
@@ -297,7 +238,6 @@ const FormJourney: FC = () => {
         handleInputChange={(name, value) => {
           handleInputChange(name, value)
         }}
-        handleEdit={handleEditPlace}
         handlePrevStep={handlePrevStep}
         handleNextStep={handleNextStep}
         //handleFileUpload={void handleFileUpload}

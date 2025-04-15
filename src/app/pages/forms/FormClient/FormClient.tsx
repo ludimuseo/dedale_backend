@@ -3,6 +3,7 @@ import { useAppSelector } from '@hook'
 import { FC, type FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
 import { ClientType, ClientTypeApi, MessageType, State } from '@/types'
 
@@ -11,8 +12,6 @@ import { getInputClientConfig } from './configClient/getInputClientConfig'
 
 const FormClient: FC = () => {
   const navigate = useNavigate()
-  const [step, setStep] = useState(0)
-  const [currentStep, setCurrentStep] = useState(0)
   const [message, setMessage] = useState<MessageType>({
     info: '',
     result: false,
@@ -22,7 +21,7 @@ const FormClient: FC = () => {
     name: '',
     siret: '',
     tva: '',
-    type: 'ENTREPRISE',
+    type: 'ENTREPRISE', //par default
     website: '',
     address: '',
     postal: '',
@@ -35,16 +34,8 @@ const FormClient: FC = () => {
     isActive: false,
   })
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
-
-  const handleNextStep = () => {
-    if (currentStep === step - 1) return
-    setCurrentStep(currentStep + 1)
-  }
-
-  const handlePrevStep = () => {
-    if (currentStep === 0) return
-    setCurrentStep(currentStep - 1)
-  }
+  const { step, setStep, currentStep, handleNextStep, handlePrevStep } =
+    useTimelineStep()
 
   const handleArrowLeft = () => {
     void navigate(-1)
@@ -62,6 +53,7 @@ const FormClient: FC = () => {
       return
     }
 
+    //structure des données pour l'api
     const newClient: ClientTypeApi = {
       address: {
         address: formData.address,
@@ -138,23 +130,10 @@ const FormClient: FC = () => {
     value: string | boolean // Ajout du type boolean pour les cases à cocher
   ) => {
     setFormData((prevFormData) => {
-      // Cas 1: pas de section
       return {
         ...prevFormData,
         [name]: value,
       }
-
-      // Cas 2: Champ imbriqué
-      //   const sectionData = prevFormData[section];
-
-      //   return {
-      //     ...prevFormData,
-      //     [section]: {
-      //       ...(sectionData as object),
-      //       [name]: value
-      //     }
-      //   };
-      // });
     })
   }
 

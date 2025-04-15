@@ -5,6 +5,7 @@ import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
 import { db } from '@/firebase/firebase'
 import { ClientType, MessageType, PlaceType, State } from '@/types'
@@ -15,11 +16,8 @@ import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
 const FormPlace: FC = () => {
   const navigate = useNavigate()
   const title = 'Formulaire Lieu'
-  const [step, setStep] = useState(0)
-  const [currentStep, setCurrentStep] = useState(0)
   const [showDescription, setShowDescription] = useState(false)
   const [client, setClient] = useState<ClientType[]>([])
-
   const [medalsData, setMedalsData] = useState<
     | { id: string; name: string; image: string; description: string }[]
     | undefined
@@ -50,16 +48,14 @@ const FormPlace: FC = () => {
     isPublished: false,
   })
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
-
-  const handleNextStep = () => {
-    if (currentStep === step - 1) return
-    setCurrentStep(currentStep + 1)
-  }
-
-  const handlePrevStep = () => {
-    if (currentStep === 0) return
-    setCurrentStep(currentStep - 1)
-  }
+  const {
+    step,
+    setStep,
+    currentStep,
+    setCurrentStep,
+    handleNextStep,
+    handlePrevStep,
+  } = useTimelineStep()
 
   const handleDescription = () => {
     //AFFICHER Descritpion

@@ -4,6 +4,7 @@ import Description from '@/app/components/description/Description'
 import {
   ClientType,
   GetInputConfigType,
+  JourneyType,
   MessageType,
   PlaceType,
   T,
@@ -41,7 +42,7 @@ interface FormProps {
   handleSubmit: (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => void
-  formData: T | PlaceType | ClientType
+  formData: T | PlaceType | ClientType | JourneyType
   handleInputChange: (name: string, event: string) => void
   handleChange?: <
     S extends keyof T,
