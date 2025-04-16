@@ -10,9 +10,10 @@ const RouteAuth = ({
   children: React.ReactNode
   role?: string | null
 }) => {
-  const { token } = useAppSelector((state: State) => state.auth)
+  const { token, isLogged } = useAppSelector((state: State) => state.auth)
 
-  if (!token || isTokenExpired(token)) {
+  if (!token || isTokenExpired(token) || !isLogged) {
+    //alert("Votre token est expiré")
     return <Navigate to={{ pathname: '/auth/signin' }} replace />
   }
   return <>{children}</>
