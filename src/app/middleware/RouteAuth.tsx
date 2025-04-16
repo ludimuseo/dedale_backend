@@ -1,6 +1,6 @@
 import { useAppSelector } from '@hook'
-import { Navigate } from 'react-router'
 
+//import { Navigate } from 'react-router'
 import type { State } from '@/types'
 import { isTokenExpired } from '@/utils/auth'
 
@@ -13,7 +13,8 @@ const RouteAuth = ({
   const { token } = useAppSelector((state: State) => state.auth)
 
   if (!token || isTokenExpired(token)) {
-    return <Navigate to={{ pathname: '/auth/signin' }} replace />
+    alert("Votre token est expiré")
+    //return <Navigate to={{ pathname: '/auth/signin' }} replace />
   }
   return <>{children}</>
 }
