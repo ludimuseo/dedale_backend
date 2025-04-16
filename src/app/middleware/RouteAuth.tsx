@@ -1,6 +1,6 @@
 import { useAppSelector } from '@hook'
-import { Navigate } from 'react-router'
 
+//import { Navigate } from 'react-router'
 import type { State } from '@/types'
 import { isTokenExpired } from '@/utils/auth'
 
@@ -18,6 +18,7 @@ const RouteAuth = ({
   }
   return <>{children}</>
 }
+
 //TODO:
 
 // Optionnel : vérification du rôle si nécessaire

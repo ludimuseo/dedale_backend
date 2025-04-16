@@ -22,7 +22,7 @@ const FormClient: FC = () => {
     name: '',
     siret: '',
     tva: '',
-    type: 'ENTREPRISE', //par default
+    type: 'PROFESSIONNEL', //par default
     website: '',
     address: '',
     postal: '',

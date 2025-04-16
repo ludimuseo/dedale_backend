@@ -1,7 +1,7 @@
 import { EnvelopeIcon, Input, LockIcon } from '@component/index'
 import { useAppDispatch, useInput, useNotification } from '@hook'
 import { signIn } from '@service/redux/slices/reducerAuth'
-import { type FC, type FormEvent, useEffect, useRef, useState } from 'react'
+import { type FC, type FormEvent, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { User } from '@/types'
@@ -21,9 +21,9 @@ const AuthSignIn: FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   // After the page loads, have the Email input focused for immediate typing
-  useEffect(() => {
-    emailRef.current?.focus()
-  }, [])
+  // useEffect(() => {
+  //   emailRef.current?.focus()
+  // }, [])
 
   const executeSignIn = async () => {
     setIsLoading(true)
