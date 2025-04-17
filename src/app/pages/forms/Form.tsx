@@ -1,12 +1,15 @@
 import React, { FormEvent, MouseEvent } from 'react'
 
 import Description from '@/app/components/description/Description'
+import ClientDropdownList from '@/app/components/forms/ClientDropdownList'
+import PlaceDropdownList from '@/app/components/forms/PlaceDropdownList'
 import {
   ClientType,
   GetInputConfigType,
   JourneyType,
   MessageType,
   PlaceType,
+  StepType,
   T,
 } from '@/types'
 
@@ -17,9 +20,9 @@ import Timeline from './Timeline'
 
 interface FormProps {
   client?: ClientType[] | undefined
-  isClientId?: boolean
-  placeIdAndName?: { docId: string; name: string }[] | undefined
-  newPlaceId?: number
+  isAssociated?: boolean
+  newIdFromApi?: number
+  selectedClientId?: number
   showDescription?: boolean
   title: string
   icon: React.JSX.Element
@@ -42,42 +45,21 @@ interface FormProps {
   handleSubmit: (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => void
-  formData: T | PlaceType | ClientType | JourneyType
+  formData: T | PlaceType | ClientType | JourneyType | StepType
   handleInputChange: (name: string, event: string) => void
-  handleChange?: <
-    S extends keyof T,
-    M extends keyof T[S],
-    L extends keyof T[S][M],
-  >(
-    section: S,
-    mode: M,
-    language: L,
-    event: T[S][M][L]
-  ) => void
   handleFileUpload?: (file: File, fileType: string, name: string) => void
-  handleResponseChange?: <
-    S extends keyof T,
-    M extends keyof T[S],
-    L extends keyof T[S][M],
-    F extends keyof T[S][M][L],
-  >(
-    section: S,
-    name: M,
-    mode: L,
-    language: F,
-    event: T[S][M][L][F]
-  ) => void
   handleSelectClient?: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  handlePlaceSelect?: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  handleSelectPlace?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   selectedOption?: number
   selectedPlaceOption?: string
 }
 
 const Form = ({
   client,
-  isClientId,
+  isAssociated,
+  selectedClientId,
   showDescription,
-  newPlaceId,
+  newIdFromApi,
   title,
   icon,
   handleArrowLeft,
@@ -96,38 +78,21 @@ const Form = ({
   handleNextStep,
   handleFileUpload,
   handleSelectClient,
+  handleSelectPlace,
 }: FormProps) => {
   return (
     <div className="grid grid-cols-1 gap-2 p-10 sm:grid-cols-1">
       <FormHeader title={title} icon={icon} handleSubmit={handleArrowLeft} />
-
-      {title !== 'Formulaire Client' ? (
-        <div className="navbar rounded-xl bg-base-100 shadow-xl">
-          <div className="navbar-start">
-            <a className="btn btn-ghost font-inclusive text-3xl">Client: </a>
-            <p className="font-inclusive text-2xl">{}</p>
-          </div>
-          <select
-            onChange={handleSelectClient}
-            defaultValue=""
-            className="select-neutral select w-full font-inclusive text-xl">
-            <option disabled value="">
-              Associer un client:
-            </option>
-            {client?.map(({ id, name }, index) => {
-              return (
-                <option key={index} value={id as unknown as keyof ClientType}>
-                  {name as keyof ClientType}
-                </option>
-              )
-            })}
-          </select>
-        </div>
-      ) : (
-        <></>
-      )}
-
-      {isClientId || title === 'Formulaire Client' ? (
+      <ClientDropdownList
+        title={title}
+        client={client}
+        handleSelectClient={handleSelectClient}
+      />
+      <PlaceDropdownList
+        selectedClientId={selectedClientId}
+        handleSelectPlace={handleSelectPlace}
+      />
+      {isAssociated || title === 'Formulaire Client' ? (
         <Timeline
           getInput={getInput}
           currentStep={currentStep}
@@ -138,7 +103,7 @@ const Form = ({
         <></>
       )}
 
-      {isClientId || title === 'Formulaire Client' ? (
+      {isAssociated || title === 'Formulaire Client' ? (
         !showDescription ? (
           <InputArea
             message={message}
@@ -159,13 +124,13 @@ const Form = ({
           <Description
             getInput={getInput}
             currentStep={currentStep}
-            newPlaceId={newPlaceId ?? 0}
+            newIdFromApi={newIdFromApi ?? 0}
           />
         )
       ) : (
         <></>
       )}
-      {isClientId || title === 'Formulaire Client' ? (
+      {isAssociated || title === 'Formulaire Client' ? (
         <FormFooter
           title={title}
           message={message}

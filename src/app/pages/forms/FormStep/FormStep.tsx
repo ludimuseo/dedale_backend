@@ -1,45 +1,42 @@
-import { JourneyIcon } from '@component'
-import { useAppSelector } from '@hook'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
 import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { useAppSelector } from '@/app/hooks'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
-import { ClientType, JourneyType, MessageType, State } from '@/types'
+import { MessageType, State, StepType } from '@/types'
 
 import Form from '../Form'
-import { getInputJourneyConfig } from './configJourney/getInputJourneyConfig'
+import { getInputStepConfig } from './configStep/getInputTextStepConfig'
 
-const FormJourney: FC = () => {
-  const title = 'Formulaire Parcours'
+const FormStep: FC = () => {
+  const title = 'Formulaire Etape'
   const navigate = useNavigate()
   const [showDescription, setShowDescription] = useState(false)
-  const [client, setClient] = useState<ClientType[]>([])
-  //const [selectedPlaceId, setSelectedPlaceId] = useState<number>()
-  const [selectedClientId, setSelectedClientId] = useState<number>()
   const [newIdFromApi, setNewIdFromApi] = useState<number>()
+  // const [selectedClientId, setSelectedClientId] = useState<number>()
+  // const [selectedOption, setSelectedOption] = useState()
   const [message, setMessage] = useState<MessageType>({
     info: '',
     result: false,
   })
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
 
-  const [formData, setFormData] = useState<JourneyType>({
-    placeId: 0,
-    medalId: 0,
-    duration: 0,
+  const [formData, setFormData] = useState<StepType>({
+    journeyId: 0,
+    medalId: '',
     name: '',
     address: '',
     city: '',
     country: '',
     postal: '',
-    image: '',
-    type: '',
+    image: 'image.png',
     location_required: false,
     lat: 0,
     lon: 0,
+    stepNumber: 0,
     isActive: false,
     isPublished: false,
   })
@@ -118,23 +115,11 @@ const FormJourney: FC = () => {
     }))
   }
 
-  const handleSelectPlace = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = Number(e.target.value)
-    // setSelectedPlaceId(selectedValue)
-
-    setFormData((prevFormData) => {
-      return {
-        ...prevFormData,
-        ['placeId']: selectedValue,
-      }
-    })
-  }
-
-  const handleSelectClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value
-    const selectedValueToNumber = Number(selectedValue)
-    setSelectedClientId(selectedValueToNumber)
-  }
+  // const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //     const selectedValue = e.target.value
+  //     const selectedValueToNumber = Number(selectedValue)
+  //     setSelectedClientId(selectedValueToNumber)
+  // }
 
   const handleDescription = () => {
     //AFFICHER Descritpion
@@ -153,7 +138,7 @@ const FormJourney: FC = () => {
     // Ajout des données dans formUpload
     formUpload.append('file', file) // le fichier image à uploader
     formUpload.append('type', 'image') // type : image ou audio
-    formUpload.append('destination', 'Journey') // ou journey, step, etc.
+    formUpload.append('destination', 'Step') // ou journey, step, etc.
 
     setFormData((prevFormData) => {
       return {
@@ -185,67 +170,27 @@ const FormJourney: FC = () => {
     }
   }
 
-  useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const response: Response = await fetchWithAuth(
-          `https://dev.ludimuseo.fr:4000/api/clients/list`,
-          {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        )
-
-        if (!response.ok) {
-          throw new Error(`Erreur HTTP: ${String(response.status)}`)
-        }
-        const data = (await response.json()) as ClientType[]
-        const clientData = data.clients as ClientType[]
-        const filteredClientIsActive = clientData.filter(
-          (item) => item.isActive
-        )
-        setClient([...filteredClientIsActive])
-      } catch (error) {
-        console.log('ERROR fetching clients: ', error)
-      }
-    }
-    void fetchClients()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const getInput = !showDescription
-    ? getInputJourneyConfig
-    : getDescriptionConfig
+  const getInput = !showDescription ? getInputStepConfig : getDescriptionConfig
 
   useEffect(() => {
     setStep(getInput.length)
   }, [getInput])
 
-  console.log('FormDataJourney:', { ...formData })
+  console.log('FormData:', { ...formData })
 
   return (
     <>
       <Form
-        client={client}
-        isAssociated={formData.placeId !== 0}
-        handleSelectClient={handleSelectClient}
-        handleSelectPlace={handleSelectPlace}
-        selectedClientId={selectedClientId}
+        isAssociated={formData.journeyId == 0}
         newIdFromApi={newIdFromApi}
-        //medalsData={medalsData}
-        //attributedMedal={attributedMedal}
-        //handleAttributeMedal={handleAttributeMedal}
+        //selectedOption={selectedOption}
         title={title}
-        icon={<JourneyIcon />}
+        icon={<></>}
         handleArrowLeft={handleArrowLeft}
         getInput={getInput}
         currentStep={currentStep}
         step={step}
         message={message}
-        showDescription={showDescription}
         handleSubmit={(event) => {
           void handleSubmit(event)
         }}
@@ -262,4 +207,4 @@ const FormJourney: FC = () => {
   )
 }
 
-export { FormJourney }
+export { FormStep }

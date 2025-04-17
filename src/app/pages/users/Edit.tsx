@@ -159,7 +159,7 @@ const UsersEdit: FC = () => {
                 type="checkbox"
                 name="isActive"
                 onChange={handleChange}
-                checked={formData.isActive || false}
+                checked={formData.isActive}
                 className="toggle toggle-success ml-auto"
               />
             </div>
@@ -176,7 +176,7 @@ const UsersEdit: FC = () => {
                       placeholder=""
                       label="Nom"
                       errors={errors['company.name'] ?? []}
-                      value={formData.company.name || ''}
+                      value={formData.company.name ?? ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
                     />
@@ -190,7 +190,7 @@ const UsersEdit: FC = () => {
                       placeholder=""
                       label="Siret"
                       errors={errors['company.siret'] ?? []}
-                      value={formData.company.siret || ''}
+                      value={formData.company.siret ?? ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
                     />
@@ -204,7 +204,7 @@ const UsersEdit: FC = () => {
                       placeholder=""
                       label="Tva"
                       errors={errors['company.tva'] ?? []}
-                      value={formData.company.tva || ''}
+                      value={formData.company.tva ?? ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
                     />
@@ -225,7 +225,7 @@ const UsersEdit: FC = () => {
                       placeholder=""
                       label="Nom"
                       errors={errors['company.name'] ?? []}
-                      value={formData.contact.name || ''}
+                      value={formData.contact.name ?? ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
                     />
@@ -239,7 +239,7 @@ const UsersEdit: FC = () => {
                       placeholder=""
                       label="Email"
                       errors={errors['contact.email'] ?? []}
-                      value={formData.contact.email || ''}
+                      value={formData.contact.email ?? ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
                     />
@@ -253,7 +253,7 @@ const UsersEdit: FC = () => {
                       placeholder=""
                       label="Téléphone"
                       errors={errors['contact.tel'] ?? []}
-                      value={formData.contact.tel || ''}
+                      value={formData.contact.tel ?? ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
                     />
@@ -267,7 +267,7 @@ const UsersEdit: FC = () => {
                       placeholder=""
                       label="Note"
                       errors={errors['contact.note'] ?? []}
-                      value={formData.contact.note || ''}
+                      value={formData.contact.note ?? ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
                     />
@@ -288,7 +288,7 @@ const UsersEdit: FC = () => {
                       placeholder=""
                       label="Adresse"
                       errors={errors['address.address'] ?? []}
-                      value={formData.address.address || ''}
+                      value={formData.address.address ?? ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
                     />
@@ -302,7 +302,7 @@ const UsersEdit: FC = () => {
                       placeholder=""
                       label="Code Postal"
                       errors={errors['address.postal'] ?? []}
-                      value={formData.address.postal || ''}
+                      value={formData.address.postal ?? ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
                     />
@@ -316,7 +316,7 @@ const UsersEdit: FC = () => {
                       placeholder=""
                       label="Ville"
                       errors={errors['address.city'] ?? []}
-                      value={formData.address.city || ''}
+                      value={formData.address.city ?? ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
                     />
@@ -330,7 +330,7 @@ const UsersEdit: FC = () => {
                       placeholder=""
                       label="Pays"
                       errors={errors['address.country'] ?? []}
-                      value={formData.address.country || ''}
+                      value={formData.address.country ?? ''}
                       onChange={handleChange}
                       className="input input-bordered w-full"
                     />
