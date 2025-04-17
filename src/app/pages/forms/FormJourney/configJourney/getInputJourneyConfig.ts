@@ -14,7 +14,7 @@ export const getInputJourneyConfig: GetInputConfigType[][] = [
     },
     {
       id: '0112',
-      label: 'Durée du Parcours',
+      label: 'Durée du Parcours (minutes)',
       name: 'duration',
       placeholder: 'Selectionnez le type',
       required: true,
@@ -26,7 +26,7 @@ export const getInputJourneyConfig: GetInputConfigType[][] = [
   [
     {
       id: '0',
-      label: 'Nom',
+      label: 'Nom du parcours',
       name: 'name',
       placeholder: 'Entrez le nom du parcours',
       required: true,
