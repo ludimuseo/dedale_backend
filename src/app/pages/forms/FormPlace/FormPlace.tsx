@@ -1,6 +1,5 @@
 import { PlaceIcon } from '@component'
 import { useAppSelector } from '@hook'
-import { collection, getDocs } from 'firebase/firestore'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
@@ -8,7 +7,6 @@ import { fetchWithAuth } from '@/api/fetchWithAuth'
 import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
-import { db } from '@/firebase/firebase'
 import { ClientType, MessageType, PlaceType, State } from '@/types'
 
 import Form from '../Form'
@@ -19,20 +17,14 @@ const FormPlace: FC = () => {
   const title = 'Formulaire Lieu'
   const [showDescription, setShowDescription] = useState(false)
   const [client, setClient] = useState<ClientType[]>([])
-  const [medalsData, setMedalsData] = useState<
-    | { id: string; name: string; image: string; description: string }[]
-    | undefined
-  >([])
   const [selectedOption, setSelectedOption] = useState<number>()
-  const [newPlaceId, setNewPlaceId] = useState<number>()
-  //const [attributedMedal, setAttributedMedal] = useState<
-  //  { id: string; name: string; image: string; description: string } | undefined
-  // >()
+  const [newIdFromApi, setNewIdFromApi] = useState<number>()
   const [message, setMessage] = useState<MessageType>({
     info: '',
     result: false,
   })
   const [formData, setFormData] = useState<PlaceType>({
+    id: 0,
     clientId: 0,
     medalId: 0,
     image: 'image.png',
@@ -110,7 +102,7 @@ const FormPlace: FC = () => {
         throw new Error(`Erreur HTTP: ${String(response.status)}`)
       }
       const newId: number = (await response.json()) as number
-      setNewPlaceId(newId) // recupere l'Id du nouveau place créé
+      setNewIdFromApi(newId) // recupere l'Id du nouveau place créé
 
       console.log('newId from Server', newId)
     } catch (error) {
@@ -120,25 +112,6 @@ const FormPlace: FC = () => {
         result: true,
       })
     }
-
-    /* THROW TO FIREBASE */
-    //   try {
-    //     const docRef = await addDoc(collection(db, 'places'), { ...formData })
-    //     const id = docRef.id
-    //     if (id) {
-    //       setNewPlaceId(id)
-    //       setMessage(() => ({
-    //         info: 'Votre formulaire a été envoyé avec succès !',
-    //         result: true,
-    //       }))
-    //     }
-    //   } catch (error) {
-    //     console.error("Erreur sur l'envoi du formulaire", error)
-    //     setMessage(() => ({
-    //       info: "Erreur lors de l'envoi du formulaire",
-    //       result: false,
-    //     }))
-    //   }
   }
 
   const handleInputChange = (
@@ -152,37 +125,6 @@ const FormPlace: FC = () => {
       }
     })
   }
-
-  //changement des donnees avec un objet plus profond
-  // const handleChange = <
-  //   S extends keyof T,
-  //   M extends keyof T[S],
-  //   L extends keyof T[S][M],
-  // >(
-  //   section: S,
-  //   mode: M,
-  //   language: L,
-  //   value: T[S][M][L]
-  // ) => {
-  //   setFormData((prevFormData) => {
-  //     const sectionData = prevFormData[section]
-  //     const modeData = sectionData[mode] as T[M]
-  //     if (typeof sectionData === 'object' && typeof modeData === 'object') {
-  //       return {
-  //         ...prevFormData,
-  //         [section]: {
-  //           ...sectionData,
-  //           [mode]: {
-  //             ...modeData,
-  //             [language]: value,
-  //           },
-  //         },
-  //       }
-  //     } else {
-  //       return formData
-  //     }
-  //   })
-  // }
 
   const handleFileUpload = async (
     file: File,
@@ -291,78 +233,8 @@ const FormPlace: FC = () => {
       } catch (error) {
         console.log('ERROR fetching clients: ', error)
       }
-
-      /* FROM FIREBASE */
-      // try {
-      //   const querySnapshot = await getDocs(collection(db, 'clients'))
-      //   const clientData: ClientData[] = querySnapshot.docs.map((doc) => ({
-      //     id: doc.id,
-      //     ...(doc.data() as Omit<ClientData, 'id'>),
-      //   }))
-
-      //   const clientPackageData = clientData
-      //     .map((item) => {
-      //       if (item.client?.company?.name) {
-      //         return { id: item.id, name: item.client.company.name } // Si "client" et "company.name" existent
-      //       } else if (item.company?.name) {
-      //         return { id: item.id, name: item.company.name } // Si "company.name" existe directement;
-      //       }
-      //       return undefined
-      //     })
-      //     .filter(
-      //       (item): item is { id: string; name: string } => item !== undefined
-      //     ) //Ce filtre assure à TypeScript que le tableau résultant ne contient que des objets conformes au type { id: string, name: string }.
-
-      //   setClient(clientPackageData)
-      // } catch (error) {
-      //   console.error('Error fetching data:', error)
-      // }
     }
     void fetchClients()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    interface Medal {
-      id: string
-
-      medal: {
-        description: {
-          standard: {
-            fr: string
-          }
-        }
-        name: {
-          fr: string
-        }
-        image: string
-      }
-    }
-    const fecthMedal = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, 'medals'))
-        const medalData: Medal[] = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...(doc.data() as Omit<Medal, 'id'>),
-        }))
-        const medalPackageData = medalData.map((item) => {
-          return {
-            id: item.id,
-            name: item.medal.name.fr,
-            image: item.medal.image,
-            description: item.medal.description.standard.fr,
-          }
-        })
-        setMedalsData(medalPackageData)
-      } catch (error) {
-        console.log('Error in fetching medals', error)
-      }
-    }
-    void fecthMedal()
-  }, [])
-
-  useEffect(() => {
-    if (!token) void navigate('/')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -372,13 +244,12 @@ const FormPlace: FC = () => {
     <>
       <Form
         client={client}
-        isClientId={formData.clientId !== 0}
+        isAssociated={formData.clientId !== 0}
         handleSelectClient={handleSelectClient}
         selectedOption={selectedOption}
-        medalsData={medalsData}
         //attributedMedal={attributedMedal}
         //handleAttributeMedal={handleAttributeMedal}
-        newPlaceId={newPlaceId}
+        newIdFromApi={newIdFromApi}
         title={title}
         icon={<PlaceIcon />}
         handleArrowLeft={handleArrowLeft}

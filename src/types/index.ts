@@ -283,6 +283,7 @@ export interface ClientType {
 }
 
 export interface PlaceType {
+  id: number
   clientId: number
   medalId: number
   image: string
@@ -298,8 +299,8 @@ export interface PlaceType {
   isActive: boolean
   isPublished: boolean
 }
-
 export interface JourneyType {
+  id: number
   placeId: number
   medalId: number
   duration: number
@@ -313,6 +314,24 @@ export interface JourneyType {
   lat: number
   lon: number
   name: string
+  isActive: boolean
+  isPublished: boolean
+}
+
+export interface StepType {
+  id: number
+  journeyId: number
+  medalId: string
+  name: string
+  image: string
+  address: string
+  postal: string
+  city: string
+  country: string
+  lat: number
+  lon: number
+  location_required: boolean
+  stepNumber: number
   isActive: boolean
   isPublished: boolean
 }
@@ -467,63 +486,63 @@ export interface JourneyType {
 //   }
 // }
 
-export interface StepType {
-  journeyId: string
-  medalId: string
-  content: {
-    image: string[]
-  }
-  address: {
-    address: string
-    postal: string
-    city: string
-    country: string
-  }
-  name: {
-    fr: string
-    en: string
-  }
-  coords: {
-    lat: number
-    lon: number
-    isLocationRequired: boolean
-  }
-  description: {
-    standard: {
-      fr: string
-      en: string
-    }
-    falc: {
-      fr: string
-      en: string
-      falcCertified: string
-      userId: string
-      status: {
-        isValidate: boolean
-        isCertified: boolean
-        certifiedDate: Timestamp | null
-        isCorrected: boolean
-      }
-    }
-  }
-  audio: {
-    standard: {
-      fr: string
-      en: string
-    }
-    falc: {
-      fr: string
-      en: string
-    }
-  }
-  stage: {
-    stepNumber: number
-  }
-  status: {
-    isActive: boolean
-    isPublished: boolean
-  }
-}
+// export interface StepType {
+//   journeyId: string
+//   medalId: string
+//   content: {
+//     image: string[]
+//   }
+//   address: {
+//     address: string
+//     postal: string
+//     city: string
+//     country: string
+//   }
+//   name: {
+//     fr: string
+//     en: string
+//   }
+//   coords: {
+//     lat: number
+//     lon: number
+//     isLocationRequired: boolean
+//   }
+//   description: {
+//     standard: {
+//       fr: string
+//       en: string
+//     }
+//     falc: {
+//       fr: string
+//       en: string
+//       falcCertified: string
+//       userId: string
+//       status: {
+//         isValidate: boolean
+//         isCertified: boolean
+//         certifiedDate: Timestamp | null
+//         isCorrected: boolean
+//       }
+//     }
+//   }
+//   audio: {
+//     standard: {
+//       fr: string
+//       en: string
+//     }
+//     falc: {
+//       fr: string
+//       en: string
+//     }
+//   }
+//   stage: {
+//     stepNumber: number
+//   }
+//   status: {
+//     isActive: boolean
+//     isPublished: boolean
+//   }
+// }
 
 export interface PieceType {
   stepId: string

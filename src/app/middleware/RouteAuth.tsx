@@ -1,8 +1,11 @@
-import { useAppSelector } from '@hook'
+import { useAppDispatch, useAppSelector } from '@hook'
+import { Navigate } from 'react-router'
 
 //import { Navigate } from 'react-router'
 import type { State } from '@/types'
 import { isTokenExpired } from '@/utils/auth'
+
+import { signOut } from '../services/redux/slices/reducerAuth'
 
 const RouteAuth = ({
   children /* role = null */,
@@ -11,9 +14,11 @@ const RouteAuth = ({
   role?: string | null
 }) => {
   const { token, isLogged } = useAppSelector((state: State) => state.auth)
+  const dispatch = useAppDispatch()
 
   if (!token || isTokenExpired(token) || !isLogged) {
-    //alert("Votre token est expiré")
+    dispatch(signOut())
+    alert('Votre token est expiré')
     return <Navigate to={{ pathname: '/auth/signin' }} replace />
   }
   return <>{children}</>

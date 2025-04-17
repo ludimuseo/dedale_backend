@@ -1,88 +1,88 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { AnimatePresence, motion } from 'framer-motion'
-import { type FC, ReactElement } from 'react'
+// /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+// /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+// import { AnimatePresence, motion } from 'framer-motion'
+// import { type FC, ReactElement } from 'react'
 
-import {
-  EntityWithId,
-  GameType,
-  JourneyType,
-  PieceType,
-  PlaceType,
-  StepType,
-} from '@/types'
+// import {
+//   EntityWithId,
+//   GameType,
+//   JourneyType,
+//   PieceType,
+//   PlaceType,
+//   StepType,
+// } from '@/types'
 
-import { MainContent } from './MainContent'
-import { Sentence } from './TalosInterfaceMain'
+// import { MainContent } from './MainContent'
+// import { Sentence } from './TalosInterfaceMain'
 
-interface LeftClipboardProps {
-  isLeftClipboardShowed: boolean
-  showProofReading: boolean
-  falcText: Sentence[]
-  formData: EntityWithId<
-    PlaceType | JourneyType | StepType | PieceType | GameType
-  >
-  sentencesData: ReactElement[]
-}
+// interface LeftClipboardProps {
+//   isLeftClipboardShowed: boolean
+//   showProofReading: boolean
+//   falcText: Sentence[]
+//   formData: EntityWithId<
+//     PlaceType | JourneyType | StepType | PieceType | GameType
+//   >
+//   sentencesData: ReactElement[]
+// }
 
-const LeftClipboard: FC<LeftClipboardProps> = ({
-  isLeftClipboardShowed,
-  showProofReading,
-  falcText,
-  formData,
-  sentencesData,
-}) => {
-  return (
-    <>
-      {/* Main Content SECTION GAUCHE */}
-      <div
-        className={
-          isLeftClipboardShowed
-            ? 'w-1/2 border-r border-gray-300 pr-4'
-            : 'w-full'
-        }>
-        <AnimatePresence>
-          {showProofReading && (
-            <>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: 'linear' }}
-                className="mt-4 h-auto rounded-md border-2 border-black bg-white p-6 shadow-2xl">
-                <h2 className="mb-4 text-2xl font-bold text-[#0a184d]">
-                  Je relis :
-                </h2>
-                {
-                  <div className="space-y-4">
-                    {falcText.map((sentenceObject: Sentence, index: number) => {
-                      return (
-                        <motion.div
-                          key={sentenceObject.id}
-                          animate={{ opacity: 1 }}
-                          initial={{ opacity: 0 }}
-                          transition={{
-                            duration: 0.3,
-                            delay: 0.3 + index * 0.3,
-                            ease: 'linear',
-                          }}>
-                          <p className="text-xl text-sky-950">
-                            {sentenceObject.sentence}
-                          </p>
-                        </motion.div>
-                      )
-                    })}
-                  </div>
-                }
-              </motion.div>
-            </>
-          )}
-          {!showProofReading && (
-            <MainContent formData={formData} sentencesData={sentencesData} />
-          )}
-        </AnimatePresence>
-      </div>
-    </>
-  )
-}
+// const LeftClipboard: FC<LeftClipboardProps> = ({
+//   isLeftClipboardShowed,
+//   showProofReading,
+//   falcText,
+//   formData,
+//   sentencesData,
+// }) => {
+//   return (
+//     <>
+//       {/* Main Content SECTION GAUCHE */}
+//       <div
+//         className={
+//           isLeftClipboardShowed
+//             ? 'w-1/2 border-r border-gray-300 pr-4'
+//             : 'w-full'
+//         }>
+//         <AnimatePresence>
+//           {showProofReading && (
+//             <>
+//               <motion.div
+//                 initial={{ opacity: 0 }}
+//                 animate={{ opacity: 1 }}
+//                 transition={{ duration: 0.3, ease: 'linear' }}
+//                 className="mt-4 h-auto rounded-md border-2 border-black bg-white p-6 shadow-2xl">
+//                 <h2 className="mb-4 text-2xl font-bold text-[#0a184d]">
+//                   Je relis :
+//                 </h2>
+//                 {
+//                   <div className="space-y-4">
+//                     {falcText.map((sentenceObject: Sentence, index: number) => {
+//                       return (
+//                         <motion.div
+//                           key={sentenceObject.id}
+//                           animate={{ opacity: 1 }}
+//                           initial={{ opacity: 0 }}
+//                           transition={{
+//                             duration: 0.3,
+//                             delay: 0.3 + index * 0.3,
+//                             ease: 'linear',
+//                           }}>
+//                           <p className="text-xl text-sky-950">
+//                             {sentenceObject.sentence}
+//                           </p>
+//                         </motion.div>
+//                       )
+//                     })}
+//                   </div>
+//                 }
+//               </motion.div>
+//             </>
+//           )}
+//           {!showProofReading && (
+//             <MainContent formData={formData} sentencesData={sentencesData} />
+//           )}
+//         </AnimatePresence>
+//       </div>
+//     </>
+//   )
+// }
 
-export { LeftClipboard }
+// export { LeftClipboard }
