@@ -24,6 +24,7 @@ const FormPlace: FC = () => {
     result: false,
   })
   const [formData, setFormData] = useState<PlaceType>({
+    id: 0,
     clientId: 0,
     medalId: 0,
     image: 'image.png',

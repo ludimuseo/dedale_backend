@@ -283,6 +283,7 @@ export interface ClientType {
 }
 
 export interface PlaceType {
+  id: number
   clientId: number
   medalId: number
   image: string
@@ -299,6 +300,7 @@ export interface PlaceType {
   isPublished: boolean
 }
 export interface JourneyType {
+  id: number
   placeId: number
   medalId: number
   duration: number
@@ -317,6 +319,7 @@ export interface JourneyType {
 }
 
 export interface StepType {
+  id: number
   journeyId: number
   medalId: string
   name: string

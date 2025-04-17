@@ -27,6 +27,7 @@ const FormJourney: FC = () => {
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
 
   const [formData, setFormData] = useState<JourneyType>({
+    id: 0,
     placeId: 0,
     medalId: 0,
     duration: 0,

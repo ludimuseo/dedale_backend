@@ -25,6 +25,7 @@ const FormStep: FC = () => {
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
 
   const [formData, setFormData] = useState<StepType>({
+    id: 0,
     journeyId: 0,
     medalId: '',
     name: '',

@@ -1,4 +1,4 @@
-import { ClientType, PlaceType, T } from '@/types'
+import { ClientType, JourneyType, PlaceType, StepType, T } from '@/types'
 
 interface TextAreaType {
   id: string
@@ -7,19 +7,9 @@ interface TextAreaType {
   placeholder?: string
   rows: number
   mode?: string
-  formData: T | PlaceType | ClientType
+  formData: T | PlaceType | ClientType | JourneyType | StepType
   language?: string
   rightSideVisible?: boolean
-  handleChange: <
-    S extends keyof T,
-    M extends keyof T[S],
-    L extends keyof T[S][M],
-  >(
-    section: S,
-    mode: M,
-    language: L,
-    event: T[S][M][L]
-  ) => void
   handleInputChange: (name: string, event: string) => void
 }
 export default function TextArea({

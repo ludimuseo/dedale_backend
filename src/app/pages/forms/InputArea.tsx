@@ -21,7 +21,7 @@ interface InputAreaProps {
   getInput: GetInputConfigType[][]
   currentStep: number
   formData: T | PlaceType | ClientType | JourneyType | StepType
-  handleInputChange: (name: string, event: string) => void
+  handleInputChange: (name: string, event: string | boolean) => void
   handleFileUpload: (
     file: File,
     fileType: string,
