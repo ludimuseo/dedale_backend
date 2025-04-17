@@ -13,8 +13,8 @@ import {
   T,
 } from '@/types'
 
-import FormFooter from './formFooter'
-import FormHeader from './formheader'
+import FormFooter from './FormFooter'
+import FormHeader from './FormHeader'
 import InputArea from './InputArea'
 import Timeline from './Timeline'
 

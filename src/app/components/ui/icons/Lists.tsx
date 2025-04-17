@@ -1,6 +1,10 @@
 export const Lists = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 275">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 470 275"
+      width="100%"
+      height="100%">
       <g id="Calque_2" data-name="Calque 2">
         <g id="Calque_1-2" data-name="Calque 1">
           <path

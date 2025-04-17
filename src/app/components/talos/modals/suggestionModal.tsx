@@ -159,7 +159,7 @@ const SuggestionModal = ({
           <AddDocument
             isSending={isSending}
             handleImageUpload={handleImageUpload}
-            imgName={suggestionImg?.name ?? 'no image'}
+            imgName={suggestionImg?.name ?? ''}
             label="Ajouter une image"
           />
 
