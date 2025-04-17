@@ -7,7 +7,7 @@ import { fetchWithAuth } from '@/api/fetchWithAuth'
 import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
-import { ClientType, JourneyType, MessageType, State } from '@/types'
+import { ClientType, JourneyType, MessageType, PlaceType, State } from '@/types'
 
 import Form from '../Form'
 import { getInputJourneyConfig } from './configJourney/getInputJourneyConfig'
@@ -17,8 +17,9 @@ const FormJourney: FC = () => {
   const navigate = useNavigate()
   const [showDescription, setShowDescription] = useState(false)
   const [client, setClient] = useState<ClientType[]>([])
-  //const [selectedPlaceId, setSelectedPlaceId] = useState<number>()
+  const [place, setPlace] = useState<PlaceType[]>()
   const [selectedClientId, setSelectedClientId] = useState<number>()
+  const [selectedPlaceId, setSelectedPlaceId] = useState<number>()
   const [newIdFromApi, setNewIdFromApi] = useState<number>()
   const [message, setMessage] = useState<MessageType>({
     info: '',
@@ -119,18 +120,6 @@ const FormJourney: FC = () => {
     }))
   }
 
-  const handleSelectPlace = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = Number(e.target.value)
-    // setSelectedPlaceId(selectedValue)
-
-    setFormData((prevFormData) => {
-      return {
-        ...prevFormData,
-        ['placeId']: selectedValue,
-      }
-    })
-  }
-
   const handleSelectClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value
     const selectedValueToNumber = Number(selectedValue)
@@ -186,6 +175,18 @@ const FormJourney: FC = () => {
     }
   }
 
+  const handleSelectPlace = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value
+    const selectedValueToNumber = Number(selectedValue)
+    setSelectedPlaceId(selectedValueToNumber)
+    setFormData((prevFormData) => {
+      return {
+        ...prevFormData,
+        ['placeId']: selectedValueToNumber,
+      }
+    })
+  }
+
   useEffect(() => {
     const fetchClients = async () => {
       try {
@@ -217,6 +218,35 @@ const FormJourney: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    const fetchPlace = async () => {
+      if (!selectedClientId) return
+      try {
+        const response: Response = await fetchWithAuth(
+          `https://dev.ludimuseo.fr:4000/api/places/list/${selectedClientId.toString()}`,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${String(response.status)}`)
+        }
+        const data = (await response.json()) as PlaceType[]
+        const placeData = data.places as PlaceType[]
+        setPlace(placeData)
+      } catch (error) {
+        setPlace([])
+        console.log('ERROR fetching places: ', error)
+      }
+    }
+    void fetchPlace()
+  }, [selectedClientId])
+
   const getInput = !showDescription
     ? getInputJourneyConfig
     : getDescriptionConfig
@@ -231,12 +261,13 @@ const FormJourney: FC = () => {
     <>
       <Form
         client={client}
+        place={place}
         isAssociated={formData.placeId !== 0}
         handleSelectClient={handleSelectClient}
         handleSelectPlace={handleSelectPlace}
         selectedClientId={selectedClientId}
+        selectedPlaceId={selectedPlaceId}
         newIdFromApi={newIdFromApi}
-        //medalsData={medalsData}
         //attributedMedal={attributedMedal}
         //handleAttributeMedal={handleAttributeMedal}
         title={title}

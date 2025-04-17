@@ -247,7 +247,6 @@ const FormPlace: FC = () => {
         isAssociated={formData.clientId !== 0}
         handleSelectClient={handleSelectClient}
         selectedOption={selectedOption}
-        //attributedMedal={attributedMedal}
         //handleAttributeMedal={handleAttributeMedal}
         newIdFromApi={newIdFromApi}
         title={title}

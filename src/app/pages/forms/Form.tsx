@@ -20,9 +20,11 @@ import Timeline from './Timeline'
 
 interface FormProps {
   client?: ClientType[] | undefined
+  place?: PlaceType[]
   isAssociated?: boolean
   newIdFromApi?: number
   selectedClientId?: number
+  selectedPlaceId?: number
   showDescription?: boolean
   title: string
   icon: React.JSX.Element
@@ -56,8 +58,10 @@ interface FormProps {
 
 const Form = ({
   client,
+  place,
   isAssociated,
   selectedClientId,
+  //selectedPlaceId,
   showDescription,
   newIdFromApi,
   title,
@@ -91,6 +95,7 @@ const Form = ({
       <PlaceDropdownList
         selectedClientId={selectedClientId}
         handleSelectPlace={handleSelectPlace}
+        place={place}
       />
       {isAssociated || title === 'Formulaire Client' ? (
         <Timeline
