@@ -86,7 +86,7 @@ const FormJourney: FC = () => {
 
     try {
       const response: Response = await fetch(
-        `https://dev.ludimuseo.fr:4000/api/`,
+        `https://dev.ludimuseo.fr:4000/api/journeys/create`,
         {
           method: 'POST',
           headers: {
