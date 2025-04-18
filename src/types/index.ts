@@ -324,10 +324,6 @@ export interface StepType {
   medalId: string
   name: string
   image: string
-  address: string
-  postal: string
-  city: string
-  country: string
   lat: number
   lon: number
   location_required: boolean
@@ -335,6 +331,15 @@ export interface StepType {
   isActive: boolean
   isPublished: boolean
 }
+export interface PieceType {
+  id: number
+  stepId: number
+  name: string
+  image: string
+  isActive: boolean
+  isPublished: boolean
+}
+
 /* DESCRIPTION */
 
 // description: {
@@ -370,269 +375,15 @@ export interface StepType {
 //   isPublished: boolean
 // }
 
-/* PLACE */
-// export interface PlaceType {
-//   id: number
-//   clientId: number | null
-//   medalId?: string
-//   content: {
-//     image: string
-//     type: string
-//   }
-//   address: {
-//     address: string
-//     postal: string
-//     city: string
-//     country: string
-//   }
-//   name: {
-//     fr: string
-//     en?: string
-//   }
-//   coords: {
-//     lat: number
-//     lon: number
-//     isLocationRequired: boolean
-//   }
-//   status: {
-//     isActive: boolean
-//     isPublished: boolean
-//   }
-//   description?: {
-//     standard: {
-//       fr: string
-//       en: string
-//     }
-//     falc: {
-//       fr: string
-//       en: string
-//       falcCertified: string
-//       userId: string
-//       status: {
-//         isValidate: boolean
-//         isCertified: boolean
-//         certifiedDate: Timestamp | null
-//         isCorrected: boolean
-//       }
-//     }
-//   }
-//   audio?: {
-//     standard: {
-//       fr: string
-//       en: string
-//     }
-//     falc: {
-//       fr: string
-//       en: string
-//     }
-//   }
-// }
-
-/* JOURNEY */
-// export interface JourneyType {
-//   placeId: string
-//   medalId: string
-//   content: {
-//     image: string[]
-//     type: string
-//     duration: number
-//   }
-//   address: {
-//     address: string
-//     postal: string
-//     city: string
-//     country: string
-//   }
-//   name: {
-//     fr: string
-//     en: string
-//   }
-//   coords: {
-//     lat: number
-//     lon: number
-//     isLocationRequired: boolean
-//   }
-//   description: {
-//     standard: {
-//       fr: string
-//       en: string
-//     }
-//     falc: {
-//       fr: string
-//       en: string
-//       falcCertified: string
-//       userId: string
-//       status: {
-//         isValidate: boolean
-//         isCertified: boolean
-//         certifiedDate: Timestamp | null
-//         isCorrected: boolean
-//       }
-//     }
-//   }
-//   audio: {
-//     standard: {
-//       fr: string
-//       en: string
-//     }
-//     falc: {
-//       fr: string
-//       en: string
-//     }
-//   }
-//   status: {
-//     isActive: boolean
-//     isPublished: boolean
-//   }
-// }
-
-// export interface StepType {
-//   journeyId: string
-//   medalId: string
-//   content: {
-//     image: string[]
-//   }
-//   address: {
-//     address: string
-//     postal: string
-//     city: string
-//     country: string
-//   }
-//   name: {
-//     fr: string
-//     en: string
-//   }
-//   coords: {
-//     lat: number
-//     lon: number
-//     isLocationRequired: boolean
-//   }
-//   description: {
-//     standard: {
-//       fr: string
-//       en: string
-//     }
-//     falc: {
-//       fr: string
-//       en: string
-//       falcCertified: string
-//       userId: string
-//       status: {
-//         isValidate: boolean
-//         isCertified: boolean
-//         certifiedDate: Timestamp | null
-//         isCorrected: boolean
-//       }
-//     }
-//   }
-//   audio: {
-//     standard: {
-//       fr: string
-//       en: string
-//     }
-//     falc: {
-//       fr: string
-//       en: string
-//     }
-//   }
-//   stage: {
-//     stepNumber: number
-//   }
-//   status: {
-//     isActive: boolean
-//     isPublished: boolean
-//   }
-// }
-
-export interface PieceType {
-  stepId: string
-  medalId: string
-  content: {
-    image: string[]
-    type: string
-  }
-  name: {
-    fr: string
-    en: string
-  }
-  coords: {
-    lat: number
-    lon: number
-    isLocationRequired: boolean
-  }
-  description: {
-    standard: {
-      fr: string
-      en: string
-    }
-    falc: {
-      fr: string
-      en: string
-      falcCertified: string
-      userId: string
-      status: {
-        isValidate: boolean
-        isCertified: boolean
-        certifiedDate: Timestamp | null
-        isCorrected: boolean
-      }
-    }
-  }
-  audio: {
-    standard: {
-      fr: string
-      en: string
-    }
-    falc: {
-      fr: string
-      en: string
-    }
-  }
-  status: {
-    isActive: boolean
-    isPublished: boolean
-  }
-}
-
 export interface GameType {
+  id: number
   pieceId: string
-  content: {
-    image: string[]
-    level: string
-    type: string
-  }
-  name: {
-    fr: string
-    en: string
-  }
-  description: {
-    standard: {
-      fr: string
-      en: string
-    }
-    falc: {
-      fr: string
-      en: string
-      falcCertified: string
-      userId: string
-      status: {
-        isValidate: boolean
-        isCertified: boolean
-        certifiedDate: Timestamp | null
-        isCorrected: boolean
-      }
-    }
-  }
-  audio: {
-    standard: {
-      fr: string
-      en: string
-    }
-    falc: {
-      fr: string
-      en: string
-    }
-  }
+  image: string
+  level: string
+  type: string
+
+  name: string
+
   question: {
     standard: {
       fr: string
@@ -697,4 +448,14 @@ export interface GameType {
       certifiedTxt: string
     }
   }
+}
+
+export interface MedalType {
+  id: number
+  name: string
+  type: string //medaille de type lieu parcours ou etape
+  level: number
+  placeId: number
+  journeyId: number
+  stepId: number
 }

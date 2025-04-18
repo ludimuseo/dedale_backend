@@ -6,6 +6,7 @@ import {
   GetInputConfigType,
   JourneyType,
   MessageType,
+  PieceType,
   PlaceType,
   StepType,
   T,
@@ -20,7 +21,7 @@ interface InputAreaProps {
   ) => void
   getInput: GetInputConfigType[][]
   currentStep: number
-  formData: T | PlaceType | ClientType | JourneyType | StepType
+  formData: T | PlaceType | ClientType | JourneyType | StepType | PieceType
   handleInputChange: (name: string, event: string | boolean) => void
   handleFileUpload: (
     file: File,

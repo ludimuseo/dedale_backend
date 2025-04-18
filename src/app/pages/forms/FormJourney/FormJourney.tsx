@@ -17,7 +17,7 @@ const FormJourney: FC = () => {
   const navigate = useNavigate()
   const [showDescription, setShowDescription] = useState(false)
   const [client, setClient] = useState<ClientType[]>([])
-  const [place, setPlace] = useState<PlaceType[]>()
+  const [place, setPlace] = useState<PlaceType[]>([])
   const [selectedClientId, setSelectedClientId] = useState<number>()
   const [selectedPlaceId, setSelectedPlaceId] = useState<number>()
   const [newIdFromApi, setNewIdFromApi] = useState<number>()
@@ -268,8 +268,6 @@ const FormJourney: FC = () => {
         selectedClientId={selectedClientId}
         selectedPlaceId={selectedPlaceId}
         newIdFromApi={newIdFromApi}
-        //attributedMedal={attributedMedal}
-        //handleAttributeMedal={handleAttributeMedal}
         title={title}
         icon={<JourneyIcon />}
         handleArrowLeft={handleArrowLeft}

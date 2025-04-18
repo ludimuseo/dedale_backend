@@ -1,47 +1,41 @@
-import { PlaceIcon } from '@component'
-import { useAppSelector } from '@hook'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
+import { PlaceIcon } from '@/app/components'
 import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { useAppSelector } from '@/app/hooks'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
-import { ClientType, MessageType, PlaceType, State } from '@/types'
+import { ClientType, MessageType, PieceType, State } from '@/types'
 
 import Form from '../Form'
-import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
+import { getInputPieceConfig } from './configPiece/getInputPieceConfig'
 
-const FormPlace: FC = () => {
+const FormPiece: FC = () => {
+  const title = 'Formulaire Oeuvre'
   const navigate = useNavigate()
-  const title = 'Formulaire Lieu'
   const [showDescription, setShowDescription] = useState(false)
   const [client, setClient] = useState<ClientType[]>([])
-  const [selectedOption, setSelectedOption] = useState<number>()
+  // const [place, setPlace] = useState<PlaceType[]>()
+  const [selectedClientId, setSelectedClientId] = useState<number>()
+  const [selectedPlaceId, setSelectedPlaceId] = useState<number>()
+  const [selectedJourneyId, setSelectedJourneyId] = useState<number>()
   const [newIdFromApi, setNewIdFromApi] = useState<number>()
   const [message, setMessage] = useState<MessageType>({
     info: '',
     result: false,
   })
-  const [formData, setFormData] = useState<PlaceType>({
+  const [formData, setFormData] = useState<PieceType>({
     id: 0,
-    clientId: 0,
-    medalId: 0,
+    stepId: 0,
     name: '',
-    image: 'image.png',
-    type: 'MUSEUM',
-    address: '',
-    city: '',
-    country: '',
-    postal: '',
-    location_required: false,
-    lat: 0,
-    lon: 0,
+    image: '',
     isActive: false,
     isPublished: false,
   })
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
-  const getInput = !showDescription ? getInputPlaceConfig : getDescriptionConfig
+  const getInput = !showDescription ? getInputPieceConfig : getDescriptionConfig
 
   const {
     step,
@@ -63,57 +57,11 @@ const FormPlace: FC = () => {
   }
 
   //soumission des informations
-  const handleSubmit = async (
+  const handleSubmit = (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => {
-    event.preventDefault()
-
-    //FETCH des donnees a l'API et recuperer l'ID
-    if (showDescription) {
-      setMessage(() => ({
-        info: 'Vos descriptions ont été envoyées avec succès !',
-        result: true,
-      }))
-    } else {
-      setMessage(() => ({
-        info: 'Votre formulaire a été envoyé avec succès !',
-        result: true,
-      }))
-    }
-
-    if (!token) {
-      alert("Une erreur c'est produite, reconnectez-vous")
-      void navigate('/auth/signin')
-      return
-    }
-
-    try {
-      const response: Response = await fetch(
-        `https://dev.ludimuseo.fr:4000/api/places`,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ place: formData }),
-        }
-      )
-
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP: ${String(response.status)}`)
-      }
-      const newId: number = (await response.json()) as number
-      setNewIdFromApi(newId) // recupere l'Id du nouveau place créé
-
-      console.log('newId from Server', newId)
-    } catch (error) {
-      console.error('Erreur:', error)
-      setMessage({
-        info: "Erreur lors de l'envoi du formulaire",
-        result: true,
-      })
-    }
+    console.log(event)
+    setNewIdFromApi(1)
   }
 
   const handleInputChange = (
@@ -174,17 +122,27 @@ const FormPlace: FC = () => {
   const handleSelectClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value
     const selectedValueToNumber = Number(selectedValue)
-    setSelectedOption(selectedValueToNumber)
-    setFormData((prevFormData) => {
-      return {
-        ...prevFormData,
-        ['clientId']: selectedValueToNumber,
-      }
-    })
+    setSelectedClientId(selectedValueToNumber)
+  }
+
+  const handleSelectPlace = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value
+    const selectedValueToNumber = Number(selectedValue)
+    setSelectedPlaceId(selectedValueToNumber)
+  }
+
+  const handleSelectJourney = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value
+    const selectedValueToNumber = Number(selectedValue)
+    setSelectedJourneyId(selectedValueToNumber)
   }
 
   useEffect(() => {
     setStep(getInput.length)
+    setMessage({
+      info: '',
+      result: false,
+    })
   }, [getInput])
 
   useEffect(() => {
@@ -218,38 +176,46 @@ const FormPlace: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  console.log('formData:', formData)
+  useEffect(() => {
+    setStep(getInput.length)
+  }, [getInput])
+
+  console.log('FormData:', { ...formData })
 
   return (
     <>
       <Form
-        client={client}
-        isAssociated={formData.clientId !== 0}
-        handleSelectClient={handleSelectClient}
-        selectedOption={selectedOption}
-        newIdFromApi={newIdFromApi}
         title={title}
         icon={<PlaceIcon />}
+        client={client}
+        // place={place}
+        isAssociated={formData.stepId == 0}
+        handleSelectClient={handleSelectClient}
+        handleSelectPlace={handleSelectPlace}
+        selectedClientId={selectedClientId}
+        selectedPlaceId={selectedPlaceId}
+        selectedJourneyId={selectedJourneyId}
+        newIdFromApi={newIdFromApi}
         handleArrowLeft={handleArrowLeft}
         getInput={getInput}
         currentStep={currentStep}
         step={step}
         message={message}
-        showDescription={showDescription}
         handleSubmit={(event) => {
-          void handleSubmit(event)
+          handleSubmit(event)
         }}
         formData={formData}
         handleInputChange={(name, value) => {
           handleInputChange(name, value)
         }}
-        handleDescription={handleDescription}
         handlePrevStep={handlePrevStep}
         handleNextStep={handleNextStep}
         handleFileUpload={void handleFileUpload}
+        handleDescription={handleDescription}
+        handleSelectJourney={handleSelectJourney}
       />
     </>
   )
 }
 
-export { FormPlace }
+export { FormPiece }
