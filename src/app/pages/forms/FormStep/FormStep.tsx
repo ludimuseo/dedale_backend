@@ -6,7 +6,7 @@ import { getDescriptionConfig } from '@/app/components/description/getDescriptio
 import { useAppSelector } from '@/app/hooks'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
-import { MessageType, State, StepType } from '@/types'
+import { ClientType, MessageType, PlaceType, State, StepType } from '@/types'
 
 import Form from '../Form'
 import { getInputStepConfig } from './configStep/getInputTextStepConfig'
@@ -14,10 +14,13 @@ import { getInputStepConfig } from './configStep/getInputTextStepConfig'
 const FormStep: FC = () => {
   const title = 'Formulaire Etape'
   const navigate = useNavigate()
+  const [client, setClient] = useState<ClientType[]>([])
+  const [place, setPlace] = useState<PlaceType[]>([])
+  // const [journey, setJourney] = useState<JourneyType[]>([])
   const [showDescription, setShowDescription] = useState(false)
   const [newIdFromApi, setNewIdFromApi] = useState<number>()
-  // const [selectedClientId, setSelectedClientId] = useState<number>()
-  // const [selectedOption, setSelectedOption] = useState()
+  const [selectedClientId, setSelectedClientId] = useState<number>()
+  const [selectedPlaceId, setSelectedPlaceId] = useState<number>()
   const [message, setMessage] = useState<MessageType>({
     info: '',
     result: false,
@@ -29,10 +32,6 @@ const FormStep: FC = () => {
     journeyId: 0,
     medalId: '',
     name: '',
-    address: '',
-    city: '',
-    country: '',
-    postal: '',
     image: 'image.png',
     location_required: false,
     lat: 0,
@@ -50,6 +49,7 @@ const FormStep: FC = () => {
     handleNextStep,
     handlePrevStep,
   } = useTimelineStep()
+  const getInput = !showDescription ? getInputStepConfig : getDescriptionConfig
 
   const handleArrowLeft = () => {
     void navigate(-1)
@@ -116,16 +116,22 @@ const FormStep: FC = () => {
     }))
   }
 
-  // const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //     const selectedValue = e.target.value
-  //     const selectedValueToNumber = Number(selectedValue)
-  //     setSelectedClientId(selectedValueToNumber)
-  // }
-
   const handleDescription = () => {
     //AFFICHER Descritpion
     setShowDescription(true)
     setCurrentStep(0)
+  }
+
+  const handleSelectClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value
+    const selectedValueToNumber = Number(selectedValue)
+    setSelectedClientId(selectedValueToNumber)
+  }
+
+  const handleSelectPlace = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value
+    const selectedValueToNumber = Number(selectedValue)
+    setSelectedPlaceId(selectedValueToNumber)
   }
 
   const handleFileUpload = async (
@@ -171,7 +177,95 @@ const FormStep: FC = () => {
     }
   }
 
-  const getInput = !showDescription ? getInputStepConfig : getDescriptionConfig
+  useEffect(() => {
+    const fetchClients = async () => {
+      try {
+        const response: Response = await fetchWithAuth(
+          `https://dev.ludimuseo.fr:4000/api/clients/list`,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${String(response.status)}`)
+        }
+        const data = (await response.json()) as ClientType[]
+        const clientData = data.clients as ClientType[]
+        const filteredClientIsActive = clientData.filter(
+          (item) => item.isActive
+        )
+        setClient([...filteredClientIsActive])
+      } catch (error) {
+        console.log('ERROR fetching clients: ', error)
+      }
+    }
+    void fetchClients()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    const fetchPlace = async () => {
+      if (!selectedClientId) return
+      try {
+        const response: Response = await fetchWithAuth(
+          `https://dev.ludimuseo.fr:4000/api/places/list/${selectedClientId.toString()}`,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${String(response.status)}`)
+        }
+        const data = (await response.json()) as PlaceType[]
+        const placeData = data.places as PlaceType[]
+        setPlace(placeData)
+      } catch (error) {
+        setPlace([])
+        console.log('ERROR fetching places: ', error)
+      }
+    }
+    void fetchPlace()
+  }, [selectedClientId])
+
+  // useEffect(() => {
+
+  //   const fetchJourney = async () => {
+  //     if (!selectedClientId) return
+  //     try {
+  //       const response: Response = await fetchWithAuth(
+  //         `https://dev.ludimuseo.fr:4000/api/places/list/${selectedPlaceId.toString()}`,
+  //         {
+  //           method: 'GET',
+  //           headers: {
+  //             'Authorization': `Bearer ${token}`,
+  //             'Content-Type': 'application/json',
+  //           },
+  //         }
+  //       )
+
+  //       if (!response.ok) {
+  //         throw new Error(`Erreur HTTP: ${String(response.status)}`)
+  //       }
+  //       const data = (await response.json()) as JourneyType[]
+  //       const journeyData = data.journeys as JourneyType[]
+  //       setJourney(journeyData)
+  //     } catch (error) {
+  //       setJourney([])
+  //       console.log('ERROR fetching places: ', error)
+  //     }
+  //   }
+
+  // }, [])
 
   useEffect(() => {
     setStep(getInput.length)
@@ -182,9 +276,16 @@ const FormStep: FC = () => {
   return (
     <>
       <Form
-        isAssociated={formData.journeyId == 0}
+        client={client}
+        place={place}
+        //journey={journey}
+        isAssociated={formData.journeyId !== 0}
+        selectedClientId={selectedClientId}
+        selectedPlaceId={selectedPlaceId}
         newIdFromApi={newIdFromApi}
-        //selectedOption={selectedOption}
+        handleSelectClient={handleSelectClient}
+        handleSelectPlace={handleSelectPlace}
+        //handleSelectJourney={handleSelectJourney}
         title={title}
         icon={<></>}
         handleArrowLeft={handleArrowLeft}

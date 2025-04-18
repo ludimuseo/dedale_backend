@@ -17,7 +17,7 @@ const FormJourney: FC = () => {
   const navigate = useNavigate()
   const [showDescription, setShowDescription] = useState(false)
   const [client, setClient] = useState<ClientType[]>([])
-  const [place, setPlace] = useState<PlaceType[]>()
+  const [place, setPlace] = useState<PlaceType[]>([])
   const [selectedClientId, setSelectedClientId] = useState<number>()
   const [selectedPlaceId, setSelectedPlaceId] = useState<number>()
   const [newIdFromApi, setNewIdFromApi] = useState<number>()
@@ -86,7 +86,7 @@ const FormJourney: FC = () => {
 
     try {
       const response: Response = await fetch(
-        `https://dev.ludimuseo.fr:4000/api/`,
+        `https://dev.ludimuseo.fr:4000/api/journeys/create`,
         {
           method: 'POST',
           headers: {
@@ -268,8 +268,6 @@ const FormJourney: FC = () => {
         selectedClientId={selectedClientId}
         selectedPlaceId={selectedPlaceId}
         newIdFromApi={newIdFromApi}
-        //attributedMedal={attributedMedal}
-        //handleAttributeMedal={handleAttributeMedal}
         title={title}
         icon={<JourneyIcon />}
         handleArrowLeft={handleArrowLeft}

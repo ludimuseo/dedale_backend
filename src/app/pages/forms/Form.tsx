@@ -1,13 +1,15 @@
 import React, { FormEvent, MouseEvent } from 'react'
 
 import Description from '@/app/components/description/Description'
-import ClientDropdownList from '@/app/components/forms/ClientDropdownList'
-import PlaceDropdownList from '@/app/components/forms/PlaceDropdownList'
+import ClientDropdownList from '@/app/components/forms/dropdownLists/ClientDropdownList'
+import JourneyDropdownList from '@/app/components/forms/dropdownLists/JourneyDropdwonList'
+import PlaceDropdownList from '@/app/components/forms/dropdownLists/PlaceDropdownList'
 import {
   ClientType,
   GetInputConfigType,
   JourneyType,
   MessageType,
+  PieceType,
   PlaceType,
   StepType,
   T,
@@ -25,6 +27,7 @@ interface FormProps {
   newIdFromApi?: number
   selectedClientId?: number
   selectedPlaceId?: number
+  selectedJourneyId?: number
   showDescription?: boolean
   title: string
   icon: React.JSX.Element
@@ -47,11 +50,12 @@ interface FormProps {
   handleSubmit: (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => void
-  formData: T | PlaceType | ClientType | JourneyType | StepType
+  formData: T | PlaceType | ClientType | JourneyType | StepType | PieceType
   handleInputChange: (name: string, event: string) => void
   handleFileUpload?: (file: File, fileType: string, name: string) => void
   handleSelectClient?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectPlace?: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  handleSelectJourney?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   selectedOption?: number
   selectedPlaceOption?: string
 }
@@ -61,15 +65,13 @@ const Form = ({
   place,
   isAssociated,
   selectedClientId,
-  //selectedPlaceId,
+  selectedPlaceId,
+  //selectedJourneyId,
   showDescription,
   newIdFromApi,
   title,
   icon,
   handleArrowLeft,
-  // attributedMedal,
-  // handleAttributeMedal,
-  // medalsData,
   getInput,
   currentStep,
   step,
@@ -83,6 +85,7 @@ const Form = ({
   handleFileUpload,
   handleSelectClient,
   handleSelectPlace,
+  //handleSelectJourney,
 }: FormProps) => {
   return (
     <div className="grid grid-cols-1 gap-2 p-10 sm:grid-cols-1">
@@ -96,6 +99,11 @@ const Form = ({
         selectedClientId={selectedClientId}
         handleSelectPlace={handleSelectPlace}
         place={place}
+      />
+      <JourneyDropdownList
+        selectedPlaceId={selectedPlaceId}
+        //handleSelectJourney={handleSelectJourney}
+        //journey={journey}
       />
       {isAssociated || title === 'Formulaire Client' ? (
         <Timeline
