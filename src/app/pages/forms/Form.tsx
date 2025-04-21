@@ -6,13 +6,13 @@ import JourneyDropdownList from '@/app/components/forms/dropdownLists/JourneyDro
 import PlaceDropdownList from '@/app/components/forms/dropdownLists/PlaceDropdownList'
 import {
   ClientType,
+  DescriptionType,
   GetInputConfigType,
   JourneyType,
   MessageType,
   PieceType,
   PlaceType,
   StepType,
-  T,
 } from '@/types'
 
 import FormFooter from './FormFooter'
@@ -50,14 +50,13 @@ interface FormProps {
   handleSubmit: (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => void
-  formData: T | PlaceType | ClientType | JourneyType | StepType | PieceType
+  formData: PlaceType | ClientType | JourneyType | StepType | PieceType
   handleInputChange: (name: string, event: string) => void
   handleFileUpload?: (file: File, fileType: string, name: string) => void
   handleSelectClient?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectPlace?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectJourney?: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  selectedOption?: number
-  selectedPlaceOption?: string
+  handleSubmitDescriptions?: (descriptions: DescriptionType[]) => void
 }
 
 const Form = ({
@@ -85,7 +84,7 @@ const Form = ({
   handleFileUpload,
   handleSelectClient,
   handleSelectPlace,
-  //handleSelectJourney,
+  handleSubmitDescriptions,
 }: FormProps) => {
   return (
     <div className="grid grid-cols-1 gap-2 p-10 sm:grid-cols-1">
@@ -135,6 +134,7 @@ const Form = ({
           />
         ) : (
           <Description
+            handleSubmitDescriptions={handleSubmitDescriptions}
             getInput={getInput}
             currentStep={currentStep}
             newIdFromApi={newIdFromApi ?? 0}

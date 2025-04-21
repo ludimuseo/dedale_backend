@@ -34,7 +34,6 @@ const FormFooter = ({
   icon,
 }: FormFooterProps) => {
   const navigate = useNavigate()
-
   return (
     <div className="dark:border-strokedark dark:bg-boxdark mt-5 flex flex-col rounded-sm px-20">
       <div className="flex flex-row justify-center">
@@ -97,7 +96,9 @@ const FormFooter = ({
               onClick={(event) => {
                 handleSubmit(event)
               }}>
-              <p className="font-inclusive text-xl">VALIDER</p>
+              <p className="font-inclusive text-xl">
+                {showDescription ? 'Terminer' : 'Valider'}
+              </p>
               <CheckIcon className="h-7 w-7" />
             </button>
           </div>

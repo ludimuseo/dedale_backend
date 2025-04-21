@@ -114,7 +114,7 @@ export type T = Record<
   | Name
   | Image
   | Coords
-  | Description
+  | DescriptionType
   | Standard
   | Falc
   | Audio
@@ -177,10 +177,10 @@ interface CertifiedTxt {
   certifiedDate: Timestamp | null
   isCorrected: boolean
 }
-interface Description {
-  standard: Standard
-  falc: Falc
-}
+// interface Description {
+//   standard: Standard
+//   falc: Falc
+// }
 interface Audio {
   standard: {
     fr: string
@@ -342,38 +342,24 @@ export interface PieceType {
 
 /* DESCRIPTION */
 
-// description: {
-//   standard: {
-//     fr: string
-//     en: string
-//   }
-//   falc: {
-//     fr: string
-//     en: string
-//     falcCertified: string
-//     userId: string
-//     status: {
-//       isValidate: boolean
-//       isCertified: boolean
-//       certifiedDate: Timestamp | null
-//       isCorrected: boolean
-//     }
-//   }
-// }
-// audio: {
-//   standard: {
-//     fr: string
-//     en: string
-//   }
-//   falc: {
-//     fr: string
-//     en: string
-//   }
-// }
-// status: {
-//   isActive: boolean
-//   isPublished: boolean
-// }
+export interface DescriptionType {
+  collectionId: number
+  id: number
+  language: string
+  order: number
+  text: string
+  isFalc: boolean
+  isCertifiedFalc: boolean
+  image: {
+    file: string
+    alt: string
+  }
+
+  audio: {
+    file: string
+    audio_desc: string
+  }
+}
 
 export interface GameType {
   id: number

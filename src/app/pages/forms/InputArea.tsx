@@ -9,7 +9,6 @@ import {
   PieceType,
   PlaceType,
   StepType,
-  T,
 } from '@/types'
 
 import TextArea from './inputForm/TextArea'
@@ -21,7 +20,7 @@ interface InputAreaProps {
   ) => void
   getInput: GetInputConfigType[][]
   currentStep: number
-  formData: T | PlaceType | ClientType | JourneyType | StepType | PieceType
+  formData: PlaceType | ClientType | JourneyType | StepType | PieceType
   handleInputChange: (name: string, event: string | boolean) => void
   handleFileUpload: (
     file: File,
@@ -166,7 +165,6 @@ const InputArea = ({
                       mode={mode}
                       formData={formData}
                       language={language}
-                      //handleChange={handleChange}
                       handleInputChange={handleInputChange}
                     />
                   )
@@ -174,7 +172,7 @@ const InputArea = ({
 
                 if (type === 'checkbox') {
                   const isChecked = formData[
-                    name as keyof T[keyof T]
+                    name as keyof typeof formData
                   ] as boolean
                   return (
                     <div className="form-control mt-4 flex flex-row" key={id}>
@@ -204,7 +202,9 @@ const InputArea = ({
                       <select
                         name={name}
                         id={id}
-                        value={formData[name as keyof T[keyof T]]}
+                        value={
+                          formData[name as keyof typeof formData] as string
+                        }
                         onChange={(e) => {
                           handleInputChange(name, e.target.value)
                         }}
@@ -230,7 +230,9 @@ const InputArea = ({
                         className="input input-bordered"
                         placeholder={placeholder}
                         type={type}
-                        value={formData[name as keyof T[keyof T]]}
+                        value={
+                          formData[name as keyof typeof formData] as string
+                        }
                         onChange={(e) => {
                           handleInputChange(name, e.target.value)
                         }}

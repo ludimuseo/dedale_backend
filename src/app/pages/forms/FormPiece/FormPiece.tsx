@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
 import { PlaceIcon } from '@/app/components'
-import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { getStandardDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useAppSelector } from '@/app/hooks'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
@@ -35,7 +35,9 @@ const FormPiece: FC = () => {
     isPublished: false,
   })
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
-  const getInput = !showDescription ? getInputPieceConfig : getDescriptionConfig
+  const getInput = !showDescription
+    ? getInputPieceConfig
+    : getStandardDescriptionConfig
 
   const {
     step,
@@ -178,9 +180,8 @@ const FormPiece: FC = () => {
 
   useEffect(() => {
     setStep(getInput.length)
+    setCurrentStep(0)
   }, [getInput])
-
-  console.log('FormData:', { ...formData })
 
   return (
     <>

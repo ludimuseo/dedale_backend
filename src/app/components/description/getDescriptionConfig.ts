@@ -1,7 +1,7 @@
-export const getDescriptionConfig = [
+export const getStandardDescriptionConfig = [
   [
     {
-      id: '11',
+      id: '01',
       label: 'Description Standard',
       language: 'fr',
       mode: 'standard',
@@ -16,6 +16,9 @@ export const getDescriptionConfig = [
       type: 'text',
     },
   ],
+]
+
+export const getFalcDescriptionConfig = [
   [
     {
       id: '12',
@@ -33,6 +36,9 @@ export const getDescriptionConfig = [
       type: 'text',
     },
   ],
+]
+
+export const getStandardEnDescriptionConfig = [
   [
     {
       id: '110',
@@ -49,6 +55,9 @@ export const getDescriptionConfig = [
       type: 'text',
     },
   ],
+]
+
+export const getFalcEnDescriptionConfig = [
   [
     {
       id: '120',
