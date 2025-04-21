@@ -2,7 +2,7 @@ import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
-import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { getStandardDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useAppSelector } from '@/app/hooks'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
@@ -49,7 +49,9 @@ const FormStep: FC = () => {
     handleNextStep,
     handlePrevStep,
   } = useTimelineStep()
-  const getInput = !showDescription ? getInputStepConfig : getDescriptionConfig
+  const getInput = !showDescription
+    ? getInputStepConfig
+    : getStandardDescriptionConfig
 
   const handleArrowLeft = () => {
     void navigate(-1)

@@ -1,4 +1,10 @@
-import { ClientType, JourneyType, PlaceType, StepType, T } from '@/types'
+import {
+  ClientType,
+  JourneyType,
+  PieceType,
+  PlaceType,
+  StepType,
+} from '@/types'
 
 interface TextAreaType {
   id: string
@@ -7,7 +13,7 @@ interface TextAreaType {
   placeholder?: string
   rows: number
   mode?: string
-  formData: T | PlaceType | ClientType | JourneyType | StepType
+  formData: PlaceType | ClientType | JourneyType | StepType | PieceType
   language?: string
   rightSideVisible?: boolean
   handleInputChange: (name: string, event: string) => void
@@ -22,6 +28,7 @@ export default function TextArea({
   rightSideVisible,
   handleInputChange,
 }: TextAreaType) {
+  const value = formData[name as keyof typeof formData] as string
   return (
     <div
       className={
@@ -39,12 +46,9 @@ export default function TextArea({
         className="textarea textarea-bordered font-inclusive text-lg"
         placeholder={placeholder}
         rows={rows}
-        value={formData[name as keyof T[keyof T]]}
+        value={value}
         onChange={(e) => {
-          handleInputChange(
-            name as keyof T[keyof T],
-            e.target.value as T[keyof T][keyof T[keyof T]]
-          )
+          handleInputChange(name, e.target.value)
         }}
       />
     </div>

@@ -4,10 +4,16 @@ import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
-import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { getStandardDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
-import { ClientType, MessageType, PlaceType, State } from '@/types'
+import {
+  ClientType,
+  DescriptionType,
+  MessageType,
+  PlaceType,
+  State,
+} from '@/types'
 
 import Form from '../Form'
 import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
@@ -17,7 +23,6 @@ const FormPlace: FC = () => {
   const title = 'Formulaire Lieu'
   const [showDescription, setShowDescription] = useState(false)
   const [client, setClient] = useState<ClientType[]>([])
-  const [selectedOption, setSelectedOption] = useState<number>()
   const [newIdFromApi, setNewIdFromApi] = useState<number>()
   const [message, setMessage] = useState<MessageType>({
     info: '',
@@ -41,8 +46,9 @@ const FormPlace: FC = () => {
     isPublished: false,
   })
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
-  const getInput = !showDescription ? getInputPlaceConfig : getDescriptionConfig
-
+  const getInput = !showDescription
+    ? getInputPlaceConfig
+    : getStandardDescriptionConfig
   const {
     step,
     setStep,
@@ -70,6 +76,8 @@ const FormPlace: FC = () => {
 
     //FETCH des donnees a l'API et recuperer l'ID
     if (showDescription) {
+      //Envois des DATA au serveur
+      return
       setMessage(() => ({
         info: 'Vos descriptions ont été envoyées avec succès !',
         result: true,
@@ -77,7 +85,7 @@ const FormPlace: FC = () => {
     } else {
       setMessage(() => ({
         info: 'Votre formulaire a été envoyé avec succès !',
-        result: true,
+        result: false,
       }))
     }
 
@@ -174,7 +182,6 @@ const FormPlace: FC = () => {
   const handleSelectClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value
     const selectedValueToNumber = Number(selectedValue)
-    setSelectedOption(selectedValueToNumber)
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
@@ -183,8 +190,19 @@ const FormPlace: FC = () => {
     })
   }
 
+  const handleSubmitDescriptions = (descriptions: DescriptionType[]) => {
+    //ENVOIE du tableau de descriptions au serveur
+    console.log('FORMPLACE descriptions: ', descriptions)
+  }
+
   useEffect(() => {
     setStep(getInput.length)
+    setCurrentStep(0)
+    //permert de reinitialiser le footer
+    setMessage({
+      info: '',
+      result: false,
+    })
   }, [getInput])
 
   useEffect(() => {
@@ -226,7 +244,6 @@ const FormPlace: FC = () => {
         client={client}
         isAssociated={formData.clientId !== 0}
         handleSelectClient={handleSelectClient}
-        selectedOption={selectedOption}
         newIdFromApi={newIdFromApi}
         title={title}
         icon={<PlaceIcon />}
@@ -247,6 +264,7 @@ const FormPlace: FC = () => {
         handlePrevStep={handlePrevStep}
         handleNextStep={handleNextStep}
         handleFileUpload={void handleFileUpload}
+        handleSubmitDescriptions={handleSubmitDescriptions}
       />
     </>
   )

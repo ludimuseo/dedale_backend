@@ -16,7 +16,8 @@ import { CSS } from '@dnd-kit/utilities'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 
-import { GetInputConfigType } from '@/types'
+import { useDescriptions } from '@/app/hooks/useDescriptions'
+import { DescriptionType, GetInputConfigType } from '@/types'
 
 import { WrongCheck } from '../ui/icons/WrongCheck'
 import AddDescriptionButton from './AddDescriptionButton'
@@ -27,57 +28,23 @@ interface DescriptionProps {
   getInput: GetInputConfigType[][]
   currentStep: number
   newIdFromApi: number
+  handleSubmitDescriptions: (descriptions: DescriptionType[]) => void
 }
 interface SortableItemProps {
   desc: { id: number }
   handleRemoveDesc: (id: number) => void
 }
 
-export interface Description {
-  collectionId: number
-  id: number
-  language: string
-  order: number
-  text: string
-  isFalc: boolean
-  isCertifiedFalc: boolean
-  image: {
-    file: string
-    alt: string
-  }
-
-  audio: {
-    file: string
-    audio_desc: string
-  }
-}
-
 export default function Description({
   getInput,
   currentStep,
   newIdFromApi,
+  handleSubmitDescriptions,
 }: DescriptionProps) {
   const [language, setLanguage] = useState<string | undefined>('fr')
   const [isFalc, setIsFalc] = useState(false)
-  const [descriptions, setDescriptions] = useState<Description[]>([
-    {
-      id: Date.now(),
-      collectionId: newIdFromApi,
-      language: 'fr',
-      order: 0,
-      text: '',
-      isFalc: false,
-      isCertifiedFalc: false,
-      image: {
-        file: '',
-        alt: '',
-      },
-      audio: {
-        file: '',
-        audio_desc: '',
-      },
-    },
-  ])
+  const { descriptions, setDescriptions } = useDescriptions(newIdFromApi)
+
   const textareasRef = useRef<Record<number, HTMLTextAreaElement | null>>({})
 
   useEffect(() => {
@@ -191,7 +158,7 @@ export default function Description({
               ref={(el) => {
                 if (el) textareasRef.current[desc.id] = el
               }}
-              descriptions={[desc as Description]}
+              descriptions={[desc as DescriptionType]}
               handleAddDescription={handleAddDescription}
               language={language}
               isFalc={isFalc}
@@ -264,7 +231,7 @@ export default function Description({
     }
   }
 
-  console.log('descriptions: ', descriptions)
+  console.log('DESCRIPTIONS descriptions: ', descriptions)
 
   return (
     <>
@@ -291,6 +258,18 @@ export default function Description({
         </SortableContext>
       </DndContext>
       <AddDescriptionButton handleAddDesc={handleAddDesc} />
+      <div className="flex flex-col items-center justify-center">
+        {' '}
+        <button
+          onClick={() => {
+            handleSubmitDescriptions(descriptions)
+          }}
+          className="btn btn-neutral mt-2">
+          <p className="mt-1 font-inclusive text-xl">
+            Enregistrer sur le serveur
+          </p>
+        </button>
+      </div>
     </>
   )
 }

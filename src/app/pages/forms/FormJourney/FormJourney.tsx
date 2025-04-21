@@ -4,7 +4,7 @@ import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
-import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { getStandardDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
 import { ClientType, JourneyType, MessageType, PlaceType, State } from '@/types'
@@ -249,7 +249,7 @@ const FormJourney: FC = () => {
 
   const getInput = !showDescription
     ? getInputJourneyConfig
-    : getDescriptionConfig
+    : getStandardDescriptionConfig
 
   useEffect(() => {
     setStep(getInput.length)

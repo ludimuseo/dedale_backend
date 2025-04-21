@@ -7,13 +7,13 @@ interface TimelineProps {
   message: MessageType
 }
 
-const Timeline = ({ getInput, currentStep, message }: TimelineProps) => {
+const Timeline = ({ getInput, currentStep }: TimelineProps) => {
   return (
     <div className="navbar rounded-xl bg-base-100 p-4 shadow-xl">
       {
         <ul className="steps">
           {getInput.map((inputs, index: number) => {
-            if (currentStep + 1 > index + 1 || message.result) {
+            if (currentStep + 1 > index + 1) {
               return (
                 //CHECKED
                 <li key={index} className="step step-success" data-content="✓">
