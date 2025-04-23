@@ -324,6 +324,10 @@ export interface StepType {
   medalId: string
   name: string
   image: string
+  address: string
+  city: string
+  country: string
+  postal: string
   lat: number
   lon: number
   location_required: boolean

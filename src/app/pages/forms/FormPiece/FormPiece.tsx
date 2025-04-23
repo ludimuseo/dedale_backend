@@ -63,12 +63,13 @@ const FormPiece: FC = () => {
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => {
     console.log(event)
-    setNewIdFromApi(1)
+    setNewIdFromApi(1) //ID qui sera recu apres creation d'une oeuvre
+    console.log('formData: ', formData)
   }
 
   const handleInputChange = (
     name: string,
-    value: string | boolean // Ajout du type boolean pour les cases à cocher
+    value: string | boolean //Ajout du type boolean pour les cases à cocher
   ) => {
     setFormData((prevFormData) => {
       return {

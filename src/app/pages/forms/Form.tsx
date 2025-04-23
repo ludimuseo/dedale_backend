@@ -23,6 +23,7 @@ import Timeline from './Timeline'
 interface FormProps {
   client?: ClientType[] | undefined
   place?: PlaceType[]
+  journey?: JourneyType[]
   isAssociated?: boolean
   newIdFromApi?: number
   selectedClientId?: number
@@ -62,6 +63,7 @@ interface FormProps {
 const Form = ({
   client,
   place,
+  journey,
   isAssociated,
   selectedClientId,
   selectedPlaceId,
@@ -84,6 +86,7 @@ const Form = ({
   handleFileUpload,
   handleSelectClient,
   handleSelectPlace,
+  handleSelectJourney,
   handleSubmitDescriptions,
 }: FormProps) => {
   return (
@@ -100,9 +103,10 @@ const Form = ({
         place={place}
       />
       <JourneyDropdownList
+        title={title}
         selectedPlaceId={selectedPlaceId}
-        //handleSelectJourney={handleSelectJourney}
-        //journey={journey}
+        handleSelectJourney={handleSelectJourney}
+        journey={journey}
       />
       {isAssociated || title === 'Formulaire Client' ? (
         <Timeline

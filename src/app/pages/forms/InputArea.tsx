@@ -38,7 +38,6 @@ const InputArea = ({
   formData,
   handleInputChange,
   handleFileUpload,
-  //handleChange,
 }: InputAreaProps) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [imgFile, setImgFile] = useState<File | null>(null)

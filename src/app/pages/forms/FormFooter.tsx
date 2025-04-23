@@ -34,6 +34,7 @@ const FormFooter = ({
   icon,
 }: FormFooterProps) => {
   const navigate = useNavigate()
+  console.log('FORMFOOTER showDescription: ', showDescription)
   return (
     <div className="dark:border-strokedark dark:bg-boxdark mt-5 flex flex-col rounded-sm px-20">
       <div className="flex flex-row justify-center">
