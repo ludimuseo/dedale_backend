@@ -94,7 +94,7 @@ const FormStep: FC = () => {
 
     try {
       const response: Response = await fetch(
-        `https://dev.ludimuseo.fr:4000/api/`,
+        `https://dev.ludimuseo.fr:4000/api/steps/create`,
         {
           method: 'POST',
           headers: {
