@@ -5,6 +5,7 @@ import {
   ClientType,
   GetInputConfigType,
   JourneyType,
+  MedalType,
   MessageType,
   PieceType,
   PlaceType,
@@ -20,7 +21,13 @@ interface InputAreaProps {
   ) => void
   getInput: GetInputConfigType[][]
   currentStep: number
-  formData: PlaceType | ClientType | JourneyType | StepType | PieceType
+  formData:
+    | PlaceType
+    | ClientType
+    | JourneyType
+    | StepType
+    | PieceType
+    | MedalType
   handleInputChange: (name: string, event: string | boolean) => void
   handleFileUpload: (
     file: File,
@@ -38,7 +45,6 @@ const InputArea = ({
   formData,
   handleInputChange,
   handleFileUpload,
-  //handleChange,
 }: InputAreaProps) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [imgFile, setImgFile] = useState<File | null>(null)
@@ -173,7 +179,7 @@ const InputArea = ({
                 if (type === 'checkbox') {
                   const isChecked = formData[
                     name as keyof typeof formData
-                  ] as boolean
+                  ] as unknown as boolean
                   return (
                     <div className="form-control mt-4 flex flex-row" key={id}>
                       <label className="label cursor-pointer">

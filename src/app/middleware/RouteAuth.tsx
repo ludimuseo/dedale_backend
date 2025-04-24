@@ -18,7 +18,7 @@ const RouteAuth = ({
 
   if (!token || isTokenExpired(token) || !isLogged) {
     dispatch(signOut())
-    alert('Votre token est expiré')
+    alert('Votre token est expiré, vous devez vous reconnecter')
     return <Navigate to={{ pathname: '/auth/signin' }} replace />
   }
   return <>{children}</>

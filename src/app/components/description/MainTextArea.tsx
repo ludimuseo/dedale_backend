@@ -1,12 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { forwardRef } from 'react'
 
-import { Description } from './Description'
-
+import { DescriptionType } from '@/types'
 interface MainTextAreaProps {
-  descriptions: Description[]
+  descriptions: DescriptionType[]
   handleAddDescription: (
     id: number,
     event: React.ChangeEvent<HTMLTextAreaElement>

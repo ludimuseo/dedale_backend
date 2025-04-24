@@ -1,17 +1,19 @@
 import { JourneyType } from '@/types'
 
 interface JourneyDropdownListProps {
+  title: string
   selectedPlaceId: number | undefined
   handleSelectJourney?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   journey?: JourneyType[] | undefined
 }
 
 export default function JourneyDropdownList({
+  title,
   handleSelectJourney,
   selectedPlaceId,
   journey,
 }: JourneyDropdownListProps) {
-  if (!selectedPlaceId) {
+  if (!selectedPlaceId || title === 'Formulaire Parcours') {
     return <></>
   }
   return (

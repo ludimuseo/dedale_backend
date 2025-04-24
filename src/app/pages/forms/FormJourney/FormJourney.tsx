@@ -65,6 +65,12 @@ const FormJourney: FC = () => {
   ) => {
     event.preventDefault()
 
+    if (!token) {
+      alert("Une erreur c'est produite, reconnectez-vous")
+      void navigate('/')
+      return
+    }
+
     //FETCH des donnees a l'API et recuperer l'ID
     if (showDescription) {
       setMessage(() => ({
@@ -78,12 +84,6 @@ const FormJourney: FC = () => {
       }))
     }
 
-    if (!token) {
-      alert("Une erreur c'est produite, reconnectez-vous")
-      void navigate('/')
-      return
-    }
-
     try {
       const response: Response = await fetch(
         `https://dev.ludimuseo.fr:4000/api/journeys/create`,
@@ -93,7 +93,7 @@ const FormJourney: FC = () => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ place: formData }),
+          body: JSON.stringify({ journey: formData }),
         }
       )
 
@@ -253,6 +253,10 @@ const FormJourney: FC = () => {
 
   useEffect(() => {
     setStep(getInput.length)
+    setMessage({
+      info: '',
+      result: false,
+    })
   }, [getInput])
 
   console.log('FormDataJourney:', { ...formData })

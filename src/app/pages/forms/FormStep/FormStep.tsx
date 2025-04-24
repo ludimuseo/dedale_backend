@@ -6,7 +6,14 @@ import { getStandardDescriptionConfig } from '@/app/components/description/getDe
 import { useAppSelector } from '@/app/hooks'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
-import { ClientType, MessageType, PlaceType, State, StepType } from '@/types'
+import {
+  ClientType,
+  JourneyType,
+  MessageType,
+  PlaceType,
+  State,
+  StepType,
+} from '@/types'
 
 import Form from '../Form'
 import { getInputStepConfig } from './configStep/getInputTextStepConfig'
@@ -16,7 +23,7 @@ const FormStep: FC = () => {
   const navigate = useNavigate()
   const [client, setClient] = useState<ClientType[]>([])
   const [place, setPlace] = useState<PlaceType[]>([])
-  // const [journey, setJourney] = useState<JourneyType[]>([])
+  const [journey, setJourney] = useState<JourneyType[]>([])
   const [showDescription, setShowDescription] = useState(false)
   const [newIdFromApi, setNewIdFromApi] = useState<number>()
   const [selectedClientId, setSelectedClientId] = useState<number>()
@@ -26,13 +33,16 @@ const FormStep: FC = () => {
     result: false,
   })
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
-
   const [formData, setFormData] = useState<StepType>({
     id: 0,
     journeyId: 0,
-    medalId: '',
+    medalId: 0,
     name: '',
     image: 'image.png',
+    address: '',
+    city: '',
+    country: '',
+    postal: '',
     location_required: false,
     lat: 0,
     lon: 0,
@@ -63,6 +73,12 @@ const FormStep: FC = () => {
   ) => {
     event.preventDefault()
 
+    if (!token) {
+      alert("Une erreur c'est produite, reconnectez-vous")
+      void navigate('/')
+      return
+    }
+
     //FETCH des donnees a l'API et recuperer l'ID
     if (showDescription) {
       setMessage(() => ({
@@ -76,22 +92,16 @@ const FormStep: FC = () => {
       }))
     }
 
-    if (!token) {
-      alert("Une erreur c'est produite, reconnectez-vous")
-      void navigate('/')
-      return
-    }
-
     try {
       const response: Response = await fetch(
-        `https://dev.ludimuseo.fr:4000/api/`,
+        `https://dev.ludimuseo.fr:4000/api/steps/create`,
         {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ place: formData }),
+          body: JSON.stringify({ step: formData }),
         }
       )
 
@@ -136,6 +146,16 @@ const FormStep: FC = () => {
     setSelectedPlaceId(selectedValueToNumber)
   }
 
+  const handleSelectJourney = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value
+    const selectedValueToNumber = Number(selectedValue)
+    setFormData((prevFormData) => {
+      return {
+        ...prevFormData,
+        ['journeyId']: selectedValueToNumber,
+      }
+    })
+  }
   const handleFileUpload = async (
     file: File,
     fileType: string,
@@ -239,38 +259,43 @@ const FormStep: FC = () => {
     void fetchPlace()
   }, [selectedClientId])
 
-  // useEffect(() => {
+  useEffect(() => {
+    const fetchJourney = async () => {
+      if (!selectedPlaceId) return
+      try {
+        const response: Response = await fetchWithAuth(
+          `https://dev.ludimuseo.fr:4000/api/journeys/getAllJourneysByPlaceId/${selectedPlaceId.toString()}`,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
 
-  //   const fetchJourney = async () => {
-  //     if (!selectedClientId) return
-  //     try {
-  //       const response: Response = await fetchWithAuth(
-  //         `https://dev.ludimuseo.fr:4000/api/places/list/${selectedPlaceId.toString()}`,
-  //         {
-  //           method: 'GET',
-  //           headers: {
-  //             'Authorization': `Bearer ${token}`,
-  //             'Content-Type': 'application/json',
-  //           },
-  //         }
-  //       )
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${String(response.status)}`)
+        }
+        const data = (await response.json()) as JourneyType[]
+        const journeyData = data
+        console.log('From fecth journeyData: ', journeyData)
+        setJourney(journeyData)
+      } catch (error) {
+        setJourney([])
+        console.log('ERROR fetching places: ', error)
+      }
+    }
 
-  //       if (!response.ok) {
-  //         throw new Error(`Erreur HTTP: ${String(response.status)}`)
-  //       }
-  //       const data = (await response.json()) as JourneyType[]
-  //       const journeyData = data.journeys as JourneyType[]
-  //       setJourney(journeyData)
-  //     } catch (error) {
-  //       setJourney([])
-  //       console.log('ERROR fetching places: ', error)
-  //     }
-  //   }
-
-  // }, [])
+    void fetchJourney()
+  }, [selectedPlaceId])
 
   useEffect(() => {
     setStep(getInput.length)
+    setMessage({
+      info: '',
+      result: false,
+    })
   }, [getInput])
 
   console.log('FormData:', { ...formData })
@@ -280,14 +305,14 @@ const FormStep: FC = () => {
       <Form
         client={client}
         place={place}
-        //journey={journey}
+        journey={journey}
         isAssociated={formData.journeyId !== 0}
         selectedClientId={selectedClientId}
         selectedPlaceId={selectedPlaceId}
         newIdFromApi={newIdFromApi}
         handleSelectClient={handleSelectClient}
         handleSelectPlace={handleSelectPlace}
-        //handleSelectJourney={handleSelectJourney}
+        handleSelectJourney={handleSelectJourney}
         title={title}
         icon={<></>}
         handleArrowLeft={handleArrowLeft}
