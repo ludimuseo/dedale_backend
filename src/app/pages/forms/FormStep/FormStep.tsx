@@ -33,11 +33,10 @@ const FormStep: FC = () => {
     result: false,
   })
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
-
   const [formData, setFormData] = useState<StepType>({
     id: 0,
     journeyId: 0,
-    medalId: '',
+    medalId: 0,
     name: '',
     image: 'image.png',
     address: '',
@@ -74,6 +73,12 @@ const FormStep: FC = () => {
   ) => {
     event.preventDefault()
 
+    if (!token) {
+      alert("Une erreur c'est produite, reconnectez-vous")
+      void navigate('/')
+      return
+    }
+
     //FETCH des donnees a l'API et recuperer l'ID
     if (showDescription) {
       setMessage(() => ({
@@ -87,12 +92,6 @@ const FormStep: FC = () => {
       }))
     }
 
-    if (!token) {
-      alert("Une erreur c'est produite, reconnectez-vous")
-      void navigate('/')
-      return
-    }
-
     try {
       const response: Response = await fetch(
         `https://dev.ludimuseo.fr:4000/api/`,
@@ -102,7 +101,7 @@ const FormStep: FC = () => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ place: formData }),
+          body: JSON.stringify({ step: formData }),
         }
       )
 
@@ -146,6 +145,7 @@ const FormStep: FC = () => {
     const selectedValueToNumber = Number(selectedValue)
     setSelectedPlaceId(selectedValueToNumber)
   }
+
   const handleSelectJourney = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value
     const selectedValueToNumber = Number(selectedValue)
@@ -299,8 +299,6 @@ const FormStep: FC = () => {
   }, [getInput])
 
   console.log('FormData:', { ...formData })
-  console.log('selectedPlaceId: ', selectedPlaceId)
-  console.log('journey: ', journey)
 
   return (
     <>

@@ -1,6 +1,7 @@
 import {
   ClientType,
   JourneyType,
+  MedalType,
   PieceType,
   PlaceType,
   StepType,
@@ -13,7 +14,13 @@ interface TextAreaType {
   placeholder?: string
   rows: number
   mode?: string
-  formData: PlaceType | ClientType | JourneyType | StepType | PieceType
+  formData:
+    | PlaceType
+    | ClientType
+    | JourneyType
+    | StepType
+    | PieceType
+    | MedalType
   language?: string
   rightSideVisible?: boolean
   handleInputChange: (name: string, event: string) => void

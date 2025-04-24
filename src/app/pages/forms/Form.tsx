@@ -9,6 +9,7 @@ import {
   DescriptionType,
   GetInputConfigType,
   JourneyType,
+  MedalType,
   MessageType,
   PieceType,
   PlaceType,
@@ -51,7 +52,13 @@ interface FormProps {
   handleSubmit: (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => void
-  formData: PlaceType | ClientType | JourneyType | StepType | PieceType
+  formData:
+    | PlaceType
+    | ClientType
+    | JourneyType
+    | StepType
+    | PieceType
+    | MedalType
   handleInputChange: (name: string, event: string) => void
   handleFileUpload?: (file: File, fileType: string, name: string) => void
   handleSelectClient?: (e: React.ChangeEvent<HTMLSelectElement>) => void
@@ -108,7 +115,9 @@ const Form = ({
         handleSelectJourney={handleSelectJourney}
         journey={journey}
       />
-      {isAssociated || title === 'Formulaire Client' ? (
+      {isAssociated ||
+      title === 'Formulaire Client' ||
+      title === 'Formulaire Médaille' ? (
         <Timeline
           getInput={getInput}
           currentStep={currentStep}
@@ -119,7 +128,9 @@ const Form = ({
         <></>
       )}
 
-      {isAssociated || title === 'Formulaire Client' ? (
+      {isAssociated ||
+      title === 'Formulaire Client' ||
+      title === 'Formulaire Médaille' ? (
         !showDescription ? (
           <InputArea
             message={message}
@@ -147,7 +158,9 @@ const Form = ({
       ) : (
         <></>
       )}
-      {isAssociated || title === 'Formulaire Client' ? (
+      {isAssociated ||
+      title === 'Formulaire Client' ||
+      title === 'Formulaire Médaille' ? (
         <FormFooter
           title={title}
           message={message}

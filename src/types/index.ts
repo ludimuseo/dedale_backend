@@ -321,7 +321,7 @@ export interface JourneyType {
 export interface StepType {
   id: number
   journeyId: number
-  medalId: string
+  medalId: number
   name: string
   image: string
   address: string
@@ -443,8 +443,9 @@ export interface GameType {
 export interface MedalType {
   id: number
   name: string
+  image: string
   type: string //medaille de type lieu parcours ou etape
-  level: number
+  level: string
   placeId: number
   journeyId: number
   stepId: number
