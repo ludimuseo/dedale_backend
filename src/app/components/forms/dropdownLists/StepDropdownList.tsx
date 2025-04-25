@@ -1,17 +1,19 @@
 import { PlaceType, StepType } from '@/types'
 
 interface StepDropdownListProps {
+  title: string
   selectedJourneyId: number | undefined
   handleSelectStep?: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  step?: StepType[] | undefined
+  steps?: StepType[] | undefined
 }
 
-export default function PlaceDropdownList({
+export default function StepDropdownList({
+  title,
   handleSelectStep,
   selectedJourneyId,
-  step,
+  steps,
 }: StepDropdownListProps) {
-  if (!selectedJourneyId) {
+  if (!selectedJourneyId || title === 'Formulaire Etape') {
     return <></>
   }
   return (
@@ -25,9 +27,9 @@ export default function PlaceDropdownList({
         defaultValue=""
         className="select-neutral select w-full font-inclusive text-xl">
         <option disabled value="">
-          Associer un Lieu:
+          Associer une Etape:
         </option>
-        {step?.map(({ id, name }, index) => {
+        {steps?.map(({ id, name }, index) => {
           return (
             <option key={index} value={id as unknown as keyof PlaceType}>
               {name as keyof PlaceType}

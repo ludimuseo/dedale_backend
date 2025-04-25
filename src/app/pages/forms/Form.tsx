@@ -4,6 +4,7 @@ import Description from '@/app/components/description/Description'
 import ClientDropdownList from '@/app/components/forms/dropdownLists/ClientDropdownList'
 import JourneyDropdownList from '@/app/components/forms/dropdownLists/JourneyDropdwonList'
 import PlaceDropdownList from '@/app/components/forms/dropdownLists/PlaceDropdownList'
+import StepDropdownList from '@/app/components/forms/dropdownLists/StepDropdownList'
 import {
   ClientType,
   DescriptionType,
@@ -25,6 +26,7 @@ interface FormProps {
   client?: ClientType[] | undefined
   place?: PlaceType[]
   journey?: JourneyType[]
+  steps?: StepType[]
   isAssociated?: boolean
   newIdFromApi?: number
   selectedClientId?: number
@@ -64,6 +66,7 @@ interface FormProps {
   handleSelectClient?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectPlace?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectJourney?: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  handleSelectStep?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSubmitDescriptions?: (descriptions: DescriptionType[]) => void
 }
 
@@ -71,10 +74,11 @@ const Form = ({
   client,
   place,
   journey,
+  steps,
   isAssociated,
   selectedClientId,
   selectedPlaceId,
-  //selectedJourneyId,
+  selectedJourneyId,
   showDescription,
   newIdFromApi,
   title,
@@ -94,6 +98,7 @@ const Form = ({
   handleSelectClient,
   handleSelectPlace,
   handleSelectJourney,
+  handleSelectStep,
   handleSubmitDescriptions,
 }: FormProps) => {
   return (
@@ -114,6 +119,12 @@ const Form = ({
         selectedPlaceId={selectedPlaceId}
         handleSelectJourney={handleSelectJourney}
         journey={journey}
+      />
+      <StepDropdownList
+        title={title}
+        handleSelectStep={handleSelectStep}
+        selectedJourneyId={selectedJourneyId}
+        steps={steps}
       />
       {isAssociated ||
       title === 'Formulaire Client' ||
