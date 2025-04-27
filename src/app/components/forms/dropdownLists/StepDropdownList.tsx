@@ -19,8 +19,7 @@ export default function StepDropdownList({
   return (
     <div className="navbar rounded-xl bg-base-100 shadow-xl">
       <div className="navbar-start">
-        <a className="btn btn-ghost font-inclusive text-3xl">Lieu: </a>
-        <p className="font-inclusive text-2xl">{}</p>
+        <a className="btn btn-ghost font-inclusive text-3xl">Etape: </a>
       </div>
       <select
         onChange={handleSelectStep}

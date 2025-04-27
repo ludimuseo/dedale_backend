@@ -26,7 +26,7 @@ interface FormProps {
   client?: ClientType[] | undefined
   place?: PlaceType[]
   journey?: JourneyType[]
-  steps?: StepType[]
+  stepData?: StepType[]
   isAssociated?: boolean
   newIdFromApi?: number
   selectedClientId?: number
@@ -74,7 +74,7 @@ const Form = ({
   client,
   place,
   journey,
-  steps,
+  stepData,
   isAssociated,
   selectedClientId,
   selectedPlaceId,
@@ -124,7 +124,7 @@ const Form = ({
         title={title}
         handleSelectStep={handleSelectStep}
         selectedJourneyId={selectedJourneyId}
-        steps={steps}
+        steps={stepData}
       />
       {isAssociated ||
       title === 'Formulaire Client' ||

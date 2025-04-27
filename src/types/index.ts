@@ -177,10 +177,6 @@ interface CertifiedTxt {
   certifiedDate: Timestamp | null
   isCorrected: boolean
 }
-// interface Description {
-//   standard: Standard
-//   falc: Falc
-// }
 interface Audio {
   standard: {
     fr: string
@@ -193,7 +189,6 @@ interface Audio {
     userId?: string
   }
 }
-
 interface Image {
   image: string
 }
@@ -202,7 +197,6 @@ interface Content {
   type?: string
   level?: string
 }
-
 interface Response {
   responseTrue: {
     standard: Standard
@@ -217,7 +211,6 @@ interface Response {
     falc: Falc
   }
 }
-
 interface Explanation {
   responseTrue: {
     standard: Standard
@@ -358,86 +351,35 @@ export interface DescriptionType {
     file: string
     alt: string
   }
-
   audio: {
     file: string
     audio_desc: string
   }
 }
 
+export interface QuizType {
+  id: number
+  level: string
+  name: string
+  isActive?: string
+}
 export interface GameType {
   id: number
-  pieceId: string
+  stepId: number
   image: string
+  audio: string
   level: string
   type: string
-
-  name: string
-
-  question: {
-    standard: {
-      fr: string
-      en: string
-    }
-    falc: {
-      fr: string
-      en: string
-      certifiedTxt: boolean
-    }
-  }
-  response: {
-    responseTrue: {
-      standard: {
-        fr: string
-        en: string
-      }
-      falc: {
-        fr: string
-        en: string
-        certifiedTxt: boolean
-      }
-    }
-    response1: {
-      standard: {
-        fr: string
-        en: string
-      }
-      falc: {
-        fr: string
-        en: string
-        certifiedTxt: string
-      }
-    }
-    response2: {
-      standard: {
-        fr: string
-        en: string
-      }
-      falc: {
-        fr: string
-        en: string
-        certifiedTxt: string
-      }
-    }
-  }
-
-  explanation: {
-    responseTrue: {
-      fr: string
-      en: string
-      certifiedTxt: string
-    }
-    response1: {
-      fr: string
-      en: string
-      certifiedTxt: string
-    }
-    response2: {
-      fr: string
-      en: string
-      certifiedTxt: string
-    }
-  }
+  languageCode: string
+  question: string
+  responseTrue: string
+  response2: string
+  response3: string
+  explanationResponseTrue: string
+  explanationResponse2: string
+  explanationResponse3: string
+  isFalc: boolean
+  isCertifiedFalc?: boolean
 }
 
 export interface MedalType {

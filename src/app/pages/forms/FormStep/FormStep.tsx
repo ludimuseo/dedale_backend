@@ -94,7 +94,7 @@ const FormStep: FC = () => {
     }
 
     try {
-      const response: Response = await fetch(
+      const response: Response = await fetchWithAuth(
         `https://dev.ludimuseo.fr:4000/api/steps/create`,
         {
           method: 'POST',
@@ -338,38 +338,36 @@ const FormStep: FC = () => {
   console.log('FormData:', { ...formData })
 
   return (
-    <>
-      <Form
-        client={client}
-        place={place}
-        journey={journey}
-        isAssociated={formData.journeyId !== 0}
-        selectedClientId={selectedClientId}
-        selectedPlaceId={selectedPlaceId}
-        newIdFromApi={newIdFromApi}
-        handleSelectClient={handleSelectClient}
-        handleSelectPlace={handleSelectPlace}
-        handleSelectJourney={handleSelectJourney}
-        title={title}
-        icon={<></>}
-        handleArrowLeft={handleArrowLeft}
-        getInput={getInput}
-        currentStep={currentStep}
-        step={step}
-        message={message}
-        handleSubmit={(event) => {
-          void handleSubmit(event)
-        }}
-        formData={formData}
-        handleInputChange={(name, value) => {
-          handleInputChange(name, value)
-        }}
-        handleDescription={handleDescription}
-        handlePrevStep={handlePrevStep}
-        handleNextStep={handleNextStep}
-        handleFileUpload={void handleFileUpload}
-      />
-    </>
+    <Form
+      client={client}
+      place={place}
+      journey={journey}
+      isAssociated={formData.journeyId !== 0}
+      selectedClientId={selectedClientId}
+      selectedPlaceId={selectedPlaceId}
+      newIdFromApi={newIdFromApi}
+      handleSelectClient={handleSelectClient}
+      handleSelectPlace={handleSelectPlace}
+      handleSelectJourney={handleSelectJourney}
+      title={title}
+      icon={<></>}
+      handleArrowLeft={handleArrowLeft}
+      getInput={getInput}
+      currentStep={currentStep}
+      step={step}
+      message={message}
+      handleSubmit={(event) => {
+        void handleSubmit(event)
+      }}
+      formData={formData}
+      handleInputChange={(name, value) => {
+        handleInputChange(name, value)
+      }}
+      handleDescription={handleDescription}
+      handlePrevStep={handlePrevStep}
+      handleNextStep={handleNextStep}
+      handleFileUpload={void handleFileUpload}
+    />
   )
 }
 

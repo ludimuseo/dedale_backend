@@ -88,7 +88,7 @@ const FormMedal: FC = () => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ place: formData }),
+          body: JSON.stringify({ medal: formData }),
         }
       )
 

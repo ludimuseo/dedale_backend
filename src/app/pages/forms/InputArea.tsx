@@ -318,6 +318,35 @@ const InputArea = ({
               }
             }
           )}
+          {getInput[currentStep].map(
+            ({
+              id,
+              rows,
+              language,
+              mode,
+              name,
+              label,
+              placeholder,
+              rightSideVisible,
+            }) => {
+              if (rows && rightSideVisible) {
+                return (
+                  <TextArea
+                    key={id}
+                    id={id}
+                    label={label}
+                    name={name}
+                    placeholder={placeholder}
+                    rows={rows}
+                    mode={mode}
+                    formData={formData}
+                    language={language}
+                    handleInputChange={handleInputChange}
+                  />
+                )
+              }
+            }
+          )}
         </form>
       ) : (
         <div className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark mt-5 flex w-1/2 flex-col items-center rounded-sm p-2">
