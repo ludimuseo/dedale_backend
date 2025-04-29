@@ -237,7 +237,6 @@ const FormPlace: FC = () => {
   }, [])
 
   console.log('formData:', formData)
-
   return (
     <Form
       client={client}
@@ -267,5 +266,4 @@ const FormPlace: FC = () => {
     />
   )
 }
-
 export { FormPlace }
