@@ -16,9 +16,9 @@ export const getInputMedalConfig: GetInputConfigType[][] = [
   [
     {
       id: '11',
-      label: 'Type',
+      label: 'Médaille de Type:',
       name: 'type',
-      placeholder: 'Associer le médaille',
+      placeholder: 'Associer la médaille',
       option: ['LIEU', 'PARCOURS', 'ETAPE', 'TOUT TYPE'],
       required: true,
       sectionLabel: 'Type',
@@ -27,9 +27,9 @@ export const getInputMedalConfig: GetInputConfigType[][] = [
     },
     {
       id: '12',
-      label: 'Niveau',
+      label: 'Niveau (Facultatif)',
       name: 'level',
-      placeholder: 'Niveau de difficulté',
+      placeholder: 'Niveau de la médaille',
       required: true,
       sectionLabel: 'Niveau',
       translate: false,

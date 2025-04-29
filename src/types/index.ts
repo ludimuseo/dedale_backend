@@ -359,6 +359,7 @@ export interface DescriptionType {
 
 export interface QuizType {
   id: number
+  stepId: number
   level: string
   name: string
   isActive?: string

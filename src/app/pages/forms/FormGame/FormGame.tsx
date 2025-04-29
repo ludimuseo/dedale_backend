@@ -24,23 +24,24 @@ import {
 
 const FormGame: FC = () => {
   const navigate = useNavigate()
-  const title = 'Formulaire Jeu'
   const [message, setMessage] = useState<MessageType>({
     info: '',
     result: false,
   })
+  const [newIdFromApi, setNewIdFromApi] = useState<number>() //recup l'id du quiz pour les questions
+  const title = newIdFromApi ? 'Formulaire Question' : 'Formulaire Quiz'
   const [client, setClient] = useState<ClientType[]>([])
   const [place, setPlace] = useState<PlaceType[]>([])
   const [journey, setJourney] = useState<JourneyType[]>([])
   const [stepData, setStepData] = useState<StepType[]>()
-  const [newIdFromApi, setNewIdFromApi] = useState<number>(1) //recup l'id du quiz pour les questions
   const [selectedClientId, setSelectedClientId] = useState<number>()
   const [selectedPlaceId, setSelectedPlaceId] = useState<number>()
   const [selectedJourneyId, setSelectedJourneyId] = useState<number>()
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
   const getInput = newIdFromApi ? getInputQuestionConfig : getInputQuizConfig
-  const [formQuiz /* setFormQuiz */] = useState<QuizType>({
+  const [formQuiz, setFormQuiz] = useState<QuizType>({
     id: 0,
+    stepId: 0,
     level: 'NOVICE',
     name: '',
   })
@@ -75,7 +76,7 @@ const FormGame: FC = () => {
   } = useTimelineStep()
 
   const handleInputChange = (name: string, value: string | boolean) => {
-    setFormData((prevFormData) => ({
+    setFormQuiz((prevFormData) => ({
       ...prevFormData,
       [name]: value,
     }))
@@ -102,7 +103,8 @@ const FormGame: FC = () => {
   const handleSelectStep = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value
     const selectedValueToNumber = Number(selectedValue)
-    setFormData((prevFormData) => {
+
+    setFormQuiz((prevFormData) => {
       return {
         ...prevFormData,
         ['stepId']: selectedValueToNumber,
@@ -117,7 +119,7 @@ const FormGame: FC = () => {
     event.preventDefault()
     if (!token) {
       alert("Une erreur c'est produite, reconnectez-vous")
-      void navigate('/')
+      void navigate('/auth/signin')
       return
     }
 
@@ -276,7 +278,7 @@ const FormGame: FC = () => {
         setJourney(journeyData)
       } catch (error) {
         setJourney([])
-        console.log('ERROR fetching places: ', error)
+        console.log('ERROR fetching journeys: ', error)
       }
     }
     void fetchJourney()
@@ -301,15 +303,15 @@ const FormGame: FC = () => {
           throw new Error(`Erreur HTTP: ${String(response.status)}`)
         }
         const stepData = (await response.json()) as StepType[]
-        console.log('From fecth StepData: ', stepData)
+        console.log('Fetch StepData from GAME: ', stepData)
         setStepData(stepData)
       } catch (error) {
         setStepData([])
-        console.log('ERROR fetching places: ', error)
+        console.log('ERROR fetching steps: ', error)
       }
     }
     void fetchStep()
-  }, [selectedPlaceId])
+  }, [selectedJourneyId])
 
   useEffect(() => {
     setStep(getInput.length)
@@ -321,6 +323,7 @@ const FormGame: FC = () => {
   }, [getInput])
 
   console.log('FormData:', { ...formData })
+  console.log('FormQuiz:', { ...formQuiz })
 
   return (
     <Form
@@ -328,7 +331,7 @@ const FormGame: FC = () => {
       place={place}
       journey={journey}
       stepData={stepData}
-      isAssociated={formData.stepId !== 0}
+      isAssociated={formQuiz.stepId !== 0}
       selectedClientId={selectedClientId}
       selectedPlaceId={selectedPlaceId}
       selectedJourneyId={selectedJourneyId}

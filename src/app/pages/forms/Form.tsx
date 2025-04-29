@@ -8,6 +8,7 @@ import StepDropdownList from '@/app/components/forms/dropdownLists/StepDropdownL
 import {
   ClientType,
   DescriptionType,
+  GameType,
   GetInputConfigType,
   JourneyType,
   MedalType,
@@ -61,6 +62,7 @@ interface FormProps {
     | StepType
     | PieceType
     | MedalType
+    | GameType
   handleInputChange: (name: string, event: string) => void
   handleFileUpload?: (file: File, fileType: string, name: string) => void
   handleSelectClient?: (e: React.ChangeEvent<HTMLSelectElement>) => void

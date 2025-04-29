@@ -74,6 +74,12 @@ const FormPlace: FC = () => {
   ) => {
     event.preventDefault()
 
+    if (!token) {
+      alert("Une erreur c'est produite, reconnectez-vous")
+      void navigate('/auth/signin')
+      return
+    }
+
     //FETCH des donnees a l'API et recuperer l'ID
     if (showDescription) {
       //Envois des DATA au serveur
@@ -87,12 +93,6 @@ const FormPlace: FC = () => {
         info: 'Votre formulaire a été envoyé avec succès !',
         result: false,
       }))
-    }
-
-    if (!token) {
-      alert("Une erreur c'est produite, reconnectez-vous")
-      void navigate('/auth/signin')
-      return
     }
 
     try {

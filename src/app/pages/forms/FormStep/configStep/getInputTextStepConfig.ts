@@ -52,7 +52,7 @@ export const getInputStepConfig: GetInputConfigType[][] = [
       required: false,
       sectionLabel: 'Adresse',
       translate: false,
-      type: 'number',
+      type: 'text',
     },
   ],
   [

@@ -76,7 +76,7 @@ const FormPiece: FC = () => {
 
     if (!token) {
       alert("Une erreur c'est produite, reconnectez-vous")
-      void navigate('/')
+      void navigate('/auth/signin')
       return
     }
 
@@ -297,7 +297,7 @@ const FormPiece: FC = () => {
         setJourney(journeyData)
       } catch (error) {
         setJourney([])
-        console.log('ERROR fetching places: ', error)
+        console.log('ERROR fetching journeys: ', error)
       }
     }
 
@@ -322,13 +322,12 @@ const FormPiece: FC = () => {
         if (!response.ok) {
           throw new Error(`Erreur HTTP: ${String(response.status)}`)
         }
-        const data = (await response.json()) as StepType[]
-        const stepData = data
-        console.log('From fecth stepsData: ', stepData)
+        const stepData = (await response.json()) as StepType[]
+        console.log('From PIECE fecth stepsData: ', stepData)
         setSteps(stepData)
       } catch (error) {
         setSteps([])
-        console.log('ERROR fetching places: ', error)
+        console.log('ERROR fetching steps: ', error)
       }
     }
 
@@ -350,7 +349,7 @@ const FormPiece: FC = () => {
         client={client}
         place={place}
         journey={journey}
-        steps={steps}
+        stepData={steps}
         isAssociated={formData.stepId !== 0}
         handleSelectClient={handleSelectClient}
         handleSelectPlace={handleSelectPlace}

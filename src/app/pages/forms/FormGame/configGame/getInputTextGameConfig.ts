@@ -3,17 +3,6 @@ import { GetInputConfigType } from '@/types'
 export const getInputQuizConfig: GetInputConfigType[][] = [
   [
     {
-      id: '0',
-      label: 'Titre du Quiz',
-      name: 'name',
-      mode: 'quiz',
-      placeholder: 'Entrez le titre du Quiz',
-      required: true,
-      sectionLabel: 'Titre du Quiz',
-      translate: true,
-      type: 'text',
-    },
-    {
       id: '1',
       label: 'Niveau du Quiz',
       name: 'type',
@@ -23,6 +12,17 @@ export const getInputQuizConfig: GetInputConfigType[][] = [
       required: true,
       sectionLabel: 'Type de jeu',
       translate: false,
+    },
+    {
+      id: '0',
+      label: 'Titre du Quiz',
+      name: 'name',
+      mode: 'quiz',
+      placeholder: 'Entrez le titre du Quiz',
+      required: true,
+      sectionLabel: 'Titre du Quiz',
+      translate: true,
+      type: 'text',
     },
   ],
 ]

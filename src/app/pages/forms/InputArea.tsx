@@ -1,8 +1,9 @@
 import successImage from '@img/minos-reussi.png'
-import { FormEvent, MouseEvent, useRef, useState } from 'react'
+import { FormEvent, KeyboardEvent, MouseEvent, useRef, useState } from 'react'
 
 import {
   ClientType,
+  GameType,
   GetInputConfigType,
   JourneyType,
   MedalType,
@@ -28,6 +29,7 @@ interface InputAreaProps {
     | StepType
     | PieceType
     | MedalType
+    | GameType
   handleInputChange: (name: string, event: string | boolean) => void
   handleFileUpload: (
     file: File,
@@ -53,6 +55,13 @@ const InputArea = ({
   const [uploadError, setUploadError] = useState<string | null>(null)
   const [uploadSuccess, setUploadSuccess] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  //empecher la soumission du formulaire en appuyant sur ENTREE
+  const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+    }
+  }
 
   const acceptedFileTypes = {
     image: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
@@ -209,7 +218,9 @@ const InputArea = ({
                         name={name}
                         id={id}
                         value={
-                          formData[name as keyof typeof formData] as string
+                          formData[
+                            name as keyof typeof formData
+                          ] as unknown as string
                         }
                         onChange={(e) => {
                           handleInputChange(name, e.target.value)
@@ -237,10 +248,15 @@ const InputArea = ({
                         placeholder={placeholder}
                         type={type}
                         value={
-                          formData[name as keyof typeof formData] as string
+                          formData[
+                            name as keyof typeof formData
+                          ] as unknown as string
                         }
                         onChange={(e) => {
                           handleInputChange(name, e.target.value)
+                        }}
+                        onKeyDown={(e) => {
+                          handleInputKeyDown(e)
                         }}
                       />
                     </div>

@@ -67,7 +67,7 @@ const FormJourney: FC = () => {
 
     if (!token) {
       alert("Une erreur c'est produite, reconnectez-vous")
-      void navigate('/')
+      void navigate('/auth/signin')
       return
     }
 
