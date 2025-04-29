@@ -239,34 +239,32 @@ const FormPlace: FC = () => {
   console.log('formData:', formData)
 
   return (
-    <>
-      <Form
-        client={client}
-        isAssociated={formData.clientId !== 0}
-        handleSelectClient={handleSelectClient}
-        newIdFromApi={newIdFromApi}
-        title={title}
-        icon={<PlaceIcon />}
-        handleArrowLeft={handleArrowLeft}
-        getInput={getInput}
-        currentStep={currentStep}
-        step={step}
-        message={message}
-        showDescription={showDescription}
-        handleSubmit={(event) => {
-          void handleSubmit(event)
-        }}
-        formData={formData}
-        handleInputChange={(name, value) => {
-          handleInputChange(name, value)
-        }}
-        handleDescription={handleDescription}
-        handlePrevStep={handlePrevStep}
-        handleNextStep={handleNextStep}
-        handleFileUpload={void handleFileUpload}
-        handleSubmitDescriptions={handleSubmitDescriptions}
-      />
-    </>
+    <Form
+      client={client}
+      isAssociated={formData.clientId !== 0}
+      handleSelectClient={handleSelectClient}
+      newIdFromApi={newIdFromApi}
+      title={title}
+      icon={<PlaceIcon />}
+      handleArrowLeft={handleArrowLeft}
+      getInput={getInput}
+      currentStep={currentStep}
+      step={step}
+      message={message}
+      showDescription={showDescription}
+      handleSubmit={(event) => {
+        void handleSubmit(event)
+      }}
+      formData={formData}
+      handleInputChange={(name, value) => {
+        handleInputChange(name, value)
+      }}
+      handleDescription={handleDescription}
+      handlePrevStep={handlePrevStep}
+      handleNextStep={handleNextStep}
+      handleFileUpload={void handleFileUpload}
+      handleSubmitDescriptions={handleSubmitDescriptions}
+    />
   )
 }
 

@@ -94,7 +94,7 @@ const FormPiece: FC = () => {
     }
 
     try {
-      const response: Response = await fetch(
+      const response: Response = await fetchWithAuth(
         `https://dev.ludimuseo.fr:4000/api/piece/create`,
         {
           method: 'POST',
