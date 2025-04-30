@@ -16,6 +16,7 @@ import {
   State,
   StepType,
 } from '@/types'
+import { isTokenExpired } from '@/utils/auth'
 
 import Form from '../Form'
 import { getInputPieceConfig } from './configPiece/getInputPieceConfig'
@@ -74,7 +75,7 @@ const FormPiece: FC = () => {
   ) => {
     event.preventDefault()
 
-    if (!token) {
+    if (isTokenExpired(token)) {
       alert("Une erreur c'est produite, reconnectez-vous")
       void navigate('/auth/signin')
       return
@@ -82,14 +83,16 @@ const FormPiece: FC = () => {
 
     //FETCH des donnees a l'API et recuperer l'ID
     if (showDescription) {
-      setMessage(() => ({
-        info: 'Vos descriptions ont été envoyées avec succès !',
-        result: true,
+      setMessage((prev) => ({
+        ...prev,
+        ['info']: 'Vos descriptions ont été envoyées avec succès !',
+        ['result']: true,
       }))
     } else {
-      setMessage(() => ({
-        info: 'Votre formulaire a été envoyé avec succès !',
-        result: true,
+      setMessage((prev) => ({
+        ...prev,
+        ['info']: 'Votre formulaire a été envoyé avec succès !',
+        ['result']: true,
       }))
     }
 
@@ -111,7 +114,6 @@ const FormPiece: FC = () => {
       }
       const newId: number = (await response.json()) as number
       setNewIdFromApi(newId) // recupere l'Id du nouveau place créé
-
       console.log('newId from Server', newId)
     } catch (error) {
       console.error('Erreur:', error)
@@ -139,8 +141,9 @@ const FormPiece: FC = () => {
     fileType: string,
     name: string,
     event: MouseEvent<HTMLButtonElement>
-  ) => {
+  ): Promise<void> => {
     event.preventDefault()
+
     const formUpload = new FormData()
     // Ajout des données dans formUpload
     formUpload.append('file', file) // le fichier image à uploader
@@ -244,6 +247,7 @@ const FormPiece: FC = () => {
     void fetchClients()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
   useEffect(() => {
     const fetchPlace = async () => {
       if (!selectedClientId) return
@@ -267,6 +271,8 @@ const FormPiece: FC = () => {
         setPlace(placeData)
       } catch (error) {
         setPlace([])
+        setJourney([])
+        setSteps([])
         console.log('ERROR fetching places: ', error)
       }
     }
@@ -297,10 +303,10 @@ const FormPiece: FC = () => {
         setJourney(journeyData)
       } catch (error) {
         setJourney([])
+        setSteps([])
         console.log('ERROR fetching journeys: ', error)
       }
     }
-
     void fetchJourney()
   }, [selectedPlaceId])
 
@@ -339,7 +345,7 @@ const FormPiece: FC = () => {
     setCurrentStep(0)
   }, [getInput])
 
-  console.log('STEPS FORMDATA:', formData)
+  console.log('FORMDATA:', formData)
 
   return (
     <>
@@ -372,7 +378,9 @@ const FormPiece: FC = () => {
         handleSelectStep={handleSelectStep}
         handlePrevStep={handlePrevStep}
         handleNextStep={handleNextStep}
-        handleFileUpload={void handleFileUpload}
+        handleFileUpload={(file, fileType, name, event) => {
+          void handleFileUpload(file, fileType, name, event)
+        }}
         handleDescription={handleDescription}
         handleSelectJourney={handleSelectJourney}
       />

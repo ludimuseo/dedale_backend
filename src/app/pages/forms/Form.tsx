@@ -64,7 +64,12 @@ interface FormProps {
     | MedalType
     | GameType
   handleInputChange: (name: string, event: string) => void
-  handleFileUpload?: (file: File, fileType: string, name: string) => void
+  handleFileUpload?: (
+    file: File,
+    fileType: string,
+    name: string,
+    event: MouseEvent<HTMLButtonElement>
+  ) => void
   handleSelectClient?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectPlace?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectJourney?: (e: React.ChangeEvent<HTMLSelectElement>) => void
@@ -156,8 +161,8 @@ const Form = ({
             handleInputChange={(name, value) => {
               handleInputChange(name, value)
             }}
-            handleFileUpload={(file, fileType, name) => {
-              handleFileUpload?.(file, fileType, name)
+            handleFileUpload={(file, fileType, name, event) => {
+              handleFileUpload?.(file, fileType, name, event)
             }}
           />
         ) : (

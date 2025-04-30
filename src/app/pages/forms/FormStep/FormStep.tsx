@@ -164,7 +164,7 @@ const FormStep: FC = () => {
     fileType: string,
     name: string,
     event: MouseEvent<HTMLButtonElement>
-  ) => {
+  ): Promise<void> => {
     event.preventDefault()
     const formUpload = new FormData()
     // Ajout des données dans formUpload
@@ -256,6 +256,7 @@ const FormStep: FC = () => {
         setPlace(placeData)
       } catch (error) {
         setPlace([])
+        setJourney([])
         console.log('ERROR fetching places: ', error)
       }
     }
@@ -366,7 +367,9 @@ const FormStep: FC = () => {
       handleDescription={handleDescription}
       handlePrevStep={handlePrevStep}
       handleNextStep={handleNextStep}
-      handleFileUpload={void handleFileUpload}
+      handleFileUpload={(file, fileType, name, event) => {
+        void handleFileUpload(file, fileType, name, event)
+      }}
     />
   )
 }

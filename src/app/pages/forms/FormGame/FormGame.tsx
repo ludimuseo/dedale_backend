@@ -125,7 +125,7 @@ const FormGame: FC = () => {
 
     try {
       const response: Response = await fetchWithAuth(
-        `https://dev.ludimuseo.fr:4000/api/`, // TODO
+        `https://dev.ludimuseo.fr:4000/api/games/create`, // TODO
         {
           method: 'POST',
           headers: {
@@ -157,7 +157,7 @@ const FormGame: FC = () => {
     fileType: string,
     name: string,
     event: MouseEvent<HTMLButtonElement>
-  ) => {
+  ): Promise<void> => {
     event.preventDefault()
     const formUpload = new FormData()
     // Ajout des données dans formUpload
@@ -356,7 +356,9 @@ const FormGame: FC = () => {
       }}
       handlePrevStep={handlePrevStep}
       handleNextStep={handleNextStep}
-      handleFileUpload={void handleFileUpload}
+      handleFileUpload={(file, fileType, name, event) => {
+        void handleFileUpload(file, fileType, name, event)
+      }}
     />
   )
 }
