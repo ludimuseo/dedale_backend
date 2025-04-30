@@ -74,7 +74,7 @@ export const getInputJourneyConfig: GetInputConfigType[][] = [
       required: false,
       sectionLabel: 'Adresse',
       translate: false,
-      type: 'number',
+      type: 'text',
     },
   ],
   [

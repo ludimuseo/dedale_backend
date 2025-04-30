@@ -67,7 +67,7 @@ const FormJourney: FC = () => {
 
     if (!token) {
       alert("Une erreur c'est produite, reconnectez-vous")
-      void navigate('/')
+      void navigate('/auth/signin')
       return
     }
 
@@ -137,7 +137,7 @@ const FormJourney: FC = () => {
     fileType: string,
     name: string,
     event: MouseEvent<HTMLButtonElement>
-  ) => {
+  ): Promise<void> => {
     event.preventDefault()
     const formUpload = new FormData()
     // Ajout des données dans formUpload
@@ -290,7 +290,9 @@ const FormJourney: FC = () => {
         handleDescription={handleDescription}
         handlePrevStep={handlePrevStep}
         handleNextStep={handleNextStep}
-        handleFileUpload={void handleFileUpload}
+        handleFileUpload={(file, fileType, name, event) => {
+          void handleFileUpload(file, fileType, name, event)
+        }}
       />
     </>
   )

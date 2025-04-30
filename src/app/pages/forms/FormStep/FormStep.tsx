@@ -28,6 +28,7 @@ const FormStep: FC = () => {
   const [newIdFromApi, setNewIdFromApi] = useState<number>()
   const [selectedClientId, setSelectedClientId] = useState<number>()
   const [selectedPlaceId, setSelectedPlaceId] = useState<number>()
+  const [selectedJourneyId, setSelectedJourneyId] = useState<number>()
   const [message, setMessage] = useState<MessageType>({
     info: '',
     result: false,
@@ -46,7 +47,7 @@ const FormStep: FC = () => {
     location_required: false,
     lat: 0,
     lon: 0,
-    stepNumber: 0,
+    stepNumber: 1, //initialisé a 1
     isActive: false,
     isPublished: false,
   })
@@ -75,7 +76,7 @@ const FormStep: FC = () => {
 
     if (!token) {
       alert("Une erreur c'est produite, reconnectez-vous")
-      void navigate('/')
+      void navigate('/auth/signin')
       return
     }
 
@@ -93,7 +94,7 @@ const FormStep: FC = () => {
     }
 
     try {
-      const response: Response = await fetch(
+      const response: Response = await fetchWithAuth(
         `https://dev.ludimuseo.fr:4000/api/steps/create`,
         {
           method: 'POST',
@@ -149,6 +150,7 @@ const FormStep: FC = () => {
   const handleSelectJourney = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value
     const selectedValueToNumber = Number(selectedValue)
+    setSelectedJourneyId(selectedValueToNumber)
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
@@ -156,12 +158,13 @@ const FormStep: FC = () => {
       }
     })
   }
+
   const handleFileUpload = async (
     file: File,
     fileType: string,
     name: string,
     event: MouseEvent<HTMLButtonElement>
-  ) => {
+  ): Promise<void> => {
     event.preventDefault()
     const formUpload = new FormData()
     // Ajout des données dans formUpload
@@ -253,6 +256,7 @@ const FormStep: FC = () => {
         setPlace(placeData)
       } catch (error) {
         setPlace([])
+        setJourney([])
         console.log('ERROR fetching places: ', error)
       }
     }
@@ -286,9 +290,43 @@ const FormStep: FC = () => {
         console.log('ERROR fetching places: ', error)
       }
     }
-
     void fetchJourney()
   }, [selectedPlaceId])
+
+  useEffect(() => {
+    //recup de le nombre de step pour initialisé le numero de step
+    const countStepNumber = async () => {
+      try {
+        const response: Response = await fetchWithAuth(
+          `https://dev.ludimuseo.fr:4000/api/steps/find/${selectedJourneyId.toString()}`,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${String(response.status)}`)
+        }
+        const data = (await response.json()) as JourneyType[]
+        const stepsData = data
+        const totalSteps = stepsData.length + 1
+        setFormData((prev) => {
+          return {
+            ...prev,
+            ['stepNumber']: totalSteps,
+          }
+        })
+      } catch (error) {
+        console.log('ERROR fetching steps: ', error)
+      }
+    }
+
+    void countStepNumber()
+  }, [selectedJourneyId])
 
   useEffect(() => {
     setStep(getInput.length)
@@ -301,38 +339,38 @@ const FormStep: FC = () => {
   console.log('FormData:', { ...formData })
 
   return (
-    <>
-      <Form
-        client={client}
-        place={place}
-        journey={journey}
-        isAssociated={formData.journeyId !== 0}
-        selectedClientId={selectedClientId}
-        selectedPlaceId={selectedPlaceId}
-        newIdFromApi={newIdFromApi}
-        handleSelectClient={handleSelectClient}
-        handleSelectPlace={handleSelectPlace}
-        handleSelectJourney={handleSelectJourney}
-        title={title}
-        icon={<></>}
-        handleArrowLeft={handleArrowLeft}
-        getInput={getInput}
-        currentStep={currentStep}
-        step={step}
-        message={message}
-        handleSubmit={(event) => {
-          void handleSubmit(event)
-        }}
-        formData={formData}
-        handleInputChange={(name, value) => {
-          handleInputChange(name, value)
-        }}
-        handleDescription={handleDescription}
-        handlePrevStep={handlePrevStep}
-        handleNextStep={handleNextStep}
-        handleFileUpload={void handleFileUpload}
-      />
-    </>
+    <Form
+      client={client}
+      place={place}
+      journey={journey}
+      isAssociated={formData.journeyId !== 0}
+      selectedClientId={selectedClientId}
+      selectedPlaceId={selectedPlaceId}
+      newIdFromApi={newIdFromApi}
+      handleSelectClient={handleSelectClient}
+      handleSelectPlace={handleSelectPlace}
+      handleSelectJourney={handleSelectJourney}
+      title={title}
+      icon={<></>}
+      handleArrowLeft={handleArrowLeft}
+      getInput={getInput}
+      currentStep={currentStep}
+      step={step}
+      message={message}
+      handleSubmit={(event) => {
+        void handleSubmit(event)
+      }}
+      formData={formData}
+      handleInputChange={(name, value) => {
+        handleInputChange(name, value)
+      }}
+      handleDescription={handleDescription}
+      handlePrevStep={handlePrevStep}
+      handleNextStep={handleNextStep}
+      handleFileUpload={(file, fileType, name, event) => {
+        void handleFileUpload(file, fileType, name, event)
+      }}
+    />
   )
 }
 

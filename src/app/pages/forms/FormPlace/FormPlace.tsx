@@ -74,6 +74,12 @@ const FormPlace: FC = () => {
   ) => {
     event.preventDefault()
 
+    if (!token) {
+      alert("Une erreur c'est produite, reconnectez-vous")
+      void navigate('/auth/signin')
+      return
+    }
+
     //FETCH des donnees a l'API et recuperer l'ID
     if (showDescription) {
       //Envois des DATA au serveur
@@ -89,14 +95,8 @@ const FormPlace: FC = () => {
       }))
     }
 
-    if (!token) {
-      alert("Une erreur c'est produite, reconnectez-vous")
-      void navigate('/auth/signin')
-      return
-    }
-
     try {
-      const response: Response = await fetch(
+      const response: Response = await fetchWithAuth(
         `https://dev.ludimuseo.fr:4000/api/places`,
         {
           method: 'POST',
@@ -139,10 +139,11 @@ const FormPlace: FC = () => {
   const handleFileUpload = async (
     file: File,
     fileType: string,
-    name: string,
+    imgName: string | undefined,
     event: MouseEvent<HTMLButtonElement>
-  ) => {
+  ): Promise<void> => {
     event.preventDefault()
+
     const formUpload = new FormData()
     // Ajout des données dans formUpload
     formUpload.append('file', file) // le fichier image à uploader
@@ -152,7 +153,7 @@ const FormPlace: FC = () => {
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
-        [fileType]: name,
+        [fileType]: imgName,
       }
     })
 
@@ -237,37 +238,35 @@ const FormPlace: FC = () => {
   }, [])
 
   console.log('formData:', formData)
-
   return (
-    <>
-      <Form
-        client={client}
-        isAssociated={formData.clientId !== 0}
-        handleSelectClient={handleSelectClient}
-        newIdFromApi={newIdFromApi}
-        title={title}
-        icon={<PlaceIcon />}
-        handleArrowLeft={handleArrowLeft}
-        getInput={getInput}
-        currentStep={currentStep}
-        step={step}
-        message={message}
-        showDescription={showDescription}
-        handleSubmit={(event) => {
-          void handleSubmit(event)
-        }}
-        formData={formData}
-        handleInputChange={(name, value) => {
-          handleInputChange(name, value)
-        }}
-        handleDescription={handleDescription}
-        handlePrevStep={handlePrevStep}
-        handleNextStep={handleNextStep}
-        handleFileUpload={void handleFileUpload}
-        handleSubmitDescriptions={handleSubmitDescriptions}
-      />
-    </>
+    <Form
+      client={client}
+      isAssociated={formData.clientId !== 0}
+      handleSelectClient={handleSelectClient}
+      newIdFromApi={newIdFromApi}
+      title={title}
+      icon={<PlaceIcon />}
+      handleArrowLeft={handleArrowLeft}
+      getInput={getInput}
+      currentStep={currentStep}
+      step={step}
+      message={message}
+      showDescription={showDescription}
+      handleSubmit={(event) => {
+        void handleSubmit(event)
+      }}
+      formData={formData}
+      handleInputChange={(name, value) => {
+        handleInputChange(name, value)
+      }}
+      handleDescription={handleDescription}
+      handlePrevStep={handlePrevStep}
+      handleNextStep={handleNextStep}
+      handleFileUpload={(file, fileType, name, event) => {
+        void handleFileUpload(file, fileType, name, event)
+      }}
+      handleSubmitDescriptions={handleSubmitDescriptions}
+    />
   )
 }
-
 export { FormPlace }

@@ -1,478 +1,366 @@
-// import { addDoc, collection, getDocs } from 'firebase/firestore'
-// import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
-// import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
-// import { v4 as uuidv4 } from 'uuid'
+import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 
-// import { PlaceIcon } from '@/app/components'
-// import { handleArrowLeft } from '@/app/services/utils'
-// import { db } from '@/firebase/firebase'
-// import { MessageType, T } from '@/types'
+import { fetchWithAuth } from '@/api/fetchWithAuth'
+import { useAppSelector } from '@/app/hooks'
+import { useTimelineStep } from '@/app/hooks/useTimelineStep'
+import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
+import {
+  ClientType,
+  GameType,
+  JourneyType,
+  MessageType,
+  PlaceType,
+  QuizType,
+  State,
+  StepType,
+} from '@/types'
 
-// import Form from '../Form'
-// import { getInputGameConfig } from './configGame/getInputTextGameConfig'
+import Form from '../Form'
+import {
+  getInputQuestionConfig,
+  getInputQuizConfig,
+} from './configGame/getInputTextGameConfig'
 
-// const FormGame: FC = () => {
-//   const title = 'Formulaire Jeu'
-//   const [step, setStep] = useState(0)
-//   const [currentStep, setCurrentStep] = useState(0)
-//   const [clientIdAndName, setClientIdAndName] = useState<
-//     { id: string; name: string }[] | undefined
-//   >([])
-//   const [medalsData, setMedalsData] = useState<
-//     | { id: string; name: string; image: string; description: string }[]
-//     | undefined
-//   >([])
-//   const [selectedOption, setSelectedOption] = useState('')
-//   const [attributedMedal, setAttributedMedal] = useState<
-//     { id: string; name: string; image: string; description: string } | undefined
-//   >()
-//   const [message, setMessage] = useState<MessageType>({
-//     info: '',
-//     result: false,
-//   })
-//   const [formData, setFormData] = useState<T>({
-//     pieceId: '',
-//     audio: {
-//       falc: {
-//         en: '',
-//         fr: '',
-//       },
-//       standard: {
-//         en: '',
-//         fr: '',
-//       },
-//     },
-//     content: {
-//       image: [],
-//       type: '',
-//       level: '',
-//     },
-//     question: {
-//       falc: {
-//         en: '',
-//         fr: '',
-//         falcCertified: '',
-//         userId: '',
-//         status: {
-//           isValidate: false,
-//           isCertified: false,
-//           certifiedDate: null,
-//           isCorrected: false,
-//         },
-//       },
-//       standard: {
-//         en: '',
-//         fr: '',
-//       },
-//     },
-//     response: {
-//       responseTrue: {
-//         standard: {
-//           fr: '',
-//           en: '',
-//         },
-//         falc: {
-//           fr: '',
-//           en: '',
-//           falcCertified: '',
-//         },
-//       },
-//       response1: {
-//         standard: {
-//           fr: '',
-//           en: '',
-//         },
-//         falc: {
-//           fr: '',
-//           en: '',
-//           falcCertified: '',
-//         },
-//       },
-//       response2: {
-//         standard: {
-//           fr: '',
-//           en: '',
-//         },
-//         falc: {
-//           fr: '',
-//           en: '',
-//           falcCertified: '',
-//         },
-//       },
-//     },
-//     explanation: {
-//       responseTrue: {
-//         standard: {
-//           fr: '',
-//           en: '',
-//         },
-//         falc: {
-//           fr: '',
-//           en: '',
-//           falcCertified: '',
-//         },
-//       },
-//       response1: {
-//         standard: {
-//           fr: '',
-//           en: '',
-//         },
-//         falc: {
-//           fr: '',
-//           en: '',
-//           falcCertified: '',
-//         },
-//       },
-//       response2: {
-//         standard: {
-//           fr: '',
-//           en: '',
-//         },
-//         falc: {
-//           fr: '',
-//           en: '',
-//           falcCertified: '',
-//         },
-//       },
-//     },
-//     name: {
-//       en: '',
-//       fr: '',
-//     },
-//     status: {
-//       isActive: false, //ACTIVER/DESACTIVER
-//       isPublished: false,
-//     },
-//   })
+const FormGame: FC = () => {
+  const navigate = useNavigate()
+  const [message, setMessage] = useState<MessageType>({
+    info: '',
+    result: false,
+  })
+  const [newIdFromApi, setNewIdFromApi] = useState<number>() //recup l'id du quiz pour les questions
+  const title = newIdFromApi ? 'Formulaire Question' : 'Formulaire Quiz'
+  const [client, setClient] = useState<ClientType[]>([])
+  const [place, setPlace] = useState<PlaceType[]>([])
+  const [journey, setJourney] = useState<JourneyType[]>([])
+  const [stepData, setStepData] = useState<StepType[]>()
+  const [selectedClientId, setSelectedClientId] = useState<number>()
+  const [selectedPlaceId, setSelectedPlaceId] = useState<number>()
+  const [selectedJourneyId, setSelectedJourneyId] = useState<number>()
+  const { token }: StateAuth = useAppSelector((state: State) => state.auth)
+  const getInput = newIdFromApi ? getInputQuestionConfig : getInputQuizConfig
+  const [formQuiz, setFormQuiz] = useState<QuizType>({
+    id: 0,
+    stepId: 0,
+    level: 'NOVICE',
+    name: '',
+  })
+  const [formData, setFormData] = useState<GameType>({
+    id: 0,
+    stepId: 0,
+    image: '',
+    audio: '',
+    level: '',
+    type: '',
+    languageCode: '',
+    question: '',
+    responseTrue: '',
+    response2: '',
+    response3: '',
+    explanationResponseTrue: '',
+    explanationResponse2: '',
+    explanationResponse3: '',
+    isFalc: false,
+  })
 
-//   const handleNextStep = () => {
-//     if (currentStep === step - 1) return
-//     setCurrentStep(currentStep + 1)
-//   }
+  const handleArrowLeft = () => {
+    void navigate(-1)
+  }
+  const {
+    step,
+    setStep,
+    currentStep,
+    setCurrentStep,
+    handleNextStep,
+    handlePrevStep,
+  } = useTimelineStep()
 
-//   const handlePrevStep = () => {
-//     if (currentStep === 0) return
-//     setCurrentStep(currentStep - 1)
-//   }
+  const handleInputChange = (name: string, value: string | boolean) => {
+    setFormQuiz((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }))
+  }
 
-//   const handleEditPlace = () => {
-//     alert('Edit Place')
-//   }
+  const handleSelectClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value
+    const selectedValueToNumber = Number(selectedValue)
+    setSelectedClientId(selectedValueToNumber)
+  }
 
-//   //liste des clients
+  const handleSelectPlace = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value
+    const selectedValueToNumber = Number(selectedValue)
+    setSelectedPlaceId(selectedValueToNumber)
+  }
 
-//   //soumission des informations
-//   const handleSubmit = async (
-//     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
-//   ) => {
-//     event.preventDefault()
-//     try {
-//       const docRef = await addDoc(collection(db, 'places'), { ...formData })
-//       const id = docRef.id
-//       if (id) {
-//         setMessage(() => ({
-//           info: 'Votre formulaire a été envoyé avec succès !',
-//           result: true,
-//         }))
-//       }
-//     } catch (error) {
-//       console.error("Erreur sur l'envoi du formulaire", error)
-//       setMessage(() => ({
-//         info: "Erreur lors de l'envoi du formulaire",
-//         result: false,
-//       }))
-//     }
-//   }
+  const handleSelectJourney = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value
+    const selectedValueToNumber = Number(selectedValue)
+    setSelectedJourneyId(selectedValueToNumber)
+  }
 
-//   const handleInputChange = <S extends keyof T, K extends keyof T[S]>(
-//     section: S,
-//     name: K,
-//     value: T[S][K]
-//   ) => {
-//     const sectionData = formData[section]
-//     if (!section) {
-//       setFormData((prevFormData) => ({
-//         ...prevFormData,
-//         [name]: value,
-//       }))
-//     } else if (typeof sectionData === 'object') {
-//       setFormData((prevFormData) => ({
-//         ...prevFormData,
-//         [section]: {
-//           ...sectionData,
-//           [name]: value,
-//         },
-//       }))
-//     }
-//   }
+  const handleSelectStep = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value
+    const selectedValueToNumber = Number(selectedValue)
 
-//   //changement des donnees avec un objet plus profond
-//   const handleChange = <
-//     S extends keyof T,
-//     M extends keyof T[S],
-//     L extends keyof T[S][M],
-//   >(
-//     section: S,
-//     mode: M,
-//     language: L,
-//     value: T[S][M][L]
-//   ) => {
-//     setFormData((prevFormData) => {
-//       const sectionData = prevFormData[section]
-//       const modeData = sectionData[mode] as T[M]
-//       if (typeof sectionData === 'object' && typeof modeData === 'object') {
-//         return {
-//           ...prevFormData,
-//           [section]: {
-//             ...sectionData,
-//             [mode]: {
-//               ...modeData,
-//               [language]: value,
-//             },
-//           },
-//         }
-//       } else {
-//         return formData
-//       }
-//     })
-//   }
+    setFormQuiz((prevFormData) => {
+      return {
+        ...prevFormData,
+        ['stepId']: selectedValueToNumber,
+      }
+    })
+  }
 
-//   //changement des donnees avec une profondeur en plus
-//   const handleResponseChange = <
-//     S extends keyof T,
-//     M extends keyof T[S],
-//     L extends keyof T[S][M],
-//     F extends keyof T[S][M][L],
-//   >(
-//     section: S,
-//     name: M,
-//     mode: L,
-//     language: F,
-//     value: T[S][M][L][F]
-//   ) => {
-//     setFormData((prevFormData) => {
-//       const sectionData = prevFormData[section]
-//       const nameData = sectionData[name] as T[M]
-//       const modeData = sectionData[name][mode] as T
+  //soumission des informations QUIZ
+  const handleSubmit = async (
+    event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault()
+    if (!token) {
+      alert("Une erreur c'est produite, reconnectez-vous")
+      void navigate('/auth/signin')
+      return
+    }
 
-//       if (typeof sectionData === 'object' && typeof nameData === 'object') {
-//         return {
-//           ...prevFormData,
-//           [section]: {
-//             ...sectionData,
-//             [name]: {
-//               ...nameData,
-//               [mode]: {
-//                 ...modeData,
-//                 [language]: value,
-//               },
-//             },
-//           },
-//         }
-//       } else {
-//         return formData
-//       }
-//     })
-//   }
+    try {
+      const response: Response = await fetchWithAuth(
+        `https://dev.ludimuseo.fr:4000/api/games/create`, // TODO
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ quiz: formQuiz }),
+        }
+      )
 
-//   const handleFileUpload = async (
-//     file: File,
-//     fileType: string,
-//     section: string,
-//     name: string
-//   ) => {
-//     const storage = getStorage()
-//     const storageRef = ref(storage, `${fileType}/${uuidv4()}_${file.name}`)
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${String(response.status)}`)
+      }
+      const newId: number = (await response.json()) as number
+      setNewIdFromApi(newId) // recupere l'Id du nouveau place créé
 
-//     await uploadBytes(storageRef, file)
-//     const downloadURL = await getDownloadURL(storageRef)
+      console.log('newId from Server', newId)
+    } catch (error) {
+      console.error('Erreur:', error)
+      setMessage({
+        info: "Erreur lors de l'envoi du formulaire",
+        result: true,
+      })
+    }
+  }
 
-//     setFormData((prevFormData) => {
-//       const sectionData = prevFormData[section]
-//       if (typeof sectionData === 'object') {
-//         return {
-//           ...prevFormData,
-//           [section]: {
-//             ...sectionData,
-//             [name]: downloadURL,
-//           },
-//         }
-//       } else {
-//         return formData
-//       }
-//     })
-//   }
+  const handleFileUpload = async (
+    file: File,
+    fileType: string,
+    name: string,
+    event: MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
+    event.preventDefault()
+    const formUpload = new FormData()
+    // Ajout des données dans formUpload
+    formUpload.append('file', file) // le fichier image à uploader
+    formUpload.append('type', 'image') // type : image ou audio
+    formUpload.append('destination', 'Step') // ou journey, step, etc.
 
-//   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-//     const selectedValue = e.target.value
-//     setSelectedOption(selectedValue)
-//     setFormData((prevFormData) => {
-//       return {
-//         ...prevFormData,
-//         ['clientId']: selectedValue,
-//       }
-//     })
-//   }
+    setFormData((prevFormData) => {
+      return {
+        ...prevFormData,
+        [fileType]: name,
+      }
+    })
 
-//   const handleAttributeMedal = (e: React.ChangeEvent<HTMLSelectElement>) => {
-//     if (medalsData) {
-//       const selectedValue = e.target.value
-//       const selectedMedal = medalsData.find(
-//         (medal) => medal.id === selectedValue
-//       )
-//       setAttributedMedal(selectedMedal)
-//       setFormData((prevFormData) => {
-//         return {
-//           ...prevFormData,
-//           ['medalId']: selectedValue,
-//         }
-//       })
-//     }
-//   }
+    try {
+      const response: Response = await fetchWithAuth(
+        'https://dev.ludimuseo.fr:4000/api/upload',
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formUpload, // Attention : pas de Content-Type ici, FormData le gère
+        }
+      )
 
-//   const getInput = getInputGameConfig
+      if (!response.ok) {
+        throw new Error(`Erreur serveur: ${response.status.toString()}`)
+      }
+      const data: unknown = await response.json()
+      console.log('Fichier uploadé avec succès :', data)
+    } catch (error) {
+      console.error("Erreur lors de l'upload :", error)
+      throw error
+    }
+  }
 
-//   useEffect(() => {
-//     setStep(getInput.length)
-//   }, [getInput])
+  useEffect(() => {
+    const fetchClients = async () => {
+      try {
+        const response: Response = await fetchWithAuth(
+          `https://dev.ludimuseo.fr:4000/api/clients/list`,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
 
-//   useEffect(() => {
-//     const fetchClients = async () => {
-//       interface ClientData {
-//         id: string
-//         client?: {
-//           company?: {
-//             name?: string
-//           }
-//         }
-//         company?: {
-//           name?: string
-//         }
-//       }
-//       try {
-//         const querySnapshot = await getDocs(collection(db, 'clients'))
-//         const clientData: ClientData[] = querySnapshot.docs.map((doc) => ({
-//           id: doc.id,
-//           ...(doc.data() as Omit<ClientData, 'id'>),
-//         }))
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${String(response.status)}`)
+        }
+        const data = (await response.json()) as ClientType[]
+        const clientData = data.clients as ClientType[]
+        const filteredClientIsActive = clientData.filter(
+          (item) => item.isActive
+        )
+        setClient([...filteredClientIsActive])
+      } catch (error) {
+        console.log('ERROR fetching clients: ', error)
+      }
+    }
+    void fetchClients()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-//         const clientPackageData = clientData
-//           .map((item) => {
-//             if (item.client?.company?.name) {
-//               return { id: item.id, name: item.client.company.name } // Si "client" et "company.name" existent
-//             } else if (item.company?.name) {
-//               return { id: item.id, name: item.company.name } // Si "company.name" existe directement;
-//             }
-//             return undefined
-//           })
-//           .filter(
-//             (item): item is { id: string; name: string } => item !== undefined
-//           ) //Ce filtre assure à TypeScript que le tableau résultant ne contient que des objets conformes au type { id: string, name: string }.
+  useEffect(() => {
+    const fetchPlace = async () => {
+      if (!selectedClientId) return
+      try {
+        const response: Response = await fetchWithAuth(
+          `https://dev.ludimuseo.fr:4000/api/places/list/${selectedClientId.toString()}`,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
 
-//         setClientIdAndName(clientPackageData)
-//       } catch (error) {
-//         console.error('Error fetching data:', error)
-//       }
-//     }
-//     void fetchClients()
-//   }, [])
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${String(response.status)}`)
+        }
+        const data = (await response.json()) as PlaceType[]
+        const placeData = data.places as PlaceType[]
+        setPlace(placeData)
+      } catch (error) {
+        setPlace([])
+        console.log('ERROR fetching places: ', error)
+      }
+    }
+    void fetchPlace()
+  }, [selectedClientId])
 
-//   useEffect(() => {
-//     interface Medal {
-//       id: string
+  useEffect(() => {
+    const fetchJourney = async () => {
+      if (!selectedPlaceId) return
+      try {
+        const response: Response = await fetchWithAuth(
+          `https://dev.ludimuseo.fr:4000/api/journeys/getAllJourneysByPlaceId/${selectedPlaceId.toString()}`,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
 
-//       medal: {
-//         description: {
-//           standard: {
-//             fr: string
-//           }
-//         }
-//         name: {
-//           fr: string
-//         }
-//         image: string
-//       }
-//     }
-//     const fecthMedal = async () => {
-//       try {
-//         const querySnapshot = await getDocs(collection(db, 'medals'))
-//         const medalData: Medal[] = querySnapshot.docs.map((doc) => ({
-//           id: doc.id,
-//           ...(doc.data() as Omit<Medal, 'id'>),
-//         }))
-//         const medalPackageData = medalData.map((item) => {
-//           return {
-//             id: item.id,
-//             name: item.medal.name.fr,
-//             image: item.medal.image,
-//             description: item.medal.description.standard.fr,
-//           }
-//         })
-//         setMedalsData(medalPackageData)
-//       } catch (error) {
-//         console.log('Error in fetching medals', error)
-//       }
-//     }
-//     void fecthMedal()
-//   }, [])
-//   //useEffect(() => {
-//   //VERIFIER SI USER.ROLE === 'SUPERADMIN' sinon redirection page dashboard
-//   //}, [])
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${String(response.status)}`)
+        }
+        const data = (await response.json()) as JourneyType[]
+        const journeyData = data
+        setJourney(journeyData)
+      } catch (error) {
+        setJourney([])
+        console.log('ERROR fetching journeys: ', error)
+      }
+    }
+    void fetchJourney()
+  }, [selectedPlaceId])
 
-//   console.log('FormData:', { ...formData })
+  useEffect(() => {
+    const fetchStep = async () => {
+      if (!selectedJourneyId) return
+      try {
+        const response: Response = await fetchWithAuth(
+          `https://dev.ludimuseo.fr:4000/api/steps/find/${selectedJourneyId.toString()}`,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
 
-//   // const updateNestedData = <S extends keyof T>(
-//   //   section: S,
-//   //   path: string[], // ['audio', 'standard', 'en']
-//   //   value: string
-//   // ) => {
-//   //   setFormData((prev) => {
-//   //     const updatedData = { ...prev }
-//   //     let current = updatedData[section]
-//   //     for (let i = 0;i < path.length - 1;i++) {
-//   //       current = current[path[i]]
-//   //     }
-//   //     current[path[path.length - 1]] = value
-//   //     return updatedData
-//   //   })
-//   // }
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${String(response.status)}`)
+        }
+        const stepData = (await response.json()) as StepType[]
+        console.log('Fetch StepData from GAME: ', stepData)
+        setStepData(stepData)
+      } catch (error) {
+        setStepData([])
+        console.log('ERROR fetching steps: ', error)
+      }
+    }
+    void fetchStep()
+  }, [selectedJourneyId])
 
-//   return (
-//     <>
-//       <Form
-//         clientIdAndName={clientIdAndName && clientIdAndName}
-//         handleSelect={handleSelect}
-//         selectedOption={selectedOption}
-//         medalsData={medalsData}
-//         attributedMedal={attributedMedal}
-//         handleAttributeMedal={handleAttributeMedal}
-//         title={title}
-//         icon={<PlaceIcon />}
-//         handleArrowLeft={handleArrowLeft}
-//         getInput={getInput}
-//         currentStep={currentStep}
-//         step={step}
-//         message={message}
-//         handleSubmit={(event) => {
-//           void handleSubmit(event)
-//         }}
-//         formData={formData}
-//         handleInputChange={(section, name, value) => {
-//           handleInputChange(section, name, value)
-//         }}
-//         handleChange={(section, mode, langaue, value) => {
-//           handleChange(section, mode, langaue, value)
-//         }}
-//         handleResponseChange={(section, name, mode, language, value) => {
-//           handleResponseChange(section, name, mode, language, value)
-//         }}
-//         handleEdit={handleEditPlace}
-//         handlePrevStep={handlePrevStep}
-//         handleNextStep={handleNextStep}
-//         handleFileUpload={void handleFileUpload}
-//       />
-//     </>
-//   )
-// }
+  useEffect(() => {
+    setStep(getInput.length)
+    setCurrentStep(0)
+    setMessage({
+      info: '',
+      result: false,
+    })
+  }, [getInput])
 
-// export { FormGame }
+  console.log('FormData:', { ...formData })
+  console.log('FormQuiz:', { ...formQuiz })
+
+  return (
+    <Form
+      client={client}
+      place={place}
+      journey={journey}
+      stepData={stepData}
+      isAssociated={formQuiz.stepId !== 0}
+      selectedClientId={selectedClientId}
+      selectedPlaceId={selectedPlaceId}
+      selectedJourneyId={selectedJourneyId}
+      newIdFromApi={newIdFromApi}
+      handleSelectClient={handleSelectClient}
+      handleSelectPlace={handleSelectPlace}
+      handleSelectJourney={handleSelectJourney}
+      handleSelectStep={handleSelectStep}
+      title={title}
+      icon={<></>}
+      handleArrowLeft={handleArrowLeft}
+      getInput={getInput}
+      currentStep={currentStep}
+      step={step}
+      message={message}
+      handleSubmit={(event) => {
+        void handleSubmit(event)
+      }}
+      formData={formData}
+      handleInputChange={(name, value) => {
+        handleInputChange(name, value)
+      }}
+      handlePrevStep={handlePrevStep}
+      handleNextStep={handleNextStep}
+      handleFileUpload={(file, fileType, name, event) => {
+        void handleFileUpload(file, fileType, name, event)
+      }}
+    />
+  )
+}
+
+export { FormGame }

@@ -14,7 +14,9 @@ import {
   PieceType,
   PlaceType,
   State,
+  StepType,
 } from '@/types'
+import { isTokenExpired } from '@/utils/auth'
 
 import Form from '../Form'
 import { getInputPieceConfig } from './configPiece/getInputPieceConfig'
@@ -25,6 +27,7 @@ const FormPiece: FC = () => {
   const [client, setClient] = useState<ClientType[]>([])
   const [place, setPlace] = useState<PlaceType[]>([])
   const [journey, setJourney] = useState<JourneyType[]>([])
+  const [steps, setSteps] = useState<StepType[]>([])
   const [showDescription, setShowDescription] = useState(false)
   const [selectedClientId, setSelectedClientId] = useState<number>()
   const [selectedPlaceId, setSelectedPlaceId] = useState<number>()
@@ -67,12 +70,58 @@ const FormPiece: FC = () => {
   }
 
   //soumission des informations
-  const handleSubmit = (
+  const handleSubmit = async (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => {
-    console.log(event)
-    setNewIdFromApi(1) //ID qui sera recu apres creation d'une oeuvre
-    console.log('formData: ', formData)
+    event.preventDefault()
+
+    if (isTokenExpired(token)) {
+      alert("Une erreur c'est produite, reconnectez-vous")
+      void navigate('/auth/signin')
+      return
+    }
+
+    //FETCH des donnees a l'API et recuperer l'ID
+    if (showDescription) {
+      setMessage((prev) => ({
+        ...prev,
+        ['info']: 'Vos descriptions ont été envoyées avec succès !',
+        ['result']: true,
+      }))
+    } else {
+      setMessage((prev) => ({
+        ...prev,
+        ['info']: 'Votre formulaire a été envoyé avec succès !',
+        ['result']: true,
+      }))
+    }
+
+    try {
+      const response: Response = await fetchWithAuth(
+        `https://dev.ludimuseo.fr:4000/api/piece/create`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ piece: formData }),
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${String(response.status)}`)
+      }
+      const newId: number = (await response.json()) as number
+      setNewIdFromApi(newId) // recupere l'Id du nouveau place créé
+      console.log('newId from Server', newId)
+    } catch (error) {
+      console.error('Erreur:', error)
+      setMessage({
+        info: "Erreur lors de l'envoi du formulaire",
+        result: true,
+      })
+    }
   }
 
   const handleInputChange = (
@@ -92,8 +141,9 @@ const FormPiece: FC = () => {
     fileType: string,
     name: string,
     event: MouseEvent<HTMLButtonElement>
-  ) => {
+  ): Promise<void> => {
     event.preventDefault()
+
     const formUpload = new FormData()
     // Ajout des données dans formUpload
     formUpload.append('file', file) // le fichier image à uploader
@@ -148,16 +198,16 @@ const FormPiece: FC = () => {
     setSelectedJourneyId(selectedValueToNumber)
   }
 
-  // const handleSelectStep = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //     const selectedValue = e.target.value
-  //     const selectedValueToNumber = Number(selectedValue)
-  //     setFormData((prevFormData) => {
-  //         return {
-  //             ...prevFormData,
-  //             ['stepId']: selectedValueToNumber,
-  //         }
-  //     })
-  // }
+  const handleSelectStep = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value
+    const selectedValueToNumber = Number(selectedValue)
+    setFormData((prev) => {
+      return {
+        ...prev,
+        ['stepId']: selectedValueToNumber,
+      }
+    })
+  }
 
   useEffect(() => {
     setStep(getInput.length)
@@ -197,6 +247,7 @@ const FormPiece: FC = () => {
     void fetchClients()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
   useEffect(() => {
     const fetchPlace = async () => {
       if (!selectedClientId) return
@@ -220,6 +271,8 @@ const FormPiece: FC = () => {
         setPlace(placeData)
       } catch (error) {
         setPlace([])
+        setJourney([])
+        setSteps([])
         console.log('ERROR fetching places: ', error)
       }
     }
@@ -250,19 +303,19 @@ const FormPiece: FC = () => {
         setJourney(journeyData)
       } catch (error) {
         setJourney([])
-        console.log('ERROR fetching places: ', error)
+        setSteps([])
+        console.log('ERROR fetching journeys: ', error)
       }
     }
-
     void fetchJourney()
   }, [selectedPlaceId])
 
   useEffect(() => {
-    const fetchJourney = async () => {
-      if (!selectedPlaceId) return
+    const fetchStep = async () => {
+      if (!selectedJourneyId) return
       try {
         const response: Response = await fetchWithAuth(
-          `https://dev.ludimuseo.fr:4000/api/journeys/getAllJourneysByPlaceId/${selectedPlaceId.toString()}`,
+          `https://dev.ludimuseo.fr:4000/api/steps/find/${selectedJourneyId.toString()}`,
           {
             method: 'GET',
             headers: {
@@ -275,23 +328,24 @@ const FormPiece: FC = () => {
         if (!response.ok) {
           throw new Error(`Erreur HTTP: ${String(response.status)}`)
         }
-        const data = (await response.json()) as JourneyType[]
-        const journeyData = data
-        console.log('From fecth journeyData: ', journeyData)
-        setJourney(journeyData)
+        const stepData = (await response.json()) as StepType[]
+        console.log('From PIECE fecth stepsData: ', stepData)
+        setSteps(stepData)
       } catch (error) {
-        setJourney([])
-        console.log('ERROR fetching places: ', error)
+        setSteps([])
+        console.log('ERROR fetching steps: ', error)
       }
     }
 
-    void fetchJourney()
-  }, [selectedPlaceId])
+    void fetchStep()
+  }, [selectedJourneyId])
 
   useEffect(() => {
     setStep(getInput.length)
     setCurrentStep(0)
   }, [getInput])
+
+  console.log('FORMDATA:', formData)
 
   return (
     <>
@@ -301,6 +355,7 @@ const FormPiece: FC = () => {
         client={client}
         place={place}
         journey={journey}
+        stepData={steps}
         isAssociated={formData.stepId !== 0}
         handleSelectClient={handleSelectClient}
         handleSelectPlace={handleSelectPlace}
@@ -314,15 +369,18 @@ const FormPiece: FC = () => {
         step={step}
         message={message}
         handleSubmit={(event) => {
-          handleSubmit(event)
+          void handleSubmit(event)
         }}
         formData={formData}
         handleInputChange={(name, value) => {
           handleInputChange(name, value)
         }}
+        handleSelectStep={handleSelectStep}
         handlePrevStep={handlePrevStep}
         handleNextStep={handleNextStep}
-        handleFileUpload={void handleFileUpload}
+        handleFileUpload={(file, fileType, name, event) => {
+          void handleFileUpload(file, fileType, name, event)
+        }}
         handleDescription={handleDescription}
         handleSelectJourney={handleSelectJourney}
       />

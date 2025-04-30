@@ -1,5 +1,6 @@
 import {
   ClientType,
+  GameType,
   JourneyType,
   MedalType,
   PieceType,
@@ -21,6 +22,7 @@ interface TextAreaType {
     | StepType
     | PieceType
     | MedalType
+    | GameType
   language?: string
   rightSideVisible?: boolean
   handleInputChange: (name: string, event: string) => void
@@ -35,7 +37,7 @@ export default function TextArea({
   rightSideVisible,
   handleInputChange,
 }: TextAreaType) {
-  const value = formData[name as keyof typeof formData] as string
+  const value = formData[name as keyof typeof formData] as unknown as string
   return (
     <div
       className={

@@ -1,36 +1,37 @@
-import { PlaceType, StepType } from '@/types'
+import { StepType } from '@/types'
 
 interface StepDropdownListProps {
+  title: string
   selectedJourneyId: number | undefined
   handleSelectStep?: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  step?: StepType[] | undefined
+  steps: StepType[] | undefined
 }
 
-export default function PlaceDropdownList({
+export default function StepDropdownList({
+  title,
   handleSelectStep,
   selectedJourneyId,
-  step,
+  steps,
 }: StepDropdownListProps) {
-  if (!selectedJourneyId) {
+  if (!selectedJourneyId || title === 'Formulaire Etape') {
     return <></>
   }
   return (
     <div className="navbar rounded-xl bg-base-100 shadow-xl">
       <div className="navbar-start">
-        <a className="btn btn-ghost font-inclusive text-3xl">Lieu: </a>
-        <p className="font-inclusive text-2xl">{}</p>
+        <a className="btn btn-ghost font-inclusive text-3xl">Etape: </a>
       </div>
       <select
         onChange={handleSelectStep}
         defaultValue=""
         className="select-neutral select w-full font-inclusive text-xl">
         <option disabled value="">
-          Associer un Lieu:
+          Associer une Etape:
         </option>
-        {step?.map(({ id, name }, index) => {
+        {steps?.map(({ id, name }) => {
           return (
-            <option key={index} value={id as unknown as keyof PlaceType}>
-              {name as keyof PlaceType}
+            <option key={id} value={id as unknown as keyof StepType}>
+              {name as keyof StepType}
             </option>
           )
         })}

@@ -4,9 +4,11 @@ import Description from '@/app/components/description/Description'
 import ClientDropdownList from '@/app/components/forms/dropdownLists/ClientDropdownList'
 import JourneyDropdownList from '@/app/components/forms/dropdownLists/JourneyDropdwonList'
 import PlaceDropdownList from '@/app/components/forms/dropdownLists/PlaceDropdownList'
+import StepDropdownList from '@/app/components/forms/dropdownLists/StepDropdownList'
 import {
   ClientType,
   DescriptionType,
+  GameType,
   GetInputConfigType,
   JourneyType,
   MedalType,
@@ -25,6 +27,7 @@ interface FormProps {
   client?: ClientType[] | undefined
   place?: PlaceType[]
   journey?: JourneyType[]
+  stepData?: StepType[]
   isAssociated?: boolean
   newIdFromApi?: number
   selectedClientId?: number
@@ -59,11 +62,18 @@ interface FormProps {
     | StepType
     | PieceType
     | MedalType
+    | GameType
   handleInputChange: (name: string, event: string) => void
-  handleFileUpload?: (file: File, fileType: string, name: string) => void
+  handleFileUpload?: (
+    file: File,
+    fileType: string,
+    name: string,
+    event: MouseEvent<HTMLButtonElement>
+  ) => void
   handleSelectClient?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectPlace?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectJourney?: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  handleSelectStep?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSubmitDescriptions?: (descriptions: DescriptionType[]) => void
 }
 
@@ -71,10 +81,11 @@ const Form = ({
   client,
   place,
   journey,
+  stepData,
   isAssociated,
   selectedClientId,
   selectedPlaceId,
-  //selectedJourneyId,
+  selectedJourneyId,
   showDescription,
   newIdFromApi,
   title,
@@ -94,6 +105,7 @@ const Form = ({
   handleSelectClient,
   handleSelectPlace,
   handleSelectJourney,
+  handleSelectStep,
   handleSubmitDescriptions,
 }: FormProps) => {
   return (
@@ -114,6 +126,12 @@ const Form = ({
         selectedPlaceId={selectedPlaceId}
         handleSelectJourney={handleSelectJourney}
         journey={journey}
+      />
+      <StepDropdownList
+        title={title}
+        handleSelectStep={handleSelectStep}
+        selectedJourneyId={selectedJourneyId}
+        steps={stepData}
       />
       {isAssociated ||
       title === 'Formulaire Client' ||
@@ -143,8 +161,8 @@ const Form = ({
             handleInputChange={(name, value) => {
               handleInputChange(name, value)
             }}
-            handleFileUpload={(file, fileType, name) => {
-              handleFileUpload?.(file, fileType, name)
+            handleFileUpload={(file, fileType, name, event) => {
+              handleFileUpload?.(file, fileType, name, event)
             }}
           />
         ) : (

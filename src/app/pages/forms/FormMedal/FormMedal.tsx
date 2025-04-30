@@ -88,7 +88,7 @@ const FormMedal: FC = () => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ place: formData }),
+          body: JSON.stringify({ medal: formData }),
         }
       )
 
@@ -111,7 +111,7 @@ const FormMedal: FC = () => {
     fileType: string,
     name: string,
     event: MouseEvent<HTMLButtonElement>
-  ) => {
+  ): Promise<void> => {
     event.preventDefault()
     const formUpload = new FormData()
     // Ajout des données dans formUpload
@@ -178,7 +178,9 @@ const FormMedal: FC = () => {
       handleDescription={handleDescription}
       handlePrevStep={handlePrevStep}
       handleNextStep={handleNextStep}
-      handleFileUpload={void handleFileUpload}
+      handleFileUpload={(file, fileType, name, event) => {
+        void handleFileUpload(file, fileType, name, event)
+      }}
     />
   )
 }
