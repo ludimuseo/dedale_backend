@@ -33,7 +33,8 @@ export interface User {
   email: string
   role: UserRole
   token: string
-  //password: string
+  password: string
+  confirmedPassword: string
 }
 
 /* WORDPASS */
