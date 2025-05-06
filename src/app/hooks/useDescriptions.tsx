@@ -2,11 +2,14 @@ import { useState } from 'react'
 
 import { DescriptionType } from '@/types'
 
-export const useDescriptions = (newIdFromApi?: number) => {
+import { generateUniqueId } from '../services/utils/generateId'
+
+export const useDescriptions = (newIdFromApi: number, collection: string) => {
   const [descriptions, setDescriptions] = useState<DescriptionType[]>([
     {
-      id: Date.now(),
-      collectionId: newIdFromApi ?? 0,
+      id: generateUniqueId(),
+      collection: collection,
+      collectionId: newIdFromApi,
       language: 'fr',
       order: 0,
       text: '',
@@ -14,11 +17,9 @@ export const useDescriptions = (newIdFromApi?: number) => {
       isCertifiedFalc: false,
       image: {
         file: '',
-        alt: '',
       },
       audio: {
         file: '',
-        audio_desc: '',
       },
     },
   ])

@@ -14,6 +14,7 @@ import { getInputJourneyConfig } from './configJourney/getInputJourneyConfig'
 
 const FormJourney: FC = () => {
   const title = 'Formulaire Parcours'
+  const collection = 'journeys'
   const navigate = useNavigate()
   const [showDescription, setShowDescription] = useState(false)
   const [client, setClient] = useState<ClientType[]>([])
@@ -273,6 +274,7 @@ const FormJourney: FC = () => {
         selectedPlaceId={selectedPlaceId}
         newIdFromApi={newIdFromApi}
         title={title}
+        collection={collection}
         icon={<JourneyIcon />}
         handleArrowLeft={handleArrowLeft}
         getInput={getInput}

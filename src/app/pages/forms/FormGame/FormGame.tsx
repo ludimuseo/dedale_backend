@@ -30,6 +30,7 @@ const FormGame: FC = () => {
   })
   const [newIdFromApi, setNewIdFromApi] = useState<number>() //recup l'id du quiz pour les questions
   const title = newIdFromApi ? 'Formulaire Question' : 'Formulaire Quiz'
+  const collection = 'games'
   const [client, setClient] = useState<ClientType[]>([])
   const [place, setPlace] = useState<PlaceType[]>([])
   const [journey, setJourney] = useState<JourneyType[]>([])
@@ -341,6 +342,7 @@ const FormGame: FC = () => {
       handleSelectJourney={handleSelectJourney}
       handleSelectStep={handleSelectStep}
       title={title}
+      collection={collection}
       icon={<></>}
       handleArrowLeft={handleArrowLeft}
       getInput={getInput}

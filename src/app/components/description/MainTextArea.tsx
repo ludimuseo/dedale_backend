@@ -4,7 +4,7 @@ import { DescriptionType } from '@/types'
 interface MainTextAreaProps {
   descriptions: DescriptionType[]
   handleAddDescription: (
-    id: number,
+    id: string,
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => void
   language: string | undefined

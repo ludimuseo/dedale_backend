@@ -21,9 +21,10 @@ import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
 const FormPlace: FC = () => {
   const navigate = useNavigate()
   const title = 'Formulaire Lieu'
-  const [showDescription, setShowDescription] = useState(false)
+  const collection = 'places'
+  const [showDescription, setShowDescription] = useState(true)
   const [client, setClient] = useState<ClientType[]>([])
-  const [newIdFromApi, setNewIdFromApi] = useState<number>()
+  const [newIdFromApi, setNewIdFromApi] = useState<number>(2)
   const [message, setMessage] = useState<MessageType>({
     info: '',
     result: false,
@@ -49,6 +50,7 @@ const FormPlace: FC = () => {
   const getInput = !showDescription
     ? getInputPlaceConfig
     : getStandardDescriptionConfig
+
   const {
     step,
     setStep,
@@ -83,7 +85,6 @@ const FormPlace: FC = () => {
     //FETCH des donnees a l'API et recuperer l'ID
     if (showDescription) {
       //Envois des DATA au serveur
-      return
       setMessage(() => ({
         info: 'Vos descriptions ont été envoyées avec succès !',
         result: true,
@@ -94,7 +95,7 @@ const FormPlace: FC = () => {
         result: false,
       }))
     }
-
+    return
     try {
       const response: Response = await fetchWithAuth(
         `https://dev.ludimuseo.fr:4000/api/places`,
@@ -194,6 +195,10 @@ const FormPlace: FC = () => {
   const handleSubmitDescriptions = (descriptions: DescriptionType[]) => {
     //ENVOIE du tableau de descriptions au serveur
     console.log('FORMPLACE descriptions: ', descriptions)
+    setMessage(() => ({
+      info: 'Vos descriptions ont été envoyées avec succès !',
+      result: true,
+    }))
   }
 
   useEffect(() => {
@@ -245,6 +250,7 @@ const FormPlace: FC = () => {
       handleSelectClient={handleSelectClient}
       newIdFromApi={newIdFromApi}
       title={title}
+      collection={collection}
       icon={<PlaceIcon />}
       handleArrowLeft={handleArrowLeft}
       getInput={getInput}

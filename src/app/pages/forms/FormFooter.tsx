@@ -97,9 +97,7 @@ const FormFooter = ({
               onClick={(event) => {
                 handleSubmit(event)
               }}>
-              <p className="font-inclusive text-xl">
-                {showDescription ? 'Terminer' : 'Valider'}
-              </p>
+              <p className="font-inclusive text-xl">Valider</p>
               <CheckIcon className="h-7 w-7" />
             </button>
           </div>
