@@ -35,6 +35,7 @@ interface FormProps {
   selectedJourneyId?: number
   showDescription?: boolean
   title: string
+  collection: string
   icon: React.JSX.Element
   handleArrowLeft: () => void
   attributedMedal?: {
@@ -74,7 +75,7 @@ interface FormProps {
   handleSelectPlace?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectJourney?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectStep?: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  handleSubmitDescriptions?: (descriptions: DescriptionType[]) => void
+  handleSubmitDescriptions: (descriptions: DescriptionType[]) => void
 }
 
 const Form = ({
@@ -89,6 +90,7 @@ const Form = ({
   showDescription,
   newIdFromApi,
   title,
+  collection,
   icon,
   handleArrowLeft,
   getInput,
@@ -171,6 +173,7 @@ const Form = ({
             getInput={getInput}
             currentStep={currentStep}
             newIdFromApi={newIdFromApi ?? 0}
+            collection={collection}
           />
         )
       ) : (

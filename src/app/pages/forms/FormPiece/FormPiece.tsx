@@ -23,6 +23,7 @@ import { getInputPieceConfig } from './configPiece/getInputPieceConfig'
 
 const FormPiece: FC = () => {
   const title = 'Formulaire Oeuvre'
+  const collection = 'pieces'
   const navigate = useNavigate()
   const [client, setClient] = useState<ClientType[]>([])
   const [place, setPlace] = useState<PlaceType[]>([])
@@ -351,6 +352,7 @@ const FormPiece: FC = () => {
     <>
       <Form
         title={title}
+        collection={collection}
         icon={<PlaceIcon />}
         client={client}
         place={place}

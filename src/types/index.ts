@@ -340,8 +340,9 @@ export interface PieceType {
 /* DESCRIPTION */
 
 export interface DescriptionType {
+  collection: string
   collectionId: number
-  id: number
+  id: string
   language: string
   order: number
   text: string
@@ -349,11 +350,9 @@ export interface DescriptionType {
   isCertifiedFalc: boolean
   image: {
     file: string
-    alt: string
   }
   audio: {
     file: string
-    audio_desc: string
   }
 }
 

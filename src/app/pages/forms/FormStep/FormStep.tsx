@@ -20,6 +20,7 @@ import { getInputStepConfig } from './configStep/getInputTextStepConfig'
 
 const FormStep: FC = () => {
   const title = 'Formulaire Etape'
+  const collection = 'steps'
   const navigate = useNavigate()
   const [client, setClient] = useState<ClientType[]>([])
   const [place, setPlace] = useState<PlaceType[]>([])
@@ -351,6 +352,7 @@ const FormStep: FC = () => {
       handleSelectPlace={handleSelectPlace}
       handleSelectJourney={handleSelectJourney}
       title={title}
+      collection={collection}
       icon={<></>}
       handleArrowLeft={handleArrowLeft}
       getInput={getInput}

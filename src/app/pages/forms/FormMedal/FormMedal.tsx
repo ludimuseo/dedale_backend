@@ -14,6 +14,7 @@ import { getInputMedalConfig } from './configMedal/getInputMedalConfig'
 const FormMedal: FC = () => {
   const navigate = useNavigate()
   const title = 'Formulaire Médaille'
+  const collection = 'medals'
   const [showDescription, setShowDescription] = useState(false)
   const [message, setMessage] = useState<MessageType>({
     info: '',
@@ -162,6 +163,7 @@ const FormMedal: FC = () => {
   return (
     <Form
       title={title}
+      collection={collection}
       icon={<></>}
       handleArrowLeft={handleArrowLeft}
       getInput={getInput}
