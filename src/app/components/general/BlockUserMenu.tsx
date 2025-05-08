@@ -56,15 +56,15 @@ const BlockUserMenu: FC = () => {
                   {t('page.user_create')}
                 </NavLink>
               </li>
-              <div className="divider m-0"></div>
+              <li className="divider m-0"></li>
               <li>
                 <ChangeLanguage />
               </li>
-              <div className="divider m-0"></div>
+              <li className="divider m-0"></li>
               <li>
                 <ChangeTheme />
               </li>
-              <div className="divider m-0"></div>
+              <li className="divider m-0"></li>
               {/* Modal */}
               <li>
                 <button onClick={handleModalSignOut}>

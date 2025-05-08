@@ -108,7 +108,6 @@ $switchCheckboxSize: 1.8rem;
   }
 }
 
-#change-language,
-#change-theme {
-  @apply flex items-center justify-between;
+.change-theme {
+  @apply flex items-center justify-center;
 }
