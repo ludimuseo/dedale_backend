@@ -111,6 +111,13 @@ const ValidateText: FC = () => {
         '0aitLsTLusg7yzY17g8s',
         'VG2x5gNhrNcyLLgToWs6',
         '0B8KfwFNE0BkAxrt0KSa',
+        'tXsxk6xW6b6puf20O2tY',
+        'r933BUeocAFIIuByqfWl',
+        'ZByEOcft1JijHEMsy0y9',
+        'V7cPJf2pPnxNDacVHZDF',
+        '6ZM1K5TpbR8BNtGASOXA',
+        'DkunHVFtdmSNhlVLuudq',
+        'E1aUyQhttQyO4oavhwBa',
       ]
       try {
         const q = query(
