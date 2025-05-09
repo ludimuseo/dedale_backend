@@ -5,7 +5,7 @@ export const getInputQuizConfig: GetInputConfigType[][] = [
     {
       id: '1',
       label: 'Niveau du Quiz',
-      name: 'type',
+      name: 'level',
       mode: 'quiz',
       option: ['NOVICE', 'INTERMEDIARE', 'EXPERT'],
       placeholder: 'Selectionnez le niveau du jeu',
