@@ -320,53 +320,43 @@ const ValidateText: FC = () => {
             }}>
             Retour
           </button>
-          <div className="hero min-h-screen bg-base-100">
-            <div className="hero-content text-wrap">
-              <div className="max-w-xl">
-                <p className="py-4">
-                  <h1 className="mb-4">Texte Certifié FALC</h1>
-                  {falcTextPreview.map((sentence) => {
-                    return (
-                      <p className="font-inclusive text-xl leading-[2]">
-                        {sentence}
-                      </p>
-                    )
-                  })}
-                </p>
-              </div>
+          <div className="hero bg-base-100">
+            <div className="max-w-xl">
+              <p className="select-text py-4 font-inclusive">
+                <h1 className="mb-4">Texte Certifié FALC</h1>
+                {falcTextPreview.map((sentence) => {
+                  return (
+                    <p className="font-inclusive text-xl leading-[2]">
+                      {sentence}
+                    </p>
+                  )
+                })}
+              </p>
             </div>
           </div>
-          <div className="hero min-h-screen bg-base-200">
-            <div className="hero-content text-wrap">
-              <div className="max-w-xl">
-                <p className="py-4">
-                  <h1 className="mb-4">Texte Facile a lire</h1>
-                  {previuosFalctextPreview.map((sentence) => {
-                    return (
-                      <p className="font-inclusive text-xl leading-[2]">
-                        {sentence}
-                      </p>
-                    )
-                  })}
-                </p>
-              </div>
+          <div className="hero bg-base-200">
+            <div className="max-w-xl">
+              <p className="select-text py-4 font-inclusive">
+                <h1 className="mb-4">Texte Facile a lire</h1>
+                {previuosFalctextPreview.map((sentence) => {
+                  return (
+                    <p className="font-inclusive text-xl leading-[2]">
+                      {sentence}
+                    </p>
+                  )
+                })}
+              </p>
             </div>
           </div>
-          <div className="bg-base-50 hero min-h-screen">
-            <div className="hero-content text-wrap">
-              <div className="max-w-xl">
-                <p className="py-4">
-                  <h1 className="mb-4">Texte Standard</h1>
 
-                  {standardTextPreview.map((sentence) => {
-                    return (
-                      <p className="font-inclusive text-xl leading-[2]">
-                        {sentence}
-                      </p>
-                    )
-                  })}
-                </p>
-              </div>
+          <div className="hero bg-base-300">
+            <div className="max-w-xl">
+              <p className="select-text py-4 font-inclusive">
+                <h1 className="mb-4">Texte Standard</h1>
+                {standardTextPreview.map((sentence) => {
+                  return <p className="text-xl leading-[2]">{sentence}</p>
+                })}
+              </p>
             </div>
           </div>
         </div>
