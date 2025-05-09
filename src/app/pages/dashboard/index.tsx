@@ -18,9 +18,7 @@ const Dashboard: FC = () => {
           {t('page.dashboard')}
         </h1>
       </header>
-      <main>
-        <DashboardMenu menu={menu} auth={auth} />
-      </main>
+      <DashboardMenu menu={menu} auth={auth} />
     </>
   )
 }
