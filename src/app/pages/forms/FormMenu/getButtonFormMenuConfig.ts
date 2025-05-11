@@ -58,6 +58,14 @@ export const getButtonFormMenuConfig: FormMenu[] = [
   },
   {
     id: '6',
+    title: 'Question (Quiz)',
+    description: "Créer le quiz de l'étape en ayant l'oeuvre comme thème",
+    alt: 'formulaire question',
+    image: '',
+    route: '/form/question',
+  },
+  {
+    id: '7',
     title: 'Médaille',
     description: "Créer une Médaille de lieu, de parcours ou d'étape",
     alt: 'formulaire médaille',

@@ -11,25 +11,21 @@ import {
   MessageType,
   PlaceType,
   QuestionType,
-  QuizType,
   State,
   StepType,
 } from '@/types'
 
 import Form from '../Form'
-import {
-  getInputQuestionConfig,
-  getInputQuizConfig,
-} from './configGame/getInputTextGameConfig'
+import { getInputQuestionConfig } from '../FormGame/configGame/getInputTextGameConfig'
 
-const FormGame: FC = () => {
+const FormQuestion: FC = () => {
   const navigate = useNavigate()
   const [message, setMessage] = useState<MessageType>({
     info: '',
     result: false,
   })
-  const [newIdFromApi, setNewIdFromApi] = useState<number>() //recup l'id du quiz pour les questions
-  const title = newIdFromApi ? 'Formulaire Question' : 'Formulaire Quiz'
+  //const [newIdFromApi, setNewIdFromApi] = useState<number>() //recup l'id du quiz pour les questions
+  const title = 'Formulaire Question'
   const collection = 'games'
   const [client, setClient] = useState<ClientType[]>([])
   const [place, setPlace] = useState<PlaceType[]>([])
@@ -39,13 +35,8 @@ const FormGame: FC = () => {
   const [selectedPlaceId, setSelectedPlaceId] = useState<number>()
   const [selectedJourneyId, setSelectedJourneyId] = useState<number>()
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
-  const getInput = newIdFromApi ? getInputQuestionConfig : getInputQuizConfig
-  const [formQuiz, setFormQuiz] = useState<QuizType>({
-    id: 0,
-    stepId: 0,
-    level: 'NOVICE',
-    name: '',
-  })
+  const getInput = getInputQuestionConfig
+
   const [formData, setFormData] = useState<QuestionType>({
     id: 0,
     stepId: 0,
@@ -78,17 +69,10 @@ const FormGame: FC = () => {
   } = useTimelineStep()
 
   const handleInputChange = (name: string, value: string | boolean) => {
-    if (!newIdFromApi) {
-      setFormQuiz((prevFormData) => ({
-        ...prevFormData,
-        [name]: value,
-      }))
-    } else {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: value,
-      }))
-    }
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }))
   }
 
   const handleSelectClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -112,13 +96,6 @@ const FormGame: FC = () => {
   const handleSelectStep = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value
     const selectedValueToNumber = Number(selectedValue)
-
-    setFormQuiz((prevFormData) => {
-      return {
-        ...prevFormData,
-        ['stepId']: selectedValueToNumber,
-      }
-    })
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
@@ -127,43 +104,12 @@ const FormGame: FC = () => {
     })
   }
 
-  //soumission des informations QUIZ
-  const handleSubmit = async (
+  //soumission des informations
+  const handleSubmit = (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault()
-    if (!token) {
-      alert("Une erreur c'est produite, reconnectez-vous")
-      void navigate('/auth/signin')
-      return
-    }
-    if (newIdFromApi) return
-    try {
-      const response: Response = await fetchWithAuth(
-        `https://dev.ludimuseo.fr:4000/api/games/create`, // TODO
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ quiz: formQuiz }),
-        }
-      )
-
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP: ${String(response.status)}`)
-      }
-      const newId: number = (await response.json()) as number
-      setNewIdFromApi(newId) // recupere l'Id du nouveau place créé
-      console.log('newId from Server', newId)
-    } catch (error) {
-      console.error('Erreur:', error)
-      setMessage({
-        info: "Erreur lors de l'envoi du formulaire",
-        result: true,
-      })
-    }
+    setCurrentStep(0) //retour saisir une autre question
   }
 
   //soumission de la Question
@@ -171,6 +117,8 @@ const FormGame: FC = () => {
     e.preventDefault()
     //ENVOIE a l'API
     console.log('question submition', formData)
+
+    setCurrentStep(0) //retour saisir une autre question
   }
 
   const handleFileUpload = async (
@@ -370,7 +318,6 @@ const FormGame: FC = () => {
   }, [getInput])
 
   console.log('FormQuestion:', { ...formData })
-  //console.log('FormQuiz:', { ...formQuiz })
 
   return (
     <Form
@@ -379,11 +326,11 @@ const FormGame: FC = () => {
       place={place}
       journey={journey}
       stepData={stepData}
-      isAssociated={formQuiz.stepId !== 0}
+      isAssociated={formData.stepId !== 0}
       selectedClientId={selectedClientId}
       selectedPlaceId={selectedPlaceId}
       selectedJourneyId={selectedJourneyId}
-      newIdFromApi={newIdFromApi}
+      //newIdFromApi={newIdFromApi}
       handleSelectClient={handleSelectClient}
       handleSelectPlace={handleSelectPlace}
       handleSelectJourney={handleSelectJourney}
@@ -397,7 +344,7 @@ const FormGame: FC = () => {
       step={step}
       message={message}
       handleSubmit={(event) => {
-        void handleSubmit(event)
+        handleSubmit(event)
       }}
       formData={formData}
       handleInputChange={(name, value) => {
@@ -412,4 +359,4 @@ const FormGame: FC = () => {
   )
 }
 
-export { FormGame }
+export { FormQuestion }

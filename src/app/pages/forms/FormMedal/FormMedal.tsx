@@ -28,9 +28,6 @@ const FormMedal: FC = () => {
     image: '',
     type: 'LIEU',
     level: '',
-    placeId: 0,
-    journeyId: 0,
-    stepId: 0,
   })
   const {
     step,
