@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { type FC } from 'react'
+import { Link } from 'react-router'
 
 import { DashboardConfig } from '@/app/pages/dashboard/getDashboardConfig'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
@@ -33,13 +34,15 @@ const DashboardMenu: FC<DashboardMenuProps> = ({ menu, auth }) => {
                 {MENU[item.image]}
               </figure>
               <hr className="mt-2 border-gray-300" />
-              <a
-                href={item.route}
+              <Link
+                to={{ pathname: item.route }}
                 className="card-body rounded-b-xl bg-sky-50 dark:bg-sky-950"
                 aria-label={item.ariaLabel}>
-                <p className="card-title grow-0">{item.title}</p>
+                <p className="card-title grow-0 font-inclusive uppercase">
+                  {item.title}
+                </p>
                 <p className="font-inclusive">{item.subTitle}</p>
-              </a>
+              </Link>
             </motion.li>
           )
       })}

@@ -1,12 +1,10 @@
 import { motion } from 'framer-motion'
 import { FC } from 'react'
-import { useNavigate } from 'react-router'
+import { Link } from 'react-router'
 
 import { getButtonFormMenuConfig } from './getButtonFormMenuConfig'
 
 const FormMenu: FC = () => {
-  const navigate = useNavigate()
-
   const menu = getButtonFormMenuConfig
 
   return (
@@ -14,31 +12,33 @@ const FormMenu: FC = () => {
       <h1 className="mb-10 mt-10 text-center font-inclusive text-4xl">
         Création de parcours
       </h1>
-      <motion.div
-        className="flex flex-wrap rounded-xl bg-slate-50 p-4"
+      <motion.ul
+        className="flex flex-row flex-wrap gap-3 rounded-xl"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, delay: 0.3, ease: 'easeInOut' }}>
         {menu.map((item, index: number) => {
           return (
-            <div
+            <li
               key={index}
-              className="transition-duration-500 mr-18 card w-64 translate-x-0 translate-y-0 cursor-pointer bg-base-100 shadow-xl transition-transform ease-in-out hover:-translate-x-2 hover:-translate-y-2"
-              onClick={() => void navigate(item.route)}>
-              {/* <figure className="p-6">
-              <img src={item.image} alt={item.alt} />
-            </figure> */}
-              <hr className="mt-2 border-gray-300" />
-              <div className="card-body bg-slate-100 dark:bg-sky-950">
-                <h2 className="card-title font-inclusive text-3xl">
+              className="transition-duration-500 card m-0 flex-auto bg-base-100 shadow-xl sm:max-w-[calc(50%-0.75rem)] sm:flex-[1_1_calc(50%-2*0.75rem)] md:max-w-[calc((100%/3)-0.75rem)] md:flex-[1_1_calc((100%/3)-3*0.75rem)] xl:max-w-[calc(25%-0.75rem)] xl:flex-[1_1_calc(25%-4*0.75rem)] 2xl:max-w-[calc(20%-0.75rem)] 2xl:flex-[1_1_calc(20%-5*0.75rem)]">
+              <figure className="aspect-video scale-75 p-4">
+                {item.image && (
+                  <img src={item.image} alt={item.alt} className="h-full" />
+                )}
+              </figure>
+              <Link
+                to={{ pathname: item.route }}
+                className="card-body rounded-b-xl bg-sky-50 dark:bg-sky-950">
+                <p className="card-title grow-0 font-inclusive uppercase">
                   {item.title}
-                </h2>
+                </p>
                 <p className="font-inclusive">{item.description}</p>
-              </div>
-            </div>
+              </Link>
+            </li>
           )
         })}
-      </motion.div>
+      </motion.ul>
     </>
   )
 }
