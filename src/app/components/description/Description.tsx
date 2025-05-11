@@ -202,12 +202,11 @@ export default function Description({
         text: '',
         isFalc: isFalc,
         isCertifiedFalc: false,
-        image: {
-          file: '',
-        },
-        audio: {
-          file: '',
-        },
+        image: '',
+        audio: '',
+        isValidate: false,
+        certifiedDate: null,
+        certifiedBy: 0,
       },
     ])
   }
@@ -237,6 +236,19 @@ export default function Description({
       )
     }
   }
+  useEffect(() => {
+    setDescriptions((prev) => {
+      return prev.map((desc, index) =>
+        index === 0
+          ? {
+              ...desc,
+              language: language,
+              isFalc: isFalc,
+            }
+          : desc
+      )
+    })
+  }, [language, isFalc])
 
   console.log('DESCRIPTIONS descriptions: ', descriptions)
 
