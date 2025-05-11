@@ -14,7 +14,7 @@ const Dashboard: FC = () => {
   return (
     <>
       <header>
-        <h1 className="text-center font-inclusive text-3xl">
+        <h1 className="mb-10 mt-10 text-center font-inclusive text-4xl">
           {t('page.dashboard')}
         </h1>
       </header>

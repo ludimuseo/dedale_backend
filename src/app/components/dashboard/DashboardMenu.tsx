@@ -14,7 +14,7 @@ const DashboardMenu: FC<DashboardMenuProps> = ({ menu, auth }) => {
   const userRole = auth.user?.role ?? 'CORRECTOR'
 
   return (
-    <ul className="flex flex-row flex-wrap gap-3">
+    <ul className="flex flex-row flex-wrap gap-3 rounded-xl">
       {menu.map((item, index: number) => {
         if (item.role.includes(userRole))
           return (
@@ -35,9 +35,9 @@ const DashboardMenu: FC<DashboardMenuProps> = ({ menu, auth }) => {
               <hr className="mt-2 border-gray-300" />
               <a
                 href={item.route}
-                className="card-body rounded-xl bg-sky-50 dark:bg-sky-950"
+                className="card-body rounded-b-xl bg-sky-50 dark:bg-sky-950"
                 aria-label={item.ariaLabel}>
-                <h2 className="card-title">{item.title}</h2>
+                <p className="card-title grow-0">{item.title}</p>
                 <p className="font-inclusive">{item.subTitle}</p>
               </a>
             </motion.li>
