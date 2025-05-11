@@ -348,12 +348,11 @@ export interface DescriptionType {
   text: string
   isFalc: boolean
   isCertifiedFalc: boolean
-  image: {
-    file: string
-  }
-  audio: {
-    file: string
-  }
+  isValidate: boolean
+  certifiedDate: Date | null
+  certifiedBy: number
+  image: string
+  audio: string
 }
 
 export interface QuizType {
@@ -363,13 +362,12 @@ export interface QuizType {
   name: string
   isActive?: string
 }
-export interface GameType {
+export interface QuestionType {
   id: number
   stepId: number
   image: string
   audio: string
   level: string
-  type: string
   languageCode: string
   question: string
   responseTrue: string
@@ -378,6 +376,8 @@ export interface GameType {
   explanationResponseTrue: string
   explanationResponse2: string
   explanationResponse3: string
+  isValidate: boolean
+  certifiedBy: number
   isFalc: boolean
   isCertifiedFalc?: boolean
 }
@@ -388,7 +388,4 @@ export interface MedalType {
   image: string
   type: string //medaille de type lieu parcours ou etape
   level: string
-  placeId: number
-  journeyId: number
-  stepId: number
 }

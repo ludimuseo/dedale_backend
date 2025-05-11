@@ -1,10 +1,10 @@
 import {
   ClientType,
-  GameType,
   JourneyType,
   MedalType,
   PieceType,
   PlaceType,
+  QuizType,
   StepType,
 } from '@/types'
 
@@ -22,7 +22,7 @@ interface TextAreaType {
     | StepType
     | PieceType
     | MedalType
-    | GameType
+    | QuizType
   language?: string
   rightSideVisible?: boolean
   handleInputChange: (name: string, event: string) => void

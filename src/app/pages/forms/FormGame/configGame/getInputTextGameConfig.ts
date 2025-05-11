@@ -6,7 +6,6 @@ export const getInputQuizConfig: GetInputConfigType[][] = [
       id: '1',
       label: 'Niveau du Quiz',
       name: 'level',
-      mode: 'quiz',
       option: ['NOVICE', 'INTERMEDIARE', 'EXPERT'],
       placeholder: 'Selectionnez le niveau du jeu',
       required: true,
@@ -17,7 +16,6 @@ export const getInputQuizConfig: GetInputConfigType[][] = [
       id: '0',
       label: 'Titre du Quiz',
       name: 'name',
-      mode: 'quiz',
       placeholder: 'Entrez le titre du Quiz',
       required: true,
       sectionLabel: 'Titre du Quiz',
@@ -28,6 +26,28 @@ export const getInputQuizConfig: GetInputConfigType[][] = [
 ]
 
 export const getInputQuestionConfig: GetInputConfigType[][] = [
+  [
+    {
+      id: '71',
+      label: 'Saisir la langue',
+      name: 'languageCode',
+      option: ['fr', 'en'],
+      placeholder: 'Entrez la langue',
+      required: true,
+      sectionLabel: 'Option langue & lecture',
+      translate: true,
+    },
+    {
+      id: '72',
+      label: 'Lecture Falc:',
+      name: 'isFalc',
+      placeholder: 'Cochez',
+      required: true,
+      sectionLabel: 'Lecture',
+      translate: true,
+      type: 'checkbox',
+    },
+  ],
   [
     {
       id: '30',
@@ -85,7 +105,6 @@ export const getInputQuestionConfig: GetInputConfigType[][] = [
       label: 'Explication réponse VRAIE',
       name: 'explanationResponseTrue',
       placeholder: "Entrez l'explication de la réponse VRAIE",
-      rightSideVisible: true,
       rows: 10,
       required: false,
       sectionLabel: 'Explication VRAIE',
@@ -98,7 +117,7 @@ export const getInputQuestionConfig: GetInputConfigType[][] = [
     {
       id: '60',
       label: 'Réponse FAUSSE n°1',
-      name: 'response1',
+      name: 'response2',
       placeholder: 'Entrez la fausse réponse n°1 du quiz',
       required: false,
       sectionLabel: 'Réponse FAUSSE n°1',
@@ -109,7 +128,7 @@ export const getInputQuestionConfig: GetInputConfigType[][] = [
     {
       id: '61',
       label: 'Explication FAUSSE n°1',
-      name: 'explanationResponse1',
+      name: 'explanationResponse2',
       placeholder: 'Entrez la réponse FAUSSE n°1',
       required: false,
       rightSideVisible: true,
@@ -125,7 +144,7 @@ export const getInputQuestionConfig: GetInputConfigType[][] = [
     {
       id: '62',
       label: 'Réponse FAUSSE n°2',
-      name: 'response2',
+      name: 'response3',
       placeholder: 'Entrez la fausse réponse n°2 du quiz',
       required: false,
       sectionLabel: 'Réponse FAUSSE n°2',
@@ -136,7 +155,7 @@ export const getInputQuestionConfig: GetInputConfigType[][] = [
     {
       id: '63',
       label: 'Explication FAUSSE n°2',
-      name: 'explanationResponse2',
+      name: 'explanationResponse3',
       placeholder: 'Entrez la réponse FAUSSE n°2',
       required: false,
       rightSideVisible: true,
@@ -144,6 +163,18 @@ export const getInputQuestionConfig: GetInputConfigType[][] = [
       sectionLabel: 'ExplicationFAUSSE n°2',
       translate: true,
       type: 'text',
+    },
+  ],
+  [
+    {
+      id: '70',
+      label: 'Valider la Question',
+      name: 'name',
+      placeholder: 'Entrez le titre du Quiz',
+      required: true,
+      sectionLabel: 'Valider',
+      translate: true,
+      type: 'button',
     },
   ],
 ]

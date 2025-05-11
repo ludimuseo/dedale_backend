@@ -4,13 +4,14 @@ import { FormEvent, KeyboardEvent, MouseEvent, useRef, useState } from 'react'
 
 import {
   ClientType,
-  GameType,
   GetInputConfigType,
   JourneyType,
   MedalType,
   MessageType,
   PieceType,
   PlaceType,
+  QuestionType,
+  QuizType,
   StepType,
 } from '@/types'
 
@@ -30,7 +31,8 @@ interface InputAreaProps {
     | StepType
     | PieceType
     | MedalType
-    | GameType
+    | QuizType
+    | QuestionType
   handleInputChange: (name: string, event: string | boolean) => void
   handleFileUpload: (
     file: File,
@@ -38,11 +40,12 @@ interface InputAreaProps {
     imgName: string | undefined,
     event: MouseEvent<HTMLButtonElement>
   ) => Promise<void>
+  handleSubmitButton: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
 const InputArea = ({
   message,
-  //handleSubmit,
+  handleSubmitButton,
   getInput,
   currentStep,
   formData,
@@ -306,7 +309,18 @@ const InputArea = ({
                       </div>
                     )
                   }
-
+                  if (type == 'button') {
+                    return (
+                      <button
+                        key={id}
+                        className="xl:btn-xl btn btn-neutral btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+                        onClick={(e) => {
+                          handleSubmitButton(e)
+                        }}>
+                        Enregistrer sur le serveur
+                      </button>
+                    )
+                  }
                   if (type !== 'file' && !rows) {
                     return (
                       <div className="mt-2 flex w-1/2 flex-col" key={id}>
