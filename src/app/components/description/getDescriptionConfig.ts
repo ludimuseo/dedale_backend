@@ -33,6 +33,38 @@ export const getStandardDescriptionConfig = [
       type: 'text',
     },
   ],
+  [
+    {
+      id: '110',
+      label: 'Description Standard (ENGLISH)',
+      language: 'en',
+      mode: 'standard',
+      name: 'description',
+      placeholder: 'Entrez la description "standard" du Lieu en Anglais',
+      required: false,
+      rightSideVisible: true,
+      rows: 10,
+      section: 'description',
+      sectionLabel: 'Descripton Anglaise',
+      type: 'text',
+    },
+  ],
+  [
+    {
+      id: '120',
+      label: 'Description FALC ou Facile à lire (ENGLISH)',
+      language: 'en',
+      mode: 'falc',
+      name: 'descritpion',
+      placeholder: 'Entrez la description "FALC" du Lieu en Anglais',
+      required: false,
+      rightSideVisible: true,
+      rows: 10,
+      section: 'description',
+      sectionLabel: 'Descripton FALC Anglaise',
+      type: 'text',
+    },
+  ],
 ]
 
 export const getFalcDescriptionConfig = [
