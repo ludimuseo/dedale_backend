@@ -16,7 +16,9 @@ import { CSS } from '@dnd-kit/utilities'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 
-import { GetInputConfigType } from '@/types'
+import { useDescriptions } from '@/app/hooks/useDescriptions'
+import { generateUniqueId } from '@/app/services/utils/generateId'
+import { DescriptionType, GetInputConfigType } from '@/types'
 
 import { WrongCheck } from '../ui/icons/WrongCheck'
 import AddDescriptionButton from './AddDescriptionButton'
@@ -27,58 +29,29 @@ interface DescriptionProps {
   getInput: GetInputConfigType[][]
   currentStep: number
   newIdFromApi: number
+  collection: string
+  handleSubmitDescriptions: (descriptions: DescriptionType[]) => void
 }
 interface SortableItemProps {
-  desc: { id: number }
-  handleRemoveDesc: (id: number) => void
-}
-
-export interface Description {
-  collectionId: number
-  id: number
-  language: string
-  order: number
-  text: string
-  isFalc: boolean
-  isCertifiedFalc: boolean
-  image: {
-    file: string
-    alt: string
-  }
-
-  audio: {
-    file: string
-    audio_desc: string
-  }
+  desc: { id: string }
+  handleRemoveDesc: (id: string) => void
 }
 
 export default function Description({
   getInput,
   currentStep,
   newIdFromApi,
+  collection,
+  handleSubmitDescriptions,
 }: DescriptionProps) {
   const [language, setLanguage] = useState<string | undefined>('fr')
   const [isFalc, setIsFalc] = useState(false)
-  const [descriptions, setDescriptions] = useState<Description[]>([
-    {
-      id: Date.now(),
-      collectionId: newIdFromApi,
-      language: 'fr',
-      order: 0,
-      text: '',
-      isFalc: false,
-      isCertifiedFalc: false,
-      image: {
-        file: '',
-        alt: '',
-      },
-      audio: {
-        file: '',
-        audio_desc: '',
-      },
-    },
-  ])
-  const textareasRef = useRef<Record<number, HTMLTextAreaElement | null>>({})
+  const { descriptions, setDescriptions } = useDescriptions(
+    newIdFromApi,
+    collection
+  )
+
+  const textareasRef = useRef<Record<string, HTMLTextAreaElement | null>>({})
 
   useEffect(() => {
     const stepData = getInput[currentStep] || [] // Évite les erreurs si `getInput[currentStep]` est undefined
@@ -93,25 +66,27 @@ export default function Description({
   useEffect(() => {
     // Vérifie si l'on passe en mode FALC et qu'il y a déjà du texte
     if (isFalc && descriptions.some((desc) => desc.text.length > 0)) {
-      const confirmClear = window.confirm(
-        'Voulez-vous effacer le texte pour rédiger la version FALC ?'
+      const confirmSubmit = window.confirm(
+        'ATTENTION Voulez-vous sauvegarder sur le serveur ?'
       )
-
-      if (confirmClear) {
-        setDescriptions((prevDescriptions) =>
-          prevDescriptions.map((desc) => ({
-            ...desc,
-            id: Date.now() + Math.random(), // Nouvel ID unique
-            text: '', // Efface le texte
-          }))
-        )
+      if (confirmSubmit) {
+        handleSubmitDescriptions(descriptions)
       }
+      // if (confirmClear) {
+      //   setDescriptions((prevDescriptions) =>
+      //     prevDescriptions.map((desc) => ({
+      //       ...desc,
+      //       id: generateUniqueId(), // Nouvel ID unique
+      //       text: '', // Efface le texte
+      //     }))
+      //   )
+      // }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFalc]) // Déclenché uniquement quand `isFalc` change
 
   const handleAddDescription = (
-    id: number,
+    id: string,
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     event.preventDefault()
@@ -191,7 +166,7 @@ export default function Description({
               ref={(el) => {
                 if (el) textareasRef.current[desc.id] = el
               }}
-              descriptions={[desc as Description]}
+              descriptions={[desc as DescriptionType]}
               handleAddDescription={handleAddDescription}
               language={language}
               isFalc={isFalc}
@@ -219,7 +194,8 @@ export default function Description({
     setDescriptions([
       ...descriptions,
       {
-        id: Date.now() + Math.random(),
+        id: generateUniqueId(),
+        collection: collection,
         collectionId: newIdFromApi,
         language: language ?? 'fr',
         order: descriptions.length,
@@ -228,17 +204,15 @@ export default function Description({
         isCertifiedFalc: false,
         image: {
           file: '',
-          alt: '',
         },
         audio: {
           file: '',
-          audio_desc: '',
         },
       },
     ])
   }
 
-  const handleRemoveDesc = (id: number) => {
+  const handleRemoveDesc = (id: string) => {
     if (
       window.confirm(
         'Etes-vous certain de vouloir supprimer cette descritpion ?'
@@ -264,7 +238,7 @@ export default function Description({
     }
   }
 
-  console.log('descriptions: ', descriptions)
+  console.log('DESCRIPTIONS descriptions: ', descriptions)
 
   return (
     <>
@@ -291,6 +265,18 @@ export default function Description({
         </SortableContext>
       </DndContext>
       <AddDescriptionButton handleAddDesc={handleAddDesc} />
+      <div className="flex flex-col items-center justify-center">
+        {' '}
+        <button
+          onClick={() => {
+            handleSubmitDescriptions(descriptions)
+          }}
+          className="btn btn-neutral mt-2">
+          <p className="mt-1 font-inclusive text-xl">
+            Enregistrer sur le serveur
+          </p>
+        </button>
+      </div>
     </>
   )
 }

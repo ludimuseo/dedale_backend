@@ -12,17 +12,15 @@ const ChangeLanguage: FC = () => {
   }
   return (
     <>
-      <div id="change-language">
-        <label className="swap swap-rotate w-full">
-          <input
-            type="checkbox"
-            checked={i18n.language === 'fr'}
-            onChange={(e) => void changeLanguage(e)}
-          />
-          <span className="swap-off">{t('lang.en')}</span>
-          <span className="swap-on">{t('lang.fr')}</span>
-        </label>
-      </div>
+      <label className="swap swap-rotate w-full">
+        <input
+          type="checkbox"
+          checked={i18n.language === 'fr'}
+          onChange={(e) => void changeLanguage(e)}
+        />
+        <span className="swap-off">{t('lang.en')}</span>
+        <span className="swap-on">{t('lang.fr')}</span>
+      </label>
     </>
   )
 }

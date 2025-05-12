@@ -22,17 +22,6 @@ export const getInputPlaceConfig: GetInputConfigType[][] = [
       translate: true,
       type: 'text',
     },
-    {
-      id: '100',
-      label: 'Name (English)',
-      language: 'en',
-      name: 'en',
-      placeholder: 'Entrez le nom du lieu en Anglais',
-      required: true,
-      rightSideVisible: true,
-      sectionLabel: 'Nom du lieu',
-      type: 'text',
-    },
   ],
 
   [
@@ -74,7 +63,7 @@ export const getInputPlaceConfig: GetInputConfigType[][] = [
       required: false,
       sectionLabel: 'Adresse',
       translate: false,
-      type: 'number',
+      type: 'text',
     },
   ],
   [

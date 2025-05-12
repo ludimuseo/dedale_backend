@@ -2,57 +2,71 @@ import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
-import { getStandardDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useAppSelector } from '@/app/hooks'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
 import {
   ClientType,
+  GameType,
   JourneyType,
   MessageType,
   PlaceType,
+  QuizType,
   State,
   StepType,
 } from '@/types'
 
 import Form from '../Form'
-import { getInputStepConfig } from './configStep/getInputTextStepConfig'
+import {
+  getInputQuestionConfig,
+  getInputQuizConfig,
+} from './configGame/getInputTextGameConfig'
 
-const FormStep: FC = () => {
-  const title = 'Formulaire Etape'
-  const collection = 'steps'
+const FormGame: FC = () => {
   const navigate = useNavigate()
-  const [client, setClient] = useState<ClientType[]>([])
-  const [place, setPlace] = useState<PlaceType[]>([])
-  const [journey, setJourney] = useState<JourneyType[]>([])
-  const [showDescription, setShowDescription] = useState(false)
-  const [newIdFromApi, setNewIdFromApi] = useState<number>()
-  const [selectedClientId, setSelectedClientId] = useState<number>()
-  const [selectedPlaceId, setSelectedPlaceId] = useState<number>()
-  const [selectedJourneyId, setSelectedJourneyId] = useState<number>()
   const [message, setMessage] = useState<MessageType>({
     info: '',
     result: false,
   })
+  const [newIdFromApi, setNewIdFromApi] = useState<number>() //recup l'id du quiz pour les questions
+  const title = newIdFromApi ? 'Formulaire Question' : 'Formulaire Quiz'
+  const collection = 'games'
+  const [client, setClient] = useState<ClientType[]>([])
+  const [place, setPlace] = useState<PlaceType[]>([])
+  const [journey, setJourney] = useState<JourneyType[]>([])
+  const [stepData, setStepData] = useState<StepType[]>()
+  const [selectedClientId, setSelectedClientId] = useState<number>()
+  const [selectedPlaceId, setSelectedPlaceId] = useState<number>()
+  const [selectedJourneyId, setSelectedJourneyId] = useState<number>()
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
-  const [formData, setFormData] = useState<StepType>({
+  const getInput = newIdFromApi ? getInputQuestionConfig : getInputQuizConfig
+  const [formQuiz, setFormQuiz] = useState<QuizType>({
     id: 0,
-    journeyId: 0,
-    medalId: 0,
+    stepId: 0,
+    level: 'NOVICE',
     name: '',
-    image: 'image.png',
-    address: '',
-    city: '',
-    country: '',
-    postal: '',
-    location_required: false,
-    lat: 0,
-    lon: 0,
-    stepNumber: 1, //initialisé a 1
-    isActive: false,
-    isPublished: false,
+  })
+  const [formData, setFormData] = useState<GameType>({
+    id: 0,
+    stepId: 0,
+    image: '',
+    audio: '',
+    level: '',
+    type: '',
+    languageCode: '',
+    question: '',
+    responseTrue: '',
+    response2: '',
+    response3: '',
+    explanationResponseTrue: '',
+    explanationResponse2: '',
+    explanationResponse3: '',
+    isFalc: false,
   })
 
+  const handleArrowLeft = () => {
+    void navigate(-1)
+  }
   const {
     step,
     setStep,
@@ -61,79 +75,12 @@ const FormStep: FC = () => {
     handleNextStep,
     handlePrevStep,
   } = useTimelineStep()
-  const getInput = !showDescription
-    ? getInputStepConfig
-    : getStandardDescriptionConfig
-
-  const handleArrowLeft = () => {
-    void navigate(-1)
-  }
-
-  //soumission des informations
-  const handleSubmit = async (
-    event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault()
-
-    if (!token) {
-      alert("Une erreur c'est produite, reconnectez-vous")
-      void navigate('/auth/signin')
-      return
-    }
-
-    //FETCH des donnees a l'API et recuperer l'ID
-    if (showDescription) {
-      setMessage(() => ({
-        info: 'Vos descriptions ont été envoyées avec succès !',
-        result: true,
-      }))
-    } else {
-      setMessage(() => ({
-        info: 'Votre formulaire a été envoyé avec succès !',
-        result: true,
-      }))
-    }
-
-    try {
-      const response: Response = await fetchWithAuth(
-        `https://dev.ludimuseo.fr:4000/api/steps/create`,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ step: formData }),
-        }
-      )
-
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP: ${String(response.status)}`)
-      }
-      const newId: number = (await response.json()) as number
-      setNewIdFromApi(newId) // recupere l'Id du nouveau place créé
-
-      console.log('newId from Server', newId)
-    } catch (error) {
-      console.error('Erreur:', error)
-      setMessage({
-        info: "Erreur lors de l'envoi du formulaire",
-        result: true,
-      })
-    }
-  }
 
   const handleInputChange = (name: string, value: string | boolean) => {
-    setFormData((prevFormData) => ({
+    setFormQuiz((prevFormData) => ({
       ...prevFormData,
       [name]: value,
     }))
-  }
-
-  const handleDescription = () => {
-    //AFFICHER Descritpion
-    setShowDescription(true)
-    setCurrentStep(0)
   }
 
   const handleSelectClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -152,12 +99,58 @@ const FormStep: FC = () => {
     const selectedValue = e.target.value
     const selectedValueToNumber = Number(selectedValue)
     setSelectedJourneyId(selectedValueToNumber)
-    setFormData((prevFormData) => {
+  }
+
+  const handleSelectStep = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value
+    const selectedValueToNumber = Number(selectedValue)
+
+    setFormQuiz((prevFormData) => {
       return {
         ...prevFormData,
-        ['journeyId']: selectedValueToNumber,
+        ['stepId']: selectedValueToNumber,
       }
     })
+  }
+
+  //soumission des informations QUIZ
+  const handleSubmit = async (
+    event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault()
+    if (!token) {
+      alert("Une erreur c'est produite, reconnectez-vous")
+      void navigate('/auth/signin')
+      return
+    }
+
+    try {
+      const response: Response = await fetchWithAuth(
+        `https://dev.ludimuseo.fr:4000/api/games/create`, // TODO
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ quiz: formQuiz }),
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${String(response.status)}`)
+      }
+      const newId: number = (await response.json()) as number
+      setNewIdFromApi(newId) // recupere l'Id du nouveau place créé
+
+      console.log('newId from Server', newId)
+    } catch (error) {
+      console.error('Erreur:', error)
+      setMessage({
+        info: "Erreur lors de l'envoi du formulaire",
+        result: true,
+      })
+    }
   }
 
   const handleFileUpload = async (
@@ -257,7 +250,6 @@ const FormStep: FC = () => {
         setPlace(placeData)
       } catch (error) {
         setPlace([])
-        setJourney([])
         console.log('ERROR fetching places: ', error)
       }
     }
@@ -284,19 +276,18 @@ const FormStep: FC = () => {
         }
         const data = (await response.json()) as JourneyType[]
         const journeyData = data
-        console.log('From fecth journeyData: ', journeyData)
         setJourney(journeyData)
       } catch (error) {
         setJourney([])
-        console.log('ERROR fetching places: ', error)
+        console.log('ERROR fetching journeys: ', error)
       }
     }
     void fetchJourney()
   }, [selectedPlaceId])
 
   useEffect(() => {
-    //recup de le nombre de step pour initialisé le numero de step
-    const countStepNumber = async () => {
+    const fetchStep = async () => {
+      if (!selectedJourneyId) return
       try {
         const response: Response = await fetchWithAuth(
           `https://dev.ludimuseo.fr:4000/api/steps/find/${selectedJourneyId.toString()}`,
@@ -312,25 +303,20 @@ const FormStep: FC = () => {
         if (!response.ok) {
           throw new Error(`Erreur HTTP: ${String(response.status)}`)
         }
-        const data = (await response.json()) as JourneyType[]
-        const stepsData = data
-        const totalSteps = stepsData.length + 1
-        setFormData((prev) => {
-          return {
-            ...prev,
-            ['stepNumber']: totalSteps,
-          }
-        })
+        const stepData = (await response.json()) as StepType[]
+        console.log('Fetch StepData from GAME: ', stepData)
+        setStepData(stepData)
       } catch (error) {
+        setStepData([])
         console.log('ERROR fetching steps: ', error)
       }
     }
-
-    void countStepNumber()
+    void fetchStep()
   }, [selectedJourneyId])
 
   useEffect(() => {
     setStep(getInput.length)
+    setCurrentStep(0)
     setMessage({
       info: '',
       result: false,
@@ -338,19 +324,23 @@ const FormStep: FC = () => {
   }, [getInput])
 
   console.log('FormData:', { ...formData })
+  console.log('FormQuiz:', { ...formQuiz })
 
   return (
     <Form
       client={client}
       place={place}
       journey={journey}
-      isAssociated={formData.journeyId !== 0}
+      stepData={stepData}
+      isAssociated={formQuiz.stepId !== 0}
       selectedClientId={selectedClientId}
       selectedPlaceId={selectedPlaceId}
+      selectedJourneyId={selectedJourneyId}
       newIdFromApi={newIdFromApi}
       handleSelectClient={handleSelectClient}
       handleSelectPlace={handleSelectPlace}
       handleSelectJourney={handleSelectJourney}
+      handleSelectStep={handleSelectStep}
       title={title}
       collection={collection}
       icon={<></>}
@@ -366,7 +356,6 @@ const FormStep: FC = () => {
       handleInputChange={(name, value) => {
         handleInputChange(name, value)
       }}
-      handleDescription={handleDescription}
       handlePrevStep={handlePrevStep}
       handleNextStep={handleNextStep}
       handleFileUpload={(file, fileType, name, event) => {
@@ -376,4 +365,4 @@ const FormStep: FC = () => {
   )
 }
 
-export { FormStep }
+export { FormGame }

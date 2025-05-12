@@ -4,15 +4,18 @@ import Description from '@/app/components/description/Description'
 import ClientDropdownList from '@/app/components/forms/dropdownLists/ClientDropdownList'
 import JourneyDropdownList from '@/app/components/forms/dropdownLists/JourneyDropdwonList'
 import PlaceDropdownList from '@/app/components/forms/dropdownLists/PlaceDropdownList'
+import StepDropdownList from '@/app/components/forms/dropdownLists/StepDropdownList'
 import {
   ClientType,
+  DescriptionType,
+  GameType,
   GetInputConfigType,
   JourneyType,
+  MedalType,
   MessageType,
   PieceType,
   PlaceType,
   StepType,
-  T,
 } from '@/types'
 
 import FormFooter from './FormFooter'
@@ -23,6 +26,8 @@ import Timeline from './Timeline'
 interface FormProps {
   client?: ClientType[] | undefined
   place?: PlaceType[]
+  journey?: JourneyType[]
+  stepData?: StepType[]
   isAssociated?: boolean
   newIdFromApi?: number
   selectedClientId?: number
@@ -30,6 +35,7 @@ interface FormProps {
   selectedJourneyId?: number
   showDescription?: boolean
   title: string
+  collection: string
   icon: React.JSX.Element
   handleArrowLeft: () => void
   attributedMedal?: {
@@ -50,26 +56,41 @@ interface FormProps {
   handleSubmit: (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => void
-  formData: T | PlaceType | ClientType | JourneyType | StepType | PieceType
+  formData:
+    | PlaceType
+    | ClientType
+    | JourneyType
+    | StepType
+    | PieceType
+    | MedalType
+    | GameType
   handleInputChange: (name: string, event: string) => void
-  handleFileUpload?: (file: File, fileType: string, name: string) => void
+  handleFileUpload?: (
+    file: File,
+    fileType: string,
+    name: string,
+    event: MouseEvent<HTMLButtonElement>
+  ) => void
   handleSelectClient?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectPlace?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectJourney?: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  selectedOption?: number
-  selectedPlaceOption?: string
+  handleSelectStep?: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  handleSubmitDescriptions: (descriptions: DescriptionType[]) => void
 }
 
 const Form = ({
   client,
   place,
+  journey,
+  stepData,
   isAssociated,
   selectedClientId,
   selectedPlaceId,
-  //selectedJourneyId,
+  selectedJourneyId,
   showDescription,
   newIdFromApi,
   title,
+  collection,
   icon,
   handleArrowLeft,
   getInput,
@@ -85,7 +106,9 @@ const Form = ({
   handleFileUpload,
   handleSelectClient,
   handleSelectPlace,
-  //handleSelectJourney,
+  handleSelectJourney,
+  handleSelectStep,
+  handleSubmitDescriptions,
 }: FormProps) => {
   return (
     <div className="grid grid-cols-1 gap-2 p-10 sm:grid-cols-1">
@@ -101,11 +124,20 @@ const Form = ({
         place={place}
       />
       <JourneyDropdownList
+        title={title}
         selectedPlaceId={selectedPlaceId}
-        //handleSelectJourney={handleSelectJourney}
-        //journey={journey}
+        handleSelectJourney={handleSelectJourney}
+        journey={journey}
       />
-      {isAssociated || title === 'Formulaire Client' ? (
+      <StepDropdownList
+        title={title}
+        handleSelectStep={handleSelectStep}
+        selectedJourneyId={selectedJourneyId}
+        steps={stepData}
+      />
+      {isAssociated ||
+      title === 'Formulaire Client' ||
+      title === 'Formulaire Médaille' ? (
         <Timeline
           getInput={getInput}
           currentStep={currentStep}
@@ -116,7 +148,9 @@ const Form = ({
         <></>
       )}
 
-      {isAssociated || title === 'Formulaire Client' ? (
+      {isAssociated ||
+      title === 'Formulaire Client' ||
+      title === 'Formulaire Médaille' ? (
         !showDescription ? (
           <InputArea
             message={message}
@@ -129,21 +163,25 @@ const Form = ({
             handleInputChange={(name, value) => {
               handleInputChange(name, value)
             }}
-            handleFileUpload={(file, fileType, name) => {
-              handleFileUpload?.(file, fileType, name)
+            handleFileUpload={(file, fileType, name, event) => {
+              handleFileUpload?.(file, fileType, name, event)
             }}
           />
         ) : (
           <Description
+            handleSubmitDescriptions={handleSubmitDescriptions}
             getInput={getInput}
             currentStep={currentStep}
             newIdFromApi={newIdFromApi ?? 0}
+            collection={collection}
           />
         )
       ) : (
         <></>
       )}
-      {isAssociated || title === 'Formulaire Client' ? (
+      {isAssociated ||
+      title === 'Formulaire Client' ||
+      title === 'Formulaire Médaille' ? (
         <FormFooter
           title={title}
           message={message}

@@ -4,7 +4,7 @@ import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
-import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { getStandardDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
 import { ClientType, JourneyType, MessageType, PlaceType, State } from '@/types'
@@ -14,6 +14,7 @@ import { getInputJourneyConfig } from './configJourney/getInputJourneyConfig'
 
 const FormJourney: FC = () => {
   const title = 'Formulaire Parcours'
+  const collection = 'journeys'
   const navigate = useNavigate()
   const [showDescription, setShowDescription] = useState(false)
   const [client, setClient] = useState<ClientType[]>([])
@@ -65,6 +66,12 @@ const FormJourney: FC = () => {
   ) => {
     event.preventDefault()
 
+    if (!token) {
+      alert("Une erreur c'est produite, reconnectez-vous")
+      void navigate('/auth/signin')
+      return
+    }
+
     //FETCH des donnees a l'API et recuperer l'ID
     if (showDescription) {
       setMessage(() => ({
@@ -78,12 +85,6 @@ const FormJourney: FC = () => {
       }))
     }
 
-    if (!token) {
-      alert("Une erreur c'est produite, reconnectez-vous")
-      void navigate('/')
-      return
-    }
-
     try {
       const response: Response = await fetch(
         `https://dev.ludimuseo.fr:4000/api/journeys/create`,
@@ -93,7 +94,7 @@ const FormJourney: FC = () => {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ place: formData }),
+          body: JSON.stringify({ journey: formData }),
         }
       )
 
@@ -137,7 +138,7 @@ const FormJourney: FC = () => {
     fileType: string,
     name: string,
     event: MouseEvent<HTMLButtonElement>
-  ) => {
+  ): Promise<void> => {
     event.preventDefault()
     const formUpload = new FormData()
     // Ajout des données dans formUpload
@@ -249,10 +250,14 @@ const FormJourney: FC = () => {
 
   const getInput = !showDescription
     ? getInputJourneyConfig
-    : getDescriptionConfig
+    : getStandardDescriptionConfig
 
   useEffect(() => {
     setStep(getInput.length)
+    setMessage({
+      info: '',
+      result: false,
+    })
   }, [getInput])
 
   console.log('FormDataJourney:', { ...formData })
@@ -269,6 +274,7 @@ const FormJourney: FC = () => {
         selectedPlaceId={selectedPlaceId}
         newIdFromApi={newIdFromApi}
         title={title}
+        collection={collection}
         icon={<JourneyIcon />}
         handleArrowLeft={handleArrowLeft}
         getInput={getInput}
@@ -286,7 +292,9 @@ const FormJourney: FC = () => {
         handleDescription={handleDescription}
         handlePrevStep={handlePrevStep}
         handleNextStep={handleNextStep}
-        handleFileUpload={void handleFileUpload}
+        handleFileUpload={(file, fileType, name, event) => {
+          void handleFileUpload(file, fileType, name, event)
+        }}
       />
     </>
   )

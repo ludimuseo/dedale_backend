@@ -4,10 +4,16 @@ import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
-import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { getStandardDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
-import { ClientType, MessageType, PlaceType, State } from '@/types'
+import {
+  ClientType,
+  DescriptionType,
+  MessageType,
+  PlaceType,
+  State,
+} from '@/types'
 
 import Form from '../Form'
 import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
@@ -15,10 +21,10 @@ import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
 const FormPlace: FC = () => {
   const navigate = useNavigate()
   const title = 'Formulaire Lieu'
-  const [showDescription, setShowDescription] = useState(false)
+  const collection = 'places'
+  const [showDescription, setShowDescription] = useState(true)
   const [client, setClient] = useState<ClientType[]>([])
-  const [selectedOption, setSelectedOption] = useState<number>()
-  const [newIdFromApi, setNewIdFromApi] = useState<number>()
+  const [newIdFromApi, setNewIdFromApi] = useState<number>(2)
   const [message, setMessage] = useState<MessageType>({
     info: '',
     result: false,
@@ -41,7 +47,9 @@ const FormPlace: FC = () => {
     isPublished: false,
   })
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
-  const getInput = !showDescription ? getInputPlaceConfig : getDescriptionConfig
+  const getInput = !showDescription
+    ? getInputPlaceConfig
+    : getStandardDescriptionConfig
 
   const {
     step,
@@ -68,8 +76,15 @@ const FormPlace: FC = () => {
   ) => {
     event.preventDefault()
 
+    if (!token) {
+      alert("Une erreur c'est produite, reconnectez-vous")
+      void navigate('/auth/signin')
+      return
+    }
+
     //FETCH des donnees a l'API et recuperer l'ID
     if (showDescription) {
+      //Envois des DATA au serveur
       setMessage(() => ({
         info: 'Vos descriptions ont été envoyées avec succès !',
         result: true,
@@ -77,18 +92,12 @@ const FormPlace: FC = () => {
     } else {
       setMessage(() => ({
         info: 'Votre formulaire a été envoyé avec succès !',
-        result: true,
+        result: false,
       }))
     }
-
-    if (!token) {
-      alert("Une erreur c'est produite, reconnectez-vous")
-      void navigate('/auth/signin')
-      return
-    }
-
+    return
     try {
-      const response: Response = await fetch(
+      const response: Response = await fetchWithAuth(
         `https://dev.ludimuseo.fr:4000/api/places`,
         {
           method: 'POST',
@@ -131,10 +140,11 @@ const FormPlace: FC = () => {
   const handleFileUpload = async (
     file: File,
     fileType: string,
-    name: string,
+    imgName: string | undefined,
     event: MouseEvent<HTMLButtonElement>
-  ) => {
+  ): Promise<void> => {
     event.preventDefault()
+
     const formUpload = new FormData()
     // Ajout des données dans formUpload
     formUpload.append('file', file) // le fichier image à uploader
@@ -144,7 +154,7 @@ const FormPlace: FC = () => {
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
-        [fileType]: name,
+        [fileType]: imgName,
       }
     })
 
@@ -174,7 +184,6 @@ const FormPlace: FC = () => {
   const handleSelectClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value
     const selectedValueToNumber = Number(selectedValue)
-    setSelectedOption(selectedValueToNumber)
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
@@ -183,8 +192,23 @@ const FormPlace: FC = () => {
     })
   }
 
+  const handleSubmitDescriptions = (descriptions: DescriptionType[]) => {
+    //ENVOIE du tableau de descriptions au serveur
+    console.log('FORMPLACE descriptions: ', descriptions)
+    setMessage(() => ({
+      info: 'Vos descriptions ont été envoyées avec succès !',
+      result: true,
+    }))
+  }
+
   useEffect(() => {
     setStep(getInput.length)
+    setCurrentStep(0)
+    //permert de reinitialiser le footer
+    setMessage({
+      info: '',
+      result: false,
+    })
   }, [getInput])
 
   useEffect(() => {
@@ -219,37 +243,36 @@ const FormPlace: FC = () => {
   }, [])
 
   console.log('formData:', formData)
-
   return (
-    <>
-      <Form
-        client={client}
-        isAssociated={formData.clientId !== 0}
-        handleSelectClient={handleSelectClient}
-        selectedOption={selectedOption}
-        newIdFromApi={newIdFromApi}
-        title={title}
-        icon={<PlaceIcon />}
-        handleArrowLeft={handleArrowLeft}
-        getInput={getInput}
-        currentStep={currentStep}
-        step={step}
-        message={message}
-        showDescription={showDescription}
-        handleSubmit={(event) => {
-          void handleSubmit(event)
-        }}
-        formData={formData}
-        handleInputChange={(name, value) => {
-          handleInputChange(name, value)
-        }}
-        handleDescription={handleDescription}
-        handlePrevStep={handlePrevStep}
-        handleNextStep={handleNextStep}
-        handleFileUpload={void handleFileUpload}
-      />
-    </>
+    <Form
+      client={client}
+      isAssociated={formData.clientId !== 0}
+      handleSelectClient={handleSelectClient}
+      newIdFromApi={newIdFromApi}
+      title={title}
+      collection={collection}
+      icon={<PlaceIcon />}
+      handleArrowLeft={handleArrowLeft}
+      getInput={getInput}
+      currentStep={currentStep}
+      step={step}
+      message={message}
+      showDescription={showDescription}
+      handleSubmit={(event) => {
+        void handleSubmit(event)
+      }}
+      formData={formData}
+      handleInputChange={(name, value) => {
+        handleInputChange(name, value)
+      }}
+      handleDescription={handleDescription}
+      handlePrevStep={handlePrevStep}
+      handleNextStep={handleNextStep}
+      handleFileUpload={(file, fileType, name, event) => {
+        void handleFileUpload(file, fileType, name, event)
+      }}
+      handleSubmitDescriptions={handleSubmitDescriptions}
+    />
   )
 }
-
 export { FormPlace }

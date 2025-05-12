@@ -1,15 +1,17 @@
+import failedImage from '@img/minos-echoue.png'
 import successImage from '@img/minos-reussi.png'
-import { FormEvent, MouseEvent, useRef, useState } from 'react'
+import { FormEvent, KeyboardEvent, MouseEvent, useRef, useState } from 'react'
 
 import {
   ClientType,
+  GameType,
   GetInputConfigType,
   JourneyType,
+  MedalType,
   MessageType,
   PieceType,
   PlaceType,
   StepType,
-  T,
 } from '@/types'
 
 import TextArea from './inputForm/TextArea'
@@ -21,33 +23,46 @@ interface InputAreaProps {
   ) => void
   getInput: GetInputConfigType[][]
   currentStep: number
-  formData: T | PlaceType | ClientType | JourneyType | StepType | PieceType
+  formData:
+    | PlaceType
+    | ClientType
+    | JourneyType
+    | StepType
+    | PieceType
+    | MedalType
+    | GameType
   handleInputChange: (name: string, event: string | boolean) => void
   handleFileUpload: (
     file: File,
     fileType: string,
-    name: string,
+    imgName: string | undefined,
     event: MouseEvent<HTMLButtonElement>
-  ) => void
+  ) => Promise<void>
 }
 
 const InputArea = ({
   message,
-  handleSubmit,
+  //handleSubmit,
   getInput,
   currentStep,
   formData,
   handleInputChange,
   handleFileUpload,
-  //handleChange,
 }: InputAreaProps) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [imgFile, setImgFile] = useState<File | null>(null)
-  const [imgName, setImgName] = useState('')
+  const [imgName, setImgName] = useState<string | undefined>('')
   const [isUploading, setIsUploading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
   const [uploadSuccess, setUploadSuccess] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  //empecher la soumission du formulaire en appuyant sur ENTREE
+  const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+    }
+  }
 
   const acceptedFileTypes = {
     image: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
@@ -65,7 +80,7 @@ const InputArea = ({
     setUploadSuccess(false)
 
     const file = event.target.files?.[0]
-    const name = event.target.name
+    const name = file?.name
 
     if (!file) return
 
@@ -95,7 +110,6 @@ const InputArea = ({
     if (type === 'image') {
       setImgFile(file)
       setImgName(name)
-
       const imageUrl = URL.createObjectURL(file)
       setImagePreview(imageUrl)
     }
@@ -108,7 +122,6 @@ const InputArea = ({
   }
 
   const handleUploadToServer = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
     if (!imgFile) return
 
     setIsUploading(true)
@@ -116,7 +129,7 @@ const InputArea = ({
     setUploadSuccess(false)
 
     try {
-      handleFileUpload(imgFile, 'image', imgName, event)
+      void handleFileUpload(imgFile, 'image', imgName, event)
       setUploadSuccess(true)
       // Réinitialiser après un délai pour permettre à l'utilisateur de voir le message de succès
       setTimeout(() => {
@@ -136,25 +149,205 @@ const InputArea = ({
   return (
     <div className="flex min-h-max justify-center rounded-xl bg-base-100 p-4 shadow-xl">
       {!message.info ? (
-        <form
-          onSubmit={handleSubmit}
-          className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark flex w-1/2 flex-col p-2">
-          {getInput[currentStep].map(
-            ({
-              id,
-              rows,
-              language,
-              type,
-              mode,
-              name,
-              label,
-              option,
-              placeholder,
-              fileType,
-              rightSideVisible,
-            }) => {
-              if (!rightSideVisible) {
-                if (rows) {
+        <>
+          {getInput[currentStep].map(({ id, type, name, fileType, label }) => {
+            if (fileType) {
+              return (
+                <div className="flex flex-row space-x-10" key={id}>
+                  <div className="mb-2 mt-2 flex flex-col">
+                    <p className="mb-2 text-center font-inclusive text-lg">
+                      {label}
+                    </p>
+                    <input
+                      ref={fileInputRef}
+                      key={id}
+                      id={id}
+                      name={name}
+                      type={type}
+                      accept={acceptedFileTypes[
+                        fileType as keyof typeof acceptedFileTypes
+                      ].join(',')}
+                      onChange={(e) => {
+                        handleFileChange(e, fileType)
+                      }}
+                      className="file-input file-input-bordered file-input-primary w-full max-w-xs"
+                    />
+
+                    {/* Messages d'état */}
+                    {uploadError && (
+                      <div className="text-XL mt-2 text-error">
+                        {uploadError}
+                      </div>
+                    )}
+                    {uploadSuccess && (
+                      <div className="text-XL mt-2 text-success">
+                        Fichier envoyé avec succès!
+                      </div>
+                    )}
+
+                    {/* Bouton d'envoi */}
+                    {imagePreview && (
+                      <button
+                        className="btn btn-neutral mt-4"
+                        onClick={(event) => {
+                          handleUploadToServer(event)
+                        }}
+                        disabled={isUploading}>
+                        {isUploading ? (
+                          <span className="loading loading-spinner"></span>
+                        ) : (
+                          'Enregistrer sur le serveur'
+                        )}
+                      </button>
+                    )}
+                  </div>
+
+                  {fileType === 'image' && imagePreview && (
+                    <div>
+                      <p className="mt-2 font-inclusive text-xl">Aperçu:</p>
+                      <div
+                        className="carousel mt-4 w-64 rounded-box"
+                        key={`${id}-image`}>
+                        <div className="carousel-item w-full">
+                          <img
+                            src={imagePreview}
+                            alt="Prévisualisation"
+                            className="ml-1 w-full rounded-xl"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )
+            }
+          })}
+          <form
+            //onSubmit={handleSubmit}
+            className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark flex w-1/2 flex-col p-2">
+            {getInput[currentStep].map(
+              ({
+                id,
+                rows,
+                language,
+                type,
+                mode,
+                name,
+                label,
+                option,
+                placeholder,
+                rightSideVisible,
+              }) => {
+                if (!rightSideVisible) {
+                  if (rows) {
+                    return (
+                      <TextArea
+                        key={id}
+                        id={id}
+                        label={label}
+                        name={name}
+                        placeholder={placeholder}
+                        rows={rows}
+                        mode={mode}
+                        formData={formData}
+                        language={language}
+                        handleInputChange={handleInputChange}
+                      />
+                    )
+                  }
+
+                  if (type === 'checkbox') {
+                    const isChecked = formData[
+                      name as keyof typeof formData
+                    ] as unknown as boolean
+                    return (
+                      <div className="form-control mt-4 flex flex-row" key={id}>
+                        <label className="label cursor-pointer">
+                          <p className="label-text mr-5 font-inclusive text-lg">
+                            {label}
+                          </p>
+                          <input
+                            name={name}
+                            id={id}
+                            type={type}
+                            checked={isChecked}
+                            onChange={() => {
+                              handleInputChange(name, !isChecked)
+                            }}
+                            className="checkbox"
+                          />
+                        </label>
+                      </div>
+                    )
+                  }
+
+                  if (option) {
+                    return (
+                      <div className="mt-2 flex w-1/2 flex-col" key={id}>
+                        <p className="mb-2 font-inclusive text-xl">{label}</p>
+                        <select
+                          name={name}
+                          id={id}
+                          value={
+                            formData[
+                              name as keyof typeof formData
+                            ] as unknown as string
+                          }
+                          onChange={(e) => {
+                            handleInputChange(name, e.target.value)
+                          }}
+                          className="select select-bordered font-inclusive text-lg">
+                          {option.map((opt, index: number) => (
+                            <option key={index} value={opt}>
+                              {opt}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )
+                  }
+
+                  if (type !== 'file' && !rows) {
+                    return (
+                      <div className="mt-2 flex w-1/2 flex-col" key={id}>
+                        <p className="mb-2 font-inclusive text-xl">{label}</p>
+                        <input
+                          key={id}
+                          id={id}
+                          name={name}
+                          className="input input-bordered"
+                          placeholder={placeholder}
+                          type={type}
+                          value={
+                            formData[
+                              name as keyof typeof formData
+                            ] as unknown as string
+                          }
+                          onChange={(e) => {
+                            handleInputChange(name, e.target.value)
+                          }}
+                          onKeyDown={(e) => {
+                            handleInputKeyDown(e)
+                          }}
+                        />
+                      </div>
+                    )
+                  }
+                }
+              }
+            )}
+            {getInput[currentStep].map(
+              ({
+                id,
+                rows,
+                language,
+                mode,
+                name,
+                label,
+                placeholder,
+                rightSideVisible,
+              }) => {
+                if (rows && rightSideVisible) {
                   return (
                     <TextArea
                       key={id}
@@ -166,158 +359,25 @@ const InputArea = ({
                       mode={mode}
                       formData={formData}
                       language={language}
-                      //handleChange={handleChange}
                       handleInputChange={handleInputChange}
                     />
                   )
                 }
-
-                if (type === 'checkbox') {
-                  const isChecked = formData[
-                    name as keyof T[keyof T]
-                  ] as boolean
-                  return (
-                    <div className="form-control mt-4 flex flex-row" key={id}>
-                      <label className="label cursor-pointer">
-                        <p className="label-text mr-5 font-inclusive text-lg">
-                          {label}
-                        </p>
-                        <input
-                          name={name}
-                          id={id}
-                          type={type}
-                          checked={isChecked}
-                          onChange={() => {
-                            handleInputChange(name, !isChecked)
-                          }}
-                          className="checkbox"
-                        />
-                      </label>
-                    </div>
-                  )
-                }
-
-                if (option) {
-                  return (
-                    <div className="mt-2 flex w-1/2 flex-col" key={id}>
-                      <p className="mb-2 font-inclusive text-xl">{label}</p>
-                      <select
-                        name={name}
-                        id={id}
-                        value={formData[name as keyof T[keyof T]]}
-                        onChange={(e) => {
-                          handleInputChange(name, e.target.value)
-                        }}
-                        className="select select-bordered font-inclusive text-lg">
-                        {option.map((opt, index: number) => (
-                          <option key={index} value={opt}>
-                            {opt}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  )
-                }
-
-                if (type !== 'file' && !rows) {
-                  return (
-                    <div className="mt-2 flex w-1/2 flex-col" key={id}>
-                      <p className="mb-2 font-inclusive text-xl">{label}</p>
-                      <input
-                        key={id}
-                        id={id}
-                        name={name}
-                        className="input input-bordered"
-                        placeholder={placeholder}
-                        type={type}
-                        value={formData[name as keyof T[keyof T]]}
-                        onChange={(e) => {
-                          handleInputChange(name, e.target.value)
-                        }}
-                      />
-                    </div>
-                  )
-                }
-
-                if (fileType) {
-                  return (
-                    <div className="flex flex-row space-x-10" key={id}>
-                      <div className="mb-2 mt-2 flex flex-col">
-                        <p className="mb-2 text-center font-inclusive text-lg">
-                          {label}
-                        </p>
-                        <input
-                          ref={fileInputRef}
-                          key={id}
-                          id={id}
-                          name={name}
-                          type={type}
-                          accept={acceptedFileTypes[
-                            fileType as keyof typeof acceptedFileTypes
-                          ].join(',')}
-                          onChange={(e) => {
-                            handleFileChange(e, fileType)
-                          }}
-                          className="file-input file-input-bordered file-input-primary w-full max-w-xs"
-                        />
-
-                        {/* Messages d'état */}
-                        {uploadError && (
-                          <div className="text-XL mt-2 text-error">
-                            {uploadError}
-                          </div>
-                        )}
-                        {uploadSuccess && (
-                          <div className="text-XL mt-2 text-success">
-                            Fichier envoyé avec succès!
-                          </div>
-                        )}
-
-                        {/* Bouton d'envoi */}
-                        {imagePreview && (
-                          <button
-                            className="btn btn-neutral mt-4"
-                            onClick={void handleUploadToServer}
-                            disabled={isUploading}>
-                            {isUploading ? (
-                              <span className="loading loading-spinner"></span>
-                            ) : (
-                              'Enregistrer sur le serveur'
-                            )}
-                          </button>
-                        )}
-                      </div>
-
-                      {fileType === 'image' && imagePreview && (
-                        <div>
-                          <p className="mt-2 font-inclusive text-xl">Aperçu:</p>
-                          <div
-                            className="carousel mt-4 w-64 rounded-box"
-                            key={`${id}-image`}>
-                            <div className="carousel-item w-full">
-                              <img
-                                src={imagePreview}
-                                alt="Prévisualisation"
-                                className="ml-1 w-full rounded-xl"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  )
-                }
               }
-            }
-          )}
-        </form>
+            )}
+          </form>
+        </>
       ) : (
         <div className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark mt-5 flex w-1/2 flex-col items-center rounded-sm p-2">
           <h1> 🚀 {message.info}</h1>
           <img
             width="30%"
-            src={successImage}
-            alt="Success Minos"
+            src={!message.result ? successImage : failedImage}
+            alt={
+              !message.result
+                ? 'Formulaire envoyé avec succes'
+                : "Echec de l'envoie du formulaire"
+            }
             className="mt-10"
           />
         </div>

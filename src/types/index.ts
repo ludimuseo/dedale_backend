@@ -114,7 +114,7 @@ export type T = Record<
   | Name
   | Image
   | Coords
-  | Description
+  | DescriptionType
   | Standard
   | Falc
   | Audio
@@ -177,10 +177,6 @@ interface CertifiedTxt {
   certifiedDate: Timestamp | null
   isCorrected: boolean
 }
-interface Description {
-  standard: Standard
-  falc: Falc
-}
 interface Audio {
   standard: {
     fr: string
@@ -193,7 +189,6 @@ interface Audio {
     userId?: string
   }
 }
-
 interface Image {
   image: string
 }
@@ -202,7 +197,6 @@ interface Content {
   type?: string
   level?: string
 }
-
 interface Response {
   responseTrue: {
     standard: Standard
@@ -217,7 +211,6 @@ interface Response {
     falc: Falc
   }
 }
-
 interface Explanation {
   responseTrue: {
     standard: Standard
@@ -321,9 +314,13 @@ export interface JourneyType {
 export interface StepType {
   id: number
   journeyId: number
-  medalId: string
+  medalId: number
   name: string
   image: string
+  address: string
+  city: string
+  country: string
+  postal: string
   lat: number
   lon: number
   location_required: boolean
@@ -342,119 +339,55 @@ export interface PieceType {
 
 /* DESCRIPTION */
 
-// description: {
-//   standard: {
-//     fr: string
-//     en: string
-//   }
-//   falc: {
-//     fr: string
-//     en: string
-//     falcCertified: string
-//     userId: string
-//     status: {
-//       isValidate: boolean
-//       isCertified: boolean
-//       certifiedDate: Timestamp | null
-//       isCorrected: boolean
-//     }
-//   }
-// }
-// audio: {
-//   standard: {
-//     fr: string
-//     en: string
-//   }
-//   falc: {
-//     fr: string
-//     en: string
-//   }
-// }
-// status: {
-//   isActive: boolean
-//   isPublished: boolean
-// }
+export interface DescriptionType {
+  collection: string
+  collectionId: number
+  id: string
+  language: string
+  order: number
+  text: string
+  isFalc: boolean
+  isCertifiedFalc: boolean
+  image: {
+    file: string
+  }
+  audio: {
+    file: string
+  }
+}
 
+export interface QuizType {
+  id: number
+  stepId: number
+  level: string
+  name: string
+  isActive?: string
+}
 export interface GameType {
   id: number
-  pieceId: string
+  stepId: number
   image: string
+  audio: string
   level: string
   type: string
-
-  name: string
-
-  question: {
-    standard: {
-      fr: string
-      en: string
-    }
-    falc: {
-      fr: string
-      en: string
-      certifiedTxt: boolean
-    }
-  }
-  response: {
-    responseTrue: {
-      standard: {
-        fr: string
-        en: string
-      }
-      falc: {
-        fr: string
-        en: string
-        certifiedTxt: boolean
-      }
-    }
-    response1: {
-      standard: {
-        fr: string
-        en: string
-      }
-      falc: {
-        fr: string
-        en: string
-        certifiedTxt: string
-      }
-    }
-    response2: {
-      standard: {
-        fr: string
-        en: string
-      }
-      falc: {
-        fr: string
-        en: string
-        certifiedTxt: string
-      }
-    }
-  }
-
-  explanation: {
-    responseTrue: {
-      fr: string
-      en: string
-      certifiedTxt: string
-    }
-    response1: {
-      fr: string
-      en: string
-      certifiedTxt: string
-    }
-    response2: {
-      fr: string
-      en: string
-      certifiedTxt: string
-    }
-  }
+  languageCode: string
+  question: string
+  responseTrue: string
+  response2: string
+  response3: string
+  explanationResponseTrue: string
+  explanationResponse2: string
+  explanationResponse3: string
+  isFalc: boolean
+  isCertifiedFalc?: boolean
 }
 
 export interface MedalType {
   id: number
   name: string
+  image: string
   type: string //medaille de type lieu parcours ou etape
-  level: number
+  level: string
   placeId: number
   journeyId: number
   stepId: number

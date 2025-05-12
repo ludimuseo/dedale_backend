@@ -1,11 +1,10 @@
 import { forwardRef } from 'react'
 
-import { Description } from './Description'
-
+import { DescriptionType } from '@/types'
 interface MainTextAreaProps {
-  descriptions: Description[]
+  descriptions: DescriptionType[]
   handleAddDescription: (
-    id: number,
+    id: string,
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => void
   language: string | undefined

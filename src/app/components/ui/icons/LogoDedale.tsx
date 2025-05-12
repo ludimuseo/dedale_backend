@@ -16,7 +16,12 @@ const LogoDedale = ({ width }: LogoDedaleProps) => {
   return (
     <>
       <figure>
-        <img height="auto" width={width} src={imgData} alt="logo" />
+        <img
+          width={width}
+          src={imgData}
+          style={{ height: 'auto' }}
+          alt="logo"
+        />
       </figure>
     </>
   )

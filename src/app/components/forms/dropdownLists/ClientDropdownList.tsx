@@ -11,7 +11,7 @@ export default function ClientDropdownList({
   handleSelectClient,
   client,
 }: ClientDropdownListProps) {
-  if (title === 'Formulaire Client') {
+  if (title === 'Formulaire Client' || title === 'Formulaire Médaille') {
     return <></>
   }
   return (
