@@ -38,7 +38,8 @@
     "user": "User",
     "user_create": "Create User",
     "user_profile": "My Profile",
-    "user_settings": "Account Settings"
+    "user_settings": "Account Settings",
+    "theme": "Theme"
   },
   "success": {
     "signin": "You are now logged in",

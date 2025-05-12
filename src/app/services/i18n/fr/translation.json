@@ -38,7 +38,8 @@
     "user": "Utilisateur",
     "user_create": "Ajouter Utilisateur",
     "user_profile": "Mon Profil",
-    "user_settings": "Paramètres Compte"
+    "user_settings": "Paramètres Compte",
+    "theme": "Thème"
   },
   "success": {
     "signin": "Vous êtes maintenant connecté",

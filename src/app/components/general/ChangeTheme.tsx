@@ -1,80 +1,46 @@
-import { useAppDispatch, useAppSelector } from '@hook'
-import {
-  changeTheme,
-  type StateTheme,
-} from '@service/redux/slices/reducerTheme'
-import { ChangeEvent, type FC, useEffect, useRef } from 'react'
+import { useAppDispatch } from '@hook'
+import { changeTheme } from '@service/redux/slices/reducerTheme'
+import { type FC, useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
-import { State, Theme } from '@/types'
+import { Theme } from '@/types'
 
 const ChangeTheme: FC = () => {
+  const { t } = useTranslation()
   const darkCheckbox = useRef<HTMLInputElement>(null)
   const dispatch = useAppDispatch()
+  const [isDark, setIsDark] = useState(false)
 
-  const { theme, isDark }: StateTheme = useAppSelector(
-    (state: State) => state.theme
-  )
-
-  const switchDarkLight = (value: boolean): void => {
-    if (value) dispatch(changeTheme(Theme.DARK))
-    else dispatch(changeTheme(Theme.LIGHT))
-  }
-
-  const handleSwitchSystem = ({ target }: ChangeEvent): void => {
-    if ('checked' in target) {
-      if (target.checked) dispatch(changeTheme(Theme.SYSTEM))
-      else switchDarkLight(isDark)
-    }
-  }
-
-  const handleSwitchDark = ({ target }: ChangeEvent): void => {
-    if ('checked' in target) {
-      const checked = Boolean(target.checked)
-      switchDarkLight(checked)
-    }
+  const handleChange = () => {
+    setIsDark(!isDark)
   }
 
   useEffect(() => {
-    if (darkCheckbox.current && 'indeterminate' in darkCheckbox.current) {
-      darkCheckbox.current.indeterminate = theme === Theme.SYSTEM
-    }
+    dispatch(changeTheme(Theme.SYSTEM))
     return
-  }, [theme])
+  }, [dispatch])
+  useEffect(() => {
+    dispatch(changeTheme(isDark ? Theme.DARK : Theme.LIGHT))
+    return
+  }, [dispatch, isDark])
 
   return (
     <>
-      <div id="change-theme">
-        <label className="swap h-6 w-full text-center">
-          <input
-            type="checkbox"
-            value={'SYSTEM'}
-            checked={theme === Theme.SYSTEM}
-            onChange={handleSwitchSystem}
-          />
-          <div className="swap-on">AUTO</div>
-          <div className="swap-off">
-            <i>&#x1F5B5;</i>
-          </div>
-        </label>
-
-        <div className="divider divider-horizontal m-0"></div>
-
-        <label className="flex cursor-pointer gap-2">
-          {/* 🌞 */}
-          <i>&#x1F31E;</i>
-          <input
-            className="toggle"
-            type="checkbox"
-            value={'DARK'}
-            ref={darkCheckbox}
-            checked={isDark}
-            onChange={handleSwitchDark}
-            disabled={theme === Theme.SYSTEM}
-          />
-          {/* 🌚 */}
-          <i>&#x1F31A;</i>
-        </label>
-      </div>
+      <label className="change-theme flex cursor-pointer gap-2">
+        <span>{t('page.theme')}</span>
+        {/* 🌞 */}
+        <i>&#x1F31E;</i>
+        <input
+          className="toggle"
+          type="checkbox"
+          value={'DARK'}
+          ref={darkCheckbox}
+          checked={isDark}
+          onChange={handleChange}
+        />
+        {/* 🌚 */}
+        <i>&#x1F31A;</i>
+      </label>
     </>
   )
 }
