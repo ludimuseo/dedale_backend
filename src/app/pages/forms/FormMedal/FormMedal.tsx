@@ -65,6 +65,12 @@ const FormMedal: FC = () => {
   ) => {
     event.preventDefault()
 
+    if (!token) {
+      alert("Une erreur c'est produite, reconnectez-vous")
+      void navigate('/auth/signin')
+      return
+    }
+
     if (showDescription) {
       setMessage(() => ({
         info: 'Vos descriptions ont été envoyées avec succès !',
@@ -78,8 +84,8 @@ const FormMedal: FC = () => {
     }
 
     try {
-      const response: Response = await fetch(
-        `https://dev.ludimuseo.fr:4000/api/`,
+      const response: Response = await fetchWithAuth(
+        `https://dev.ludimuseo.fr:4000/api/medals/create`,
         {
           method: 'POST',
           headers: {
@@ -98,8 +104,8 @@ const FormMedal: FC = () => {
     } catch (error) {
       console.error('Erreur:', error)
       setMessage({
-        info: "Erreur lors de l'envoi du formulaire",
-        result: true,
+        info: "Erreur lors de l'envoi du formulaire !",
+        result: false,
       })
     }
   }
@@ -116,6 +122,12 @@ const FormMedal: FC = () => {
     formUpload.append('file', file) // le fichier image à uploader
     formUpload.append('type', 'image') // type : image ou audio
     formUpload.append('destination', 'Step') // ou journey, step, etc.
+
+    if (!token) {
+      alert("Une erreur c'est produite, reconnectez-vous")
+      void navigate('/auth/signin')
+      return
+    }
 
     setFormData((prevFormData) => {
       return {

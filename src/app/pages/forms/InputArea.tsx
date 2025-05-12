@@ -148,7 +148,6 @@ const InputArea = ({
       setIsUploading(false)
     }
   }
-
   return (
     <div className="flex min-h-max justify-center rounded-xl bg-base-100 p-4 shadow-xl">
       {!message.info ? (
@@ -386,7 +385,7 @@ const InputArea = ({
           <h1> 🚀 {message.info}</h1>
           <img
             width="30%"
-            src={!message.result ? successImage : failedImage}
+            src={message.result ? successImage : failedImage}
             alt={
               !message.result
                 ? 'Formulaire envoyé avec succes'
