@@ -4,6 +4,7 @@ import {
   MedalType,
   PieceType,
   PlaceType,
+  QuestionType,
   QuizType,
   StepType,
 } from '@/types'
@@ -23,6 +24,7 @@ interface TextAreaType {
     | PieceType
     | MedalType
     | QuizType
+    | QuestionType
   language?: string
   rightSideVisible?: boolean
   handleInputChange: (name: string, event: string) => void
