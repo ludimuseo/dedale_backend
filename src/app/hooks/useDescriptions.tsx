@@ -15,12 +15,11 @@ export const useDescriptions = (newIdFromApi: number, collection: string) => {
       text: '',
       isFalc: false,
       isCertifiedFalc: false,
-      image: {
-        file: '',
-      },
-      audio: {
-        file: '',
-      },
+      isValidate: false,
+      certifiedDate: null,
+      certifiedBy: 0,
+      image: '',
+      audio: '',
     },
   ])
 

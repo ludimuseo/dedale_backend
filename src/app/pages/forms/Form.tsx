@@ -8,13 +8,14 @@ import StepDropdownList from '@/app/components/forms/dropdownLists/StepDropdownL
 import {
   ClientType,
   DescriptionType,
-  GameType,
   GetInputConfigType,
   JourneyType,
   MedalType,
   MessageType,
   PieceType,
   PlaceType,
+  QuestionType,
+  QuizType,
   StepType,
 } from '@/types'
 
@@ -63,7 +64,8 @@ interface FormProps {
     | StepType
     | PieceType
     | MedalType
-    | GameType
+    | QuizType
+    | QuestionType
   handleInputChange: (name: string, event: string) => void
   handleFileUpload?: (
     file: File,
@@ -75,7 +77,8 @@ interface FormProps {
   handleSelectPlace?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectJourney?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectStep?: (e: React.ChangeEvent<HTMLSelectElement>) => void
-  handleSubmitDescriptions: (descriptions: DescriptionType[]) => void
+  handleSubmitDescriptions?: (descriptions: DescriptionType[]) => void
+  handleSubmitQuestion?: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
 const Form = ({
@@ -109,6 +112,7 @@ const Form = ({
   handleSelectJourney,
   handleSelectStep,
   handleSubmitDescriptions,
+  handleSubmitQuestion,
 }: FormProps) => {
   return (
     <div className="grid grid-cols-1 gap-2 p-10 sm:grid-cols-1">
@@ -135,6 +139,7 @@ const Form = ({
         selectedJourneyId={selectedJourneyId}
         steps={stepData}
       />
+
       {isAssociated ||
       title === 'Formulaire Client' ||
       title === 'Formulaire Médaille' ? (
@@ -166,6 +171,7 @@ const Form = ({
             handleFileUpload={(file, fileType, name, event) => {
               handleFileUpload?.(file, fileType, name, event)
             }}
+            handleSubmitButton={handleSubmitQuestion}
           />
         ) : (
           <Description

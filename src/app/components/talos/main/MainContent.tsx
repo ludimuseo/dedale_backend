@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { type FC, ReactElement } from 'react'
 
-import { GameType, JourneyType, PieceType, PlaceType, StepType } from '@/types'
+import { JourneyType, PieceType, PlaceType, QuizType, StepType } from '@/types'
 
 interface MainContentProps {
   formData:
@@ -9,7 +9,7 @@ interface MainContentProps {
     | JourneyType
     | StepType
     | PieceType
-    | GameType
+    | QuizType
     | undefined
   sentencesData?: ReactElement[]
 }
