@@ -320,7 +320,7 @@ const ValidateText: FC = () => {
           </table>
         </div>
       ) : (
-        <div>
+        <div className="">
           <button
             className="btn btn-primary mb-4 ml-10 mt-4"
             onClick={() => {
@@ -367,7 +367,7 @@ const ValidateText: FC = () => {
               </p>
             </div>
           </div> */}
-          <div className="flex flex-col items-center justify-center">
+          <div className="grid grid-cols-3 justify-center gap-2">
             <TextValidation
               title="Texte Certifié FALC"
               sentence={falcTextPreview}
