@@ -7,6 +7,7 @@ import {
 } from 'firebase/firestore'
 import { FC, useEffect, useState } from 'react'
 
+import { TextValidation } from '@/app/components/talos/textValidation'
 import { db } from '@/firebase/firebase'
 import { JourneyType, PieceType, PlaceType, StepType } from '@/types'
 
@@ -327,7 +328,7 @@ const ValidateText: FC = () => {
             }}>
             Retour
           </button>
-          <div className="hero bg-base-100">
+          {/* <div className="hero bg-base-100">
             <div className="max-w-xl">
               <p className="select-text py-4 font-inclusive">
                 <h1 className="mb-4">Texte Certifié FALC</h1>
@@ -365,6 +366,32 @@ const ValidateText: FC = () => {
                 })}
               </p>
             </div>
+          </div> */}
+          <div className="flex flex-col items-center justify-center">
+            <TextValidation
+              title="Texte Certifié FALC"
+              sentence={falcTextPreview}
+              version="falcCertified"
+              onValidationClick={() => {
+                'hey'
+              }}
+            />
+            <TextValidation
+              title="Texte Facile a lire"
+              sentence={previuosFalctextPreview}
+              version="falc"
+              onValidationClick={() => {
+                'hey'
+              }}
+            />
+            <TextValidation
+              title="Texte Standard"
+              sentence={standardTextPreview}
+              version="standard"
+              onValidationClick={() => {
+                'hey'
+              }}
+            />
           </div>
         </div>
       )}
