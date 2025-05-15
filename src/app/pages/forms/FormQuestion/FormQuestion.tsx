@@ -113,12 +113,35 @@ const FormQuestion: FC = () => {
   }
 
   //soumission de la Question
-  const handleSubmitQuestion = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleSubmitQuestion = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     //ENVOIE a l'API
     console.log('question submition', formData)
-
-    setCurrentStep(0) //retour saisir une autre question
+    try {
+      const response: Response = await fetchWithAuth(
+        `https://dev.ludimuseo.fr:4000/api/`, //TODO
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ question: formData }),
+        }
+      )
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${String(response.status)}`)
+      }
+      const newId: number = (await response.json()) as number
+      console.log('newId from Server', newId)
+      setCurrentStep(0) //retour saisir une autre question
+    } catch (error) {
+      console.error('Erreur:', error)
+      setMessage({
+        info: "Erreur lors de l'envoi du formulaire !",
+        result: false,
+      })
+    }
   }
 
   const handleFileUpload = async (
@@ -321,7 +344,7 @@ const FormQuestion: FC = () => {
 
   return (
     <Form
-      handleSubmitQuestion={handleSubmitQuestion}
+      handleSubmitQuestion={void handleSubmitQuestion}
       client={client}
       place={place}
       journey={journey}

@@ -34,13 +34,13 @@ interface InputAreaProps {
     | QuizType
     | QuestionType
   handleInputChange: (name: string, event: string | boolean) => void
-  handleFileUpload: (
+  handleFileUpload?: (
     file: File,
     fileType: string,
-    imgName: string | undefined,
+    name: string,
     event: MouseEvent<HTMLButtonElement>
-  ) => Promise<void>
-  handleSubmitButton: (e: MouseEvent<HTMLButtonElement>) => void
+  ) => void
+  handleSubmitButton?: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
 const InputArea = ({
@@ -54,7 +54,7 @@ const InputArea = ({
 }: InputAreaProps) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [imgFile, setImgFile] = useState<File | null>(null)
-  const [imgName, setImgName] = useState<string | undefined>('')
+  const [imgName, setImgName] = useState<string>('')
   const [isUploading, setIsUploading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
   const [uploadSuccess, setUploadSuccess] = useState(false)
@@ -112,7 +112,7 @@ const InputArea = ({
 
     if (type === 'image') {
       setImgFile(file)
-      setImgName(name)
+      setImgName(name ?? 'noname')
       const imageUrl = URL.createObjectURL(file)
       setImagePreview(imageUrl)
     }
@@ -132,7 +132,7 @@ const InputArea = ({
     setUploadSuccess(false)
 
     try {
-      void handleFileUpload(imgFile, 'image', imgName, event)
+      handleFileUpload?.(imgFile, 'image', imgName, event)
       setUploadSuccess(true)
       // Réinitialiser après un délai pour permettre à l'utilisateur de voir le message de succès
       setTimeout(() => {
@@ -314,7 +314,7 @@ const InputArea = ({
                         key={id}
                         className="xl:btn-xl btn btn-neutral btn-xs sm:btn-sm md:btn-md lg:btn-lg"
                         onClick={(e) => {
-                          handleSubmitButton(e)
+                          handleSubmitButton?.(e)
                         }}>
                         Enregistrer sur le serveur
                       </button>

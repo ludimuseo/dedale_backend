@@ -14,7 +14,7 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { MouseEvent, useEffect, useRef, useState } from 'react'
 
 import { useDescriptions } from '@/app/hooks/useDescriptions'
 import { generateUniqueId } from '@/app/services/utils/generateId'
@@ -30,7 +30,13 @@ interface DescriptionProps {
   currentStep: number
   newIdFromApi: number
   collection: string
-  handleSubmitDescriptions: (descriptions: DescriptionType[]) => void
+  handleSubmitDescriptions?: (descriptions: DescriptionType[]) => void
+  handleFileUpload: (
+    file: File,
+    fileType: string,
+    name: string,
+    event: MouseEvent<HTMLButtonElement>
+  ) => void
 }
 interface SortableItemProps {
   desc: { id: string }
@@ -43,6 +49,7 @@ export default function Description({
   newIdFromApi,
   collection,
   handleSubmitDescriptions,
+  handleFileUpload,
 }: DescriptionProps) {
   const [language, setLanguage] = useState<string | undefined>('fr')
   const [isFalc, setIsFalc] = useState(false)
@@ -141,7 +148,7 @@ export default function Description({
         className="relative mb-4 cursor-grab rounded-xl border bg-base-100 p-4">
         <div className="hero min-h-10 shadow-sm">
           <div className="hero-content flex-col lg:flex-row">
-            <FileUploadArea />
+            <FileUploadArea handleFileUpload={handleFileUpload} />
             <div>
               {language === 'fr' ? (
                 <svg width="32" height="24" viewBox="0 0 16 16">
@@ -281,7 +288,7 @@ export default function Description({
         {' '}
         <button
           onClick={() => {
-            handleSubmitDescriptions(descriptions)
+            handleSubmitDescriptions?.(descriptions)
           }}
           className="btn btn-neutral mt-2">
           <p className="mt-1 font-inclusive text-xl">

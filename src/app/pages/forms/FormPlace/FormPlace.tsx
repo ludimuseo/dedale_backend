@@ -192,9 +192,34 @@ const FormPlace: FC = () => {
     })
   }
 
-  const handleSubmitDescriptions = (descriptions: DescriptionType[]) => {
+  const handleSubmitDescriptions = async (descriptions: DescriptionType[]) => {
     //ENVOIE du tableau de descriptions au serveur
     console.log('FORMPLACE descriptions: ', descriptions)
+    try {
+      const response: Response = await fetchWithAuth(
+        `https://dev.ludimuseo.fr:4000/api/medals/create`, //TODO
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ descriptions }),
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${String(response.status)}`)
+      }
+      const newId: number = (await response.json()) as number
+      console.log('newId from Server', newId)
+    } catch (error) {
+      console.error('Erreur:', error)
+      setMessage({
+        info: "Erreur lors de l'envoi du formulaire !",
+        result: false,
+      })
+    }
     setMessage(() => ({
       info: 'Vos descriptions ont été envoyées avec succès !',
       result: true,
@@ -224,7 +249,6 @@ const FormPlace: FC = () => {
             },
           }
         )
-
         if (!response.ok) {
           throw new Error(`Erreur HTTP: ${String(response.status)}`)
         }
@@ -271,7 +295,7 @@ const FormPlace: FC = () => {
       handleFileUpload={(file, fileType, name, event) => {
         void handleFileUpload(file, fileType, name, event)
       }}
-      handleSubmitDescriptions={handleSubmitDescriptions}
+      handleSubmitDescriptions={void handleSubmitDescriptions}
     />
   )
 }
