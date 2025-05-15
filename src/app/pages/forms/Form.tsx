@@ -180,9 +180,6 @@ const Form = ({
             currentStep={currentStep}
             newIdFromApi={newIdFromApi ?? 0}
             collection={collection}
-            handleFileUpload={(file, fileType, name, event) => {
-              handleFileUpload?.(file, fileType, name, event)
-            }}
           />
         )
       ) : (

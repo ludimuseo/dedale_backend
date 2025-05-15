@@ -1,21 +1,34 @@
-import { MouseEvent, useRef, useState } from 'react'
+import { MouseEvent, useEffect, useRef, useState } from 'react'
+
+import { DescriptionType } from '@/types'
 
 interface FileUploadAreaProps {
   handleFileUpload: (
     file: File,
     fileType: string,
     name: string,
-    event: MouseEvent<HTMLButtonElement>
+    event: MouseEvent<HTMLButtonElement>,
+    desc: DescriptionType
   ) => void
+  desc: DescriptionType
+  imagePreview?: string
+  setImagePreview: (preview: string | null) => void
+  imgFile?: File
+  setImgFile: (file: File | null) => void
 }
 
 type FileType = 'image' | 'audio'
 
 export default function FileUploadArea({
   handleFileUpload,
+  desc,
+  imagePreview,
+  setImagePreview,
+  imgFile,
+  setImgFile,
 }: FileUploadAreaProps) {
-  const [imagePreview, setImagePreview] = useState<string | null>(null)
-  const [imgFile, setImgFile] = useState<File | null>(null)
+  //const [imagePreview, setImagePreview] = useState<string | null>(null)
+  //const [imgFile, setImgFile] = useState<File | null>(null)
   const [imgName, setImgName] = useState<string>('noname')
   const [isUploading, setIsUploading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
@@ -75,6 +88,7 @@ export default function FileUploadArea({
     }
   }
 
+  //UPLOAD SERVER
   const handleUploadToServer = (event: MouseEvent<HTMLButtonElement>) => {
     if (!imgFile) return
 
@@ -83,14 +97,14 @@ export default function FileUploadArea({
     setUploadSuccess(false)
 
     try {
-      handleFileUpload(imgFile, 'image', imgName, event)
+      handleFileUpload(imgFile, 'image', imgName, event, desc)
       setUploadSuccess(true)
       // Réinitialiser après un délai pour permettre à l'utilisateur de voir le message de succès
       setTimeout(() => {
         setUploadSuccess(false)
-        setImagePreview(null)
-        setImgFile(null)
-        resetFileInput()
+        //   setImagePreview(null)
+        //   setImgFile(null)
+        //   resetFileInput()
       }, 5000)
     } catch (error) {
       console.error('Upload error:', error)
@@ -99,6 +113,14 @@ export default function FileUploadArea({
       setIsUploading(false)
     }
   }
+
+  useEffect(() => {
+    return () => {
+      if (imagePreview) {
+        URL.revokeObjectURL(imagePreview)
+      }
+    }
+  }, [imagePreview])
 
   return (
     <div className="flex w-full flex-col gap-6">
