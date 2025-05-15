@@ -104,12 +104,11 @@ const FormQuestion: FC = () => {
     })
   }
 
-  //soumission des informations
   const handleSubmit = (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault()
-    setCurrentStep(0) //retour saisir une autre question
+    console.log('submit')
   }
 
   //soumission de la Question
@@ -134,7 +133,7 @@ const FormQuestion: FC = () => {
       }
       const newId: number = (await response.json()) as number
       console.log('newId from Server', newId)
-      setCurrentStep(0) //retour saisir une autre question
+      //setCurrentStep(0) //retour saisir une autre question
     } catch (error) {
       console.error('Erreur:', error)
       setMessage({

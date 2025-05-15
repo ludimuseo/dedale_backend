@@ -224,7 +224,7 @@ const InputArea = ({
               )
             }
           })}
-          <form
+          <div
             //onSubmit={handleSubmit}
             className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark flex w-1/2 flex-col p-2">
             {getInput[currentStep].map(
@@ -378,7 +378,7 @@ const InputArea = ({
                 }
               }
             )}
-          </form>
+          </div>
         </>
       ) : (
         <div className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark mt-5 flex w-1/2 flex-col items-center rounded-sm p-2">
