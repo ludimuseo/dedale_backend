@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   closestCenter,
   DndContext,
@@ -33,12 +34,6 @@ interface DescriptionProps {
   newIdFromApi: number
   collection: string
   handleSubmitDescriptions?: (descriptions: DescriptionType[]) => void
-  // handleFileUpload: (
-  //   file: File,
-  //   fileType: string,
-  //   name: string,
-  //   event: MouseEvent<HTMLButtonElement>
-  // ) => void
 }
 interface SortableItemProps {
   // desc: { id: string }
@@ -56,7 +51,6 @@ export default function Description({
   newIdFromApi,
   collection,
   handleSubmitDescriptions,
-  //handleFileUpload,
 }: DescriptionProps) {
   const [language, setLanguage] = useState<string>('fr')
   const [isFalc, setIsFalc] = useState(false)
@@ -88,7 +82,7 @@ export default function Description({
         'ATTENTION Voulez-vous sauvegarder sur le serveur ?'
       )
       if (confirmSubmit) {
-        handleSubmitDescriptions(descriptions)
+        handleSubmitDescriptions?.(descriptions)
       }
       // if (confirmClear) {
       //   setDescriptions((prevDescriptions) =>
@@ -100,7 +94,6 @@ export default function Description({
       //   )
       // }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFalc]) // Déclenché uniquement quand `isFalc` change
 
   const handleAddDescription = (
@@ -153,16 +146,10 @@ export default function Description({
     const handleFileUpload = async (
       file: File,
       fileType: string,
-      imgName: string | undefined,
       event: MouseEvent<HTMLButtonElement>,
       desc: DescriptionType
     ): Promise<void> => {
       event.preventDefault()
-
-      console.log('UPLOAD:')
-      console.log('desc Id', desc)
-      console.log('imgName: ', imgName)
-      console.log('fileType: ', fileType)
 
       const id = desc.id
 
@@ -190,7 +177,9 @@ export default function Description({
 
         setDescriptions((prev) =>
           prev.map((desc) =>
-            desc.id === id ? { ...desc, [fileType]: imgName } : { ...desc }
+            desc.id === id
+              ? { ...desc, [fileType]: imgFile?.name }
+              : { ...desc }
           )
         )
 
@@ -224,8 +213,8 @@ export default function Description({
               }}
               descriptions={[desc]}
               handleAddDescription={handleAddDescription}
-              handleFileUpload={(file, fileType, name, event, desc) => {
-                void handleFileUpload(file, fileType, name, event, desc)
+              handleFileUpload={(file, fileType, event, desc) => {
+                void handleFileUpload(file, fileType, event, desc)
               }}
               language={language}
               isFalc={isFalc}
@@ -313,7 +302,7 @@ export default function Description({
     })
   }, [language, isFalc])
 
-  console.log('DESCRIPTIONS descriptions: ', descriptions)
+  console.log('DESCRIPTIONS : ', descriptions)
 
   return (
     <>

@@ -6,7 +6,6 @@ interface FileUploadAreaProps {
   handleFileUpload: (
     file: File,
     fileType: string,
-    name: string,
     event: MouseEvent<HTMLButtonElement>,
     desc: DescriptionType
   ) => void
@@ -27,9 +26,6 @@ export default function FileUploadArea({
   imgFile,
   setImgFile,
 }: FileUploadAreaProps) {
-  //const [imagePreview, setImagePreview] = useState<string | null>(null)
-  //const [imgFile, setImgFile] = useState<File | null>(null)
-  const [imgName, setImgName] = useState<string>('noname')
   const [isUploading, setIsUploading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
   const [uploadSuccess, setUploadSuccess] = useState(false)
@@ -51,7 +47,6 @@ export default function FileUploadArea({
     setUploadSuccess(false)
 
     const file = event.target.files?.[0]
-    const name = file?.name
 
     if (!file) return
 
@@ -76,7 +71,6 @@ export default function FileUploadArea({
 
     if (type === 'image') {
       setImgFile(file)
-      setImgName(name ?? 'noname')
       const imageUrl = URL.createObjectURL(file)
       setImagePreview(imageUrl)
     }
@@ -88,7 +82,7 @@ export default function FileUploadArea({
     }
   }
 
-  //UPLOAD SERVER
+  //////////////////////////////UPLOAD SERVER////////////////////////////////////
   const handleUploadToServer = (event: MouseEvent<HTMLButtonElement>) => {
     if (!imgFile) return
 
@@ -97,15 +91,17 @@ export default function FileUploadArea({
     setUploadSuccess(false)
 
     try {
-      handleFileUpload(imgFile, 'image', imgName, event, desc)
+      handleFileUpload(imgFile, 'image', event, desc)
       setUploadSuccess(true)
+      console.log('FileUpload imgFile: ', imgFile.name)
+
       // Réinitialiser après un délai pour permettre à l'utilisateur de voir le message de succès
       setTimeout(() => {
         setUploadSuccess(false)
         //   setImagePreview(null)
         //   setImgFile(null)
         //   resetFileInput()
-      }, 5000)
+      }, 10000)
     } catch (error) {
       console.error('Upload error:', error)
       setUploadError("Échec de l'envoi du fichier. Veuillez réessayer.")

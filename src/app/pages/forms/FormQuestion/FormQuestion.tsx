@@ -343,7 +343,9 @@ const FormQuestion: FC = () => {
 
   return (
     <Form
-      handleSubmitQuestion={void handleSubmitQuestion}
+      handleSubmitQuestion={(e) => {
+        void handleSubmitQuestion(e)
+      }}
       client={client}
       place={place}
       journey={journey}

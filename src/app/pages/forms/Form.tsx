@@ -175,7 +175,9 @@ const Form = ({
           />
         ) : (
           <Description
-            handleSubmitDescriptions={handleSubmitDescriptions}
+            handleSubmitDescriptions={(descriptions) => {
+              handleSubmitDescriptions?.(descriptions)
+            }}
             getInput={getInput}
             currentStep={currentStep}
             newIdFromApi={newIdFromApi ?? 0}

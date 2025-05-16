@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { PlaceIcon } from '@component'
 import { useAppSelector } from '@hook'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
@@ -195,9 +196,10 @@ const FormPlace: FC = () => {
   const handleSubmitDescriptions = async (descriptions: DescriptionType[]) => {
     //ENVOIE du tableau de descriptions au serveur
     console.log('FORMPLACE descriptions: ', descriptions)
+
     try {
       const response: Response = await fetchWithAuth(
-        `https://dev.ludimuseo.fr:4000/api/medals/create`, //TODO
+        `https://dev.ludimuseo.fr:4000/api/`, //TODO
         {
           method: 'POST',
           headers: {
@@ -263,7 +265,6 @@ const FormPlace: FC = () => {
       }
     }
     void fetchClients()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   console.log('formData:', formData)
@@ -295,7 +296,9 @@ const FormPlace: FC = () => {
       handleFileUpload={(file, fileType, name, event) => {
         void handleFileUpload(file, fileType, name, event)
       }}
-      handleSubmitDescriptions={void handleSubmitDescriptions}
+      handleSubmitDescriptions={(descriptions) => {
+        void handleSubmitDescriptions(descriptions)
+      }}
     />
   )
 }
