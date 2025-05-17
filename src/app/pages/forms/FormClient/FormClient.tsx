@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router'
 import { fetchWithAuth } from '@/api/fetchWithAuth'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
+import { API_BASE_URL } from '@/config/config'
 import { ClientType, ClientTypeApi, MessageType, State } from '@/types'
 
 import Form from '../Form'
@@ -22,7 +23,7 @@ const FormClient: FC = () => {
     name: '',
     siret: '',
     tva: '',
-    type: 'PROFESSIONNEL', //par default
+    type: 'ENTREPRISE', //par default
     website: '',
     address: '',
     postal: '',
@@ -77,7 +78,7 @@ const FormClient: FC = () => {
 
     try {
       const response: Response = await fetchWithAuth(
-        `https://dev.ludimuseo.fr:4000/api/clients/create`,
+        `${API_BASE_URL}clients/create`,
         {
           method: 'POST',
           headers: {

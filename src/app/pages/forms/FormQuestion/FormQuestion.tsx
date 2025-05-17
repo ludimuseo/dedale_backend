@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
@@ -118,7 +119,7 @@ const FormQuestion: FC = () => {
     console.log('question submition', formData)
     try {
       const response: Response = await fetchWithAuth(
-        `https://dev.ludimuseo.fr:4000/api/`, //TODO
+        `https://dev.ludimuseo.fr:4000/api/games/createQuestion`,
         {
           method: 'POST',
           headers: {
@@ -225,7 +226,6 @@ const FormQuestion: FC = () => {
       }
     }
     void fetchClients()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {

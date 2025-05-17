@@ -3,6 +3,7 @@ import React, { FormEvent, MouseEvent } from 'react'
 import Description from '@/app/components/description/Description'
 import ClientDropdownList from '@/app/components/forms/dropdownLists/ClientDropdownList'
 import JourneyDropdownList from '@/app/components/forms/dropdownLists/JourneyDropdwonList'
+import MedalDropdownList from '@/app/components/forms/dropdownLists/MedalDropdownList'
 import PlaceDropdownList from '@/app/components/forms/dropdownLists/PlaceDropdownList'
 import StepDropdownList from '@/app/components/forms/dropdownLists/StepDropdownList'
 import {
@@ -25,7 +26,8 @@ import InputArea from './InputArea'
 import Timeline from './Timeline'
 
 interface FormProps {
-  client?: ClientType[] | undefined
+  medal?: MedalType[]
+  client?: ClientType[]
   place?: PlaceType[]
   journey?: JourneyType[]
   stepData?: StepType[]
@@ -73,6 +75,7 @@ interface FormProps {
     name: string,
     event: MouseEvent<HTMLButtonElement>
   ) => void
+  handleSelectMedal?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectClient?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectPlace?: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectJourney?: (e: React.ChangeEvent<HTMLSelectElement>) => void
@@ -82,6 +85,7 @@ interface FormProps {
 }
 
 const Form = ({
+  medal,
   client,
   place,
   journey,
@@ -107,6 +111,7 @@ const Form = ({
   handlePrevStep,
   handleNextStep,
   handleFileUpload,
+  handleSelectMedal,
   handleSelectClient,
   handleSelectPlace,
   handleSelectJourney,
@@ -117,6 +122,11 @@ const Form = ({
   return (
     <div className="grid grid-cols-1 gap-2 p-10 sm:grid-cols-1">
       <FormHeader title={title} icon={icon} handleSubmit={handleArrowLeft} />
+      <MedalDropdownList
+        title={title}
+        medal={medal}
+        handleSelectMedal={handleSelectMedal}
+      />
       <ClientDropdownList
         title={title}
         client={client}

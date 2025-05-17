@@ -6,7 +6,7 @@ export const getInputClientConfig: GetInputConfigType[][] = [
       id: '11',
       label: 'Type',
       name: 'type',
-      option: ['PROFESSIONNEL', 'ASSOCIATION', 'PARTICULIER'],
+      option: ['ENTREPRISE', 'ASSOCIATION', 'PARTICULIER'],
       placeholder: 'Selectionnez le type',
       required: true,
       sectionLabel: 'Info client',

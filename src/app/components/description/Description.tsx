@@ -22,6 +22,7 @@ import { useAppSelector } from '@/app/hooks'
 import { useDescriptions } from '@/app/hooks/useDescriptions'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
 import { generateUniqueId } from '@/app/services/utils/generateId'
+import { API_BASE_URL } from '@/config/config'
 import { DescriptionType, GetInputConfigType, State } from '@/types'
 
 import { WrongCheck } from '../ui/icons/WrongCheck'
@@ -161,7 +162,7 @@ export default function Description({
 
       try {
         const response: Response = await fetchWithAuth(
-          'https://dev.ludimuseo.fr:4000/api/upload',
+          `${API_BASE_URL}/upload`,
           {
             method: 'POST',
             headers: {

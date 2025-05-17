@@ -1,16 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { PlaceIcon } from '@component'
 import { useAppSelector } from '@hook'
-import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
+import { FC, FormEvent, MouseEvent, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
 import { getStandardDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
+import { API_BASE_URL } from '@/config/config'
 import {
   ClientType,
   DescriptionType,
+  MedalType,
   MessageType,
   PlaceType,
   State,
@@ -25,6 +27,7 @@ const FormPlace: FC = () => {
   const collection = 'places'
   const [showDescription, setShowDescription] = useState(true)
   const [client, setClient] = useState<ClientType[]>([])
+  const [medal, setMedal] = useState<MedalType[]>([])
   const [newIdFromApi, setNewIdFromApi] = useState<number>(2)
   const [message, setMessage] = useState<MessageType>({
     info: '',
@@ -48,10 +51,9 @@ const FormPlace: FC = () => {
     isPublished: false,
   })
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
-  const getInput = !showDescription
-    ? getInputPlaceConfig
-    : getStandardDescriptionConfig
-
+  const getInput = useMemo(() => {
+    return showDescription ? getStandardDescriptionConfig : getInputPlaceConfig
+  }, [showDescription])
   const {
     step,
     setStep,
@@ -193,6 +195,17 @@ const FormPlace: FC = () => {
     })
   }
 
+  const handleSelectMedal = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value
+    const selectedValueToNumber = Number(selectedValue)
+    setFormData((prevFormData) => {
+      return {
+        ...prevFormData,
+        ['medalId']: selectedValueToNumber,
+      }
+    })
+  }
+
   const handleSubmitDescriptions = async (descriptions: DescriptionType[]) => {
     //ENVOIE du tableau de descriptions au serveur
     console.log('FORMPLACE descriptions: ', descriptions)
@@ -242,7 +255,7 @@ const FormPlace: FC = () => {
     const fetchClients = async () => {
       try {
         const response: Response = await fetchWithAuth(
-          `https://dev.ludimuseo.fr:4000/api/clients/list`,
+          `${API_BASE_URL}/clients/list`,
           {
             method: 'GET',
             headers: {
@@ -267,12 +280,41 @@ const FormPlace: FC = () => {
     void fetchClients()
   }, [])
 
-  console.log('formData:', formData)
+  useEffect(() => {
+    const fetchMedals = async () => {
+      try {
+        const response: Response = await fetchWithAuth(
+          `https://dev.ludimuseo.fr:4000/api/medals/list`,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${String(response.status)}`)
+        }
+        const data = (await response.json()) as MedalType[]
+        const medalData = data
+        setMedal(medalData)
+      } catch (error) {
+        console.log('ERROR fetching clients: ', error)
+      }
+    }
+    void fetchMedals()
+  }, [])
+
+  console.log('Medal:', medal)
+
   return (
     <Form
       client={client}
+      medal={medal}
       isAssociated={formData.clientId !== 0}
       handleSelectClient={handleSelectClient}
+      handleSelectMedal={handleSelectMedal}
       newIdFromApi={newIdFromApi}
       title={title}
       collection={collection}
