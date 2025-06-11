@@ -38,7 +38,7 @@ interface FormProps {
   selectedJourneyId?: number
   showDescription?: boolean
   title: string
-  collection: string
+  collection?: string
   icon: React.JSX.Element
   handleArrowLeft: () => void
   attributedMedal?: {
@@ -68,7 +68,7 @@ interface FormProps {
     | MedalType
     | QuizType
     | QuestionType
-  handleInputChange: (name: string, event: string) => void
+  handleInputChange: (name: string, value: string | boolean) => void
   handleFileUpload?: (
     file: File,
     fileType: string,
@@ -191,7 +191,7 @@ const Form = ({
             getInput={getInput}
             currentStep={currentStep}
             newIdFromApi={newIdFromApi ?? 0}
-            collection={collection}
+            collection={collection ?? ''}
           />
         )
       ) : (

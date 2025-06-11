@@ -324,7 +324,7 @@ const FormGame: FC = () => {
       }
     }
     void fetchJourney()
-  }, [selectedPlaceId])
+  }, [selectedPlaceId, navigate, token])
 
   useEffect(() => {
     const fetchStep = async () => {

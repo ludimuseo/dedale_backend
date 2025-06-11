@@ -137,7 +137,7 @@ const FormClient: FC = () => {
 
   useEffect(() => {
     setStep(getInput.length)
-  }, [getInput])
+  }, [getInput, setStep])
 
   useEffect(() => {
     if (!token) void navigate('/')

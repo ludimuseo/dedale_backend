@@ -212,7 +212,7 @@ const FormPlace: FC = () => {
 
     try {
       const response: Response = await fetchWithAuth(
-        `https://dev.ludimuseo.fr:4000/api/`, //TODO
+        `https://dev.ludimuseo.fr:4000/api/places/description`,
         {
           method: 'POST',
           headers: {

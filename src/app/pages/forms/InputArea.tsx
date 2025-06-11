@@ -274,7 +274,7 @@ const InputArea = ({
                             type={type}
                             checked={isChecked}
                             onChange={() => {
-                              handleInputChange(name, !isChecked)
+                              handleInputChange(name, String(!isChecked))
                             }}
                             className="checkbox"
                           />
