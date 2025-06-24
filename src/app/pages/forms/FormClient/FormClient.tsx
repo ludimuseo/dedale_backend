@@ -103,22 +103,6 @@ const FormClient: FC = () => {
         result: false,
       })
     }
-    // try {
-    //   const docRef = await addDoc(collection(db, 'clients'), { ...formData })
-    //   const id = docRef.id
-    //   if (id) {
-    //     setMessage(() => ({
-    //       info: 'Votre formulaire a été envoyé avec succès !',
-    //       result: true,
-    //     }))
-    //   }
-    // } catch (error) {
-    //   console.error("Erreur sur l'envoi du formulaire", error)
-    //   setMessage(() => ({
-    //     info: "Erreur lors de l'envoi du formulaire",
-    //     result: false,
-    //   }))
-    // }
   }
 
   const handleInputChange = (
@@ -144,7 +128,7 @@ const FormClient: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  console.log('formData:', formData)
+  console.log('token:', token)
 
   return (
     <>

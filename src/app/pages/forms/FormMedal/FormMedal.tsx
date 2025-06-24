@@ -2,7 +2,7 @@ import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
-import { getStandardDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useAppSelector } from '@/app/hooks'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
@@ -38,15 +38,16 @@ const FormMedal: FC = () => {
     handlePrevStep,
   } = useTimelineStep()
 
-  const getInput = !showDescription
-    ? getInputMedalConfig
-    : getStandardDescriptionConfig
+  const getInput = !showDescription ? getInputMedalConfig : getDescriptionConfig
 
   const handleArrowLeft = () => {
     void navigate(-1)
   }
 
-  const handleInputChange = (name: string, value: string | boolean) => {
+  const handleInputChange = <K extends keyof MedalType>(
+    name: K,
+    value: MedalType[K]
+  ): void => {
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,

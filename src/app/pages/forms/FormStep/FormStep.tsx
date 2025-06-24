@@ -2,10 +2,11 @@ import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
-import { getStandardDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useAppSelector } from '@/app/hooks'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
+import { API_BASE_URL } from '@/config/config'
 import {
   ClientType,
   JourneyType,
@@ -61,9 +62,7 @@ const FormStep: FC = () => {
     handleNextStep,
     handlePrevStep,
   } = useTimelineStep()
-  const getInput = !showDescription
-    ? getInputStepConfig
-    : getStandardDescriptionConfig
+  const getInput = !showDescription ? getInputStepConfig : getDescriptionConfig
 
   const handleArrowLeft = () => {
     void navigate(-1)
@@ -96,7 +95,7 @@ const FormStep: FC = () => {
 
     try {
       const response: Response = await fetchWithAuth(
-        `https://dev.ludimuseo.fr:4000/api/steps/create`,
+        `${API_BASE_URL}/steps/create`,
         {
           method: 'POST',
           headers: {
@@ -118,7 +117,7 @@ const FormStep: FC = () => {
       console.error('Erreur:', error)
       setMessage({
         info: "Erreur lors de l'envoi du formulaire",
-        result: true,
+        result: false,
       })
     }
   }
@@ -239,7 +238,7 @@ const FormStep: FC = () => {
       if (!selectedClientId) return
       try {
         const response: Response = await fetchWithAuth(
-          `https://dev.ludimuseo.fr:4000/api/places/list/${selectedClientId.toString()}`,
+          `${API_BASE_URL}/places/list/${selectedClientId.toString()}`,
           {
             method: 'GET',
             headers: {
@@ -269,7 +268,7 @@ const FormStep: FC = () => {
       if (!selectedPlaceId) return
       try {
         const response: Response = await fetchWithAuth(
-          `https://dev.ludimuseo.fr:4000/api/journeys/getAllJourneysByPlaceId/${selectedPlaceId.toString()}`,
+          `${API_BASE_URL}/journeys/getAllJourneysByPlaceId/${selectedPlaceId.toString()}`,
           {
             method: 'GET',
             headers: {
@@ -299,7 +298,7 @@ const FormStep: FC = () => {
     const countStepNumber = async () => {
       try {
         const response: Response = await fetchWithAuth(
-          `https://dev.ludimuseo.fr:4000/api/steps/find/${selectedJourneyId.toString()}`,
+          `${API_BASE_URL}/steps/find/${selectedJourneyId.toString()}`,
           {
             method: 'GET',
             headers: {

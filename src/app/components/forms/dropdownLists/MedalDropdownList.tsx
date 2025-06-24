@@ -14,7 +14,8 @@ export default function MedalDropdownList({
   if (
     title === 'Formulaire Quiz' ||
     title === 'Formulaire Médaille' ||
-    title === 'Formulaire Question'
+    title === 'Formulaire Question' ||
+    title === 'Formulaire Client'
   ) {
     return <></>
   }

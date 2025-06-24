@@ -5,7 +5,7 @@ import { FC, FormEvent, MouseEvent, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
-import { getStandardDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
 import { API_BASE_URL } from '@/config/config'
@@ -25,7 +25,7 @@ const FormPlace: FC = () => {
   const navigate = useNavigate()
   const title = 'Formulaire Lieu'
   const collection = 'places'
-  const [showDescription, setShowDescription] = useState(true)
+  const [showDescription, setShowDescription] = useState(false)
   const [client, setClient] = useState<ClientType[]>([])
   const [medal, setMedal] = useState<MedalType[]>([])
   const [newIdFromApi, setNewIdFromApi] = useState<number>(2)
@@ -51,9 +51,11 @@ const FormPlace: FC = () => {
     isPublished: false,
   })
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
+
   const getInput = useMemo(() => {
-    return showDescription ? getStandardDescriptionConfig : getInputPlaceConfig
+    return showDescription ? getDescriptionConfig : getInputPlaceConfig
   }, [showDescription])
+
   const {
     step,
     setStep,
@@ -64,7 +66,7 @@ const FormPlace: FC = () => {
   } = useTimelineStep()
 
   const handleDescription = () => {
-    //AFFICHER Descritpion
+    //AFFICHER compossant Description
     setShowDescription(true)
     setCurrentStep(0)
   }
@@ -95,35 +97,30 @@ const FormPlace: FC = () => {
     } else {
       setMessage(() => ({
         info: 'Votre formulaire a été envoyé avec succès !',
-        result: false,
+        result: true,
       }))
     }
-    return
+
     try {
-      const response: Response = await fetchWithAuth(
-        `https://dev.ludimuseo.fr:4000/api/places`,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ place: formData }),
-        }
-      )
+      const response: Response = await fetchWithAuth(`${API_BASE_URL}/places`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ place: formData }),
+      })
 
       if (!response.ok) {
         throw new Error(`Erreur HTTP: ${String(response.status)}`)
       }
       const newId: number = (await response.json()) as number
       setNewIdFromApi(newId) // recupere l'Id du nouveau place créé
-
-      console.log('newId from Server', newId)
     } catch (error) {
       console.error('Erreur:', error)
       setMessage({
         info: "Erreur lors de l'envoi du formulaire",
-        result: true,
+        result: false,
       })
     }
   }
@@ -140,6 +137,7 @@ const FormPlace: FC = () => {
     })
   }
 
+  //envoie du fichier sur le serveur
   const handleFileUpload = async (
     file: File,
     fileType: string,
@@ -147,6 +145,12 @@ const FormPlace: FC = () => {
     event: MouseEvent<HTMLButtonElement>
   ): Promise<void> => {
     event.preventDefault()
+
+    if (!token) {
+      alert("Une erreur c'est produite, reconnectez-vous")
+      void navigate('/auth/signin')
+      return
+    }
 
     const formUpload = new FormData()
     // Ajout des données dans formUpload
@@ -162,16 +166,13 @@ const FormPlace: FC = () => {
     })
 
     try {
-      const response: Response = await fetchWithAuth(
-        'https://dev.ludimuseo.fr:4000/api/upload',
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formUpload, // Attention : pas de Content-Type ici, FormData le gère
-        }
-      )
+      const response: Response = await fetchWithAuth(`${API_BASE_URL}/upload`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formUpload, // Attention : pas de Content-Type ici, FormData le gère
+      })
 
       if (!response.ok) {
         throw new Error(`Erreur serveur: ${response.status.toString()}`)
@@ -212,7 +213,7 @@ const FormPlace: FC = () => {
 
     try {
       const response: Response = await fetchWithAuth(
-        `https://dev.ludimuseo.fr:4000/api/places/description`,
+        `${API_BASE_URL}/places/description`,
         {
           method: 'POST',
           headers: {
@@ -284,7 +285,7 @@ const FormPlace: FC = () => {
     const fetchMedals = async () => {
       try {
         const response: Response = await fetchWithAuth(
-          `https://dev.ludimuseo.fr:4000/api/medals/list`,
+          `${API_BASE_URL}/medals/list`,
           {
             method: 'GET',
             headers: {
@@ -306,7 +307,7 @@ const FormPlace: FC = () => {
     void fetchMedals()
   }, [])
 
-  console.log('Medal:', medal)
+  console.log('FORMPLACE formData: ', formData)
 
   return (
     <Form

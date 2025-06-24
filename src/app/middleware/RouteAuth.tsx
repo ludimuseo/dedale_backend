@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@hook'
 import { Navigate } from 'react-router'
 
-//import { Navigate } from 'react-router'
 import type { State } from '@/types'
 import { isTokenExpired } from '@/utils/auth'
 

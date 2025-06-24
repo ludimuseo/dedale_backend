@@ -1,4 +1,6 @@
-const AccessiblePage = () => {
+import { FC } from 'react'
+
+const AccessiblePage: FC = () => {
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900">
       <header className="bg-blue-600 py-3 text-center text-white">

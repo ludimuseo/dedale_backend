@@ -148,6 +148,9 @@ const InputArea = ({
       setIsUploading(false)
     }
   }
+
+  console.log('message.result: ', message.result)
+
   return (
     <div className="flex min-h-max justify-center rounded-xl bg-base-100 p-4 shadow-xl">
       {!message.info ? (
@@ -387,7 +390,7 @@ const InputArea = ({
             width="30%"
             src={message.result ? successImage : failedImage}
             alt={
-              !message.result
+              message.result
                 ? 'Formulaire envoyé avec succes'
                 : "Echec de l'envoie du formulaire"
             }
