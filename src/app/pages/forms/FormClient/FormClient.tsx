@@ -1,24 +1,23 @@
 import { UserIcon } from '@component'
 import { useAppSelector } from '@hook'
-import { FC, type FormEvent, MouseEvent, useEffect, useState } from 'react'
+import { FC, type FormEvent, MouseEvent, useEffect } from 'react'
 import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
+import { useFormMessage } from '@/app/hooks/useFormMessage'
+import { useInputChange } from '@/app/hooks/useInputChange'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
-import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
 import { API_BASE_URL } from '@/config/config'
-import { ClientType, ClientTypeApi, MessageType, State } from '@/types'
+import { ClientType, ClientTypeApi, State } from '@/types'
 
 import Form from '../Form'
 import { getInputClientConfig } from './configClient/getInputClientConfig'
 
 const FormClient: FC = () => {
   const navigate = useNavigate()
-  const [message, setMessage] = useState<MessageType>({
-    info: '',
-    result: false,
-  })
-  const [formData, setFormData] = useState<ClientType>({
+  const { message, setMessage } = useFormMessage()
+
+  const initialClientData: ClientType = {
     id: 0,
     name: '',
     siret: '',
@@ -34,14 +33,43 @@ const FormClient: FC = () => {
     tel: '',
     note: '',
     isActive: false,
-  })
-  const { token }: StateAuth = useAppSelector((state: State) => state.auth)
+  }
+
+  const { formData, handleInputChange } =
+    useInputChange<ClientType>(initialClientData)
+
+  const { token } = useAppSelector((state: State) => state.auth)
 
   const { step, setStep, currentStep, handleNextStep, handlePrevStep } =
     useTimelineStep()
 
   const handleArrowLeft = () => {
     void navigate(-1)
+  }
+  //structure des données pour l'api
+  const newClient: ClientTypeApi = {
+    address: {
+      address: formData.address,
+      city: formData.city,
+      country: formData.country,
+      postal: formData.postal,
+    },
+    company: {
+      name: formData.name,
+      siret: formData.siret,
+      tva: formData.tva,
+      type: formData.type,
+      website: formData.website,
+    },
+    contact: {
+      email: formData.email,
+      name: formData.contact,
+      note: formData.note,
+      tel: formData.tel,
+    },
+    status: {
+      isActive: true,
+    },
   }
 
   //soumission des informations FIREBASE
@@ -50,35 +78,9 @@ const FormClient: FC = () => {
   ) => {
     event.preventDefault()
 
-    //structure des données pour l'api
-    const newClient: ClientTypeApi = {
-      address: {
-        address: formData.address,
-        city: formData.city,
-        country: formData.country,
-        postal: formData.postal,
-      },
-      company: {
-        name: formData.name,
-        siret: formData.siret,
-        tva: formData.tva,
-        type: formData.type,
-        website: formData.website,
-      },
-      contact: {
-        email: formData.email,
-        name: formData.contact,
-        note: 'formData.note',
-        tel: formData.tel,
-      },
-      status: {
-        isActive: true,
-      },
-    }
-
     try {
       const response: Response = await fetchWithAuth(
-        `${API_BASE_URL}clients/create`,
+        `${API_BASE_URL}/clients/create`,
         {
           method: 'POST',
           headers: {
@@ -92,6 +94,7 @@ const FormClient: FC = () => {
       if (!response.ok) {
         throw new Error(`Erreur HTTP: ${String(response.status)}`)
       }
+
       setMessage(() => ({
         info: 'Votre formulaire a été envoyé avec succès !',
         result: true,
@@ -105,50 +108,31 @@ const FormClient: FC = () => {
     }
   }
 
-  const handleInputChange = (
-    name: string,
-    value: string | boolean // Ajout du type boolean pour les cases à cocher
-  ) => {
-    setFormData((prevFormData) => {
-      return {
-        ...prevFormData,
-        [name]: value,
-      }
-    })
-  }
-
   const getInput = getInputClientConfig
 
   useEffect(() => {
     setStep(getInput.length)
   }, [getInput, setStep])
 
-  useEffect(() => {
-    if (!token) void navigate('/')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  console.log('token:', token)
+  console.log('formData:', formData)
 
   return (
-    <>
-      <Form
-        title={'Formulaire Client'}
-        icon={<UserIcon />}
-        handleArrowLeft={handleArrowLeft}
-        getInput={getInput}
-        currentStep={currentStep}
-        step={step}
-        message={message}
-        handleSubmit={(event) => void handleSubmit(event)}
-        formData={formData}
-        handleInputChange={(name, value) => {
-          handleInputChange(name, value)
-        }}
-        handlePrevStep={handlePrevStep}
-        handleNextStep={handleNextStep}
-      />
-    </>
+    <Form
+      title={'Formulaire Client'}
+      icon={<UserIcon />}
+      handleArrowLeft={handleArrowLeft}
+      getInput={getInput}
+      currentStep={currentStep}
+      step={step}
+      message={message}
+      handleSubmit={(event) => void handleSubmit(event)}
+      formData={formData}
+      handleInputChange={(name, value) => {
+        handleInputChange(name, value)
+      }}
+      handlePrevStep={handlePrevStep}
+      handleNextStep={handleNextStep}
+    />
   )
 }
 

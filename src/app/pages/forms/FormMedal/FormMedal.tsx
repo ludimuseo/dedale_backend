@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
@@ -6,6 +7,7 @@ import { getDescriptionConfig } from '@/app/components/description/getDescriptio
 import { useAppSelector } from '@/app/hooks'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
+import { API_BASE_URL } from '@/config/config'
 import { MedalType, MessageType, State } from '@/types'
 
 import Form from '../Form'
@@ -86,7 +88,7 @@ const FormMedal: FC = () => {
 
     try {
       const response: Response = await fetchWithAuth(
-        `https://dev.ludimuseo.fr:4000/api/medals/create`,
+        `${API_BASE_URL}/medals/create`,
         {
           method: 'POST',
           headers: {
@@ -138,16 +140,13 @@ const FormMedal: FC = () => {
     })
 
     try {
-      const response: Response = await fetchWithAuth(
-        'https://dev.ludimuseo.fr:4000/api/upload',
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formUpload, // Attention : pas de Content-Type ici, FormData le gère
-        }
-      )
+      const response: Response = await fetchWithAuth(`${API_BASE_URL}/upload`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formUpload, // Attention : pas de Content-Type ici, FormData le gère
+      })
 
       if (!response.ok) {
         throw new Error(`Erreur serveur: ${response.status.toString()}`)

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
@@ -244,7 +245,6 @@ const FormPiece: FC = () => {
       }
     }
     void fetchClients()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {

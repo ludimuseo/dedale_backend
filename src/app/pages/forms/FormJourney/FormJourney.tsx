@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { JourneyIcon } from '@component'
 import { useAppSelector } from '@hook'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
@@ -241,7 +242,6 @@ const FormJourney: FC = () => {
       }
     }
     void fetchClients()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
