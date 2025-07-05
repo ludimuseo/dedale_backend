@@ -42,7 +42,7 @@ export const TextValidation = ({
   const versionStyles = versionMaps[version] ?? versionMaps.standard
   return (
     <div
-      className={`flex max-w-xl flex-col items-center gap-4 rounded-[20px] border border-solid border-[#0a184d] p-5 drop-shadow-md ${versionStyles.wrapper}`}>
+      className={`flex max-w-xl flex-col items-center gap-4 rounded-[20px] border border-solid border-[#0a184d] p-5 drop-shadow-md lg:shrink lg:flex-grow lg:basis-0 ${versionStyles.wrapper}`}>
       <h1 className={`text-3xl font-bold ${versionStyles.title}`}>{title}</h1>
       <hr className={`w-full ${versionStyles.divider}`} />
       <div className="flex flex-col text-justify">
@@ -50,7 +50,7 @@ export const TextValidation = ({
           <p
             key={`sentence-${index.toString()}`}
             className={`font-inclusive text-xl leading-[2] ${versionStyles.text}`}>
-            <span className="text-sm">{index + 1}</span>
+            <span className="text-xs">{index + 1}</span>
             {'. '}
             {sentence}
           </p>

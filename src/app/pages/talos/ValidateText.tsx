@@ -165,6 +165,7 @@ const ValidateText: FC = () => {
     setStandardTextPreview(splitStandardText)
   }
 
+  console.log('standardTextPreview: ', standardTextPreview)
   return (
     <>
       {!preview ? (
@@ -367,31 +368,38 @@ const ValidateText: FC = () => {
               </p>
             </div>
           </div> */}
-          <div className="grid grid-cols-3 justify-center gap-2">
-            <TextValidation
-              title="Texte Certifié FALC"
-              sentence={falcTextPreview}
-              version="falcCertified"
-              onValidationClick={() => {
-                'hey'
-              }}
-            />
-            <TextValidation
-              title="Texte Facile a lire"
-              sentence={previuosFalctextPreview}
-              version="falc"
-              onValidationClick={() => {
-                'hey'
-              }}
-            />
-            <TextValidation
-              title="Texte Standard"
-              sentence={standardTextPreview}
-              version="standard"
-              onValidationClick={() => {
-                'hey'
-              }}
-            />
+
+          <div className="gap-2 lg:flex lg:justify-center">
+            {falcTextPreview.length > 0 && (
+              <TextValidation
+                title="Texte Certifié FALC"
+                sentence={falcTextPreview}
+                version="falcCertified"
+                onValidationClick={() => {
+                  'hey'
+                }}
+              />
+            )}
+            {previuosFalctextPreview.length > 0 && (
+              <TextValidation
+                title="Texte Facile a lire"
+                sentence={previuosFalctextPreview}
+                version="falc"
+                onValidationClick={() => {
+                  'hey'
+                }}
+              />
+            )}
+            {standardTextPreview.length > 0 && (
+              <TextValidation
+                title="Texte Standard"
+                sentence={standardTextPreview}
+                version="standard"
+                onValidationClick={() => {
+                  'hey'
+                }}
+              />
+            )}
           </div>
         </div>
       )}
