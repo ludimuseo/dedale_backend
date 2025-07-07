@@ -13,6 +13,7 @@ import { useFormMessage } from '@/app/hooks/useFormMessage'
 import { useInputChange } from '@/app/hooks/useInputChange'
 import { useMedals } from '@/app/hooks/useMedals'
 import { useSelectHandlers } from '@/app/hooks/useSelect'
+import { useSelectedId } from '@/app/hooks/useSelectedId'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
 import { API_BASE_URL } from '@/config/config'
@@ -25,11 +26,12 @@ const FormPlace: FC = () => {
   const navigate = useNavigate()
   const title = 'Formulaire Lieu'
   const collection = 'places'
-  const [newIdFromApi, setNewIdFromApi] = useState<number>(2)
+  const { message, setMessage } = useFormMessage()
+  const [newIdFromApi, setNewIdFromApi] = useState<number>(0)
+  const { setSelected } = useSelectedId()
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
   const { data: clients } = useClients(token)
   const { data: medals } = useMedals(token)
-
   const initialPlaceData: PlaceType = {
     id: 0,
     clientId: 0,
@@ -48,7 +50,6 @@ const FormPlace: FC = () => {
     isPublished: false,
   }
 
-  const { message, setMessage } = useFormMessage()
   const {
     step,
     setStep,
@@ -64,6 +65,14 @@ const FormPlace: FC = () => {
   const { formData, setFormData, handleInputChange } =
     useInputChange<PlaceType>(initialPlaceData)
 
+  const { handleSelectClient, handleSelectMedal } = useSelectHandlers(
+    setFormData,
+    formData,
+    setSelected
+  )
+
+  const { handleFileUpload } = useFileUpload(token, setFormData)
+
   const getInput = useMemo(() => {
     return showDescription ? getDescriptionConfig : getInputPlaceConfig
   }, [showDescription])
@@ -71,13 +80,6 @@ const FormPlace: FC = () => {
   const handleArrowLeft = () => {
     void navigate(-1)
   }
-
-  const { handleSelectClient, handleSelectMedal } =
-    useSelectHandlers(setFormData)
-
-  const { handleFileUpload } = useFileUpload(token, setFormData)
-
-  //soumission des informations
   const handleSubmit = async (
     event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => {

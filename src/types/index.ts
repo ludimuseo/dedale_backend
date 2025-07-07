@@ -80,23 +80,34 @@ export interface MessageType {
 }
 
 /* FORMDATA */
-export interface FormDataType {
-  id: number
-  clientId: number
-  medalId: number
-  name: string
-  image: string
-  type: string
-  address: string
-  city: string
-  country: string
-  postal: string
-  location_required: boolean
-  lat: number
-  lon: number
-  isActive: boolean
-  isPublished: boolean
-}
+// export interface FormDataType {
+//   id: number
+//   clientId: number
+//   medalId: number
+//   name: string
+//   image: string
+//   type: string
+//   address: string
+//   city: string
+//   country: string
+//   postal: string
+//   location_required: boolean
+//   lat: number
+//   lon: number
+//   isActive: boolean
+//   isPublished: boolean
+// }
+
+export type FormDataType =
+  | PlaceType
+  | JourneyType
+  | StepType
+  | PieceType
+  | ClientType
+  | MedalType
+  | QuizType
+  | QuestionType
+  | DescriptionType
 
 export type InputValue = string | boolean | number
 

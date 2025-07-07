@@ -1,12 +1,13 @@
-import { MouseEvent } from 'react'
+import { Dispatch, MouseEvent, SetStateAction } from 'react'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
 import { API_BASE_URL } from '@/config/config'
 import { FormDataType } from '@/types'
 
-type SetFormDataType = React.Dispatch<React.SetStateAction<FormDataType>>
-
-export const useFileUpload = (token: string, setFormData: SetFormDataType) => {
+export const useFileUpload = (
+  token: string,
+  setFormData: Dispatch<SetStateAction<FormDataType>>
+) => {
   const handleFileUpload = async (
     file: File,
     fileType: string,

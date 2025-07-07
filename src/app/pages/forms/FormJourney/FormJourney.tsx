@@ -1,22 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { JourneyIcon } from '@component'
 import { useAppSelector } from '@hook'
-import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
+import { FC, FormEvent, MouseEvent, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
 import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { useClients } from '@/app/hooks/useClients'
+import { useDescriptions } from '@/app/hooks/useDescriptions'
+import { useFileUpload } from '@/app/hooks/useFileUpload'
+import { useFormMessage } from '@/app/hooks/useFormMessage'
+import { useInputChange } from '@/app/hooks/useInputChange'
+import { useMedals } from '@/app/hooks/useMedals'
+import { usePlaces } from '@/app/hooks/usePlaces'
+import { useSelectHandlers } from '@/app/hooks/useSelect'
+import { useSelectedId } from '@/app/hooks/useSelectedId'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
 import { API_BASE_URL } from '@/config/config'
-import {
-  ClientType,
-  JourneyType,
-  MedalType,
-  MessageType,
-  PlaceType,
-  State,
-} from '@/types'
+import { FormDataType, State } from '@/types'
 
 import Form from '../Form'
 import { getInputJourneyConfig } from './configJourney/getInputJourneyConfig'
@@ -24,21 +26,15 @@ import { getInputJourneyConfig } from './configJourney/getInputJourneyConfig'
 const FormJourney: FC = () => {
   const title = 'Formulaire Parcours'
   const collection = 'journeys'
+  const [newIdFromApi, setNewIdFromApi] = useState<number>(0)
   const navigate = useNavigate()
-  const [showDescription, setShowDescription] = useState(false)
-  const [client, setClient] = useState<ClientType[]>([])
-  const [place, setPlace] = useState<PlaceType[]>([])
-  const [selectedClientId, setSelectedClientId] = useState<number>()
-  const [selectedPlaceId, setSelectedPlaceId] = useState<number>()
-  const [newIdFromApi, setNewIdFromApi] = useState<number>()
-  const [medal, setMedal] = useState<MedalType[]>([])
-  const [message, setMessage] = useState<MessageType>({
-    info: '',
-    result: false,
-  })
+  const { message, setMessage } = useFormMessage()
+  const { selected, setSelected } = useSelectedId()
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
-
-  const [formData, setFormData] = useState<JourneyType>({
+  const { data: clients } = useClients(token)
+  const { data: medals } = useMedals(token)
+  const { data: places, refetch } = usePlaces(selected.selectedClientId, token)
+  const initialJourneyData: FormDataType = {
     id: 0,
     placeId: 0,
     medalId: 0,
@@ -55,7 +51,9 @@ const FormJourney: FC = () => {
     lon: 0,
     isActive: false,
     isPublished: false,
-  })
+  }
+  const { formData, setFormData, handleInputChange } =
+    useInputChange(initialJourneyData)
 
   const {
     step,
@@ -66,9 +64,25 @@ const FormJourney: FC = () => {
     handlePrevStep,
   } = useTimelineStep()
 
+  const { handleSelectClient, handleSelectMedal, handleSelectPlace } =
+    useSelectHandlers(setFormData, formData, setSelected)
+
+  const { handleDescription, showDescription, handleSubmitDescriptions } =
+    useDescriptions(newIdFromApi, collection, token, setCurrentStep, setMessage)
+
+  const { handleFileUpload } = useFileUpload(token, setFormData)
+  const getInput = useMemo(() => {
+    return showDescription ? getDescriptionConfig : getInputJourneyConfig
+  }, [showDescription])
+
   const handleArrowLeft = () => {
     void navigate(-1)
   }
+  useEffect(() => {
+    if (selected.selectedClientId) {
+      void refetch()
+    }
+  }, [selected.selectedClientId])
 
   //soumission des informations
   const handleSubmit = async (
@@ -124,185 +138,6 @@ const FormJourney: FC = () => {
     }
   }
 
-  const handleInputChange = (name: string, value: string | boolean) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }))
-  }
-
-  const handleSelectClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value
-    const selectedValueToNumber = Number(selectedValue)
-    setSelectedClientId(selectedValueToNumber)
-  }
-
-  const handleDescription = () => {
-    //AFFICHER Descritpion
-    setShowDescription(true)
-    setCurrentStep(0)
-  }
-
-  const handleFileUpload = async (
-    file: File,
-    fileType: string,
-    name: string,
-    event: MouseEvent<HTMLButtonElement>
-  ): Promise<void> => {
-    event.preventDefault()
-    const formUpload = new FormData()
-    // Ajout des données dans formUpload
-    formUpload.append('file', file) // le fichier image à uploader
-    formUpload.append('type', 'image') // type : image ou audio
-    formUpload.append('destination', 'Journey') // ou journey, step, etc.
-
-    setFormData((prevFormData) => {
-      return {
-        ...prevFormData,
-        [fileType]: name,
-      }
-    })
-
-    try {
-      if (!token) {
-        alert("Une erreur c'est produite, reconnectez-vous")
-        void navigate('/auth/signin')
-        return
-      }
-
-      const response: Response = await fetchWithAuth(
-        'https://dev.ludimuseo.fr:4000/api/upload',
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formUpload, // Attention : pas de Content-Type ici, FormData le gère
-        }
-      )
-
-      if (!response.ok) {
-        throw new Error(`Erreur serveur: ${response.status.toString()}`)
-      }
-      const data: unknown = await response.json()
-      console.log('Fichier uploadé avec succès :', data)
-    } catch (error) {
-      console.error("Erreur lors de l'upload :", error)
-      throw error
-    }
-  }
-
-  const handleSelectPlace = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value
-    const selectedValueToNumber = Number(selectedValue)
-    setSelectedPlaceId(selectedValueToNumber)
-    setFormData((prevFormData) => {
-      return {
-        ...prevFormData,
-        ['placeId']: selectedValueToNumber,
-      }
-    })
-  }
-
-  const handleSelectMedal = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value
-    const selectedValueToNumber = Number(selectedValue)
-    setFormData((prevFormData) => {
-      return {
-        ...prevFormData,
-        ['medalId']: selectedValueToNumber,
-      }
-    })
-  }
-  useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const response: Response = await fetchWithAuth(
-          `https://dev.ludimuseo.fr:4000/api/clients/list`,
-          {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        )
-
-        if (!response.ok) {
-          throw new Error(`Erreur HTTP: ${String(response.status)}`)
-        }
-        const data = (await response.json()) as ClientType[]
-        const clientData = data.clients as ClientType[]
-        const filteredClientIsActive = clientData.filter(
-          (item) => item.isActive
-        )
-        setClient([...filteredClientIsActive])
-      } catch (error) {
-        console.log('ERROR fetching clients: ', error)
-      }
-    }
-    void fetchClients()
-  }, [])
-
-  useEffect(() => {
-    const fetchPlace = async () => {
-      if (!selectedClientId) return
-      try {
-        const response: Response = await fetchWithAuth(
-          `https://dev.ludimuseo.fr:4000/api/places/list/${selectedClientId.toString()}`,
-          {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        )
-
-        if (!response.ok) {
-          throw new Error(`Erreur HTTP: ${String(response.status)}`)
-        }
-        const data = (await response.json()) as PlaceType[]
-        const placeData = data.places as PlaceType[]
-        setPlace(placeData)
-      } catch (error) {
-        setPlace([])
-        console.log('ERROR fetching places: ', error)
-      }
-    }
-    void fetchPlace()
-  }, [selectedClientId])
-
-  useEffect(() => {
-    const fetchMedals = async () => {
-      try {
-        const response: Response = await fetchWithAuth(
-          `https://dev.ludimuseo.fr:4000/api/medals/list`,
-          {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        )
-        if (!response.ok) {
-          throw new Error(`Erreur HTTP: ${String(response.status)}`)
-        }
-        const data = (await response.json()) as MedalType[]
-        const medalData = data
-        setMedal(medalData)
-      } catch (error) {
-        console.log('ERROR fetching clients: ', error)
-      }
-    }
-    void fetchMedals()
-  }, [])
-
-  const getInput = !showDescription
-    ? getInputJourneyConfig
-    : getDescriptionConfig
-
   useEffect(() => {
     setStep(getInput.length)
     setMessage({
@@ -311,20 +146,24 @@ const FormJourney: FC = () => {
     })
   }, [getInput])
 
-  console.log('FormDataJourney:', { ...formData })
+  console.log('FORMJOURNEY formData', formData)
+  console.log(
+    'FORMJOURNEY selected.selectedClientId',
+    selected.selectedClientId
+  )
 
   return (
     <>
       <Form
-        client={client}
-        place={place}
-        medal={medal}
+        client={clients}
+        place={places}
+        medal={medals}
         isAssociated={formData.placeId !== 0}
         handleSelectClient={handleSelectClient}
         handleSelectPlace={handleSelectPlace}
         handleSelectMedal={handleSelectMedal}
-        selectedClientId={selectedClientId}
-        selectedPlaceId={selectedPlaceId}
+        selectedClientId={selected.selectedClientId}
+        selectedPlaceId={selected.selectedPlaceId}
         newIdFromApi={newIdFromApi}
         title={title}
         collection={collection}
@@ -347,6 +186,9 @@ const FormJourney: FC = () => {
         handleNextStep={handleNextStep}
         handleFileUpload={(file, fileType, name, event) => {
           void handleFileUpload(file, fileType, name, event)
+        }}
+        handleSubmitDescriptions={(descriptions) => {
+          void handleSubmitDescriptions(descriptions)
         }}
       />
     </>
