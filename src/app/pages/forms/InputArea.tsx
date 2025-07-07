@@ -34,13 +34,13 @@ interface InputAreaProps {
     | QuizType
     | QuestionType
   handleInputChange: (name: string, event: string | boolean) => void
-  handleFileUpload: (
+  handleFileUpload?: (
     file: File,
     fileType: string,
-    imgName: string | undefined,
+    name: string,
     event: MouseEvent<HTMLButtonElement>
-  ) => Promise<void>
-  handleSubmitButton: (e: MouseEvent<HTMLButtonElement>) => void
+  ) => void
+  handleSubmitButton?: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
 const InputArea = ({
@@ -54,7 +54,7 @@ const InputArea = ({
 }: InputAreaProps) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [imgFile, setImgFile] = useState<File | null>(null)
-  const [imgName, setImgName] = useState<string | undefined>('')
+  const [imgName, setImgName] = useState<string>('')
   const [isUploading, setIsUploading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
   const [uploadSuccess, setUploadSuccess] = useState(false)
@@ -112,7 +112,7 @@ const InputArea = ({
 
     if (type === 'image') {
       setImgFile(file)
-      setImgName(name)
+      setImgName(name ?? 'noname')
       const imageUrl = URL.createObjectURL(file)
       setImagePreview(imageUrl)
     }
@@ -132,7 +132,7 @@ const InputArea = ({
     setUploadSuccess(false)
 
     try {
-      void handleFileUpload(imgFile, 'image', imgName, event)
+      handleFileUpload?.(imgFile, 'image', imgName, event)
       setUploadSuccess(true)
       // Réinitialiser après un délai pour permettre à l'utilisateur de voir le message de succès
       setTimeout(() => {
@@ -148,6 +148,9 @@ const InputArea = ({
       setIsUploading(false)
     }
   }
+
+  console.log('message.result: ', message.result)
+
   return (
     <div className="flex min-h-max justify-center rounded-xl bg-base-100 p-4 shadow-xl">
       {!message.info ? (
@@ -224,7 +227,7 @@ const InputArea = ({
               )
             }
           })}
-          <form
+          <div
             //onSubmit={handleSubmit}
             className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark flex w-1/2 flex-col p-2">
             {getInput[currentStep].map(
@@ -274,7 +277,7 @@ const InputArea = ({
                             type={type}
                             checked={isChecked}
                             onChange={() => {
-                              handleInputChange(name, !isChecked)
+                              handleInputChange(name, String(!isChecked))
                             }}
                             className="checkbox"
                           />
@@ -314,7 +317,7 @@ const InputArea = ({
                         key={id}
                         className="xl:btn-xl btn btn-neutral btn-xs sm:btn-sm md:btn-md lg:btn-lg"
                         onClick={(e) => {
-                          handleSubmitButton(e)
+                          handleSubmitButton?.(e)
                         }}>
                         Enregistrer sur le serveur
                       </button>
@@ -378,7 +381,7 @@ const InputArea = ({
                 }
               }
             )}
-          </form>
+          </div>
         </>
       ) : (
         <div className="border-stroke shadow-defaul dark:border-strokedark dark:bg-boxdark mt-5 flex w-1/2 flex-col items-center rounded-sm p-2">
@@ -387,7 +390,7 @@ const InputArea = ({
             width="30%"
             src={message.result ? successImage : failedImage}
             alt={
-              !message.result
+              message.result
                 ? 'Formulaire envoyé avec succes'
                 : "Echec de l'envoie du formulaire"
             }

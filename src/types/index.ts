@@ -79,6 +79,27 @@ export interface MessageType {
   result: boolean
 }
 
+/* FORMDATA */
+export interface FormDataType {
+  id: number
+  clientId: number
+  medalId: number
+  name: string
+  image: string
+  type: string
+  address: string
+  city: string
+  country: string
+  postal: string
+  location_required: boolean
+  lat: number
+  lon: number
+  isActive: boolean
+  isPublished: boolean
+}
+
+export type InputValue = string | boolean | number
+
 export interface GetInputConfigType {
   accessType?: string
   fileType?: string

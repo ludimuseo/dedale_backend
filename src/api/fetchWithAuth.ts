@@ -1,4 +1,3 @@
-// src/api/fetchWithAuth.ts
 export const fetchWithAuth = async (
   input: RequestInfo | URL,
   init?: RequestInit

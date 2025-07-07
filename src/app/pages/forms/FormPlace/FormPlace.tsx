@@ -1,19 +1,22 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { PlaceIcon } from '@component'
 import { useAppSelector } from '@hook'
-import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
+import { FC, FormEvent, MouseEvent, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
-import { getStandardDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { useClients } from '@/app/hooks/useClients'
+import { useDescriptions } from '@/app/hooks/useDescriptions'
+import { useFileUpload } from '@/app/hooks/useFileUpload'
+import { useFormMessage } from '@/app/hooks/useFormMessage'
+import { useInputChange } from '@/app/hooks/useInputChange'
+import { useMedals } from '@/app/hooks/useMedals'
+import { useSelectHandlers } from '@/app/hooks/useSelect'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
-import {
-  ClientType,
-  DescriptionType,
-  MessageType,
-  PlaceType,
-  State,
-} from '@/types'
+import { API_BASE_URL } from '@/config/config'
+import { PlaceType, State } from '@/types'
 
 import Form from '../Form'
 import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
@@ -22,14 +25,12 @@ const FormPlace: FC = () => {
   const navigate = useNavigate()
   const title = 'Formulaire Lieu'
   const collection = 'places'
-  const [showDescription, setShowDescription] = useState(true)
-  const [client, setClient] = useState<ClientType[]>([])
   const [newIdFromApi, setNewIdFromApi] = useState<number>(2)
-  const [message, setMessage] = useState<MessageType>({
-    info: '',
-    result: false,
-  })
-  const [formData, setFormData] = useState<PlaceType>({
+  const { token }: StateAuth = useAppSelector((state: State) => state.auth)
+  const { data: clients } = useClients(token)
+  const { data: medals } = useMedals(token)
+
+  const initialPlaceData: PlaceType = {
     id: 0,
     clientId: 0,
     medalId: 0,
@@ -45,12 +46,9 @@ const FormPlace: FC = () => {
     lon: 0,
     isActive: false,
     isPublished: false,
-  })
-  const { token }: StateAuth = useAppSelector((state: State) => state.auth)
-  const getInput = !showDescription
-    ? getInputPlaceConfig
-    : getStandardDescriptionConfig
+  }
 
+  const { message, setMessage } = useFormMessage()
   const {
     step,
     setStep,
@@ -60,15 +58,24 @@ const FormPlace: FC = () => {
     handlePrevStep,
   } = useTimelineStep()
 
-  const handleDescription = () => {
-    //AFFICHER Descritpion
-    setShowDescription(true)
-    setCurrentStep(0)
-  }
+  const { handleDescription, showDescription, handleSubmitDescriptions } =
+    useDescriptions(newIdFromApi, collection, token, setCurrentStep, setMessage)
+
+  const { formData, setFormData, handleInputChange } =
+    useInputChange<PlaceType>(initialPlaceData)
+
+  const getInput = useMemo(() => {
+    return showDescription ? getDescriptionConfig : getInputPlaceConfig
+  }, [showDescription])
 
   const handleArrowLeft = () => {
     void navigate(-1)
   }
+
+  const { handleSelectClient, handleSelectMedal } =
+    useSelectHandlers(setFormData)
+
+  const { handleFileUpload } = useFileUpload(token, setFormData)
 
   //soumission des informations
   const handleSubmit = async (
@@ -92,162 +99,53 @@ const FormPlace: FC = () => {
     } else {
       setMessage(() => ({
         info: 'Votre formulaire a été envoyé avec succès !',
-        result: false,
+        result: true,
       }))
     }
-    return
+
     try {
-      const response: Response = await fetchWithAuth(
-        `https://dev.ludimuseo.fr:4000/api/places`,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ place: formData }),
-        }
-      )
+      const response: Response = await fetchWithAuth(`${API_BASE_URL}/places`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ place: formData }),
+      })
 
       if (!response.ok) {
         throw new Error(`Erreur HTTP: ${String(response.status)}`)
       }
       const newId: number = (await response.json()) as number
       setNewIdFromApi(newId) // recupere l'Id du nouveau place créé
-
-      console.log('newId from Server', newId)
     } catch (error) {
       console.error('Erreur:', error)
       setMessage({
         info: "Erreur lors de l'envoi du formulaire",
-        result: true,
+        result: false,
       })
     }
-  }
-
-  const handleInputChange = (
-    name: string,
-    value: string | boolean // Ajout du type boolean pour les cases à cocher
-  ) => {
-    setFormData((prevFormData) => {
-      return {
-        ...prevFormData,
-        [name]: value,
-      }
-    })
-  }
-
-  const handleFileUpload = async (
-    file: File,
-    fileType: string,
-    imgName: string | undefined,
-    event: MouseEvent<HTMLButtonElement>
-  ): Promise<void> => {
-    event.preventDefault()
-
-    const formUpload = new FormData()
-    // Ajout des données dans formUpload
-    formUpload.append('file', file) // le fichier image à uploader
-    formUpload.append('type', 'image') // type : image ou audio
-    formUpload.append('destination', 'Place') // ou journey, step, etc.
-
-    setFormData((prevFormData) => {
-      return {
-        ...prevFormData,
-        [fileType]: imgName,
-      }
-    })
-
-    try {
-      const response: Response = await fetchWithAuth(
-        'https://dev.ludimuseo.fr:4000/api/upload',
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formUpload, // Attention : pas de Content-Type ici, FormData le gère
-        }
-      )
-
-      if (!response.ok) {
-        throw new Error(`Erreur serveur: ${response.status.toString()}`)
-      }
-      const data: unknown = await response.json()
-      console.log('Fichier uploadé avec succès :', data)
-    } catch (error) {
-      console.error("Erreur lors de l'upload :", error)
-      throw error
-    }
-  }
-
-  const handleSelectClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value
-    const selectedValueToNumber = Number(selectedValue)
-    setFormData((prevFormData) => {
-      return {
-        ...prevFormData,
-        ['clientId']: selectedValueToNumber,
-      }
-    })
-  }
-
-  const handleSubmitDescriptions = (descriptions: DescriptionType[]) => {
-    //ENVOIE du tableau de descriptions au serveur
-    console.log('FORMPLACE descriptions: ', descriptions)
-    setMessage(() => ({
-      info: 'Vos descriptions ont été envoyées avec succès !',
-      result: true,
-    }))
   }
 
   useEffect(() => {
     setStep(getInput.length)
     setCurrentStep(0)
-    //permert de reinitialiser le footer
+    //reinitialiser le footer
     setMessage({
       info: '',
       result: false,
     })
   }, [getInput])
 
-  useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const response: Response = await fetchWithAuth(
-          `https://dev.ludimuseo.fr:4000/api/clients/list`,
-          {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        )
+  console.log('FORMPLACE formData: ', formData)
 
-        if (!response.ok) {
-          throw new Error(`Erreur HTTP: ${String(response.status)}`)
-        }
-        const data = (await response.json()) as ClientType[]
-        const clientData = data.clients as ClientType[]
-        const filteredClientIsActive = clientData.filter(
-          (item) => item.isActive
-        )
-        setClient([...filteredClientIsActive])
-      } catch (error) {
-        console.log('ERROR fetching clients: ', error)
-      }
-    }
-    void fetchClients()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  console.log('formData:', formData)
   return (
     <Form
-      client={client}
+      client={clients}
+      medal={medals}
       isAssociated={formData.clientId !== 0}
       handleSelectClient={handleSelectClient}
+      handleSelectMedal={handleSelectMedal}
       newIdFromApi={newIdFromApi}
       title={title}
       collection={collection}
@@ -271,7 +169,9 @@ const FormPlace: FC = () => {
       handleFileUpload={(file, fileType, name, event) => {
         void handleFileUpload(file, fileType, name, event)
       }}
-      handleSubmitDescriptions={handleSubmitDescriptions}
+      handleSubmitDescriptions={(descriptions) => {
+        void handleSubmitDescriptions(descriptions)
+      }}
     />
   )
 }

@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
 import { PlaceIcon } from '@/app/components'
-import { getStandardDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useAppSelector } from '@/app/hooks'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
@@ -47,9 +48,7 @@ const FormPiece: FC = () => {
     isPublished: false,
   })
   const { token }: StateAuth = useAppSelector((state: State) => state.auth)
-  const getInput = !showDescription
-    ? getInputPieceConfig
-    : getStandardDescriptionConfig
+  const getInput = !showDescription ? getInputPieceConfig : getDescriptionConfig
 
   const {
     step,
@@ -246,7 +245,6 @@ const FormPiece: FC = () => {
       }
     }
     void fetchClients()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {

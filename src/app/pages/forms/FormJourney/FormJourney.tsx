@@ -1,13 +1,22 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { JourneyIcon } from '@component'
 import { useAppSelector } from '@hook'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
-import { getStandardDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
+import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
-import { ClientType, JourneyType, MessageType, PlaceType, State } from '@/types'
+import { API_BASE_URL } from '@/config/config'
+import {
+  ClientType,
+  JourneyType,
+  MedalType,
+  MessageType,
+  PlaceType,
+  State,
+} from '@/types'
 
 import Form from '../Form'
 import { getInputJourneyConfig } from './configJourney/getInputJourneyConfig'
@@ -22,6 +31,7 @@ const FormJourney: FC = () => {
   const [selectedClientId, setSelectedClientId] = useState<number>()
   const [selectedPlaceId, setSelectedPlaceId] = useState<number>()
   const [newIdFromApi, setNewIdFromApi] = useState<number>()
+  const [medal, setMedal] = useState<MedalType[]>([])
   const [message, setMessage] = useState<MessageType>({
     info: '',
     result: false,
@@ -39,7 +49,7 @@ const FormJourney: FC = () => {
     country: '',
     postal: '',
     image: '',
-    type: '',
+    type: 'MUSEUM',
     location_required: false,
     lat: 0,
     lon: 0,
@@ -87,7 +97,7 @@ const FormJourney: FC = () => {
 
     try {
       const response: Response = await fetchWithAuth(
-        `https://dev.ludimuseo.fr:4000/api/journeys/create`,
+        `${API_BASE_URL}/journeys/create`,
         {
           method: 'POST',
           headers: {
@@ -109,7 +119,7 @@ const FormJourney: FC = () => {
       console.error('Erreur:', error)
       setMessage({
         info: "Erreur lors de l'envoi du formulaire",
-        result: true,
+        result: false,
       })
     }
   }
@@ -154,6 +164,12 @@ const FormJourney: FC = () => {
     })
 
     try {
+      if (!token) {
+        alert("Une erreur c'est produite, reconnectez-vous")
+        void navigate('/auth/signin')
+        return
+      }
+
       const response: Response = await fetchWithAuth(
         'https://dev.ludimuseo.fr:4000/api/upload',
         {
@@ -188,6 +204,16 @@ const FormJourney: FC = () => {
     })
   }
 
+  const handleSelectMedal = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value
+    const selectedValueToNumber = Number(selectedValue)
+    setFormData((prevFormData) => {
+      return {
+        ...prevFormData,
+        ['medalId']: selectedValueToNumber,
+      }
+    })
+  }
   useEffect(() => {
     const fetchClients = async () => {
       try {
@@ -216,7 +242,6 @@ const FormJourney: FC = () => {
       }
     }
     void fetchClients()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -248,9 +273,35 @@ const FormJourney: FC = () => {
     void fetchPlace()
   }, [selectedClientId])
 
+  useEffect(() => {
+    const fetchMedals = async () => {
+      try {
+        const response: Response = await fetchWithAuth(
+          `https://dev.ludimuseo.fr:4000/api/medals/list`,
+          {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP: ${String(response.status)}`)
+        }
+        const data = (await response.json()) as MedalType[]
+        const medalData = data
+        setMedal(medalData)
+      } catch (error) {
+        console.log('ERROR fetching clients: ', error)
+      }
+    }
+    void fetchMedals()
+  }, [])
+
   const getInput = !showDescription
     ? getInputJourneyConfig
-    : getStandardDescriptionConfig
+    : getDescriptionConfig
 
   useEffect(() => {
     setStep(getInput.length)
@@ -267,9 +318,11 @@ const FormJourney: FC = () => {
       <Form
         client={client}
         place={place}
+        medal={medal}
         isAssociated={formData.placeId !== 0}
         handleSelectClient={handleSelectClient}
         handleSelectPlace={handleSelectPlace}
+        handleSelectMedal={handleSelectMedal}
         selectedClientId={selectedClientId}
         selectedPlaceId={selectedPlaceId}
         newIdFromApi={newIdFromApi}

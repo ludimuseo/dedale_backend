@@ -112,16 +112,4 @@ export const getInputPlaceConfig: GetInputConfigType[][] = [
       type: 'file',
     },
   ],
-  [
-    {
-      id: '111',
-      label: 'Validation des donées du Lieu',
-      sectionLabel: 'Validation',
-      name: 'fr',
-      placeholder: 'Entrez le nom du lieu',
-      required: true,
-      section: 'name',
-      type: 'hidden',
-    },
-  ],
 ]

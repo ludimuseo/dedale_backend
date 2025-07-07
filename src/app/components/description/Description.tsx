@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   closestCenter,
   DndContext,
@@ -14,15 +15,18 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { MouseEvent, useEffect, useRef, useState } from 'react'
 
+import { fetchWithAuth } from '@/api/fetchWithAuth'
+import { useAppSelector } from '@/app/hooks'
 import { useDescriptions } from '@/app/hooks/useDescriptions'
+import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
 import { generateUniqueId } from '@/app/services/utils/generateId'
-import { DescriptionType, GetInputConfigType } from '@/types'
+import { API_BASE_URL } from '@/config/config'
+import { DescriptionType, GetInputConfigType, State } from '@/types'
 
 import { WrongCheck } from '../ui/icons/WrongCheck'
 import AddDescriptionButton from './AddDescriptionButton'
-import FileUploadArea from './FileUploadArea'
 import MainTextArea from './MainTextArea'
 
 interface DescriptionProps {
@@ -30,11 +34,16 @@ interface DescriptionProps {
   currentStep: number
   newIdFromApi: number
   collection: string
-  handleSubmitDescriptions: (descriptions: DescriptionType[]) => void
+  handleSubmitDescriptions?: (descriptions: DescriptionType[]) => void
 }
 interface SortableItemProps {
-  desc: { id: string }
+  // desc: { id: string }
+  desc: DescriptionType
   handleRemoveDesc: (id: string) => void
+  imagePreview?: string
+  setImagePreview: (preview: string | null) => void
+  imgFile?: File
+  setImgFile: (file: File | null) => void
 }
 
 export default function Description({
@@ -44,8 +53,12 @@ export default function Description({
   collection,
   handleSubmitDescriptions,
 }: DescriptionProps) {
-  const [language, setLanguage] = useState<string | undefined>('fr')
+  const [language, setLanguage] = useState<string>('fr')
   const [isFalc, setIsFalc] = useState(false)
+  const [imagePreviews, setImagePreviews] = useState<Record<string, string>>({})
+  const [imgFiles, setImgFiles] = useState<Record<string, File>>({})
+  const { token }: StateAuth = useAppSelector((state: State) => state.auth)
+
   const { descriptions, setDescriptions } = useDescriptions(
     newIdFromApi,
     collection
@@ -58,7 +71,7 @@ export default function Description({
 
     if (stepData.length > 0) {
       const { language, mode } = stepData[0] // Prend les valeurs du premier élément de la liste
-      setLanguage(language)
+      setLanguage(language ?? 'fr')
       setIsFalc(mode === 'falc')
     }
   }, [currentStep, getInput])
@@ -70,7 +83,7 @@ export default function Description({
         'ATTENTION Voulez-vous sauvegarder sur le serveur ?'
       )
       if (confirmSubmit) {
-        handleSubmitDescriptions(descriptions)
+        handleSubmitDescriptions?.(descriptions)
       }
       // if (confirmClear) {
       //   setDescriptions((prevDescriptions) =>
@@ -82,7 +95,6 @@ export default function Description({
       //   )
       // }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFalc]) // Déclenché uniquement quand `isFalc` change
 
   const handleAddDescription = (
@@ -108,7 +120,14 @@ export default function Description({
     }, 0)
   }
 
-  function SortableItem({ desc, handleRemoveDesc }: SortableItemProps) {
+  function SortableItem({
+    desc,
+    handleRemoveDesc,
+    imagePreview,
+    setImagePreview,
+    imgFile,
+    setImgFile,
+  }: SortableItemProps) {
     const {
       attributes,
       listeners,
@@ -124,6 +143,54 @@ export default function Description({
       transition: !isSorting ? (transition ?? undefined) : undefined,
     }
 
+    //UPLOAD
+    const handleFileUpload = async (
+      file: File,
+      fileType: string,
+      event: MouseEvent<HTMLButtonElement>,
+      desc: DescriptionType
+    ): Promise<void> => {
+      event.preventDefault()
+
+      const id = desc.id
+
+      const formUpload = new FormData()
+      // Ajout des données dans formUpload
+      formUpload.append('file', file) // le fichier image à uploader
+      formUpload.append('type', 'image') // type : image ou audio
+      formUpload.append('destination', 'Place') // ou journey, step, etc.
+
+      try {
+        const response: Response = await fetchWithAuth(
+          `${API_BASE_URL}/upload`,
+          {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formUpload, // Attention : pas de Content-Type ici, FormData le gère
+          }
+        )
+
+        if (!response.ok) {
+          throw new Error(`Erreur serveur: ${response.status.toString()}`)
+        }
+
+        setDescriptions((prev) =>
+          prev.map((desc) =>
+            desc.id === id
+              ? { ...desc, [fileType]: imgFile?.name }
+              : { ...desc }
+          )
+        )
+
+        const data: unknown = await response.json()
+        console.log('Fichier uploadé avec succès :', data)
+      } catch (error) {
+        console.error("Erreur lors de l'upload :", error)
+        throw error
+      }
+    }
     return (
       <motion.div
         ref={setNodeRef}
@@ -141,35 +208,21 @@ export default function Description({
         className="relative mb-4 cursor-grab rounded-xl border bg-base-100 p-4">
         <div className="hero min-h-10 shadow-sm">
           <div className="hero-content flex-col lg:flex-row">
-            <FileUploadArea />
-            <div>
-              {language === 'fr' ? (
-                <svg width="32" height="24" viewBox="0 0 16 16">
-                  <rect width="5" height="16" fill="#002654" />
-                  <rect x="5" width="6" height="16" fill="#FFFFFF" />
-                  <rect x="11" width="5" height="16" fill="#ED2939" />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="32"
-                  height="32"
-                  viewBox="0 0 16 16">
-                  <rect width="16" height="16" fill="#FFFFFF" />
-                  <rect y="7" width="16" height="2" fill="#C8102E" />
-                  <rect x="7" width="2" height="16" fill="#C8102E" />
-                </svg>
-              )}
-            </div>
-
             <MainTextArea
               ref={(el) => {
                 if (el) textareasRef.current[desc.id] = el
               }}
-              descriptions={[desc as DescriptionType]}
+              descriptions={[desc]}
               handleAddDescription={handleAddDescription}
+              handleFileUpload={(file, fileType, event, desc) => {
+                void handleFileUpload(file, fileType, event, desc)
+              }}
               language={language}
               isFalc={isFalc}
+              imagePreview={imagePreview}
+              setImagePreview={setImagePreview}
+              imgFile={imgFile}
+              setImgFile={setImgFile}
             />
           </div>
         </div>
@@ -197,7 +250,7 @@ export default function Description({
         id: generateUniqueId(),
         collection: collection,
         collectionId: newIdFromApi,
-        language: language ?? 'fr',
+        language: language,
         order: descriptions.length,
         text: '',
         isFalc: isFalc,
@@ -250,7 +303,7 @@ export default function Description({
     })
   }, [language, isFalc])
 
-  console.log('DESCRIPTIONS descriptions: ', descriptions)
+  console.log('DESCRIPTIONS : ', descriptions)
 
   return (
     <>
@@ -268,8 +321,33 @@ export default function Description({
               <SortableItem
                 key={desc.id}
                 desc={desc}
-                handleRemoveDesc={() => {
-                  handleRemoveDesc(desc.id)
+                handleRemoveDesc={handleRemoveDesc}
+                imagePreview={imagePreviews[desc.id]}
+                setImagePreview={(preview) => {
+                  if (preview === null) {
+                    setImagePreviews((prev) =>
+                      Object.fromEntries(
+                        Object.entries(prev).filter(([key]) => key !== desc.id)
+                      )
+                    )
+                  } else {
+                    setImagePreviews((prev) => ({
+                      ...prev,
+                      [desc.id]: preview,
+                    }))
+                  }
+                }}
+                imgFile={imgFiles[desc.id]}
+                setImgFile={(file) => {
+                  if (file === null) {
+                    setImgFiles((prev) =>
+                      Object.fromEntries(
+                        Object.entries(prev).filter(([key]) => key !== desc.id)
+                      )
+                    )
+                  } else {
+                    setImgFiles((prev) => ({ ...prev, [desc.id]: file }))
+                  }
                 }}
               />
             ))}
@@ -281,7 +359,7 @@ export default function Description({
         {' '}
         <button
           onClick={() => {
-            handleSubmitDescriptions(descriptions)
+            handleSubmitDescriptions?.(descriptions)
           }}
           className="btn btn-neutral mt-2">
           <p className="mt-1 font-inclusive text-xl">
