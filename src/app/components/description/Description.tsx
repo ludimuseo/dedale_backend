@@ -61,7 +61,8 @@ export default function Description({
 
   const { descriptions, setDescriptions } = useDescriptions(
     newIdFromApi,
-    collection
+    collection,
+    token
   )
 
   const textareasRef = useRef<Record<string, HTMLTextAreaElement | null>>({})

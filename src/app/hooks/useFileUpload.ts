@@ -2,7 +2,7 @@ import { MouseEvent } from 'react'
 
 import { fetchWithAuth } from '@/api/fetchWithAuth'
 import { API_BASE_URL } from '@/config/config'
-import { FormDataType } from '@/types'
+import { FormDataType, InputValue } from '@/types/index'
 
 type SetFormDataType = React.Dispatch<React.SetStateAction<FormDataType>>
 
@@ -23,7 +23,7 @@ export const useFileUpload = (token: string, setFormData: SetFormDataType) => {
 
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [fileType]: imgName,
+      [fileType]: imgName as InputValue,
     }))
 
     try {

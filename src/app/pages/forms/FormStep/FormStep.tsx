@@ -2,6 +2,7 @@
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import { ClientResponse } from '@/api/fetchClient'
 import { fetchWithAuth } from '@/api/fetchWithAuth'
 import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useAppSelector } from '@/app/hooks'
@@ -18,6 +19,7 @@ import {
 } from '@/types'
 
 import Form from '../Form'
+import { PlaceResponse } from '../FormPiece/FormPiece'
 import { getInputStepConfig } from './configStep/getInputTextStepConfig'
 
 const FormStep: FC = () => {
@@ -220,8 +222,8 @@ const FormStep: FC = () => {
         if (!response.ok) {
           throw new Error(`Erreur HTTP: ${String(response.status)}`)
         }
-        const data = (await response.json()) as ClientType[]
-        const clientData = data.clients as ClientType[]
+        const data = (await response.json()) as ClientResponse
+        const clientData = data.clients
         const filteredClientIsActive = clientData.filter(
           (item) => item.isActive
         )
@@ -251,8 +253,8 @@ const FormStep: FC = () => {
         if (!response.ok) {
           throw new Error(`Erreur HTTP: ${String(response.status)}`)
         }
-        const data = (await response.json()) as PlaceType[]
-        const placeData = data.places as PlaceType[]
+        const data = (await response.json()) as PlaceResponse
+        const placeData = data.places
         setPlace(placeData)
       } catch (error) {
         setPlace([])
@@ -295,6 +297,7 @@ const FormStep: FC = () => {
 
   useEffect(() => {
     //recup de le nombre de step pour initialisé le numero de step
+    if (!selectedJourneyId) return
     const countStepNumber = async () => {
       try {
         const response: Response = await fetchWithAuth(

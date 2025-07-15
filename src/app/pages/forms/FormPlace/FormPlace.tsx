@@ -17,6 +17,7 @@ import { useTimelineStep } from '@/app/hooks/useTimelineStep'
 import { StateAuth } from '@/app/services/redux/slices/reducerAuth'
 import { API_BASE_URL } from '@/config/config'
 import { PlaceType, State } from '@/types'
+import { FormDataType } from '@/types/index'
 
 import Form from '../Form'
 import { getInputPlaceConfig } from './configPlace/getInputPlaceConfig'
@@ -30,9 +31,10 @@ const FormPlace: FC = () => {
   const { data: clients } = useClients(token)
   const { data: medals } = useMedals(token)
 
-  const initialPlaceData: PlaceType = {
+  const initialPlaceData: FormDataType = {
+    clientID: 0,
+    coords: { latitude: 0, longitude: 0 },
     id: 0,
-    clientId: 0,
     medalId: 0,
     name: '',
     image: 'image.png',
@@ -62,7 +64,7 @@ const FormPlace: FC = () => {
     useDescriptions(newIdFromApi, collection, token, setCurrentStep, setMessage)
 
   const { formData, setFormData, handleInputChange } =
-    useInputChange<PlaceType>(initialPlaceData)
+    useInputChange<FormDataType>(initialPlaceData)
 
   const getInput = useMemo(() => {
     return showDescription ? getDescriptionConfig : getInputPlaceConfig
@@ -159,7 +161,7 @@ const FormPlace: FC = () => {
       handleSubmit={(event) => {
         void handleSubmit(event)
       }}
-      formData={formData}
+      formData={formData as unknown as PlaceType}
       handleInputChange={(name, value) => {
         handleInputChange(name, value)
       }}

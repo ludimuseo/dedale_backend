@@ -82,7 +82,7 @@ export interface MessageType {
 /* FORMDATA */
 export interface FormDataType {
   id: number
-  clientId: number
+  clientID: number
   medalId: number
   name: string
   image: string
@@ -96,6 +96,11 @@ export interface FormDataType {
   lon: number
   isActive: boolean
   isPublished: boolean
+  [key: string]:
+    | string
+    | boolean
+    | number
+    | { latitude: number; longitude: number }
 }
 
 export type InputValue = string | boolean | number
@@ -279,6 +284,7 @@ export interface ClientTypeApi {
 }
 
 export interface ClientType {
+  [key: string]: string | number | boolean
   id: number
   name: string
   siret: string

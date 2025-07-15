@@ -1,4 +1,4 @@
-import { GameType, JourneyType, PieceType, PlaceType, StepType } from '.'
+import { GameType, JourneyType, PieceType, PlaceType, StepType } from './types'
 
 export function isPlaceType(data: unknown): data is PlaceType {
   return (

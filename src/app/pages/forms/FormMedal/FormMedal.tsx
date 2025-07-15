@@ -46,10 +46,7 @@ const FormMedal: FC = () => {
     void navigate(-1)
   }
 
-  const handleInputChange = <K extends keyof MedalType>(
-    name: K,
-    value: MedalType[K]
-  ): void => {
+  const handleInputChange = (name: string, value: string | boolean): void => {
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,

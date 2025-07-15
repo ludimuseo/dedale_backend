@@ -13,7 +13,7 @@ interface MainTextAreaProps {
   handleFileUpload: (
     file: File,
     fileType: string,
-    name: string,
+    //name: string,
     event: MouseEvent<HTMLButtonElement>,
     desc: DescriptionType
   ) => void

@@ -3,6 +3,10 @@ import { ClientType } from '@/types'
 
 import { fetchWithAuth } from './fetchWithAuth'
 
+export interface ClientResponse {
+  clients: ClientType[]
+}
+
 export const fetchClient = async (token: string) => {
   try {
     const response: Response = await fetchWithAuth(
@@ -18,8 +22,8 @@ export const fetchClient = async (token: string) => {
     if (!response.ok) {
       throw new Error(`Erreur HTTP: ${String(response.status)}`)
     }
-    const data = (await response.json()) as ClientType[]
-    const clientData = data.clients as ClientType[]
+    const data = (await response.json()) as ClientResponse
+    const clientData = data.clients
     const filteredClientIsActive = clientData.filter((item) => item.isActive)
     return [...filteredClientIsActive]
   } catch (error) {

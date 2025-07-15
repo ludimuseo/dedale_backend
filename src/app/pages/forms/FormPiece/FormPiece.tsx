@@ -2,6 +2,7 @@
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import { ClientResponse } from '@/api/fetchClient'
 import { fetchWithAuth } from '@/api/fetchWithAuth'
 import { PlaceIcon } from '@/app/components'
 import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
@@ -21,6 +22,10 @@ import { isTokenExpired } from '@/utils/auth'
 
 import Form from '../Form'
 import { getInputPieceConfig } from './configPiece/getInputPieceConfig'
+
+export interface PlaceResponse {
+  places: PlaceType[]
+}
 
 const FormPiece: FC = () => {
   const title = 'Formulaire Oeuvre'
@@ -234,8 +239,8 @@ const FormPiece: FC = () => {
         if (!response.ok) {
           throw new Error(`Erreur HTTP: ${String(response.status)}`)
         }
-        const data = (await response.json()) as ClientType[]
-        const clientData = data.clients as ClientType[]
+        const data = (await response.json()) as ClientResponse
+        const clientData = data.clients
         const filteredClientIsActive = clientData.filter(
           (item) => item.isActive
         )
@@ -265,8 +270,8 @@ const FormPiece: FC = () => {
         if (!response.ok) {
           throw new Error(`Erreur HTTP: ${String(response.status)}`)
         }
-        const data = (await response.json()) as PlaceType[]
-        const placeData = data.places as PlaceType[]
+        const data = (await response.json()) as PlaceResponse
+        const placeData = data.places
         setPlace(placeData)
       } catch (error) {
         setPlace([])

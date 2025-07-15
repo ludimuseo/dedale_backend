@@ -7,6 +7,7 @@ import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
 // https://vite.dev/config/
 export default defineConfig({
   html: {},
+  base: '/',
   css: {
     preprocessorOptions: {
       scss: {

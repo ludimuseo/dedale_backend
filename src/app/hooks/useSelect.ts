@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { FormDataType } from '@/types'
+import { FormDataType } from '@/types/index'
 
 type SetFormDataType = React.Dispatch<React.SetStateAction<FormDataType>>
 
@@ -18,7 +18,7 @@ export const useSelectHandlers = (
     const selectedValueToNumber = Number(e.target.value)
     setFormData((prevFormData) => ({
       ...prevFormData,
-      clientId: selectedValueToNumber,
+      clientID: selectedValueToNumber,
     }))
   }
 

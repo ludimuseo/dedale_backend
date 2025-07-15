@@ -4,6 +4,7 @@ import { useAppSelector } from '@hook'
 import { FC, FormEvent, MouseEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import { ClientResponse } from '@/api/fetchClient'
 import { fetchWithAuth } from '@/api/fetchWithAuth'
 import { getDescriptionConfig } from '@/app/components/description/getDescriptionConfig'
 import { useTimelineStep } from '@/app/hooks/useTimelineStep'
@@ -19,6 +20,7 @@ import {
 } from '@/types'
 
 import Form from '../Form'
+import { PlaceResponse } from '../FormPiece/FormPiece'
 import { getInputJourneyConfig } from './configJourney/getInputJourneyConfig'
 
 const FormJourney: FC = () => {
@@ -231,8 +233,8 @@ const FormJourney: FC = () => {
         if (!response.ok) {
           throw new Error(`Erreur HTTP: ${String(response.status)}`)
         }
-        const data = (await response.json()) as ClientType[]
-        const clientData = data.clients as ClientType[]
+        const data = (await response.json()) as ClientResponse
+        const clientData = data.clients
         const filteredClientIsActive = clientData.filter(
           (item) => item.isActive
         )
@@ -262,8 +264,8 @@ const FormJourney: FC = () => {
         if (!response.ok) {
           throw new Error(`Erreur HTTP: ${String(response.status)}`)
         }
-        const data = (await response.json()) as PlaceType[]
-        const placeData = data.places as PlaceType[]
+        const data = (await response.json()) as PlaceResponse
+        const placeData = data.places
         setPlace(placeData)
       } catch (error) {
         setPlace([])

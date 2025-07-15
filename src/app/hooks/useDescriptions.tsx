@@ -10,8 +10,8 @@ export const useDescriptions = (
   newIdFromApi: number,
   collection: string,
   token: string,
-  setCurrentStep: Dispatch<SetStateAction<number>>,
-  setMessage: (message: { info: string; result: boolean }) => void
+  setCurrentStep?: Dispatch<SetStateAction<number>>,
+  setMessage?: (message: { info: string; result: boolean }) => void
 ) => {
   const [showDescription, setShowDescription] = useState(false)
   const [descriptions, setDescriptions] = useState<DescriptionType[]>([
@@ -35,7 +35,7 @@ export const useDescriptions = (
   const handleDescription = () => {
     //AFFICHER compossant Description
     setShowDescription(true)
-    setCurrentStep(0)
+    setCurrentStep?.(0)
   }
 
   const handleSubmitDescriptions = async (descriptions: DescriptionType[]) => {
@@ -62,12 +62,12 @@ export const useDescriptions = (
       console.log('newId from Server', newId)
     } catch (error) {
       console.error('Erreur:', error)
-      setMessage({
+      setMessage?.({
         info: "Erreur lors de l'envoi du formulaire !",
         result: false,
       })
     }
-    setMessage({
+    setMessage?.({
       info: 'Vos descriptions ont été envoyées avec succès !',
       result: true,
     })
