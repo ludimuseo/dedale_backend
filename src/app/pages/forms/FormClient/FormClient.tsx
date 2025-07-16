@@ -16,6 +16,7 @@ import { getInputClientConfig } from './configClient/getInputClientConfig'
 const FormClient: FC = () => {
   const navigate = useNavigate()
   const { message, setMessage } = useFormMessage()
+  const getInput = getInputClientConfig
 
   const initialClientData: ClientType = {
     id: 0,
@@ -46,6 +47,7 @@ const FormClient: FC = () => {
   const handleArrowLeft = () => {
     void navigate(-1)
   }
+
   //structure des données pour l'api
   const newClient: ClientTypeApi = {
     address: {
@@ -107,8 +109,6 @@ const FormClient: FC = () => {
       })
     }
   }
-
-  const getInput = getInputClientConfig
 
   useEffect(() => {
     setStep(getInput.length)
