@@ -7,6 +7,7 @@ import {
 } from 'firebase/firestore'
 import { FC, useEffect, useState } from 'react'
 
+import { TextValidation } from '@/app/components/talos/textValidation'
 import { db } from '@/firebase/firebase'
 import { JourneyType, PieceType, PlaceType, StepType } from '@/types'
 
@@ -111,6 +112,13 @@ const ValidateText: FC = () => {
         '0aitLsTLusg7yzY17g8s',
         'VG2x5gNhrNcyLLgToWs6',
         '0B8KfwFNE0BkAxrt0KSa',
+        'tXsxk6xW6b6puf20O2tY',
+        'r933BUeocAFIIuByqfWl',
+        'ZByEOcft1JijHEMsy0y9',
+        'V7cPJf2pPnxNDacVHZDF',
+        '6ZM1K5TpbR8BNtGASOXA',
+        'DkunHVFtdmSNhlVLuudq',
+        'E1aUyQhttQyO4oavhwBa',
       ]
       try {
         const q = query(
@@ -157,6 +165,7 @@ const ValidateText: FC = () => {
     setStandardTextPreview(splitStandardText)
   }
 
+  console.log('standardTextPreview: ', standardTextPreview)
   return (
     <>
       {!preview ? (
@@ -312,7 +321,7 @@ const ValidateText: FC = () => {
           </table>
         </div>
       ) : (
-        <div>
+        <div className="">
           <button
             className="btn btn-primary mb-4 ml-10 mt-4"
             onClick={() => {
@@ -320,54 +329,77 @@ const ValidateText: FC = () => {
             }}>
             Retour
           </button>
-          <div className="hero min-h-screen bg-base-100">
-            <div className="hero-content text-wrap">
-              <div className="max-w-xl">
-                <p className="py-4">
-                  <h1 className="mb-4">Texte Certifié FALC</h1>
-                  {falcTextPreview.map((sentence) => {
-                    return (
-                      <p className="font-inclusive text-xl leading-[2]">
-                        {sentence}
-                      </p>
-                    )
-                  })}
-                </p>
-              </div>
+          {/* <div className="hero bg-base-100">
+            <div className="max-w-xl">
+              <p className="select-text py-4 font-inclusive">
+                <h1 className="mb-4">Texte Certifié FALC</h1>
+                {falcTextPreview.map((sentence) => {
+                  return (
+                    <p className="font-inclusive text-xl leading-[2]">
+                      {sentence}
+                    </p>
+                  )
+                })}
+              </p>
             </div>
           </div>
-          <div className="hero min-h-screen bg-base-200">
-            <div className="hero-content text-wrap">
-              <div className="max-w-xl">
-                <p className="py-4">
-                  <h1 className="mb-4">Texte Facile a lire</h1>
-                  {previuosFalctextPreview.map((sentence) => {
-                    return (
-                      <p className="font-inclusive text-xl leading-[2]">
-                        {sentence}
-                      </p>
-                    )
-                  })}
-                </p>
-              </div>
+          <div className="hero bg-base-200">
+            <div className="max-w-xl">
+              <p className="select-text py-4 font-inclusive">
+                <h1 className="mb-4">Texte Facile a lire</h1>
+                {previuosFalctextPreview.map((sentence) => {
+                  return (
+                    <p className="font-inclusive text-xl leading-[2]">
+                      {sentence}
+                    </p>
+                  )
+                })}
+              </p>
             </div>
           </div>
-          <div className="bg-base-50 hero min-h-screen">
-            <div className="hero-content text-wrap">
-              <div className="max-w-xl">
-                <p className="py-4">
-                  <h1 className="mb-4">Texte Standard</h1>
 
-                  {standardTextPreview.map((sentence) => {
-                    return (
-                      <p className="font-inclusive text-xl leading-[2]">
-                        {sentence}
-                      </p>
-                    )
-                  })}
-                </p>
-              </div>
+          <div className="hero bg-base-300">
+            <div className="max-w-xl">
+              <p className="select-text py-4 font-inclusive">
+                <h1 className="mb-4">Texte Standard</h1>
+                {standardTextPreview.map((sentence) => {
+                  return <p className="text-xl leading-[2]">{sentence}</p>
+                })}
+              </p>
             </div>
+          </div> */}
+
+          <div className="gap-2 lg:flex lg:justify-center">
+            {falcTextPreview.length > 0 && (
+              <TextValidation
+                title="Texte Certifié FALC"
+                sentence={falcTextPreview}
+                version="falcCertified"
+                onValidationClick={() => {
+                  'hey'
+                }}
+              />
+            )}
+            {previuosFalctextPreview.length > 0 && (
+              <TextValidation
+                title="Texte Facile a lire"
+                sentence={previuosFalctextPreview}
+                version="falc"
+                onValidationClick={() => {
+                  'hey'
+                }}
+              />
+            )}
+            {standardTextPreview.length > 0 && (
+              <TextValidation
+                title="Texte Standard"
+                sentence={standardTextPreview}
+                version="standard"
+                onValidationClick={() => {
+                  'hey'
+                }}
+              />
+            )}
           </div>
         </div>
       )}
