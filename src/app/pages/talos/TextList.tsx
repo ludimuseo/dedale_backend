@@ -268,11 +268,22 @@ const TextList: FC = () => {
                 className="rounded-md border-2 border-[#0A184D] bg-[#F4FDFF] px-6 py-4 text-[#0A184D] shadow-lg">
                 <div className="mb-2 flex items-center">
                   <h3 className="my-1 text-3xl font-bold">{place.name.fr}</h3>
+                </div>
+                <TextPreview description={String(place.description.falc.fr)} />
+
+                <div className="group relative inline-flex items-center">
+                  <ImagePreview
+                    label={String(place.name.fr)}
+                    img={place.content.image[0]}
+                    id={place.docId}
+                    fetch={() => void fetchJourneys(place.docId)}
+                    instruction="Voir les parcours"
+                  />
                   {place.description.falc.status.isCertified ? (
                     <div className="group relative inline-block">
                       <button
                         className="ml-5 flex items-center gap-1 rounded-full border-2 border-[#22891F] bg-[#22891F] px-1 py-1 font-inclusive text-xl"
-                        aria-label={`Texte validé pour ${place.name.fr}`}>
+                        aria-label={`Texte validé pour ${String(place.name.fr)}`}>
                         <CheckIcon className="h-8 w-8" />
                         {/* Infobulle */}
                       </button>
@@ -287,23 +298,14 @@ const TextList: FC = () => {
                       onClick={() => {
                         handleNavigate(place)
                       }}
+
                       className="duration-5 ml-4 flex items-center gap-3 rounded-xl border-2 border-[#0A184D] bg-[#bfdcfe] px-2 py-1 text-xl text-[#0A184D] transition-all hover:border-2 hover:border-[#0A184D] hover:bg-[#F4FDFF] hover:text-[#0A184D]"
                       aria-label={`Corriger ${place.name.fr}`}>
+
                       <PencilIcon />
                       <p>Corriger</p>
                     </button>
                   )}
-                </div>
-                <TextPreview description={place.description.falc.fr} />
-
-                <div className="group relative inline-flex items-center">
-                  <ImagePreview
-                    label={place.name.fr}
-                    img={place.content.image[0]}
-                    id={place.docId}
-                    fetch={() => void fetchJourneys(place.docId)}
-                    instruction="Voir les parcours"
-                  />
                   <PreviewRemainingText
                     sumTextToCorrect={sumTextToCorrect}
                     journeysToCorrect={journeysToCorrect}
