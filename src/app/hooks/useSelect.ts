@@ -1,13 +1,11 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React from 'react'
 
 import { FormDataType } from '@/types/index'
 
-export type SetFormDataType = React.Dispatch<React.SetStateAction<FormDataType>>
+type SetFormDataType = React.Dispatch<React.SetStateAction<FormDataType>>
 
 export const useSelectHandlers = (
-  setFormData: Dispatch<SetStateAction<FormDataType>>,
-  formData: FormDataType,
-  setSelected: Dispatch<SetStateAction<Record<string, number>>>
+  setFormData: SetFormDataType
 ): {
   handleSelectClient: (e: React.ChangeEvent<HTMLSelectElement>) => void
   handleSelectMedal: (e: React.ChangeEvent<HTMLSelectElement>) => void
@@ -34,32 +32,20 @@ export const useSelectHandlers = (
 
   const handleSelectPlace = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     const selectedValueToNumber = Number(e.target.value)
-    if ('placeId' in formData) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        placeId: selectedValueToNumber,
-      }))
-    } else {
-      setSelected({
-        selectedPlaceId: selectedValueToNumber,
-      })
-    }
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      placeId: selectedValueToNumber,
+    }))
   }
 
   const handleSelectJourney = (
     e: React.ChangeEvent<HTMLSelectElement>
   ): void => {
-    const selectedValueToNumber = Number(e.target.value)
-    if ('journeyId' in formData) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        journeyId: selectedValueToNumber,
-      }))
-    } else {
-      setSelected({
-        selectedJourneyId: selectedValueToNumber,
-      })
-    }
+    const selectedValue = e.target.value
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      journeyId: selectedValue,
+    }))
   }
 
   return {

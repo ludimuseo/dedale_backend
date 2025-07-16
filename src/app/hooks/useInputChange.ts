@@ -9,24 +9,14 @@ export function useInputChange<
   >,
 >(initialValues: T) {
   const [formData, setFormData] = useState<T>(initialValues)
+
   const handleInputChange = (name: keyof T, value: InputValue) => {
-    const prevValue = formData[name]
-
-    // Ensure the value matches the expected type
-    const newValue =
-      typeof prevValue === 'number'
-        ? Number(value)
-        : typeof prevValue === 'boolean'
-          ? value === 'true'
-          : value
-
-    // Type assertion to ensure we're updating a valid field
     setFormData((prevData) => ({
       ...prevData,
-      [name]: newValue as T[keyof T],
+      [name]: value as T[typeof name],
     }))
-    console.log('USEINPUTCHANGE formData: ', formData)
   }
+  console.log('formData: ', formData)
   return {
     formData,
     setFormData,
