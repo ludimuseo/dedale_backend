@@ -15,7 +15,7 @@ const DashboardMenu: FC<DashboardMenuProps> = ({ menu, auth }) => {
   const userRole = auth.user?.role ?? 'CORRECTOR'
 
   return (
-    <ul className="flex flex-row flex-wrap gap-3 rounded-xl">
+    <ul className="flex flex-row flex-wrap justify-center gap-8 rounded-xl">
       {menu.map((item, index: number) => {
         if (item.role.includes(userRole))
           return (
