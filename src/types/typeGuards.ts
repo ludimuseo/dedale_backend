@@ -1,4 +1,5 @@
-import { GameType, JourneyType, PieceType, PlaceType, StepType } from './types'
+//TALOS
+import { JourneyType, PieceType, PlaceType, QuestionType, StepType } from '.'
 
 export function isPlaceType(data: unknown): data is PlaceType {
   return (
@@ -38,7 +39,7 @@ export function isPieceType(data: unknown): data is PieceType {
   )
 }
 
-export function isGameType(data: unknown): data is GameType {
+export function isQuestionType(data: unknown): data is QuestionType {
   return (
     typeof data === 'object' &&
     data !== null &&
